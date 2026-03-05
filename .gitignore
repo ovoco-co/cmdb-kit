@@ -1,7 +1,5 @@
-node_modules/
 *.log
 .env
-.DS_Store
 src/
 docs/marketing/
 docs/wip/
