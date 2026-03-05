@@ -1,0 +1,6 @@
+[
+  { "Name": "Operational", "description": "Production site serving end users" },
+  { "Name": "Administrative", "description": "Administrative or back-office site" },
+  { "Name": "PMO", "description": "Program management office site" },
+  { "Name": "Testbed", "description": "Test and evaluation site" }
+]

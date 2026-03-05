@@ -1,0 +1,84 @@
+{
+  "Person": [
+    {
+      "Name": "Alex Chen",
+      "firstName": "Alex",
+      "lastName": "Chen",
+      "email": "alex.chen@ovoco.dev",
+      "role": "Principal Engineer",
+      "team": "Platform Engineering"
+    },
+    {
+      "Name": "Casey Morgan",
+      "firstName": "Casey",
+      "lastName": "Morgan",
+      "email": "casey.morgan@ovoco.dev",
+      "role": "SRE Lead",
+      "team": "SRE"
+    },
+    {
+      "Name": "Jordan Lee",
+      "firstName": "Jordan",
+      "lastName": "Lee",
+      "email": "jordan.lee@ovoco.dev",
+      "role": "Senior SRE",
+      "team": "SRE"
+    },
+    {
+      "Name": "Taylor Kim",
+      "firstName": "Taylor",
+      "lastName": "Kim",
+      "email": "taylor.kim@ovoco.dev",
+      "role": "Frontend Lead",
+      "team": "Frontend"
+    },
+    {
+      "Name": "Sam Rivera",
+      "firstName": "Sam",
+      "lastName": "Rivera",
+      "email": "sam.rivera@ovoco.dev",
+      "role": "Data Engineer Lead",
+      "team": "Data Engineering"
+    },
+    {
+      "Name": "Riley Patel",
+      "firstName": "Riley",
+      "lastName": "Patel",
+      "email": "riley.patel@ovoco.dev",
+      "role": "Mobile Lead",
+      "team": "Mobile"
+    },
+    {
+      "Name": "Morgan Blake",
+      "firstName": "Morgan",
+      "lastName": "Blake",
+      "email": "morgan.blake@ovoco.dev",
+      "role": "Product Manager",
+      "team": "Platform Engineering"
+    },
+    {
+      "Name": "Jamie Wu",
+      "firstName": "Jamie",
+      "lastName": "Wu",
+      "email": "jamie.wu@ovoco.dev",
+      "role": "Backend Engineer",
+      "team": "Platform Engineering"
+    },
+    {
+      "Name": "Drew Santos",
+      "firstName": "Drew",
+      "lastName": "Santos",
+      "email": "drew.santos@ovoco.dev",
+      "role": "DevOps Engineer",
+      "team": "SRE"
+    },
+    {
+      "Name": "Avery Nguyen",
+      "firstName": "Avery",
+      "lastName": "Nguyen",
+      "email": "avery.nguyen@ovoco.dev",
+      "role": "Frontend Engineer",
+      "team": "Frontend"
+    }
+  ]
+}

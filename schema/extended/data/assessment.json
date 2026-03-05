@@ -1,0 +1,20 @@
+[
+  {
+    "Name": "Q1 2026 Security Audit",
+    "description": "Quarterly internal security review",
+    "assessmentType": "Security Audit",
+    "assessmentDate": "2026-01-15",
+    "status": "Complete",
+    "assessor": "Casey Morgan",
+    "findings": "No critical findings, 3 medium recommendations"
+  },
+  {
+    "Name": "Annual Pen Test 2025",
+    "description": "Annual external penetration test",
+    "assessmentType": "Penetration Test",
+    "assessmentDate": "2025-11-01",
+    "status": "Complete",
+    "assessor": "Drew Santos",
+    "findings": "2 medium, 5 low findings, all remediated"
+  }
+]

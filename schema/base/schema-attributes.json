@@ -1,0 +1,107 @@
+{
+  "Application": {
+    "description": { "type": 0 },
+    "applicationType": { "type": 0 },
+    "technology": { "type": 0 },
+    "owner": { "type": 1, "referenceType": "Team" },
+    "status": { "type": 1, "referenceType": "Application Status" }
+  },
+  "Server": {
+    "description": { "type": 0 },
+    "hostname": { "type": 0 },
+    "ipAddress": { "type": 0 },
+    "operatingSystem": { "type": 0 },
+    "environment": { "type": 1, "referenceType": "Environment Type" },
+    "cpu": { "type": 0 },
+    "ram": { "type": 0 },
+    "storage": { "type": 0 }
+  },
+  "Database": {
+    "description": { "type": 0 },
+    "databaseEngine": { "type": 0 },
+    "version": { "type": 0 },
+    "server": { "type": 1, "referenceType": "Server" },
+    "storageSize": { "type": 0 },
+    "environment": { "type": 1, "referenceType": "Environment Type" }
+  },
+  "Product Component": {
+    "description": { "type": 0 },
+    "componentType": { "type": 1, "referenceType": "Component Type" },
+    "repository": { "type": 0 },
+    "technology": { "type": 0 },
+    "owner": { "type": 1, "referenceType": "Team" }
+  },
+  "Product Version": {
+    "description": { "type": 0 },
+    "versionNumber": { "type": 0 },
+    "releaseDate": { "type": 0, "defaultTypeId": 4 },
+    "status": { "type": 1, "referenceType": "Version Status" },
+    "components": { "type": 1, "referenceType": "Product Component", "max": -1 },
+    "previousVersion": { "type": 1, "referenceType": "Product Version" }
+  },
+  "Document": {
+    "description": { "type": 0 },
+    "documentType": { "type": 1, "referenceType": "Document Type" },
+    "state": { "type": 1, "referenceType": "Document State" },
+    "author": { "type": 1, "referenceType": "Person" },
+    "publishDate": { "type": 0, "defaultTypeId": 4 },
+    "url": { "type": 0 }
+  },
+  "Deployment": {
+    "description": { "type": 0 },
+    "version": { "type": 1, "referenceType": "Product Version" },
+    "environment": { "type": 1, "referenceType": "Environment Type" },
+    "deployDate": { "type": 0, "defaultTypeId": 4 },
+    "status": { "type": 1, "referenceType": "Deployment Status" },
+    "deployedBy": { "type": 1, "referenceType": "Person" }
+  },
+  "Organization": {
+    "description": { "type": 0 },
+    "orgType": { "type": 1, "referenceType": "Organization Type" },
+    "website": { "type": 0 },
+    "parentOrganization": { "type": 1, "referenceType": "Organization" }
+  },
+  "Team": {
+    "description": { "type": 0 },
+    "organization": { "type": 1, "referenceType": "Organization" },
+    "teamLead": { "type": 1, "referenceType": "Person" }
+  },
+  "Person": {
+    "description": { "type": 0 },
+    "firstName": { "type": 0 },
+    "lastName": { "type": 0 },
+    "email": { "type": 0 },
+    "role": { "type": 0 },
+    "team": { "type": 1, "referenceType": "Team" }
+  },
+  "Application Status": {
+    "description": { "type": 0 }
+  },
+  "Version Status": {
+    "description": { "type": 0 }
+  },
+  "Deployment Status": {
+    "description": { "type": 0 }
+  },
+  "Environment Type": {
+    "description": { "type": 0 }
+  },
+  "Document Type": {
+    "description": { "type": 0 }
+  },
+  "Document State": {
+    "description": { "type": 0 }
+  },
+  "Component Type": {
+    "description": { "type": 0 }
+  },
+  "Priority": {
+    "description": { "type": 0 }
+  },
+  "Organization Type": {
+    "description": { "type": 0 }
+  },
+  "Deployment Role": {
+    "description": { "type": 0 }
+  }
+}

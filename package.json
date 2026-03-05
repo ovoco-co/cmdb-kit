@@ -1,0 +1,24 @@
+{
+  "name": "@ovoco/cmdb-kit",
+  "version": "0.1.0",
+  "description": "Open-source CMDB starter kit with ITIL-aligned schema patterns and database adapters",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ovoco/cmdb-kit.git"
+  },
+  "keywords": ["cmdb", "itil", "itsm", "jsm", "assets", "configuration-management"],
+  "scripts": {
+    "validate": "node tools/validate.js",
+    "validate:base": "node tools/validate.js --schema schema/base",
+    "validate:extended": "node tools/validate.js --schema schema/extended",
+    "csv-to-json": "node tools/csv-to-json.js",
+    "generate-templates": "node tools/generate-templates.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "optionalDependencies": {
+    "exceljs": "^4.4.0"
+  }
+}

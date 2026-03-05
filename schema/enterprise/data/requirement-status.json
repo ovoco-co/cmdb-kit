@@ -1,0 +1,10 @@
+[
+  { "Name": "Draft", "description": "Requirement is being authored" },
+  { "Name": "Submitted", "description": "Requirement has been submitted for review" },
+  { "Name": "In Review", "description": "Requirement is under stakeholder review" },
+  { "Name": "Approved", "description": "Requirement has been approved by authority" },
+  { "Name": "Open", "description": "Requirement is approved and awaiting implementation" },
+  { "Name": "Implemented", "description": "Requirement has been implemented in code" },
+  { "Name": "Verified", "description": "Requirement implementation has been verified" },
+  { "Name": "Closed", "description": "Requirement is fully satisfied and closed" }
+]

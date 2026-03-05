@@ -1,0 +1,38 @@
+[
+  {
+    "Name": "Customer Relationship Management",
+    "description": "Core CRM service delivering contact, deal, and workflow management to customers",
+    "serviceType": "Business Service",
+    "owner": "Platform Engineering",
+    "status": "Active",
+    "capability": "Customer Management",
+    "applications": "CRM Core;Mobile API"
+  },
+  {
+    "Name": "CRM Platform Hosting",
+    "description": "Infrastructure service providing compute, storage, and networking for CRM workloads",
+    "serviceType": "Technical Service",
+    "owner": "SRE",
+    "status": "Active",
+    "capability": "Platform Operations",
+    "applications": "CRM Core;API Gateway"
+  },
+  {
+    "Name": "Analytics and Reporting",
+    "description": "Business intelligence and reporting service for CRM data",
+    "serviceType": "Business Service",
+    "owner": "Data Engineering",
+    "status": "Active",
+    "capability": "Business Intelligence",
+    "applications": "Analytics Engine"
+  },
+  {
+    "Name": "Notification Delivery",
+    "description": "Shared service for email, SMS, and push notification delivery",
+    "serviceType": "Shared Service",
+    "owner": "Platform Engineering",
+    "status": "Active",
+    "capability": "Customer Communication",
+    "applications": "Notification Service"
+  }
+]

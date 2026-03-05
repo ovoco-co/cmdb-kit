@@ -1,0 +1,50 @@
+[
+  {
+    "Name": "CHG-001 Database Migration",
+    "description": "Migrate PostgreSQL from 15 to 16",
+    "changeType": "Normal",
+    "impact": "High",
+    "requestedBy": "Sam Rivera",
+    "requestDate": "2025-12-01",
+    "status": "Completed",
+    "originatorStatus": "Closed",
+    "developerStatus": "Closed",
+    "affectedVersion": "OvocoCRM 2.2.0",
+    "fixedVersion": "OvocoCRM 2.3.0",
+    "affectedSites": "US East (Virginia);US West (Oregon)",
+    "ccbDecision": "Approved",
+    "ccbDate": "2025-12-05"
+  },
+  {
+    "Name": "CHG-002 Contact Import Hotfix",
+    "description": "Emergency fix for race condition",
+    "changeType": "Emergency",
+    "impact": "High",
+    "requestedBy": "Alex Chen",
+    "requestDate": "2026-02-08",
+    "status": "Completed",
+    "originatorStatus": "Closed",
+    "developerStatus": "Closed",
+    "affectedVersion": "OvocoCRM 2.3.0",
+    "fixedVersion": "OvocoCRM 2.3.1",
+    "affectedSites": "US East (Virginia);US West (Oregon);Acme Corp Production;Globex Corp Production",
+    "ccbDecision": "Approved",
+    "ccbDate": "2026-02-08"
+  },
+  {
+    "Name": "CHG-003 Bulk Export and Search Improvements",
+    "description": "Add bulk contact export, improve search indexing, and prepare EU deployment infrastructure",
+    "changeType": "Normal",
+    "impact": "Medium",
+    "requestedBy": "Alex Chen",
+    "requestDate": "2026-02-15",
+    "status": "Completed",
+    "originatorStatus": "Closed",
+    "developerStatus": "Closed",
+    "affectedVersion": "OvocoCRM 2.3.1",
+    "fixedVersion": "OvocoCRM 2.4.0",
+    "affectedSites": "US East (Virginia);US West (Oregon)",
+    "ccbDecision": "Approved",
+    "ccbDate": "2026-02-18"
+  }
+]

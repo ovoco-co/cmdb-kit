@@ -1,0 +1,6 @@
+[
+  { "Name": "Active", "description": "License is current" },
+  { "Name": "Expiring Soon", "description": "License expires within 90 days" },
+  { "Name": "Expired", "description": "License has expired" },
+  { "Name": "Renewed", "description": "License recently renewed" }
+]

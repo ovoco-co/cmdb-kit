@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "INC-042 Contact Import Failure",
+    "description": "Bulk import failing for files over 10K contacts",
+    "severity": "SEV2",
+    "status": "Resolved",
+    "reportedBy": "Morgan Blake",
+    "reportDate": "2026-02-07",
+    "resolvedDate": "2026-02-10",
+    "affectedApplication": "CRM Core"
+  },
+  {
+    "Name": "INC-043 Search Latency Spike",
+    "description": "Search queries exceeding 5s response time",
+    "severity": "SEV3",
+    "status": "Resolved",
+    "reportedBy": "Avery Nguyen",
+    "reportDate": "2026-02-12",
+    "resolvedDate": "2026-02-12",
+    "affectedApplication": "Search Service"
+  }
+]

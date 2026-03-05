@@ -1,0 +1,20 @@
+[
+  {
+    "Name": "CRM Core SLA",
+    "description": "Production SLA for CRM Core application",
+    "application": "CRM Core",
+    "status": "Active",
+    "targetUptime": "99.95%",
+    "responseTime": "200ms p99",
+    "reviewDate": "2026-06-01"
+  },
+  {
+    "Name": "API Gateway SLA",
+    "description": "Production SLA for API Gateway",
+    "application": "API Gateway",
+    "status": "Active",
+    "targetUptime": "99.99%",
+    "responseTime": "50ms p99",
+    "reviewDate": "2026-06-01"
+  }
+]

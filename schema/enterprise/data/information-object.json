@@ -1,0 +1,30 @@
+[
+  {
+    "Name": "Customer Record",
+    "description": "Core customer data including contact details, account hierarchy, and preferences",
+    "sourceApplication": "CRM Core",
+    "targetApplication": "Analytics Engine",
+    "format": "JSON"
+  },
+  {
+    "Name": "Subscription Event",
+    "description": "Subscription lifecycle events including creation, renewal, and cancellation",
+    "sourceApplication": "CRM Core",
+    "targetApplication": "Notification Service",
+    "format": "JSON"
+  },
+  {
+    "Name": "Search Index Update",
+    "description": "Incremental updates to the full-text search index from CRM data changes",
+    "sourceApplication": "CRM Core",
+    "targetApplication": "Search Service",
+    "format": "JSON"
+  },
+  {
+    "Name": "Mobile API Payload",
+    "description": "Optimized data payloads served to mobile clients via GraphQL",
+    "sourceApplication": "CRM Core",
+    "targetApplication": "Mobile API",
+    "format": "JSON"
+  }
+]

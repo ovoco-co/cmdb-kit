@@ -1,0 +1,6 @@
+[
+  { "Name": "DMZ", "description": "Demilitarized zone, public-facing" },
+  { "Name": "Application Tier", "description": "Internal application network" },
+  { "Name": "Data Tier", "description": "Database and storage network" },
+  { "Name": "Management", "description": "Infrastructure management network" }
+]

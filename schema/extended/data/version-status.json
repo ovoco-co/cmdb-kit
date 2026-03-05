@@ -1,0 +1,7 @@
+[
+  { "Name": "Current", "description": "Active production release" },
+  { "Name": "Beta", "description": "Pre-release version under testing" },
+  { "Name": "Previous", "description": "Superseded by a newer release" },
+  { "Name": "Deprecated", "description": "No longer supported" },
+  { "Name": "Retired", "description": "End of life, removed from distribution" }
+]

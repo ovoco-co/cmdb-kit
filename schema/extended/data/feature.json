@@ -1,0 +1,44 @@
+[
+  {
+    "Name": "Contact Import",
+    "description": "Bulk import contacts from CSV and other CRMs",
+    "version": "OvocoCRM 2.0.0",
+    "status": "Current",
+    "owner": "Platform Engineering"
+  },
+  {
+    "Name": "Deal Pipeline",
+    "description": "Visual sales pipeline with drag-and-drop stages",
+    "version": "OvocoCRM 2.0.0",
+    "status": "Current",
+    "owner": "Platform Engineering"
+  },
+  {
+    "Name": "Email Tracking",
+    "description": "Open and click tracking for sent emails",
+    "version": "OvocoCRM 2.1.0",
+    "status": "Current",
+    "owner": "Platform Engineering"
+  },
+  {
+    "Name": "Custom Reports",
+    "description": "User-defined analytics dashboards",
+    "version": "OvocoCRM 2.2.0",
+    "status": "Current",
+    "owner": "Data Engineering"
+  },
+  {
+    "Name": "Mobile Push Notifications",
+    "description": "Real-time push notifications on mobile",
+    "version": "OvocoCRM 2.3.0",
+    "status": "Current",
+    "owner": "Mobile"
+  },
+  {
+    "Name": "Bulk Contact Export",
+    "description": "Export contacts to CSV and Excel with custom field selection",
+    "version": "OvocoCRM 2.4.0",
+    "status": "Current",
+    "owner": "Platform Engineering"
+  }
+]

@@ -1,0 +1,73 @@
+[
+  {
+    "Name": "CRM Core",
+    "description": "Primary CRM application handling contacts, deals, and workflows",
+    "applicationType": "Web Application",
+    "technology": "Node.js, React, PostgreSQL",
+    "owner": "Platform Engineering",
+    "status": "Active",
+    "disposition": "Invest",
+    "businessCapability": "Customer Management",
+    "services": "Customer Relationship Management;CRM Platform Hosting",
+    "lifecycleStage": "Sustainment"
+  },
+  {
+    "Name": "API Gateway",
+    "description": "Central API gateway for all external and internal API traffic",
+    "applicationType": "API Gateway",
+    "technology": "Kong, Nginx",
+    "owner": "Platform Engineering",
+    "status": "Active",
+    "disposition": "Invest",
+    "businessCapability": "Platform Operations",
+    "services": "CRM Platform Hosting",
+    "lifecycleStage": "Sustainment"
+  },
+  {
+    "Name": "Analytics Engine",
+    "description": "Real-time analytics and reporting for CRM data",
+    "applicationType": "Data Processing",
+    "technology": "Python, ClickHouse, Apache Kafka",
+    "owner": "Data Engineering",
+    "status": "Active",
+    "disposition": "Invest",
+    "businessCapability": "Business Intelligence",
+    "services": "Analytics and Reporting",
+    "lifecycleStage": "Sustainment"
+  },
+  {
+    "Name": "Mobile API",
+    "description": "Backend-for-frontend serving the OvocoCRM mobile apps",
+    "applicationType": "API Service",
+    "technology": "Node.js, GraphQL",
+    "owner": "Mobile",
+    "status": "Active",
+    "disposition": "Invest",
+    "businessCapability": "Customer Management",
+    "services": "Customer Relationship Management",
+    "lifecycleStage": "Development"
+  },
+  {
+    "Name": "Notification Service",
+    "description": "Manages email, SMS, and push notification delivery",
+    "applicationType": "Messaging Service",
+    "technology": "Go, RabbitMQ, SendGrid",
+    "owner": "Platform Engineering",
+    "status": "Active",
+    "disposition": "Tolerate",
+    "businessCapability": "Customer Communication",
+    "services": "Notification Delivery",
+    "lifecycleStage": "Sustainment"
+  },
+  {
+    "Name": "Search Service",
+    "description": "Full-text search across contacts, deals, and documents",
+    "applicationType": "Search Engine",
+    "technology": "Elasticsearch, Node.js",
+    "owner": "Platform Engineering",
+    "status": "Active",
+    "disposition": "Tolerate",
+    "businessCapability": "Customer Management",
+    "lifecycleStage": "Sustainment"
+  }
+]

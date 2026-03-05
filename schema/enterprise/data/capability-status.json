@@ -1,0 +1,6 @@
+[
+  { "Name": "Active", "description": "Capability is operational and delivering value" },
+  { "Name": "Planned", "description": "Capability is approved for development" },
+  { "Name": "Gap", "description": "Capability need identified but not yet addressed" },
+  { "Name": "Retired", "description": "Capability has been decommissioned" }
+]

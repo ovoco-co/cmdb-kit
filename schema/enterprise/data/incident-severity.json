@@ -1,0 +1,6 @@
+[
+  { "Name": "SEV1", "description": "Complete service outage" },
+  { "Name": "SEV2", "description": "Major degradation affecting many users" },
+  { "Name": "SEV3", "description": "Minor issue affecting some users" },
+  { "Name": "SEV4", "description": "Cosmetic or low-impact issue" }
+]

@@ -1,0 +1,5 @@
+[
+  { "Name": "Secure File Transfer", "description": "Encrypted file transfer over secure channel" },
+  { "Name": "Encrypted Physical Media", "description": "Physical media with encryption at rest" },
+  { "Name": "Direct Download", "description": "Authenticated download from distribution server" }
+]

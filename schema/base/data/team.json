@@ -1,0 +1,34 @@
+{
+  "Team": [
+    {
+      "Name": "Platform Engineering",
+      "description": "Core platform and backend services team",
+      "organization": "Engineering Department",
+      "teamLead": "Alex Chen"
+    },
+    {
+      "Name": "SRE",
+      "description": "Site reliability and production operations",
+      "organization": "Platform Department",
+      "teamLead": "Casey Morgan"
+    },
+    {
+      "Name": "Frontend",
+      "description": "Web application and UI development",
+      "organization": "Engineering Department",
+      "teamLead": "Taylor Kim"
+    },
+    {
+      "Name": "Data Engineering",
+      "description": "Analytics pipeline and data infrastructure",
+      "organization": "Engineering Department",
+      "teamLead": "Sam Rivera"
+    },
+    {
+      "Name": "Mobile",
+      "description": "iOS and Android application development",
+      "organization": "Engineering Department",
+      "teamLead": "Riley Patel"
+    }
+  ]
+}

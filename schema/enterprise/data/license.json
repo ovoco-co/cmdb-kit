@@ -1,0 +1,38 @@
+[
+  {
+    "Name": "PostgreSQL License",
+    "description": "PostgreSQL open source license",
+    "licenseType": "Open Source",
+    "vendor": "PostgreSQL Global Development Group",
+    "status": "Active",
+    "licenseMetric": "Unlimited"
+  },
+  {
+    "Name": "Redis Enterprise",
+    "description": "Redis enterprise subscription",
+    "licenseType": "SaaS Subscription",
+    "vendor": "Redis Ltd",
+    "expirationDate": "2027-03-01",
+    "quantity": "3",
+    "status": "Active",
+    "purchaseDate": "2025-03-01",
+    "purchaseOrderNumber": "PO-2025-0042",
+    "annualCost": "$48,000",
+    "licenseMetric": "Per Node",
+    "contract": "Ovoco Support Contract"
+  },
+  {
+    "Name": "SendGrid Pro",
+    "description": "Email delivery service",
+    "licenseType": "SaaS Subscription",
+    "vendor": "Twilio",
+    "expirationDate": "2026-12-31",
+    "quantity": "1",
+    "status": "Active",
+    "purchaseDate": "2025-01-01",
+    "purchaseOrderNumber": "PO-2025-0015",
+    "annualCost": "$24,000",
+    "licenseMetric": "Per Account",
+    "contract": "Ovoco Email Delivery Agreement"
+  }
+]

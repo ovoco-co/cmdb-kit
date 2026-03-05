@@ -1,0 +1,5 @@
+[
+  { "Name": "High", "description": "Major impact to services or users" },
+  { "Name": "Medium", "description": "Moderate impact, limited scope" },
+  { "Name": "Low", "description": "Minimal impact, no user disruption" }
+]

@@ -1,0 +1,7 @@
+[
+  { "Name": "Available", "description": "Item is available for distribution" },
+  { "Name": "Restricted", "description": "Item is available with access restrictions" },
+  { "Name": "Hold", "description": "Item distribution is temporarily suspended" },
+  { "Name": "Superseded", "description": "Item has been replaced by a newer version" },
+  { "Name": "Archived", "description": "Item is retained for reference but no longer distributed" }
+]

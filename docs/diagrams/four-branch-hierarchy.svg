@@ -1,0 +1,310 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 710" width="1100" height="710">
+  <defs>
+    <style>
+      text { font-family: Arial, Helvetica, sans-serif; }
+      .title { font-size: 18px; font-weight: bold; fill: #2c3e50; }
+      .subtitle { font-size: 11px; fill: #7f8c8d; }
+      .header-text { font-size: 13px; font-weight: bold; fill: #ffffff; }
+      .child-text { font-size: 10.5px; fill: #2c3e50; }
+      .connector { stroke-width: 1.5; fill: none; }
+    </style>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="710" fill="#f8f9fa" rx="8"/>
+
+  <!-- Title -->
+  <text x="550" y="36" text-anchor="middle" class="title">cmdb-kit Schema Hierarchy (Extended)</text>
+  <text x="550" y="54" text-anchor="middle" class="subtitle">4 root branches, 55 object types</text>
+
+  <!-- ============================================================ -->
+  <!-- BRANCH 1: Product CMDB (blue) - 10 children -->
+  <!-- ============================================================ -->
+
+  <!-- Header box -->
+  <rect x="20" y="80" width="200" height="40" rx="6" fill="#4A90D9" filter="url(#shadow)"/>
+  <text x="120" y="105" text-anchor="middle" class="header-text">Product CMDB</text>
+
+  <!-- Connector line from header to children -->
+  <line x1="120" y1="120" x2="120" y2="140" stroke="#4A90D9" class="connector"/>
+
+  <!-- Children -->
+  <rect x="20" y="140" width="200" height="32" rx="5" fill="#d6e8f7" filter="url(#shadow)"/>
+  <text x="120" y="161" text-anchor="middle" class="child-text">Application</text>
+  <line x1="120" y1="172" x2="120" y2="178" stroke="#4A90D9" stroke-width="1" opacity="0.4"/>
+
+  <rect x="20" y="178" width="200" height="32" rx="5" fill="#e3effa" filter="url(#shadow)"/>
+  <text x="120" y="199" text-anchor="middle" class="child-text">Server</text>
+  <line x1="120" y1="210" x2="120" y2="216" stroke="#4A90D9" stroke-width="1" opacity="0.4"/>
+
+  <rect x="20" y="216" width="200" height="32" rx="5" fill="#d6e8f7" filter="url(#shadow)"/>
+  <text x="120" y="237" text-anchor="middle" class="child-text">Database</text>
+  <line x1="120" y1="248" x2="120" y2="254" stroke="#4A90D9" stroke-width="1" opacity="0.4"/>
+
+  <rect x="20" y="254" width="200" height="32" rx="5" fill="#e3effa" filter="url(#shadow)"/>
+  <text x="120" y="275" text-anchor="middle" class="child-text">Product Component</text>
+  <line x1="120" y1="286" x2="120" y2="292" stroke="#4A90D9" stroke-width="1" opacity="0.4"/>
+
+  <rect x="20" y="292" width="200" height="32" rx="5" fill="#d6e8f7" filter="url(#shadow)"/>
+  <text x="120" y="313" text-anchor="middle" class="child-text">Hardware Model</text>
+  <line x1="120" y1="324" x2="120" y2="330" stroke="#4A90D9" stroke-width="1" opacity="0.4"/>
+
+  <rect x="20" y="330" width="200" height="32" rx="5" fill="#e3effa" filter="url(#shadow)"/>
+  <text x="120" y="351" text-anchor="middle" class="child-text">Network Segment</text>
+  <line x1="120" y1="362" x2="120" y2="368" stroke="#4A90D9" stroke-width="1" opacity="0.4"/>
+
+  <rect x="20" y="368" width="200" height="32" rx="5" fill="#d6e8f7" filter="url(#shadow)"/>
+  <text x="120" y="389" text-anchor="middle" class="child-text">Virtual Machine</text>
+  <line x1="120" y1="400" x2="120" y2="406" stroke="#4A90D9" stroke-width="1" opacity="0.4"/>
+
+  <rect x="20" y="406" width="200" height="32" rx="5" fill="#e3effa" filter="url(#shadow)"/>
+  <text x="120" y="427" text-anchor="middle" class="child-text">License</text>
+  <line x1="120" y1="438" x2="120" y2="444" stroke="#4A90D9" stroke-width="1" opacity="0.4"/>
+
+  <rect x="20" y="444" width="200" height="32" rx="5" fill="#d6e8f7" filter="url(#shadow)"/>
+  <text x="120" y="465" text-anchor="middle" class="child-text">Assessment</text>
+  <line x1="120" y1="476" x2="120" y2="482" stroke="#4A90D9" stroke-width="1" opacity="0.4"/>
+
+  <rect x="20" y="482" width="200" height="32" rx="5" fill="#e3effa" filter="url(#shadow)"/>
+  <text x="120" y="503" text-anchor="middle" class="child-text">Feature</text>
+
+  <!-- ============================================================ -->
+  <!-- BRANCH 2: Product Library (purple) - 13 children -->
+  <!-- ============================================================ -->
+
+  <!-- Header box -->
+  <rect x="240" y="80" width="200" height="40" rx="6" fill="#7B68EE" filter="url(#shadow)"/>
+  <text x="340" y="105" text-anchor="middle" class="header-text">Product Library</text>
+
+  <!-- Connector line -->
+  <line x1="340" y1="120" x2="340" y2="140" stroke="#7B68EE" class="connector"/>
+
+  <!-- Children -->
+  <rect x="240" y="140" width="200" height="32" rx="5" fill="#ddd8fb" filter="url(#shadow)"/>
+  <text x="340" y="161" text-anchor="middle" class="child-text">Product Version</text>
+  <line x1="340" y1="172" x2="340" y2="178" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+
+  <rect x="240" y="178" width="200" height="32" rx="5" fill="#eae7fd" filter="url(#shadow)"/>
+  <text x="340" y="199" text-anchor="middle" class="child-text">Document</text>
+  <line x1="340" y1="210" x2="340" y2="216" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+
+  <rect x="240" y="216" width="200" height="32" rx="5" fill="#ddd8fb" filter="url(#shadow)"/>
+  <text x="340" y="237" text-anchor="middle" class="child-text">Deployment</text>
+  <line x1="340" y1="248" x2="340" y2="254" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+
+  <rect x="240" y="254" width="200" height="32" rx="5" fill="#eae7fd" filter="url(#shadow)"/>
+  <text x="340" y="275" text-anchor="middle" class="child-text">Baseline</text>
+  <line x1="340" y1="286" x2="340" y2="292" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+
+  <rect x="240" y="292" width="200" height="32" rx="5" fill="#ddd8fb" filter="url(#shadow)"/>
+  <text x="340" y="313" text-anchor="middle" class="child-text">Documentation Suite</text>
+  <line x1="340" y1="324" x2="340" y2="330" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+
+  <rect x="240" y="330" width="200" height="32" rx="5" fill="#eae7fd" filter="url(#shadow)"/>
+  <text x="340" y="351" text-anchor="middle" class="child-text">Product Media</text>
+  <line x1="340" y1="362" x2="340" y2="368" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+
+  <rect x="240" y="368" width="200" height="32" rx="5" fill="#ddd8fb" filter="url(#shadow)"/>
+  <text x="340" y="389" text-anchor="middle" class="child-text">Product Suite</text>
+  <line x1="340" y1="400" x2="340" y2="406" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+
+  <rect x="240" y="406" width="200" height="32" rx="5" fill="#eae7fd" filter="url(#shadow)"/>
+  <text x="340" y="427" text-anchor="middle" class="child-text">Certification</text>
+  <line x1="340" y1="438" x2="340" y2="444" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+
+  <rect x="240" y="444" width="200" height="32" rx="5" fill="#ddd8fb" filter="url(#shadow)"/>
+  <text x="340" y="465" text-anchor="middle" class="child-text">Deployment Site</text>
+  <line x1="340" y1="476" x2="340" y2="482" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+
+  <rect x="240" y="482" width="200" height="32" rx="5" fill="#eae7fd" filter="url(#shadow)"/>
+  <text x="340" y="503" text-anchor="middle" class="child-text">Distribution Log</text>
+  <line x1="340" y1="514" x2="340" y2="520" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+
+  <rect x="240" y="520" width="200" height="32" rx="5" fill="#ddd8fb" filter="url(#shadow)"/>
+  <text x="340" y="541" text-anchor="middle" class="child-text">Change Request</text>
+  <line x1="340" y1="552" x2="340" y2="558" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+
+  <rect x="240" y="558" width="200" height="32" rx="5" fill="#eae7fd" filter="url(#shadow)"/>
+  <text x="340" y="579" text-anchor="middle" class="child-text">Incident</text>
+  <line x1="340" y1="590" x2="340" y2="596" stroke="#7B68EE" stroke-width="1" opacity="0.4"/>
+
+  <rect x="240" y="596" width="200" height="32" rx="5" fill="#ddd8fb" filter="url(#shadow)"/>
+  <text x="340" y="617" text-anchor="middle" class="child-text">SLA</text>
+
+  <!-- ============================================================ -->
+  <!-- BRANCH 3: Directory (green) - 6 children -->
+  <!-- ============================================================ -->
+
+  <!-- Header box -->
+  <rect x="460" y="80" width="200" height="40" rx="6" fill="#50C878" filter="url(#shadow)"/>
+  <text x="560" y="105" text-anchor="middle" class="header-text">Directory</text>
+
+  <!-- Connector line -->
+  <line x1="560" y1="120" x2="560" y2="140" stroke="#50C878" class="connector"/>
+
+  <!-- Children -->
+  <rect x="460" y="140" width="200" height="32" rx="5" fill="#d4f0de" filter="url(#shadow)"/>
+  <text x="560" y="161" text-anchor="middle" class="child-text">Organization</text>
+  <line x1="560" y1="172" x2="560" y2="178" stroke="#50C878" stroke-width="1" opacity="0.4"/>
+
+  <rect x="460" y="178" width="200" height="32" rx="5" fill="#e2f5ea" filter="url(#shadow)"/>
+  <text x="560" y="199" text-anchor="middle" class="child-text">Team</text>
+  <line x1="560" y1="210" x2="560" y2="216" stroke="#50C878" stroke-width="1" opacity="0.4"/>
+
+  <rect x="460" y="216" width="200" height="32" rx="5" fill="#d4f0de" filter="url(#shadow)"/>
+  <text x="560" y="237" text-anchor="middle" class="child-text">Person</text>
+  <line x1="560" y1="248" x2="560" y2="254" stroke="#50C878" stroke-width="1" opacity="0.4"/>
+
+  <rect x="460" y="254" width="200" height="32" rx="5" fill="#e2f5ea" filter="url(#shadow)"/>
+  <text x="560" y="275" text-anchor="middle" class="child-text">Location</text>
+  <line x1="560" y1="286" x2="560" y2="292" stroke="#50C878" stroke-width="1" opacity="0.4"/>
+
+  <rect x="460" y="292" width="200" height="32" rx="5" fill="#d4f0de" filter="url(#shadow)"/>
+  <text x="560" y="313" text-anchor="middle" class="child-text">Facility</text>
+  <line x1="560" y1="324" x2="560" y2="330" stroke="#50C878" stroke-width="1" opacity="0.4"/>
+
+  <rect x="460" y="330" width="200" height="32" rx="5" fill="#e2f5ea" filter="url(#shadow)"/>
+  <text x="560" y="351" text-anchor="middle" class="child-text">Vendor</text>
+
+  <!-- ============================================================ -->
+  <!-- BRANCH 4: Lookup Types (amber) - 26 children, two columns -->
+  <!-- ============================================================ -->
+
+  <!-- Header box spanning two columns -->
+  <rect x="680" y="80" width="400" height="40" rx="6" fill="#F0AD4E" filter="url(#shadow)"/>
+  <text x="880" y="105" text-anchor="middle" class="header-text">Lookup Types</text>
+
+  <!-- Connector lines to two sub-columns -->
+  <line x1="880" y1="120" x2="880" y2="130" stroke="#F0AD4E" class="connector"/>
+  <line x1="780" y1="130" x2="980" y2="130" stroke="#F0AD4E" class="connector"/>
+  <line x1="780" y1="130" x2="780" y2="140" stroke="#F0AD4E" class="connector"/>
+  <line x1="980" y1="130" x2="980" y2="140" stroke="#F0AD4E" class="connector"/>
+
+  <!-- Left column (13 items) -->
+  <rect x="680" y="140" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="775" y="161" text-anchor="middle" class="child-text">Application Status</text>
+  <line x1="775" y1="172" x2="775" y2="178" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="680" y="178" width="190" height="32" rx="5" fill="#fdf0db" filter="url(#shadow)"/>
+  <text x="775" y="199" text-anchor="middle" class="child-text">Version Status</text>
+  <line x1="775" y1="210" x2="775" y2="216" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="680" y="216" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="775" y="237" text-anchor="middle" class="child-text">Deployment Status</text>
+  <line x1="775" y1="248" x2="775" y2="254" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="680" y="254" width="190" height="32" rx="5" fill="#fdf0db" filter="url(#shadow)"/>
+  <text x="775" y="275" text-anchor="middle" class="child-text">Environment Type</text>
+  <line x1="775" y1="286" x2="775" y2="292" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="680" y="292" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="775" y="313" text-anchor="middle" class="child-text">Document Type</text>
+  <line x1="775" y1="324" x2="775" y2="330" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="680" y="330" width="190" height="32" rx="5" fill="#fdf0db" filter="url(#shadow)"/>
+  <text x="775" y="351" text-anchor="middle" class="child-text">Document State</text>
+  <line x1="775" y1="362" x2="775" y2="368" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="680" y="368" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="775" y="389" text-anchor="middle" class="child-text">Component Type</text>
+  <line x1="775" y1="400" x2="775" y2="406" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="680" y="406" width="190" height="32" rx="5" fill="#fdf0db" filter="url(#shadow)"/>
+  <text x="775" y="427" text-anchor="middle" class="child-text">Priority</text>
+  <line x1="775" y1="438" x2="775" y2="444" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="680" y="444" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="775" y="465" text-anchor="middle" class="child-text">Organization Type</text>
+  <line x1="775" y1="476" x2="775" y2="482" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="680" y="482" width="190" height="32" rx="5" fill="#fdf0db" filter="url(#shadow)"/>
+  <text x="775" y="503" text-anchor="middle" class="child-text">Deployment Role</text>
+  <line x1="775" y1="514" x2="775" y2="520" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="680" y="520" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="775" y="541" text-anchor="middle" class="child-text">Change Type</text>
+  <line x1="775" y1="552" x2="775" y2="558" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="680" y="558" width="190" height="32" rx="5" fill="#fdf0db" filter="url(#shadow)"/>
+  <text x="775" y="579" text-anchor="middle" class="child-text">Change Impact</text>
+  <line x1="775" y1="590" x2="775" y2="596" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="680" y="596" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="775" y="617" text-anchor="middle" class="child-text">Incident Severity</text>
+
+  <!-- Right column (13 items) -->
+  <rect x="890" y="140" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="985" y="161" text-anchor="middle" class="child-text">Incident Status</text>
+  <line x1="985" y1="172" x2="985" y2="178" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="890" y="178" width="190" height="32" rx="5" fill="#fdf0db" filter="url(#shadow)"/>
+  <text x="985" y="199" text-anchor="middle" class="child-text">Certification Type</text>
+  <line x1="985" y1="210" x2="985" y2="216" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="890" y="216" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="985" y="237" text-anchor="middle" class="child-text">Certification Status</text>
+  <line x1="985" y1="248" x2="985" y2="254" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="890" y="254" width="190" height="32" rx="5" fill="#fdf0db" filter="url(#shadow)"/>
+  <text x="985" y="275" text-anchor="middle" class="child-text">Assessment Type</text>
+  <line x1="985" y1="286" x2="985" y2="292" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="890" y="292" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="985" y="313" text-anchor="middle" class="child-text">Assessment Status</text>
+  <line x1="985" y1="324" x2="985" y2="330" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="890" y="330" width="190" height="32" rx="5" fill="#fdf0db" filter="url(#shadow)"/>
+  <text x="985" y="351" text-anchor="middle" class="child-text">Network Type</text>
+  <line x1="985" y1="362" x2="985" y2="368" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="890" y="368" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="985" y="389" text-anchor="middle" class="child-text">Baseline Type</text>
+  <line x1="985" y1="400" x2="985" y2="406" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="890" y="406" width="190" height="32" rx="5" fill="#fdf0db" filter="url(#shadow)"/>
+  <text x="985" y="427" text-anchor="middle" class="child-text">Baseline Status</text>
+  <line x1="985" y1="438" x2="985" y2="444" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="890" y="444" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="985" y="465" text-anchor="middle" class="child-text">License Type</text>
+  <line x1="985" y1="476" x2="985" y2="482" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="890" y="482" width="190" height="32" rx="5" fill="#fdf0db" filter="url(#shadow)"/>
+  <text x="985" y="503" text-anchor="middle" class="child-text">License Status</text>
+  <line x1="985" y1="514" x2="985" y2="520" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="890" y="520" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="985" y="541" text-anchor="middle" class="child-text">Site Status</text>
+  <line x1="985" y1="552" x2="985" y2="558" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="890" y="558" width="190" height="32" rx="5" fill="#fdf0db" filter="url(#shadow)"/>
+  <text x="985" y="579" text-anchor="middle" class="child-text">Vendor Status</text>
+  <line x1="985" y1="590" x2="985" y2="596" stroke="#F0AD4E" stroke-width="1" opacity="0.4"/>
+
+  <rect x="890" y="596" width="190" height="32" rx="5" fill="#fce8c9" filter="url(#shadow)"/>
+  <text x="985" y="617" text-anchor="middle" class="child-text">SLA Status</text>
+
+  <!-- ============================================================ -->
+  <!-- Legend / type counts at bottom -->
+  <!-- ============================================================ -->
+  <g transform="translate(0, 660)">
+    <!-- Separator line -->
+    <line x1="40" y1="0" x2="1060" y2="0" stroke="#dee2e6" stroke-width="1"/>
+
+    <!-- Branch count badges -->
+    <rect x="40" y="16" width="14" height="14" rx="3" fill="#4A90D9"/>
+    <text x="60" y="28" class="child-text" fill="#555">Product CMDB - 10 types</text>
+
+    <rect x="240" y="16" width="14" height="14" rx="3" fill="#7B68EE"/>
+    <text x="260" y="28" class="child-text" fill="#555">Product Library - 13 types</text>
+
+    <rect x="460" y="16" width="14" height="14" rx="3" fill="#50C878"/>
+    <text x="480" y="28" class="child-text" fill="#555">Directory - 6 types</text>
+
+    <rect x="660" y="16" width="14" height="14" rx="3" fill="#F0AD4E"/>
+    <text x="680" y="28" class="child-text" fill="#555">Lookup Types - 26 types</text>
+  </g>
+</svg>

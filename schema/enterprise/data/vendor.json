@@ -1,0 +1,49 @@
+{
+  "Vendor": [
+    {
+      "Name": "PostgreSQL Global Development Group",
+      "description": "PostgreSQL database",
+      "website": "https://postgresql.org",
+      "status": "Active"
+    },
+    {
+      "Name": "Redis Ltd",
+      "description": "Redis in-memory data store",
+      "website": "https://redis.io",
+      "contactEmail": "enterprise@redis.com",
+      "status": "Active",
+      "contractExpiry": "2027-03-01",
+      "contractNumber": "REDIS-ENT-2025-001",
+      "contractStartDate": "2025-04-01",
+      "contractEndDate": "2027-03-01",
+      "primaryContactName": "Redis Enterprise Support",
+      "primaryContactPhone": "+1-555-0101"
+    },
+    {
+      "Name": "Twilio",
+      "description": "Communications and email delivery",
+      "website": "https://twilio.com",
+      "contactEmail": "sales@twilio.com",
+      "status": "Active",
+      "contractExpiry": "2026-12-31",
+      "contractNumber": "TWLO-SG-2025-042",
+      "contractStartDate": "2025-01-01",
+      "contractEndDate": "2026-12-31",
+      "primaryContactName": "Twilio Account Team",
+      "primaryContactPhone": "+1-555-0102"
+    },
+    {
+      "Name": "Elastic NV",
+      "description": "Elasticsearch search platform",
+      "website": "https://elastic.co",
+      "contactEmail": "sales@elastic.co",
+      "status": "Active",
+      "contractExpiry": "2026-09-30",
+      "contractNumber": "ELST-CLO-2025-017",
+      "contractStartDate": "2025-10-01",
+      "contractEndDate": "2026-09-30",
+      "primaryContactName": "Elastic Cloud Support",
+      "primaryContactPhone": "+1-555-0103"
+    }
+  ]
+}

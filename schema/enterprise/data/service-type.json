@@ -1,0 +1,5 @@
+[
+  { "Name": "Business Service", "description": "Service delivering direct business value to customers" },
+  { "Name": "Technical Service", "description": "Infrastructure or platform service supporting business services" },
+  { "Name": "Shared Service", "description": "Service shared across multiple business units" }
+]

@@ -1,0 +1,56 @@
+[
+  {
+    "Name": "v2.3.0 Staging Deploy",
+    "description": "Pre-production deployment of 2.3.0 for validation",
+    "version": "OvocoCRM 2.3.0",
+    "environment": "Staging",
+    "deployDate": "2026-01-18",
+    "status": "Completed",
+    "deployedBy": "Jordan Lee"
+  },
+  {
+    "Name": "v2.3.0 Production Deploy",
+    "description": "Production rollout of 2.3.0",
+    "version": "OvocoCRM 2.3.0",
+    "environment": "Production",
+    "deployDate": "2026-01-20",
+    "status": "Completed",
+    "deployedBy": "Jordan Lee"
+  },
+  {
+    "Name": "v2.3.1 Staging Deploy",
+    "description": "Staging validation of contact import hotfix",
+    "version": "OvocoCRM 2.3.1",
+    "environment": "Staging",
+    "deployDate": "2026-02-08",
+    "status": "Completed",
+    "deployedBy": "Casey Morgan"
+  },
+  {
+    "Name": "v2.3.1 Production Deploy",
+    "description": "Emergency hotfix deployment to production",
+    "version": "OvocoCRM 2.3.1",
+    "environment": "Production",
+    "deployDate": "2026-02-10",
+    "status": "Completed",
+    "deployedBy": "Casey Morgan"
+  },
+  {
+    "Name": "v2.4.0 Staging Deploy",
+    "description": "Pre-production validation of 2.4.0 features",
+    "version": "OvocoCRM 2.4.0",
+    "environment": "Staging",
+    "deployDate": "2026-02-25",
+    "status": "Completed",
+    "deployedBy": "Jordan Lee"
+  },
+  {
+    "Name": "v2.4.0 Production Deploy",
+    "description": "Production rollout of 2.4.0",
+    "version": "OvocoCRM 2.4.0",
+    "environment": "Production",
+    "deployDate": "2026-03-01",
+    "status": "Completed",
+    "deployedBy": "Jordan Lee"
+  }
+]

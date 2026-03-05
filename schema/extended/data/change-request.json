@@ -1,0 +1,29 @@
+[
+  {
+    "Name": "CHG-001 Database Migration",
+    "description": "Migrate PostgreSQL from 15 to 16",
+    "changeType": "Normal",
+    "impact": "High",
+    "requestedBy": "Sam Rivera",
+    "requestDate": "2025-12-01",
+    "status": "Completed"
+  },
+  {
+    "Name": "CHG-002 Contact Import Hotfix",
+    "description": "Emergency fix for race condition",
+    "changeType": "Emergency",
+    "impact": "High",
+    "requestedBy": "Alex Chen",
+    "requestDate": "2026-02-08",
+    "status": "Completed"
+  },
+  {
+    "Name": "CHG-003 Bulk Export and Search Improvements",
+    "description": "Add bulk contact export, improve search indexing, and prepare EU deployment infrastructure",
+    "changeType": "Normal",
+    "impact": "Medium",
+    "requestedBy": "Alex Chen",
+    "requestDate": "2026-02-15",
+    "status": "Completed"
+  }
+]

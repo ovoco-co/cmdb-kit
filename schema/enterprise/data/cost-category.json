@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "Compute",
+    "description": "TBM tower for compute resources including servers and VMs"
+  },
+  {
+    "Name": "Storage",
+    "description": "TBM tower for data storage resources"
+  },
+  {
+    "Name": "Network",
+    "description": "TBM tower for networking infrastructure"
+  },
+  {
+    "Name": "Software Licensing",
+    "description": "TBM tower for software license costs",
+    "parentCategory": "Compute"
+  }
+]

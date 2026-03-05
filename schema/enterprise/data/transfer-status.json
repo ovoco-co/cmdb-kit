@@ -1,0 +1,9 @@
+[
+  { "Name": "Requested", "description": "Transfer has been requested" },
+  { "Name": "Preparing", "description": "Media is being prepared for transfer" },
+  { "Name": "In Transit", "description": "Media is in transit to destination" },
+  { "Name": "Received", "description": "Media has been received at destination" },
+  { "Name": "Verified", "description": "Media integrity has been verified" },
+  { "Name": "Completed", "description": "Transfer is complete and confirmed" },
+  { "Name": "Failed", "description": "Transfer failed verification or delivery" }
+]

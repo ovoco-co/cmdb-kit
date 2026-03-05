@@ -1,0 +1,18 @@
+[
+  {
+    "Name": "OvocoCRM 2.3.1 Release Baseline",
+    "description": "Approved release configuration for v2.3.1",
+    "baselineType": "Release",
+    "version": "OvocoCRM 2.3.1",
+    "status": "Approved",
+    "approvalDate": "2026-02-09"
+  },
+  {
+    "Name": "OvocoCRM 2.4.0 Release Baseline",
+    "description": "Approved release configuration for v2.4.0",
+    "baselineType": "Release",
+    "version": "OvocoCRM 2.4.0",
+    "status": "Approved",
+    "approvalDate": "2026-02-28"
+  }
+]

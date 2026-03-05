@@ -1,0 +1,7 @@
+[
+  { "Name": "Open", "description": "Incident reported, awaiting triage" },
+  { "Name": "Investigating", "description": "Actively being investigated" },
+  { "Name": "Mitigated", "description": "Impact reduced, root cause pending" },
+  { "Name": "Resolved", "description": "Incident fully resolved" },
+  { "Name": "Closed", "description": "Post-mortem complete, incident closed" }
+]

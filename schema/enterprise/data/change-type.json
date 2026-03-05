@@ -1,0 +1,5 @@
+[
+  { "Name": "Standard", "description": "Pre-approved routine change" },
+  { "Name": "Normal", "description": "Change requiring CAB review" },
+  { "Name": "Emergency", "description": "Urgent change bypassing normal process" }
+]

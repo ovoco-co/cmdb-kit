@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 870" width="700" height="870" font-family="sans-serif">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#546E7A" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="350" y="36" text-anchor="middle" font-size="20" font-weight="bold" fill="#263238">CI Selection Decision Tree</text>
+
+  <!-- ============================================================ -->
+  <!-- Q1: Does it support a critical service? -->
+  <!-- ============================================================ -->
+  <g transform="translate(350, 100)">
+    <polygon points="0,-44 175,0 0,44 -175,0" fill="#E3F2FD" stroke="#1976D2" stroke-width="2" />
+    <text x="0" y="-10" text-anchor="middle" font-size="12" fill="#0D47A1">Does it support a</text>
+    <text x="0" y="8" text-anchor="middle" font-size="12" fill="#0D47A1">critical service?</text>
+  </g>
+
+  <!-- Q1 -> No -> Don't track (right) -->
+  <line x1="525" y1="100" x2="600" y2="100" stroke="#546E7A" stroke-width="1.5" marker-end="url(#arrowhead)" />
+  <text x="555" y="93" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">No</text>
+  <rect x="610" y="80" width="80" height="40" rx="8" ry="8" fill="#FFCDD2" stroke="#C62828" stroke-width="1.5" />
+  <text x="650" y="96" text-anchor="middle" font-size="10" fill="#B71C1C">Don't track</text>
+  <text x="650" y="110" text-anchor="middle" font-size="10" fill="#B71C1C">as CI</text>
+
+  <!-- Q1 -> Yes -> Q2 (down) -->
+  <line x1="350" y1="144" x2="350" y2="198" stroke="#546E7A" stroke-width="1.5" marker-end="url(#arrowhead)" />
+  <text x="362" y="175" font-size="11" font-weight="bold" fill="#2E7D32">Yes</text>
+
+  <!-- ============================================================ -->
+  <!-- Q2: Would an outage cause a P1 incident? -->
+  <!-- ============================================================ -->
+  <g transform="translate(350, 248)">
+    <polygon points="0,-44 175,0 0,44 -175,0" fill="#E3F2FD" stroke="#1976D2" stroke-width="2" />
+    <text x="0" y="-10" text-anchor="middle" font-size="12" fill="#0D47A1">Would an outage cause</text>
+    <text x="0" y="8" text-anchor="middle" font-size="12" fill="#0D47A1">a P1 incident?</text>
+  </g>
+
+  <!-- Q2 -> No -> Consider as attribute (right) -->
+  <line x1="525" y1="248" x2="600" y2="248" stroke="#546E7A" stroke-width="1.5" marker-end="url(#arrowhead)" />
+  <text x="555" y="241" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">No</text>
+  <rect x="608" y="224" width="86" height="48" rx="8" ry="8" fill="#FFF9C4" stroke="#F9A825" stroke-width="1.5" />
+  <text x="651" y="244" text-anchor="middle" font-size="10" fill="#E65100">Consider as</text>
+  <text x="651" y="258" text-anchor="middle" font-size="10" fill="#E65100">attribute, not CI</text>
+
+  <!-- Q2 -> Yes -> Q3 (down) -->
+  <line x1="350" y1="292" x2="350" y2="346" stroke="#546E7A" stroke-width="1.5" marker-end="url(#arrowhead)" />
+  <text x="362" y="323" font-size="11" font-weight="bold" fill="#2E7D32">Yes</text>
+
+  <!-- ============================================================ -->
+  <!-- Q3: Is it independently identifiable and manageable? -->
+  <!-- ============================================================ -->
+  <g transform="translate(350, 396)">
+    <polygon points="0,-44 195,0 0,44 -195,0" fill="#E3F2FD" stroke="#1976D2" stroke-width="2" />
+    <text x="0" y="-10" text-anchor="middle" font-size="12" fill="#0D47A1">Is it independently identifiable</text>
+    <text x="0" y="8" text-anchor="middle" font-size="12" fill="#0D47A1">and manageable?</text>
+  </g>
+
+  <!-- Q3 -> No -> Track as attribute of parent (right) -->
+  <line x1="545" y1="396" x2="600" y2="396" stroke="#546E7A" stroke-width="1.5" marker-end="url(#arrowhead)" />
+  <text x="568" y="389" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">No</text>
+  <rect x="608" y="372" width="86" height="48" rx="8" ry="8" fill="#FFF9C4" stroke="#F9A825" stroke-width="1.5" />
+  <text x="651" y="390" text-anchor="middle" font-size="10" fill="#E65100">Track as attribute</text>
+  <text x="651" y="404" text-anchor="middle" font-size="10" fill="#E65100">of parent CI</text>
+
+  <!-- Q3 -> Yes -> Q4 (down) -->
+  <line x1="350" y1="440" x2="350" y2="494" stroke="#546E7A" stroke-width="1.5" marker-end="url(#arrowhead)" />
+  <text x="362" y="471" font-size="11" font-weight="bold" fill="#2E7D32">Yes</text>
+
+  <!-- ============================================================ -->
+  <!-- Q4: Does it change independently and need change control? -->
+  <!-- ============================================================ -->
+  <g transform="translate(350, 544)">
+    <polygon points="0,-44 195,0 0,44 -195,0" fill="#E3F2FD" stroke="#1976D2" stroke-width="2" />
+    <text x="0" y="-10" text-anchor="middle" font-size="12" fill="#0D47A1">Does it change independently</text>
+    <text x="0" y="8" text-anchor="middle" font-size="12" fill="#0D47A1">and need change control?</text>
+  </g>
+
+  <!-- Q4 -> No -> Track as lookup (right) -->
+  <line x1="545" y1="544" x2="600" y2="544" stroke="#546E7A" stroke-width="1.5" marker-end="url(#arrowhead)" />
+  <text x="568" y="537" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">No</text>
+  <rect x="608" y="520" width="86" height="48" rx="8" ry="8" fill="#FFF9C4" stroke="#F9A825" stroke-width="1.5" />
+  <text x="651" y="538" text-anchor="middle" font-size="10" fill="#E65100">Track as lookup</text>
+  <text x="651" y="552" text-anchor="middle" font-size="10" fill="#E65100">or reference data</text>
+
+  <!-- Q4 -> Yes -> Q5 (down) -->
+  <line x1="350" y1="588" x2="350" y2="642" stroke="#546E7A" stroke-width="1.5" marker-end="url(#arrowhead)" />
+  <text x="362" y="619" font-size="11" font-weight="bold" fill="#2E7D32">Yes</text>
+
+  <!-- ============================================================ -->
+  <!-- Q5: Is it already tracked in a more appropriate system? -->
+  <!-- ============================================================ -->
+  <g transform="translate(350, 692)">
+    <polygon points="0,-44 195,0 0,44 -195,0" fill="#E3F2FD" stroke="#1976D2" stroke-width="2" />
+    <text x="0" y="-10" text-anchor="middle" font-size="12" fill="#0D47A1">Is it already tracked in a</text>
+    <text x="0" y="8" text-anchor="middle" font-size="12" fill="#0D47A1">more appropriate system?</text>
+  </g>
+
+  <!-- Q5 -> Yes -> Link to external system (right) -->
+  <line x1="545" y1="692" x2="600" y2="692" stroke="#546E7A" stroke-width="1.5" marker-end="url(#arrowhead)" />
+  <text x="568" y="685" text-anchor="middle" font-size="11" font-weight="bold" fill="#C62828">Yes</text>
+  <rect x="605" y="668" width="92" height="48" rx="8" ry="8" fill="#FFF9C4" stroke="#F9A825" stroke-width="1.5" />
+  <text x="651" y="686" text-anchor="middle" font-size="10" fill="#E65100">Link to external</text>
+  <text x="651" y="700" text-anchor="middle" font-size="10" fill="#E65100">system, don't duplicate</text>
+
+  <!-- Q5 -> No -> Add as CI type (down) -->
+  <line x1="350" y1="736" x2="350" y2="790" stroke="#546E7A" stroke-width="1.5" marker-end="url(#arrowhead)" />
+  <text x="362" y="768" font-size="11" font-weight="bold" fill="#2E7D32">No</text>
+
+  <!-- ============================================================ -->
+  <!-- Final: Add as CI type (green box) -->
+  <!-- ============================================================ -->
+  <rect x="290" y="798" width="120" height="44" rx="10" ry="10" fill="#C8E6C9" stroke="#2E7D32" stroke-width="2" />
+  <text x="350" y="825" text-anchor="middle" font-size="13" font-weight="bold" fill="#1B5E20">Add as CI type</text>
+</svg>

@@ -1,0 +1,46 @@
+[
+  {
+    "Name": "Customer Management",
+    "description": "Ability to manage customer contacts, accounts, and relationships",
+    "status": "Active",
+    "owner": "Ovoco Inc"
+  },
+  {
+    "Name": "Lead Tracking",
+    "description": "Ability to capture and nurture sales leads through the pipeline",
+    "status": "Active",
+    "parentCapability": "Customer Management",
+    "owner": "Ovoco Inc"
+  },
+  {
+    "Name": "Account Management",
+    "description": "Ability to manage customer accounts and organizational hierarchies",
+    "status": "Active",
+    "parentCapability": "Customer Management",
+    "owner": "Ovoco Inc"
+  },
+  {
+    "Name": "Platform Operations",
+    "description": "Ability to host, monitor, and scale the CRM platform",
+    "status": "Active",
+    "owner": "Platform Department"
+  },
+  {
+    "Name": "Business Intelligence",
+    "description": "Ability to analyze CRM data and generate actionable reports",
+    "status": "Active",
+    "owner": "Ovoco Inc"
+  },
+  {
+    "Name": "Customer Communication",
+    "description": "Ability to deliver notifications across email, SMS, and push channels",
+    "status": "Active",
+    "owner": "Ovoco Inc"
+  },
+  {
+    "Name": "EU Data Residency",
+    "description": "Ability to store and process EU customer data within European boundaries",
+    "status": "Planned",
+    "owner": "Ovoco Inc"
+  }
+]

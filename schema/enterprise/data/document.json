@@ -1,0 +1,74 @@
+[
+  {
+    "Name": "CRM Deployment Runbook",
+    "description": "Step-by-step deployment procedure for production releases",
+    "documentType": "Runbook",
+    "state": "Published",
+    "author": "Jordan Lee",
+    "publishDate": "2025-08-10",
+    "url": "https://docs.ovoco.dev/runbooks/crm-deployment"
+  },
+  {
+    "Name": "Incident Response SOP",
+    "description": "Standard procedure for handling production incidents",
+    "documentType": "SOP",
+    "state": "Published",
+    "author": "Casey Morgan",
+    "publishDate": "2025-07-20",
+    "url": "https://docs.ovoco.dev/sops/incident-response"
+  },
+  {
+    "Name": "CRM API Architecture",
+    "description": "System architecture overview for the CRM REST API",
+    "documentType": "Architecture",
+    "state": "Published",
+    "author": "Alex Chen",
+    "publishDate": "2025-06-01",
+    "url": "https://docs.ovoco.dev/architecture/crm-api"
+  },
+  {
+    "Name": "Database Migration Guide",
+    "description": "Procedures for PostgreSQL schema migrations",
+    "documentType": "Runbook",
+    "state": "Published",
+    "author": "Sam Rivera",
+    "publishDate": "2025-10-05",
+    "url": "https://docs.ovoco.dev/runbooks/db-migration"
+  },
+  {
+    "Name": "v2.3.1 Release Notes",
+    "description": "Changes and fixes in the 2.3.1 hotfix release",
+    "documentType": "Release Notes",
+    "state": "Published",
+    "author": "Morgan Blake",
+    "publishDate": "2026-02-10",
+    "url": "https://docs.ovoco.dev/releases/2.3.1"
+  },
+  {
+    "Name": "OvocoCRM System Design Description",
+    "description": "System architecture, component relationships, and design decisions for OvocoCRM",
+    "documentType": "System Design",
+    "state": "Published",
+    "author": "Alex Chen",
+    "publishDate": "2025-06-01",
+    "url": "https://docs.ovoco.dev/design/system-design-description"
+  },
+  {
+    "Name": "OvocoCRM 2.4.0 Version Description",
+    "description": "Complete description of the 2.4.0 release contents, changes, and deployment requirements",
+    "documentType": "Version Description",
+    "state": "Published",
+    "author": "Morgan Blake",
+    "publishDate": "2026-03-01",
+    "url": "https://docs.ovoco.dev/releases/2.4.0-vdd"
+  },
+  {
+    "Name": "v2.4.0 Release Notes",
+    "description": "Changes and new features in the 2.4.0 release",
+    "documentType": "Release Notes",
+    "state": "Published",
+    "author": "Morgan Blake",
+    "publishDate": "2026-03-01",
+    "url": "https://docs.ovoco.dev/releases/2.4.0"
+  }
+]

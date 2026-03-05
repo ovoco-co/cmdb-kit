@@ -1,0 +1,7 @@
+[
+  { "Name": "Production", "description": "Live customer-facing environment" },
+  { "Name": "Staging", "description": "Pre-production validation environment" },
+  { "Name": "Development", "description": "Developer sandbox environment" },
+  { "Name": "QA", "description": "Quality assurance testing environment" },
+  { "Name": "DR", "description": "Disaster recovery environment" }
+]

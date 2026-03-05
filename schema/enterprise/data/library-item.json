@@ -1,0 +1,43 @@
+[
+  {
+    "Name": "OvocoCRM v2.4.0 Release Package",
+    "description": "Complete release package for OvocoCRM version 2.4.0 including all components",
+    "itemType": "Software Release",
+    "version": "OvocoCRM 2.4.0",
+    "distributionStatus": "Available",
+    "fileCount": "12",
+    "totalSize": "245 MB",
+    "checksum": "sha256:a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2",
+    "libraryLocation": "/releases/ovococrm/2.4.0/",
+    "receivedDate": "2026-02-28",
+    "storedDate": "2026-02-28"
+  },
+  {
+    "Name": "OvocoCRM Patch 2.3.1",
+    "description": "Hotfix patch for contact import race condition",
+    "itemType": "Patch",
+    "version": "OvocoCRM 2.3.1",
+    "distributionStatus": "Superseded",
+    "fileCount": "3",
+    "totalSize": "18 MB",
+    "checksum": "sha256:b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3",
+    "libraryLocation": "/releases/ovococrm/2.3.1/",
+    "receivedDate": "2026-02-09",
+    "storedDate": "2026-02-09",
+    "knownIssues": "Requires PostgreSQL 15+ for migration scripts"
+  },
+  {
+    "Name": "OvocoCRM v2.4.0 Admin Guide",
+    "description": "Administration guide for OvocoCRM 2.4.0",
+    "itemType": "Documentation",
+    "version": "OvocoCRM 2.4.0",
+    "distributionStatus": "Available",
+    "fileCount": "1",
+    "totalSize": "4.2 MB",
+    "checksum": "sha256:c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4",
+    "libraryLocation": "/releases/ovococrm/2.4.0/docs/",
+    "receivedDate": "2026-02-28",
+    "storedDate": "2026-02-28",
+    "supersedes": "OvocoCRM Patch 2.3.1"
+  }
+]

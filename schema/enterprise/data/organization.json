@@ -1,0 +1,40 @@
+{
+  "Organization": [
+    {
+      "Name": "Ovoco Inc",
+      "description": "Parent company for OvocoCRM",
+      "orgType": "Company",
+      "website": "https://ovoco.dev"
+    },
+    {
+      "Name": "Engineering Department",
+      "description": "Software engineering organization",
+      "orgType": "Department",
+      "parentOrganization": "Ovoco Inc"
+    },
+    {
+      "Name": "Platform Department",
+      "description": "Platform and infrastructure organization",
+      "orgType": "Department",
+      "parentOrganization": "Ovoco Inc"
+    },
+    {
+      "Name": "Acme Corp",
+      "description": "Enterprise CRM customer, financial services sector",
+      "orgType": "Customer",
+      "website": "https://acme.example.com"
+    },
+    {
+      "Name": "Globex Corp",
+      "description": "Mid-market CRM customer, manufacturing sector",
+      "orgType": "Customer",
+      "website": "https://globex.example.com"
+    },
+    {
+      "Name": "Initech",
+      "description": "SMB CRM customer, technology consulting",
+      "orgType": "Customer",
+      "website": "https://initech.example.com"
+    }
+  ]
+}

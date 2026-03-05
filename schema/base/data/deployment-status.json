@@ -1,0 +1,7 @@
+[
+  { "Name": "Planned", "description": "Deployment is scheduled" },
+  { "Name": "In Progress", "description": "Deployment is actively running" },
+  { "Name": "Completed", "description": "Deployment finished successfully" },
+  { "Name": "Rolled Back", "description": "Deployment was reverted" },
+  { "Name": "Failed", "description": "Deployment did not complete successfully" }
+]

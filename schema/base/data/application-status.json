@@ -1,0 +1,6 @@
+[
+  { "Name": "Active", "description": "Application is live and serving traffic" },
+  { "Name": "Planned", "description": "Application is approved but not yet built" },
+  { "Name": "Deprecated", "description": "Application is being phased out" },
+  { "Name": "Retired", "description": "Application has been decommissioned" }
+]

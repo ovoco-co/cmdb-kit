@@ -1,0 +1,28 @@
+{
+  "Location": [
+    {
+      "Name": "San Francisco HQ",
+      "description": "Ovoco headquarters",
+      "address": "123 Market Street",
+      "city": "San Francisco",
+      "country": "United States",
+      "locationType": "Office"
+    },
+    {
+      "Name": "US-East Data Center",
+      "description": "Primary data center in Virginia",
+      "address": "456 Cloud Drive",
+      "city": "Ashburn",
+      "country": "United States",
+      "locationType": "Data Center"
+    },
+    {
+      "Name": "US-West Data Center",
+      "description": "Secondary data center in Oregon",
+      "address": "789 Server Lane",
+      "city": "The Dalles",
+      "country": "United States",
+      "locationType": "Data Center"
+    }
+  ]
+}

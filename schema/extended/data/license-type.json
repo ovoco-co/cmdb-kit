@@ -1,0 +1,7 @@
+[
+  { "Name": "Per Seat", "description": "Licensed per user seat" },
+  { "Name": "Per Core", "description": "Licensed per CPU core" },
+  { "Name": "Enterprise", "description": "Unlimited enterprise license" },
+  { "Name": "Open Source", "description": "Open source license" },
+  { "Name": "SaaS Subscription", "description": "Cloud subscription license" }
+]

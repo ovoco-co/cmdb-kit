@@ -1,0 +1,20 @@
+[
+  {
+    "Name": "SOC 2 Type II 2025",
+    "description": "Annual SOC 2 Type II audit certification",
+    "certificationType": "SOC 2 Type II",
+    "status": "Active",
+    "issueDate": "2025-08-15",
+    "expirationDate": "2026-08-15",
+    "issuingBody": "Deloitte"
+  },
+  {
+    "Name": "ISO 27001 2024",
+    "description": "Information security management certification",
+    "certificationType": "ISO 27001",
+    "status": "Active",
+    "issueDate": "2024-03-01",
+    "expirationDate": "2027-03-01",
+    "issuingBody": "BSI Group"
+  }
+]

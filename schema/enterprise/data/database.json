@@ -1,0 +1,38 @@
+[
+  {
+    "Name": "crm-primary",
+    "description": "Primary transactional database for CRM Core",
+    "databaseEngine": "PostgreSQL 16",
+    "version": "16.2",
+    "server": "crm-db-01",
+    "storageSize": "1.2 TB",
+    "environment": "Production"
+  },
+  {
+    "Name": "crm-replica",
+    "description": "Read replica for reporting and analytics queries",
+    "databaseEngine": "PostgreSQL 16",
+    "version": "16.2",
+    "server": "crm-db-02",
+    "storageSize": "1.2 TB",
+    "environment": "Production"
+  },
+  {
+    "Name": "crm-analytics",
+    "description": "Columnar analytics database for dashboards and reports",
+    "databaseEngine": "ClickHouse",
+    "version": "24.1",
+    "server": "crm-db-01",
+    "storageSize": "800 GB",
+    "environment": "Production"
+  },
+  {
+    "Name": "crm-cache",
+    "description": "In-memory data store for caching and sessions",
+    "databaseEngine": "Redis",
+    "version": "7.2",
+    "server": "crm-cache-01",
+    "storageSize": "16 GB",
+    "environment": "Production"
+  }
+]

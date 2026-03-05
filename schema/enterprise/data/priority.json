@@ -1,0 +1,6 @@
+[
+  { "Name": "Critical", "description": "Immediate action required" },
+  { "Name": "High", "description": "Urgent, address within hours" },
+  { "Name": "Medium", "description": "Important, address within days" },
+  { "Name": "Low", "description": "Minor, address when convenient" }
+]

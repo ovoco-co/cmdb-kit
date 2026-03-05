@@ -1,0 +1,7 @@
+[
+  { "Name": "Developer", "description": "Builds and tests code changes" },
+  { "Name": "Operator", "description": "Manages deployments and infrastructure" },
+  { "Name": "Manager", "description": "Approves and oversees releases" },
+  { "Name": "Architect", "description": "Designs system architecture" },
+  { "Name": "SRE", "description": "Site reliability engineering" }
+]

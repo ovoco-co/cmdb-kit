@@ -1,0 +1,294 @@
+{
+  "Application": {
+    "description": { "type": 0 },
+    "applicationType": { "type": 0 },
+    "technology": { "type": 0 },
+    "owner": { "type": 1, "referenceType": "Team" },
+    "status": { "type": 1, "referenceType": "Application Status" }
+  },
+  "Server": {
+    "description": { "type": 0 },
+    "hostname": { "type": 0 },
+    "ipAddress": { "type": 0 },
+    "operatingSystem": { "type": 0 },
+    "environment": { "type": 1, "referenceType": "Environment Type" },
+    "cpu": { "type": 0 },
+    "ram": { "type": 0 },
+    "storage": { "type": 0 }
+  },
+  "Database": {
+    "description": { "type": 0 },
+    "databaseEngine": { "type": 0 },
+    "version": { "type": 0 },
+    "server": { "type": 1, "referenceType": "Server" },
+    "storageSize": { "type": 0 },
+    "environment": { "type": 1, "referenceType": "Environment Type" }
+  },
+  "Product Component": {
+    "description": { "type": 0 },
+    "componentType": { "type": 1, "referenceType": "Component Type" },
+    "repository": { "type": 0 },
+    "technology": { "type": 0 },
+    "owner": { "type": 1, "referenceType": "Team" }
+  },
+  "Hardware Model": {
+    "description": { "type": 0 },
+    "manufacturer": { "type": 0 },
+    "modelNumber": { "type": 0 },
+    "cpu": { "type": 0 },
+    "ram": { "type": 0 },
+    "storage": { "type": 0 },
+    "formFactor": { "type": 0 }
+  },
+  "Network Segment": {
+    "description": { "type": 0 },
+    "networkType": { "type": 1, "referenceType": "Network Type" },
+    "cidr": { "type": 0 },
+    "vlan": { "type": 0 },
+    "gateway": { "type": 0 }
+  },
+  "Virtual Machine": {
+    "description": { "type": 0 },
+    "hostname": { "type": 0 },
+    "server": { "type": 1, "referenceType": "Server" },
+    "operatingSystem": { "type": 0 },
+    "cpu": { "type": 0 },
+    "ram": { "type": 0 },
+    "environment": { "type": 1, "referenceType": "Environment Type" }
+  },
+  "License": {
+    "description": { "type": 0 },
+    "licenseType": { "type": 1, "referenceType": "License Type" },
+    "vendor": { "type": 1, "referenceType": "Vendor" },
+    "expirationDate": { "type": 0, "defaultTypeId": 4 },
+    "quantity": { "type": 0, "defaultTypeId": 1 },
+    "status": { "type": 1, "referenceType": "License Status" }
+  },
+  "Assessment": {
+    "description": { "type": 0 },
+    "assessmentType": { "type": 1, "referenceType": "Assessment Type" },
+    "assessmentDate": { "type": 0, "defaultTypeId": 4 },
+    "status": { "type": 1, "referenceType": "Assessment Status" },
+    "assessor": { "type": 1, "referenceType": "Person" },
+    "findings": { "type": 0 }
+  },
+  "Feature": {
+    "description": { "type": 0 },
+    "version": { "type": 1, "referenceType": "Product Version" },
+    "status": { "type": 1, "referenceType": "Version Status" },
+    "owner": { "type": 1, "referenceType": "Team" }
+  },
+  "Product Version": {
+    "description": { "type": 0 },
+    "versionNumber": { "type": 0 },
+    "releaseDate": { "type": 0, "defaultTypeId": 4 },
+    "status": { "type": 1, "referenceType": "Version Status" },
+    "components": { "type": 1, "referenceType": "Product Component", "max": -1 },
+    "previousVersion": { "type": 1, "referenceType": "Product Version" }
+  },
+  "Document": {
+    "description": { "type": 0 },
+    "documentType": { "type": 1, "referenceType": "Document Type" },
+    "state": { "type": 1, "referenceType": "Document State" },
+    "author": { "type": 1, "referenceType": "Person" },
+    "publishDate": { "type": 0, "defaultTypeId": 4 },
+    "url": { "type": 0 }
+  },
+  "Deployment": {
+    "description": { "type": 0 },
+    "version": { "type": 1, "referenceType": "Product Version" },
+    "environment": { "type": 1, "referenceType": "Environment Type" },
+    "deployDate": { "type": 0, "defaultTypeId": 4 },
+    "status": { "type": 1, "referenceType": "Deployment Status" },
+    "deployedBy": { "type": 1, "referenceType": "Person" }
+  },
+  "Baseline": {
+    "description": { "type": 0 },
+    "baselineType": { "type": 1, "referenceType": "Baseline Type" },
+    "version": { "type": 1, "referenceType": "Product Version" },
+    "status": { "type": 1, "referenceType": "Baseline Status" },
+    "approvalDate": { "type": 0, "defaultTypeId": 4 }
+  },
+  "Documentation Suite": {
+    "description": { "type": 0 },
+    "version": { "type": 1, "referenceType": "Product Version" },
+    "documents": { "type": 1, "referenceType": "Document", "max": -1 },
+    "state": { "type": 1, "referenceType": "Document State" }
+  },
+  "Product Media": {
+    "description": { "type": 0 },
+    "version": { "type": 1, "referenceType": "Product Version" },
+    "fileName": { "type": 0 },
+    "fileSize": { "type": 0 },
+    "checksum": { "type": 0 }
+  },
+  "Product Suite": {
+    "description": { "type": 0 },
+    "version": { "type": 1, "referenceType": "Product Version" },
+    "media": { "type": 1, "referenceType": "Product Media", "max": -1 }
+  },
+  "Certification": {
+    "description": { "type": 0 },
+    "certificationType": { "type": 1, "referenceType": "Certification Type" },
+    "status": { "type": 1, "referenceType": "Certification Status" },
+    "issueDate": { "type": 0, "defaultTypeId": 4 },
+    "expirationDate": { "type": 0, "defaultTypeId": 4 },
+    "issuingBody": { "type": 0 }
+  },
+  "Deployment Site": {
+    "description": { "type": 0 },
+    "location": { "type": 1, "referenceType": "Location" },
+    "status": { "type": 1, "referenceType": "Site Status" },
+    "environment": { "type": 1, "referenceType": "Environment Type" },
+    "goLiveDate": { "type": 0, "defaultTypeId": 4 }
+  },
+  "Distribution Log": {
+    "description": { "type": 0 },
+    "version": { "type": 1, "referenceType": "Product Version" },
+    "site": { "type": 1, "referenceType": "Deployment Site" },
+    "distributionDate": { "type": 0, "defaultTypeId": 4 },
+    "distributedBy": { "type": 1, "referenceType": "Person" }
+  },
+  "Change Request": {
+    "description": { "type": 0 },
+    "changeType": { "type": 1, "referenceType": "Change Type" },
+    "impact": { "type": 1, "referenceType": "Change Impact" },
+    "requestedBy": { "type": 1, "referenceType": "Person" },
+    "requestDate": { "type": 0, "defaultTypeId": 4 },
+    "status": { "type": 1, "referenceType": "Deployment Status" }
+  },
+  "Incident": {
+    "description": { "type": 0 },
+    "severity": { "type": 1, "referenceType": "Incident Severity" },
+    "status": { "type": 1, "referenceType": "Incident Status" },
+    "reportedBy": { "type": 1, "referenceType": "Person" },
+    "reportDate": { "type": 0, "defaultTypeId": 4 },
+    "resolvedDate": { "type": 0, "defaultTypeId": 4 },
+    "affectedApplication": { "type": 1, "referenceType": "Application" }
+  },
+  "SLA": {
+    "description": { "type": 0 },
+    "application": { "type": 1, "referenceType": "Application" },
+    "status": { "type": 1, "referenceType": "SLA Status" },
+    "targetUptime": { "type": 0 },
+    "responseTime": { "type": 0 },
+    "reviewDate": { "type": 0, "defaultTypeId": 4 }
+  },
+  "Organization": {
+    "description": { "type": 0 },
+    "orgType": { "type": 1, "referenceType": "Organization Type" },
+    "website": { "type": 0 },
+    "parentOrganization": { "type": 1, "referenceType": "Organization" }
+  },
+  "Team": {
+    "description": { "type": 0 },
+    "organization": { "type": 1, "referenceType": "Organization" },
+    "teamLead": { "type": 1, "referenceType": "Person" }
+  },
+  "Person": {
+    "description": { "type": 0 },
+    "firstName": { "type": 0 },
+    "lastName": { "type": 0 },
+    "email": { "type": 0 },
+    "role": { "type": 0 },
+    "team": { "type": 1, "referenceType": "Team" }
+  },
+  "Location": {
+    "description": { "type": 0 },
+    "address": { "type": 0 },
+    "city": { "type": 0 },
+    "country": { "type": 0 },
+    "locationType": { "type": 0 }
+  },
+  "Facility": {
+    "description": { "type": 0 },
+    "location": { "type": 1, "referenceType": "Location" },
+    "facilityType": { "type": 0 },
+    "capacity": { "type": 0 }
+  },
+  "Vendor": {
+    "description": { "type": 0 },
+    "website": { "type": 0 },
+    "contactEmail": { "type": 0 },
+    "status": { "type": 1, "referenceType": "Vendor Status" },
+    "contractExpiry": { "type": 0, "defaultTypeId": 4 }
+  },
+  "Application Status": {
+    "description": { "type": 0 }
+  },
+  "Version Status": {
+    "description": { "type": 0 }
+  },
+  "Deployment Status": {
+    "description": { "type": 0 }
+  },
+  "Environment Type": {
+    "description": { "type": 0 }
+  },
+  "Document Type": {
+    "description": { "type": 0 }
+  },
+  "Document State": {
+    "description": { "type": 0 }
+  },
+  "Component Type": {
+    "description": { "type": 0 }
+  },
+  "Priority": {
+    "description": { "type": 0 }
+  },
+  "Organization Type": {
+    "description": { "type": 0 }
+  },
+  "Deployment Role": {
+    "description": { "type": 0 }
+  },
+  "Change Type": {
+    "description": { "type": 0 }
+  },
+  "Change Impact": {
+    "description": { "type": 0 }
+  },
+  "Incident Severity": {
+    "description": { "type": 0 }
+  },
+  "Incident Status": {
+    "description": { "type": 0 }
+  },
+  "Certification Type": {
+    "description": { "type": 0 }
+  },
+  "Certification Status": {
+    "description": { "type": 0 }
+  },
+  "Assessment Type": {
+    "description": { "type": 0 }
+  },
+  "Assessment Status": {
+    "description": { "type": 0 }
+  },
+  "Network Type": {
+    "description": { "type": 0 }
+  },
+  "Baseline Type": {
+    "description": { "type": 0 }
+  },
+  "Baseline Status": {
+    "description": { "type": 0 }
+  },
+  "License Type": {
+    "description": { "type": 0 }
+  },
+  "License Status": {
+    "description": { "type": 0 }
+  },
+  "Site Status": {
+    "description": { "type": 0 }
+  },
+  "Vendor Status": {
+    "description": { "type": 0 }
+  },
+  "SLA Status": {
+    "description": { "type": 0 }
+  }
+}
