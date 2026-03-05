@@ -2,8 +2,6 @@ node_modules/
 *.log
 .env
 .DS_Store
-import/csv-templates/
-*.xlsx
 src/
 docs/marketing/
 docs/wip/
