@@ -201,36 +201,61 @@ The import script resolves `"Active"` to the actual JSM object ID of the "Active
 
 # Environment Setup
 
-Set the following environment variables before running any adapter commands.
+The adapter needs connection details for your JSM instance. You can set these in a `.env` file at the project root (recommended) or export them as shell environment variables.
+
+## Using a .env file
+
+Copy the example file and fill in your values:
 
 ```bash
-# Required: JSM connection
-export JSM_URL=https://your-site.atlassian.net   # Your Cloud site URL, no trailing slash
-export JSM_USER=you@example.com                  # Your Atlassian email address
-export JSM_PASSWORD=your-api-token               # API token from id.atlassian.com
-
-# Required: Schema target
-export SCHEMA_KEY=CMDB                           # Must match the key you created in JSM
-
-# Optional: Override default paths
-export SCHEMA_DIR=schema/base                    # Directory containing schema JSON files
-export DATA_DIR=schema/base/data                 # Directory containing data JSON files
-
-# Optional: Debugging
-export DEBUG=true                                # Logs every HTTP request/response
+cp .env.example .env
 ```
+
+Then edit `.env` with your connection details. The file is gitignored and will not be committed. Shell environment variables override values in `.env`, so you can use the file for defaults and override specific values when needed.
+
+## Cloud configuration
+
+```bash
+# .env file for Cloud
+JSM_URL=https://yoursite.atlassian.net
+JSM_USER=you@example.com
+JSM_PASSWORD=your-api-token
+SCHEMA_KEY=CMDB
+SCHEMA_DIR=schema/base
+DATA_DIR=schema/base/data
+```
+
+`JSM_USER` is your Atlassian email address. `JSM_PASSWORD` is an API token, not your account password. Generate a token at https://id.atlassian.com/manage-profile/security/api-tokens.
+
+The adapter auto-detects Cloud from the `.atlassian.net` hostname and fetches the Assets workspace ID automatically on first run. If auto-detection fails, you can set `JSM_WORKSPACE_ID` manually.
+
+## Data Center configuration
+
+```bash
+# .env file for Data Center
+JSM_URL=http://your-jsm:8080
+JSM_USER=admin
+JSM_PASSWORD=password
+SCHEMA_KEY=CMDB
+SCHEMA_DIR=schema/base
+DATA_DIR=schema/base/data
+```
+
+Data Center uses a username and password rather than an email and API token. The account must have direct login credentials; SSO-only accounts need a local fallback or a service account.
+
+## All variables
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| JSM_URL | Yes | none | Cloud site URL (e.g. https://your-site.atlassian.net) |
-| JSM_USER | Yes | | Atlassian email address |
-| JSM_PASSWORD | Yes | | API token from Atlassian account settings |
-| SCHEMA_KEY | No | CMDB | Object schema key in JSM |
+| JSM_URL | Yes | http://localhost:8080 | Cloud site URL or DC server URL |
+| JSM_USER | Yes | | Cloud: email address. DC: username |
+| JSM_PASSWORD | Yes | | Cloud: API token. DC: password |
+| SCHEMA_KEY | No | CMDB | Object schema key in JSM (case-sensitive) |
 | SCHEMA_DIR | No | Parent of DATA_DIR | Path to schema-structure.json and schema-attributes.json |
 | DATA_DIR | No | schema/base/data | Path to data JSON files |
+| JSM_WORKSPACE_ID | No | auto-detected | Cloud only: Assets workspace ID |
+| CREATE_SCHEMA | No | false | Set to 'true' to auto-create the schema |
 | DEBUG | No | false | HTTP debug logging |
-
-For Data Center environment variables, see [Data Center Differences](#data-center-differences).
 
 ## Choosing a schema layer
 
@@ -409,26 +434,12 @@ node tools/csv-to-json.js --schema schema/base --outdir schema/base/data csv-tem
 
 # Data Center Differences
 
-This section covers the differences when running against JSM Data Center instead of Cloud. The adapter commands are identical; only the prerequisites, credentials, and URL format change.
+This section covers the differences when running against JSM Data Center instead of Cloud. The adapter commands are identical; only the prerequisites and URL format change.
 
 ## DC prerequisites
 
 - Jira Service Management 5.x (or later) with Assets enabled. Older installations may have Assets under its former name, Insight.
 - A user account with Assets admin permissions.
-
-## DC credentials
-
-Data Center uses a username and password rather than an email and API token. The account must have direct login credentials; SSO-only accounts need a local fallback or a service account.
-
-## DC URL format
-
-Data Center instances run on your own infrastructure with a URL like `http://your-jsm:8080` or `https://jsm.internal.example.com`. There is no `.atlassian.net` domain.
-
-```bash
-export JSM_URL=http://your-jsm:8080
-export JSM_USER=admin
-export JSM_PASSWORD=your-password
-```
 
 ## DC schema creation
 
@@ -440,10 +451,24 @@ export JSM_PASSWORD=your-password
 6. Leave description empty or add your own
 7. Click **Create**
 
-## API path note
+## How Cloud vs DC routing works
 
-The JSM adapter uses the `/rest/insight/1.0` REST API path, which is the DC-native path. Cloud instances use a different API base path. Check `adapters/jsm/lib/api-client.js` for the path configuration if you need to adjust it for your environment.
+The adapter auto-detects Cloud from the `.atlassian.net` hostname. For Cloud, Assets API calls are routed through `api.atlassian.com` using the workspace ID. For Data Center, calls go directly to your server at `/rest/insight/1.0`. The endpoint paths after the base URL are the same on both platforms, so all commands work identically.
 
+# API References
+
+These are the Atlassian developer docs for the REST APIs used by this adapter.
+
+## Cloud
+
+- [Assets REST API Guide](https://developer.atlassian.com/cloud/assets/assets-rest-api-guide/workflow/) - authentication, workspace ID discovery, and workflow
+- [Assets REST API Reference](https://developer.atlassian.com/cloud/assets/rest/api-group-object/) - full endpoint documentation
+- [Creating Objects via REST API](https://support.atlassian.com/jira/kb/how-to-create-assets-objects-via-rest-api-based-on-different-attribute-type/) - attribute type formats and examples
+- [JSM Cloud REST API - Assets](https://developer.atlassian.com/cloud/jira/service-desk/rest/api-group-assets/) - service desk API for workspace discovery
+
+## Data Center
+
+- [Insight REST API](https://docs.atlassian.com/assets/REST/) - bundled REST API documentation for JSM DC
 
 # Next Steps
 

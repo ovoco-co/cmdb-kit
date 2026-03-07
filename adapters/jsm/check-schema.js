@@ -30,7 +30,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { loadConfig, createApiClient, loadJsonFile, mapAttrName, C } = require('./lib');
+const { loadConfig, createApiClient, resolveWorkspaceId, loadJsonFile, mapAttrName, C } = require('./lib');
 
 // ---------------------------------------------------------------------------
 // CLI
@@ -348,6 +348,8 @@ async function main() {
   console.log('==================================================');
   console.log(`  URL:    ${config.jsmUrl}`);
   console.log(`  Schema: ${config.schemaKey}`);
+
+  await resolveWorkspaceId(config, api);
 
   // Resolve schema
   let schemaId;

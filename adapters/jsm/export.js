@@ -28,7 +28,7 @@
 const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
-const { loadConfig, createApiClient, loadJsonFile, loadDataFile, ATTR_NAME_MAP, mapAttrName, LOAD_PRIORITY, PERSONNEL_TYPES, NESTED_TYPES, C } = require('./lib');
+const { loadConfig, createApiClient, resolveWorkspaceId, loadJsonFile, loadDataFile, ATTR_NAME_MAP, mapAttrName, LOAD_PRIORITY, PERSONNEL_TYPES, NESTED_TYPES, C } = require('./lib');
 
 // JSM-internal fields to exclude from exported records
 const SKIP_ATTRS = new Set(['Key', 'Created', 'Updated']);
@@ -598,6 +598,9 @@ async function main() {
   console.log('==================================================');
   console.log(`  URL:    ${config.jsmUrl}`);
   console.log(`  Schema: ${config.schemaKey}`);
+
+  await resolveWorkspaceId(config, api);
+
   if (!options.diff) {
     console.log(`  Output: ${outdir}`);
     if (options.overwrite) console.log(`  ${C.yellow}WARNING: Overwriting local files${C.reset}`);

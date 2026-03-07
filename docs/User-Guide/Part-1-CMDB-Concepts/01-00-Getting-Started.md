@@ -63,18 +63,58 @@ CI types have richer attributes:
 
 # Import into a Database
 
-## JSM Assets
+## JSM Assets (Cloud or Data Center)
 
-Set up environment variables and run the adapter:
+The JSM adapter supports both Atlassian Cloud and Data Center. Start by copying the example environment file:
 
 ```bash
-export JSM_URL=http://your-jsm:8080
-export JSM_USER=admin
-export JSM_PASSWORD=password
-export SCHEMA_KEY=CMDB
-export DATA_DIR=schema/base/data
-export SCHEMA_DIR=schema/base
+cp .env.example .env
+```
 
+Edit `.env` with your connection details. The file is gitignored and will not be committed.
+
+### Cloud setup
+
+```
+JSM_URL=https://yoursite.atlassian.net
+JSM_USER=you@example.com
+JSM_PASSWORD=your-api-token
+SCHEMA_KEY=CMDB
+SCHEMA_DIR=schema/base
+DATA_DIR=schema/base/data
+```
+
+`JSM_USER` is your Atlassian account email. `JSM_PASSWORD` is an API token generated at https://id.atlassian.com/manage-profile/security/api-tokens (not your account password). Cloud requires JSM Premium or Enterprise for Assets access.
+
+The adapter auto-detects Cloud from the `.atlassian.net` hostname and fetches the Assets workspace ID on first run.
+
+### Data Center setup
+
+```
+JSM_URL=http://your-jsm:8080
+JSM_USER=admin
+JSM_PASSWORD=password
+SCHEMA_KEY=CMDB
+SCHEMA_DIR=schema/base
+DATA_DIR=schema/base/data
+```
+
+Data Center uses a local username and password. The URL points directly to your JSM server.
+
+### Create a schema in JSM
+
+Before running the import, create an empty object schema in JSM:
+
+1. Navigate to **Assets** in JSM
+2. Click **Create schema**
+3. Enter a name (e.g., "CMDB") and a key (e.g., "CMDB")
+4. Click **Create**
+
+The schema key must match the `SCHEMA_KEY` value in your `.env` file (case-sensitive).
+
+### Run the import
+
+```bash
 # Step 1: Create object types and attributes
 node adapters/jsm/import.js schema
 
@@ -82,19 +122,21 @@ node adapters/jsm/import.js schema
 node adapters/jsm/import.js sync
 ```
 
-See the [JSM Setup Guide](../Part-3-Platform-Setup/03-01-JSM-Assets-Setup.md) for a full walkthrough, or [adapters/jsm/README.md](../../../adapters/jsm/README.md) for a command reference.
+See the [JSM Setup Guide](../Part-3-Platform-Setup/03-01-JSM-Assets-Setup.md) for a full walkthrough including lookup types, schema hierarchy, and troubleshooting. See [adapters/jsm/README.md](../../../adapters/jsm/README.md) for a command reference.
 
 ## ServiceNow CMDB
 
-Set up environment variables and run the adapter:
+Copy `.env.example` to `.env` and set the ServiceNow variables:
+
+```
+SN_INSTANCE=https://dev12345.service-now.com
+SN_USER=admin
+SN_PASSWORD=password
+SCHEMA_DIR=schema/base
+DATA_DIR=schema/base/data
+```
 
 ```bash
-export SN_INSTANCE=https://dev12345.service-now.com
-export SN_USER=admin
-export SN_PASSWORD=password
-export DATA_DIR=schema/base/data
-export SCHEMA_DIR=schema/base
-
 # Step 1: Test connectivity
 node adapters/servicenow/import.js --test-connection
 

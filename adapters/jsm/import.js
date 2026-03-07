@@ -29,7 +29,7 @@
 const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
-const { loadConfig, createApiClient, loadJsonFile, loadDataFile, mapAttrName, LOAD_PRIORITY, PERSONNEL_TYPES, C } = require('./lib');
+const { loadConfig, createApiClient, resolveWorkspaceId, loadJsonFile, loadDataFile, mapAttrName, LOAD_PRIORITY, PERSONNEL_TYPES, C } = require('./lib');
 
 // ---------------------------------------------------------------------------
 // CLI
@@ -429,6 +429,8 @@ async function main() {
   console.log('='.repeat(50));
   console.log(`  URL:    ${config.jsmUrl}`);
   console.log(`  Schema: ${config.schemaKey}`);
+
+  await resolveWorkspaceId(config, api);
 
   const attrPath = path.join(config.schemaDir, config.attrFile);
   attrConfig = loadJsonFile(attrPath) || {};

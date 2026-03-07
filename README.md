@@ -12,17 +12,31 @@ node tools/validate.js --schema schema/base
 ls schema/base/data/
 ```
 
-To import into a database, pick an adapter:
+To import into JSM Assets or ServiceNow, configure your connection:
 
 ```bash
-# JSM Assets (Data Center)
-node adapters/jsm/import.js schema && node adapters/jsm/import.js sync
-
-# ServiceNow CMDB
-node adapters/servicenow/import.js schema && node adapters/servicenow/import.js sync
+cp .env.example .env    # copy the template
 ```
 
-See the [Getting Started Guide](docs/User-Guide/Part-1-CMDB-Concepts/01-00-Getting-Started.md) for full setup instructions including environment variables.
+Edit `.env` with your details. For **Cloud**, use your Atlassian site URL, email, and an [API token](https://id.atlassian.com/manage-profile/security/api-tokens). For **Data Center**, use your server URL, username, and password.
+
+```
+# Cloud example                          # Data Center example
+JSM_URL=https://yoursite.atlassian.net    JSM_URL=http://your-jsm:8080
+JSM_USER=you@example.com                 JSM_USER=admin
+JSM_PASSWORD=your-api-token              JSM_PASSWORD=password
+SCHEMA_KEY=CMDB                          SCHEMA_KEY=CMDB
+SCHEMA_DIR=schema/base                   SCHEMA_DIR=schema/base
+DATA_DIR=schema/base/data                DATA_DIR=schema/base/data
+```
+
+Then run the import:
+
+```bash
+node adapters/jsm/import.js schema && node adapters/jsm/import.js sync
+```
+
+See the [Getting Started Guide](docs/User-Guide/Part-1-CMDB-Concepts/01-00-Getting-Started.md) for full setup instructions including schema creation, ServiceNow, and troubleshooting.
 
 ## What's Included
 
@@ -54,7 +68,7 @@ Adapters connect the schema to specific CMDB platforms. Each adapter implements 
 
 | Adapter | Platform | Status |
 |---------|----------|--------|
-| [jsm](adapters/jsm/) | JSM Assets (Data Center) | Available |
+| [jsm](adapters/jsm/) | JSM Assets (Cloud and Data Center) | Available |
 | [servicenow](adapters/servicenow/) | ServiceNow CMDB | Available |
 
 See [Writing Adapters](docs/Developer-Manual/Part-2-Extending/02-01-Writing-Custom-Adapters.md) to build a custom adapter for another platform.

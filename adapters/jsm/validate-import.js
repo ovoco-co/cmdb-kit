@@ -27,7 +27,7 @@
 const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
-const { loadConfig, createApiClient, loadJsonFile, loadDataFile, mapAttrName, LOAD_PRIORITY, PERSONNEL_TYPES, C } = require('./lib');
+const { loadConfig, createApiClient, resolveWorkspaceId, loadJsonFile, loadDataFile, mapAttrName, LOAD_PRIORITY, PERSONNEL_TYPES, C } = require('./lib');
 
 // Fields to skip during comparison (JSM-internal or meta)
 const SKIP_FIELDS = new Set([
@@ -493,6 +493,8 @@ async function main() {
   console.log('==================================================');
   console.log(`  URL:    ${config.jsmUrl}`);
   console.log(`  Schema: ${config.schemaKey}`);
+
+  await resolveWorkspaceId(config, api);
 
   // Resolve schema
   let schemaId;

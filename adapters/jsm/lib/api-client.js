@@ -3,9 +3,14 @@
  *
  * Provides a unified HTTP client with:
  *  - Configurable base paths (Insight, Jira REST)
+ *  - Automatic Cloud vs Data Center routing
  *  - Request timeouts (default 30s)
  *  - Retry with exponential backoff for transient failures
  *  - Optional debug logging
+ *
+ * Cloud requests to the Assets/Insight API are routed through
+ * api.atlassian.com with the workspace ID in the path.
+ * All other API types (jira, servicedesk) hit the site URL directly.
  *
  * Usage:
  *   const { createApiClient } = require('./api-client');
@@ -33,23 +38,50 @@ function createApiClient(config, clientOptions = {}) {
     defaultApiType = 'insight',
   } = clientOptions;
 
-  const httpModule = config.isHttps ? https : http;
-
   function debug(msg, data) {
     if (!config.debug) return;
     console.log(`[DEBUG] ${msg}`);
     if (data !== undefined) console.log(JSON.stringify(data, null, 2));
   }
 
+  /**
+   * Resolve connection parameters for a request.
+   * Cloud 'insight' calls route to api.atlassian.com.
+   * Everything else goes to the configured JSM site URL.
+   */
+  function resolveConnection(apiType) {
+    if (config.isCloud && apiType === 'insight') {
+      if (!config.workspaceId) {
+        throw new Error(
+          'Cloud workspace ID not set. Call resolveWorkspaceId(config, api) before making Assets API calls.'
+        );
+      }
+      return {
+        hostname: 'api.atlassian.com',
+        port: 443,
+        basePath: `/jsm/assets/workspace/${config.workspaceId}/v1`,
+        useHttps: true,
+      };
+    }
+
+    return {
+      hostname: config.url.hostname,
+      port: config.url.port || (config.isHttps ? 443 : 80),
+      basePath: BASE_PATHS[apiType] || BASE_PATHS.insight,
+      useHttps: config.isHttps,
+    };
+  }
+
   function request(method, endpoint, data, opts = {}) {
     const apiType = opts.apiType || defaultApiType;
-    const basePath = BASE_PATHS[apiType] || BASE_PATHS.insight;
-    const fullPath = `${basePath}${endpoint}`;
+    const conn = resolveConnection(apiType);
+    const fullPath = `${conn.basePath}${endpoint}`;
+    const httpModule = conn.useHttps ? https : http;
 
     return new Promise((resolve, reject) => {
       const options = {
-        hostname: config.url.hostname,
-        port: config.url.port || (config.isHttps ? 443 : 80),
+        hostname: conn.hostname,
+        port: conn.port,
         path: fullPath,
         method,
         headers: {
@@ -60,7 +92,7 @@ function createApiClient(config, clientOptions = {}) {
         },
       };
 
-      debug(`${method} ${fullPath}`, data || undefined);
+      debug(`${method} ${conn.hostname}${fullPath}`, data || undefined);
 
       const req = httpModule.request(options, (res) => {
         let body = '';
@@ -93,8 +125,9 @@ function createApiClient(config, clientOptions = {}) {
         return await request(method, endpoint, data, opts);
       } catch (err) {
         lastError = err;
-        const retryable = err.status === 0 || err.status >= 500;
+        const retryable = err.status === 0 || err.status >= 500 || err.status === 429;
         if (!retryable || attempt >= maxRetries) throw err;
+        // Use Retry-After header if available, otherwise exponential backoff
         const delay = Math.pow(2, attempt + 1) * 1000;
         debug(`Retry ${attempt + 1}/${maxRetries} after ${delay}ms`);
         await new Promise(r => setTimeout(r, delay));

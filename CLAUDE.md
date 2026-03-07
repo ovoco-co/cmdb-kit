@@ -50,13 +50,8 @@ node tools/csv-to-json.js --schema schema/base --outdir schema/base/data csv-tem
 ### JSM Adapter
 
 ```bash
-# Set environment variables
-export JSM_URL=http://your-jsm:8080
-export JSM_USER=admin
-export JSM_PASSWORD=password
-export SCHEMA_KEY=CMDB
-export DATA_DIR=schema/base/data
-export SCHEMA_DIR=schema/base
+# Copy and edit .env file (or export variables)
+cp .env.example .env
 
 # Schema sync (run first)
 node adapters/jsm/import.js schema

@@ -1,23 +1,71 @@
 JSM Assets Adapter
 
-Adapter for Jira Service Management (JSM) Assets, also known as Insight. Provides bidirectional schema and data synchronization between local JSON files and a live JSM instance.
+Adapter for Jira Service Management (JSM) Assets, also known as Insight. Provides bidirectional schema and data synchronization between local JSON files and a live JSM instance. Supports both JSM Cloud and Data Center.
 
 ## Prerequisites
 
-- JSM with Assets/Insight enabled (JSM 5.x Data Center or Cloud with Assets)
+- JSM Cloud with Assets (Premium or Enterprise plan), or JSM Data Center 5.x with Assets/Insight
 - Admin credentials with Assets access
 - Node.js 18+ (or use Docker)
 
-## Environment Variables
+## Quick Start
+
+```bash
+# 1. Copy the example env file and fill in your values
+cp .env.example .env
+
+# 2. Validate the schema offline
+node tools/validate.js --schema schema/base
+
+# 3. Push schema to JSM
+node adapters/jsm/import.js schema
+
+# 4. Import data
+node adapters/jsm/import.js sync
+```
+
+## Configuration
+
+Set variables in a `.env` file at the project root, or export them in your shell. See `.env.example` for the full template.
+
+### Cloud
+
+```bash
+JSM_URL=https://yoursite.atlassian.net
+JSM_USER=you@example.com
+JSM_PASSWORD=your-api-token          # from id.atlassian.com
+SCHEMA_KEY=CMDB
+SCHEMA_DIR=schema/base
+DATA_DIR=schema/base/data
+```
+
+Generate an API token at https://id.atlassian.com/manage-profile/security/api-tokens
+
+The adapter auto-detects Cloud from the `.atlassian.net` hostname and fetches the Assets workspace ID automatically. To skip auto-detection, set `JSM_WORKSPACE_ID` explicitly.
+
+### Data Center
+
+```bash
+JSM_URL=http://your-jsm:8080
+JSM_USER=admin
+JSM_PASSWORD=password
+SCHEMA_KEY=CMDB
+SCHEMA_DIR=schema/base
+DATA_DIR=schema/base/data
+```
+
+### All Variables
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| JSM_URL | Yes | http://localhost:8080 | JSM instance URL (no trailing slash) |
-| JSM_USER | Yes | | Admin username |
-| JSM_PASSWORD | Yes | | Admin password |
+| JSM_URL | Yes | http://localhost:8080 | Cloud site URL or DC server URL |
+| JSM_USER | Yes | | Cloud: email address. DC: username |
+| JSM_PASSWORD | Yes | | Cloud: API token. DC: password |
 | SCHEMA_KEY | No | CMDB | Object schema key in JSM |
-| DATA_DIR | No | schema/base/data | Path to data JSON files |
 | SCHEMA_DIR | No | parent of DATA_DIR | Path to schema-structure.json and schema-attributes.json |
+| DATA_DIR | No | schema/base/data | Path to data JSON files |
+| JSM_WORKSPACE_ID | No | auto-detected | Cloud only: Assets workspace ID |
+| CREATE_SCHEMA | No | false | Set to 'true' to create the schema if missing |
 | DEBUG | No | false | Set to 'true' for HTTP debug logging |
 
 ## Scripts
@@ -94,21 +142,42 @@ node adapters/jsm/check-schema.js
 node adapters/jsm/check-schema.js --type "Application"
 ```
 
+## Cloud vs Data Center
+
+The adapter uses the same commands and data format for both platforms. The differences are handled automatically:
+
+| Aspect | Cloud | Data Center |
+|--------|-------|-------------|
+| API routing | api.atlassian.com via workspace ID | Direct to server /rest/insight/1.0 |
+| Auth | Email + API token (Basic auth) | Username + password (Basic auth) |
+| Detection | Automatic from .atlassian.net hostname | Default |
+| Workspace | Auto-fetched, or set JSM_WORKSPACE_ID | Not applicable |
+
+For Cloud API details, see:
+
+- [Assets REST API Guide](https://developer.atlassian.com/cloud/assets/assets-rest-api-guide/workflow/)
+- [Assets REST API Reference](https://developer.atlassian.com/cloud/assets/rest/api-group-object/)
+- [Creating Objects via REST API](https://support.atlassian.com/jira/kb/how-to-create-assets-objects-via-rest-api-based-on-different-attribute-type/)
+
+For Data Center, see:
+
+- [Insight REST API](https://docs.atlassian.com/assets/REST/) (bundled with JSM DC)
+
 ## Docker Usage
 
 Run any script via Docker without installing Node.js locally:
 
 ```bash
-# Schema sync
-docker run --rm --network your_network \
+# Schema sync (Cloud)
+docker run --rm \
   -v "$(pwd)":/app -w /app \
-  -e JSM_URL=http://jira:8080 \
-  -e JSM_USER=admin \
-  -e JSM_PASSWORD=password \
+  -e JSM_URL=https://yoursite.atlassian.net \
+  -e JSM_USER=you@example.com \
+  -e JSM_PASSWORD=your-api-token \
   -e SCHEMA_KEY=CMDB \
   node:20-alpine node adapters/jsm/import.js schema
 
-# Data sync
+# Data sync (Data Center)
 docker run --rm --network your_network \
   -v "$(pwd)":/app -w /app \
   -e JSM_URL=http://jira:8080 \
@@ -116,20 +185,7 @@ docker run --rm --network your_network \
   -e JSM_PASSWORD=password \
   -e SCHEMA_KEY=CMDB \
   node:20-alpine node adapters/jsm/import.js sync
-
-# Export with diff
-docker run --rm --network your_network \
-  -v "$(pwd)":/app -w /app \
-  -e JSM_URL=http://jira:8080 \
-  -e JSM_USER=admin \
-  -e JSM_PASSWORD=password \
-  -e SCHEMA_KEY=CMDB \
-  node:20-alpine node adapters/jsm/export.js --diff
 ```
-
-## API Path
-
-The adapter uses `/rest/insight/1.0` as the API base path, which works for both JSM Data Center (5.x) and older Insight standalone installations. This is configured in `lib/api-client.js`.
 
 ## File Layout
 
@@ -141,6 +197,6 @@ adapters/jsm/
   check-schema.js       Schema alignment checker (read-only)
   lib/
     index.js            Adapter library entry point
-    config.js           Configuration loader (env vars, paths)
-    api-client.js       HTTP client with retry and auth
+    config.js           Configuration loader (env vars, .env file, paths)
+    api-client.js       HTTP client with Cloud/DC routing, retry, auth
 ```
