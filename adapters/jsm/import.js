@@ -107,7 +107,8 @@ let totalErrors = 0;
 // ---------------------------------------------------------------------------
 async function getOrCreateSchema() {
   const list = await api.get('/objectschema/list');
-  const existing = list.objectschemas?.find(s => s.objectSchemaKey === config.schemaKey);
+  const schemas = list.objectschemas || list.values || [];
+  const existing = schemas.find(s => s.objectSchemaKey === config.schemaKey);
   if (existing) return existing.id;
 
   if (!config.createSchema) {
@@ -124,7 +125,8 @@ async function getOrCreateSchema() {
 }
 
 async function cacheTypeIds(schemaId) {
-  const types = await api.get(`/objectschema/${schemaId}/objecttypes/flat`);
+  const raw = await api.get(`/objectschema/${schemaId}/objecttypes/flat`);
+  const types = Array.isArray(raw) ? raw : (raw.values || raw.objectTypes || []);
   types.forEach(t => objectTypeIds[t.name] = t.id);
 }
 
@@ -273,10 +275,16 @@ async function syncAttributes(schemaId) {
 // ---------------------------------------------------------------------------
 async function resolveReference(schemaId, targetTypeId, targetName) {
   if (!targetTypeId || !targetName) return null;
-  const iql = `objectTypeId = ${targetTypeId} AND Name = "${targetName}"`;
-  const qs = querystring.stringify({ objectSchemaId: schemaId, iql, page: 1, resultPerPage: 1 });
+  const aql = `objectTypeId = ${targetTypeId} AND Name = "${targetName}"`;
   try {
-    const res = await api.get(`/iql/objects?${qs}`);
+    let res;
+    if (config.isCloud) {
+      const qs = querystring.stringify({ qlQuery: aql, page: 1, resultPerPage: 1, includeAttributes: false });
+      res = await api.get(`/aql/objects?${qs}`);
+    } else {
+      const qs = querystring.stringify({ objectSchemaId: schemaId, iql: aql, page: 1, resultPerPage: 1 });
+      res = await api.get(`/iql/objects?${qs}`);
+    }
     if (res.objectEntries?.[0]) return res.objectEntries[0].id;
   } catch (e) {
     console.error(`    ! Reference lookup failed for "${targetName}": ${JSON.stringify(e.error) || e.status || e}`);

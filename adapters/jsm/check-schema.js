@@ -95,8 +95,8 @@ Examples:
 // ---------------------------------------------------------------------------
 
 async function resolveSchemaId(api, schemaKey) {
-  const schemas = await api.get('/objectschema/list');
-  const list = schemas.objectschemas || schemas;
+  const raw = await api.get('/objectschema/list');
+  const list = raw.objectschemas || raw.values || raw;
   if (!Array.isArray(list)) throw new Error('Unexpected response from /objectschema/list');
   const schema = list.find(s => s.objectSchemaKey === schemaKey);
   if (!schema) {

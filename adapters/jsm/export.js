@@ -122,8 +122,8 @@ Examples:
 // ---------------------------------------------------------------------------
 
 async function resolveSchemaId(api, schemaKey) {
-  const schemas = await api.get('/objectschema/list');
-  const list = schemas.objectschemas || schemas;
+  const raw = await api.get('/objectschema/list');
+  const list = raw.objectschemas || raw.values || raw;
   if (!Array.isArray(list)) throw new Error('Unexpected response from /objectschema/list');
   const schema = list.find(s => s.objectSchemaKey === schemaKey);
   if (!schema) {
@@ -147,20 +147,22 @@ async function fetchTypeAttributes(api, typeId) {
   return Array.isArray(attrs) ? attrs : [];
 }
 
-async function fetchAllObjects(api, schemaId, typeId) {
+async function fetchAllObjects(api, config, schemaId, typeId) {
   const all = [];
   let page = 1;
+  const aql = `objectTypeId = ${typeId}`;
   while (true) {
-    const qs = querystring.stringify({
-      objectSchemaId: schemaId,
-      iql: `objectTypeId = ${typeId}`,
-      resultPerPage: 500,
-      page,
-    });
-    const res = await api.get(`/iql/objects?${qs}`);
+    let res;
+    if (config.isCloud) {
+      const qs = querystring.stringify({ qlQuery: aql, resultPerPage: 500, page });
+      res = await api.get(`/aql/objects?${qs}`);
+    } else {
+      const qs = querystring.stringify({ objectSchemaId: schemaId, iql: aql, resultPerPage: 500, page });
+      res = await api.get(`/iql/objects?${qs}`);
+    }
     const entries = res.objectEntries || [];
     all.push(...entries);
-    if (!entries.length || all.length >= (res.totalFilterCount || 0)) break;
+    if (!entries.length || all.length >= (res.totalFilterCount || res.total || 0)) break;
     page++;
   }
   return all;
@@ -324,11 +326,11 @@ function detectFormat(typeName, dataDir) {
 // Export a single type
 // ---------------------------------------------------------------------------
 
-async function exportType(typeName, typeId, schemaId, api, outdir, dataDir) {
+async function exportType(typeName, typeId, schemaId, api, config, outdir, dataDir) {
   let entries, attrDefs;
   try {
     [entries, attrDefs] = await Promise.all([
-      fetchAllObjects(api, schemaId, typeId),
+      fetchAllObjects(api, config, schemaId, typeId),
       fetchTypeAttributes(api, typeId),
     ]);
   } catch (err) {
@@ -655,7 +657,7 @@ async function main() {
       continue;
     }
 
-    const exportResult = await exportType(typeName, typeId, schemaId, api, outdir, config.dataDir);
+    const exportResult = await exportType(typeName, typeId, schemaId, api, config, outdir, config.dataDir);
     results.push(exportResult);
 
     if (options.diff) {
