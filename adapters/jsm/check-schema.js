@@ -107,13 +107,15 @@ async function resolveSchemaId(api, schemaKey) {
 }
 
 async function fetchObjectTypes(api, schemaId) {
-  const types = await api.get(`/objectschema/${schemaId}/objecttypes/flat`);
-  return Array.isArray(types) ? types : [];
+  const raw = await api.get(`/objectschema/${schemaId}/objecttypes/flat`);
+  if (Array.isArray(raw)) return raw;
+  return raw.values || raw.objectTypes || [];
 }
 
 async function fetchTypeAttributes(api, typeId) {
-  const attrs = await api.get(`/objecttype/${typeId}/attributes`);
-  return Array.isArray(attrs) ? attrs : [];
+  const raw = await api.get(`/objecttype/${typeId}/attributes`);
+  if (Array.isArray(raw)) return raw;
+  return raw.values || raw.objectTypeAttributes || [];
 }
 
 // ---------------------------------------------------------------------------

@@ -115,7 +115,8 @@ async function resolveSchemaId(api, schemaKey) {
 }
 
 async function cacheTypeIds(api, schemaId) {
-  const types = await api.get(`/objectschema/${schemaId}/objecttypes/flat`);
+  const raw = await api.get(`/objectschema/${schemaId}/objecttypes/flat`);
+  const types = Array.isArray(raw) ? raw : (raw.values || raw.objectTypes || []);
   const map = {};
   if (Array.isArray(types)) {
     for (const t of types) map[t.name] = t.id;
@@ -124,8 +125,9 @@ async function cacheTypeIds(api, schemaId) {
 }
 
 async function fetchTypeAttributes(api, typeId) {
-  const attrs = await api.get(`/objecttype/${typeId}/attributes`);
-  return Array.isArray(attrs) ? attrs : [];
+  const raw = await api.get(`/objecttype/${typeId}/attributes`);
+  if (Array.isArray(raw)) return raw;
+  return raw.values || raw.objectTypeAttributes || [];
 }
 
 async function fetchAllObjects(api, config, schemaId, typeId) {

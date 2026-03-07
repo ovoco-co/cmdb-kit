@@ -130,16 +130,32 @@ async function cacheTypeIds(schemaId) {
   types.forEach(t => objectTypeIds[t.name] = t.id);
 }
 
-async function createObjectType(schemaId, name, parentName = null, iconId = '1', description = '') {
-  if (objectTypeIds[name]) {
-    if (description) {
-      try { await api.put(`/objecttype/${objectTypeIds[name]}`, { description }); } catch (_e) { /* non-fatal */ }
+let defaultIconId = null;
+
+async function resolveDefaultIcon() {
+  if (defaultIconId) return defaultIconId;
+  try {
+    const icons = await api.get('/icon/global');
+    const list = Array.isArray(icons) ? icons : (icons.values || []);
+    if (list.length > 0) {
+      defaultIconId = String(list[0].id);
+      return defaultIconId;
     }
+  } catch (_e) { /* fall through */ }
+  return '1';
+}
+
+async function createObjectType(schemaId, name, parentName = null, iconId = null, description = '') {
+  const resolvedIcon = iconId || await resolveDefaultIcon();
+
+  if (objectTypeIds[name]) {
+    const updates = { iconId: resolvedIcon };
+    if (description) updates.description = description;
+    try { await api.put(`/objecttype/${objectTypeIds[name]}`, updates); } catch (_e) { /* non-fatal */ }
     console.log(`  - Exists: ${name}`);
     return objectTypeIds[name];
   }
-
-  const payload = { name, objectSchemaId: schemaId, iconId };
+  const payload = { name, objectSchemaId: schemaId, iconId: resolvedIcon };
   if (description) payload.description = description;
   if (parentName && objectTypeIds[parentName]) {
     payload.parentObjectTypeId = objectTypeIds[parentName];
@@ -199,7 +215,8 @@ async function syncAttributes(schemaId) {
     if (!typeId) { console.log(`  Skipping ${typeName} (type not found)`); continue; }
 
     console.log(`  ${typeName}...`);
-    const existingAttrs = await api.get(`/objecttype/${typeId}/attributes`);
+    const existingAttrsRaw = await api.get(`/objecttype/${typeId}/attributes`);
+    const existingAttrs = Array.isArray(existingAttrsRaw) ? existingAttrsRaw : (existingAttrsRaw.values || existingAttrsRaw.objectTypeAttributes || []);
     const existingByName = {};
     existingAttrs.forEach(a => existingByName[a.name.toLowerCase()] = a);
 
@@ -323,7 +340,8 @@ async function processType(typeName, schemaId, mode) {
 
 async function importDataRows(data, typeId, schemaId, typeName, mode) {
   let added = 0, updated = 0, skipped = 0, errors = 0;
-  const attrsDef = await api.get(`/objecttype/${typeId}/attributes`);
+  const attrsDefRaw = await api.get(`/objecttype/${typeId}/attributes`);
+  const attrsDef = Array.isArray(attrsDefRaw) ? attrsDefRaw : (attrsDefRaw.values || attrsDefRaw.objectTypeAttributes || []);
 
   for (const item of data) {
     const name = item.Name || item.name;
@@ -369,7 +387,12 @@ async function importDataRows(data, typeId, schemaId, typeName, mode) {
         if (def.type === 1) {
           const override = attrConfig[typeName]?.[key] || attrConfig[typeName]?.[searchName];
           let targetTypeId = override?.referenceType ? objectTypeIds[override.referenceType] : null;
-          if (!targetTypeId && def.defaultType) targetTypeId = def.defaultType.typeValue;
+          if (!targetTypeId) {
+            targetTypeId = def.typeValue || def.referenceObjectTypeId
+              || (def.defaultType && def.defaultType.typeValue)
+              || (def.referenceObjectType && def.referenceObjectType.id)
+              || null;
+          }
           if (targetTypeId) {
             const refId = await resolveReference(schemaId, targetTypeId, v);
             if (refId) finalVal = refId;
