@@ -169,12 +169,16 @@ async function createObjectType(schemaId, name, parentName = null, iconId = null
     if (description) {
       try { await api.put(`/objecttype/${objectTypeIds[name]}`, { description }); } catch (_e) { /* non-fatal */ }
     }
-    console.log(`  - Exists: ${name}`);
+    console.log(`  - Exists: ${name} (icons and settings preserved)`);
     return objectTypeIds[name];
   }
 
   const payload = { name, objectSchemaId: schemaId };
-  // Only set iconId on DC where numeric IDs work. Cloud assigns a default icon automatically.
+  // Cloud: global icon IDs from /icon/global cause broken images when assigned via
+  // the API. Skip icon assignment and let Cloud use its defaults. Users can customise
+  // icons in the UI afterwards; they persist across schema syncs because existing
+  // types are never recreated.
+  // DC: numeric icon IDs from /icon/global work fine.
   if (!config.isCloud) {
     payload.iconId = iconId || await resolveDefaultIcon();
   }
@@ -207,6 +211,9 @@ async function syncStructure(schemaId) {
   const childTypes = structure.filter(t => t.parent);
 
   console.log(`  Loaded ${structure.length} types`);
+  if (config.isCloud) {
+    console.log('  Note: Cloud does not support icon assignment via API. Customise icons in the UI; they persist across syncs.');
+  }
 
   console.log('\n  Creating root types...');
   for (const type of rootTypes) {

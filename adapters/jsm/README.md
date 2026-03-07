@@ -152,6 +152,9 @@ The adapter uses the same commands and data format for both platforms. The diffe
 | Auth | Email + API token (Basic auth) | Username + password (Basic auth) |
 | Detection | Automatic from .atlassian.net hostname | Default |
 | Workspace | Auto-fetched, or set JSM_WORKSPACE_ID | Not applicable |
+| Icons | Not set via API (Cloud limitation); customise in UI | Set automatically from global icons |
+
+Icons assigned via the Cloud REST API render as broken images in the type tree. The adapter skips icon assignment on Cloud and lets the platform use its defaults. You can customise icons manually in the JSM Assets UI, and your choices persist across subsequent schema syncs because the adapter never recreates existing types.
 
 For Cloud API details, see:
 
