@@ -131,6 +131,7 @@ async function cacheTypeIds(schemaId) {
 }
 
 let defaultIconId = null;
+let defaultRefTypeId = null;
 
 async function resolveDefaultIcon() {
   if (defaultIconId) return defaultIconId;
@@ -138,24 +139,45 @@ async function resolveDefaultIcon() {
     const icons = await api.get('/icon/global');
     const list = Array.isArray(icons) ? icons : (icons.values || []);
     if (list.length > 0) {
-      defaultIconId = String(list[0].id);
+      const icon = list[0];
+      defaultIconId = String(icon.id);
+      console.log(`  Icon: ${icon.name} (ID: ${defaultIconId})`);
       return defaultIconId;
     }
   } catch (_e) { /* fall through */ }
   return '1';
 }
 
-async function createObjectType(schemaId, name, parentName = null, iconId = null, description = '') {
-  const resolvedIcon = iconId || await resolveDefaultIcon();
+async function resolveDefaultRefType() {
+  if (defaultRefTypeId) return defaultRefTypeId;
+  try {
+    const refTypes = await api.get('/config/referencetype');
+    const list = Array.isArray(refTypes) ? refTypes : (refTypes.values || []);
+    if (list.length > 0) {
+      // Prefer "Dependency" or "Link", fall back to the first available
+      const preferred = list.find(r => /dependency|link|reference/i.test(r.name));
+      defaultRefTypeId = String((preferred || list[0]).id);
+      console.log(`  Reference type: ${(preferred || list[0]).name} (ID: ${defaultRefTypeId})`);
+      return defaultRefTypeId;
+    }
+  } catch (_e) { /* fall through */ }
+  return '1';
+}
 
+async function createObjectType(schemaId, name, parentName = null, iconId = null, description = '') {
   if (objectTypeIds[name]) {
-    const updates = { iconId: resolvedIcon };
-    if (description) updates.description = description;
-    try { await api.put(`/objecttype/${objectTypeIds[name]}`, updates); } catch (_e) { /* non-fatal */ }
+    if (description) {
+      try { await api.put(`/objecttype/${objectTypeIds[name]}`, { description }); } catch (_e) { /* non-fatal */ }
+    }
     console.log(`  - Exists: ${name}`);
     return objectTypeIds[name];
   }
-  const payload = { name, objectSchemaId: schemaId, iconId: resolvedIcon };
+
+  const payload = { name, objectSchemaId: schemaId };
+  // Only set iconId on DC where numeric IDs work. Cloud assigns a default icon automatically.
+  if (!config.isCloud) {
+    payload.iconId = iconId || await resolveDefaultIcon();
+  }
   if (description) payload.description = description;
   if (parentName && objectTypeIds[parentName]) {
     payload.parentObjectTypeId = objectTypeIds[parentName];
@@ -234,8 +256,7 @@ async function syncAttributes(schemaId) {
           if (refTypeId) {
             payload.type = 1;
             payload.typeValue = refTypeId.toString();
-            payload.additionalValue = '1';
-            if (attrDef.max === -1) payload.maximumCardinality = -1;
+            payload.additionalValue = await resolveDefaultRefType();
           } else {
             console.log(`      ! Ref target "${attrDef.referenceType}" not found, creating as text`);
             payload.type = 0;
@@ -252,13 +273,14 @@ async function syncAttributes(schemaId) {
           const currentRefTypeId = String(existing.typeValue || existing.defaultType?.typeValue || '');
 
           const refMismatch = payload.type === 1 && payload.typeValue && currentRefTypeId !== payload.typeValue;
-          const cardMismatch = payload.maximumCardinality === -1 && existing.maximumCardinality !== -1;
+          const cardMismatch = attrDef.max === -1 && existing.maximumCardinality !== -1;
 
           if (refMismatch || cardMismatch) {
             await api.del(`/objecttypeattribute/${existing.id}`);
             const created2 = await api.post(`/objecttypeattribute/${typeId}`, payload);
-            if (payload.maximumCardinality === -1 && created2?.id) {
-              await api.put(`/objecttypeattribute/${typeId}/${created2.id}`, { maximumCardinality: -1 });
+            if (attrDef.max === -1 && created2?.id) {
+              const cardPayload = { ...payload, maximumCardinality: -1, minimumCardinality: 0 };
+              await api.put(`/objecttypeattribute/${typeId}/${created2.id}`, cardPayload);
             }
             updated++;
           } else if (existing.type !== payload.type ||
@@ -268,8 +290,10 @@ async function syncAttributes(schemaId) {
           }
         } else {
           const created2 = await api.post(`/objecttypeattribute/${typeId}`, payload);
-          if (payload.maximumCardinality === -1 && created2?.id) {
-            await api.put(`/objecttypeattribute/${typeId}/${created2.id}`, { maximumCardinality: -1 });
+          if (attrDef.max === -1 && created2?.id) {
+            // Cloud requires the full attribute definition to update cardinality
+            const cardPayload = { ...payload, maximumCardinality: -1, minimumCardinality: 0 };
+            await api.put(`/objecttypeattribute/${typeId}/${created2.id}`, cardPayload);
           }
           created++;
         }
