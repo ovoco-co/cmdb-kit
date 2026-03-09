@@ -1,0 +1,8 @@
+[
+  { "Name": "Planned", "description": "Deployment is scheduled", "sortOrder": 1 },
+  { "Name": "In Progress", "description": "Deployment is actively running", "sortOrder": 2 },
+  { "Name": "Deployed", "description": "Deployment is live and operational", "sortOrder": 3 },
+  { "Name": "Completed", "description": "Deployment finished successfully", "sortOrder": 4 },
+  { "Name": "Rolled Back", "description": "Deployment was reverted", "sortOrder": 5 },
+  { "Name": "Failed", "description": "Deployment did not complete successfully", "sortOrder": 6 }
+]

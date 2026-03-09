@@ -1,0 +1,50 @@
+[
+  {
+    "Name": "Contact Manager",
+    "description": "Contact and company record management module",
+    "componentType": "Service",
+    "repository": "ovoco/contact-manager",
+    "technology": "Node.js, TypeScript",
+    "owner": "Platform Engineering"
+  },
+  {
+    "Name": "Deal Pipeline",
+    "description": "Sales pipeline and opportunity tracking",
+    "componentType": "Service",
+    "repository": "ovoco/deal-pipeline",
+    "technology": "Node.js, TypeScript",
+    "owner": "Platform Engineering"
+  },
+  {
+    "Name": "Email Integration",
+    "description": "Two-way email sync and tracking",
+    "componentType": "Service",
+    "repository": "ovoco/email-integration",
+    "technology": "Go, IMAP/SMTP",
+    "owner": "Platform Engineering"
+  },
+  {
+    "Name": "REST API",
+    "description": "Public-facing REST API for third-party integrations",
+    "componentType": "Gateway",
+    "repository": "ovoco/rest-api",
+    "technology": "Node.js, Express",
+    "owner": "Platform Engineering"
+  },
+  {
+    "Name": "Webhook Service",
+    "description": "Outbound webhook delivery and retry management",
+    "componentType": "Service",
+    "repository": "ovoco/webhook-service",
+    "technology": "Go, RabbitMQ",
+    "owner": "Platform Engineering"
+  },
+  {
+    "Name": "Report Generator",
+    "description": "Generates scheduled and ad-hoc reports from CRM data",
+    "componentType": "Service",
+    "repository": "ovoco/report-generator",
+    "technology": "Python, Pandas",
+    "owner": "Data Engineering"
+  }
+]

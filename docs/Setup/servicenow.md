@@ -1,0 +1,307 @@
+# ServiceNow Setup
+
+A complete walkthrough for importing CMDB-Kit into ServiceNow CMDB via the Table API. This guide explains how CMDB-Kit's schema maps to ServiceNow's native CMDB model, walks through every step of the import, and covers the differences you will encounter compared to the JSM adapter.
+
+
+# How CMDB-Kit Maps to ServiceNow
+
+## ServiceNow's native CMDB model
+
+ServiceNow ships with a large out-of-the-box (OOTB) CMDB built around the `cmdb_ci` base table. Types like Application (`cmdb_ci_appl`), Server (`cmdb_ci_server`), and Database (`cmdb_ci_database`) are pre-defined CI classes that extend `cmdb_ci`. ServiceNow also has standalone tables for non-CI data: `sys_user` for people, `core_company` for organizations, `cmn_location` for locations, and `change_request` and `incident` for ITSM records.
+
+CMDB-Kit's schema does not assume any of these tables exist. The ServiceNow adapter bridges the gap by mapping CMDB-Kit types to ServiceNow tables in three tiers.
+
+## The three-tier type mapping
+
+**Tier 1: OOTB tables.** Types that map directly to built-in ServiceNow tables. The adapter writes to these tables using their native column names. No table creation is needed.
+
+| CMDB-Kit Type | ServiceNow Table |
+|---|---|
+| Application | cmdb_ci_appl |
+| Server | cmdb_ci_server |
+| Database | cmdb_ci_database |
+| Hardware Model | cmdb_hardware_product_model |
+| Network Segment | cmdb_ci_ip_network |
+| Virtual Machine | cmdb_ci_vm_instance |
+| License | alm_license |
+| SLA | contract_sla |
+| Organization | core_company |
+| Team | sys_user_group |
+| Person | sys_user |
+| Location | cmn_location |
+| Vendor | core_company (with vendor flag) |
+
+**Tier 2: Custom CI classes.** Types that extend `cmdb_ci` but do not have an OOTB equivalent. The adapter creates these tables with the configured prefix (default `u_cmdbk_`).
+
+| CMDB-Kit Type | ServiceNow Table |
+|---|---|
+| Product Component | u_cmdbk_product_component |
+| Feature | u_cmdbk_feature |
+| Assessment | u_cmdbk_assessment |
+
+**Tier 3: Custom standalone tables.** Product Library types and lookup types that are not CIs. These are standalone tables, not CI classes.
+
+| CMDB-Kit Type | ServiceNow Table |
+|---|---|
+| Product Version | u_cmdbk_product_version |
+| Document | u_cmdbk_document |
+| Deployment | u_cmdbk_deployment |
+| All lookup types | u_cmdbk_{type_name} |
+
+## Lookup types in ServiceNow
+
+By default, every lookup type (Application Status, Environment Type, etc.) creates a custom reference table with `name` and `description` columns. This preserves descriptions and keeps the adapter logic uniform across all types.
+
+If you prefer to use ServiceNow's native choice lists for lookups that have OOTB equivalents, set the lookup strategy to hybrid:
+
+```bash
+export SN_LOOKUP_STRATEGY=hybrid
+```
+
+The `hybrid` strategy maps OOTB-equivalent lookups to ServiceNow choice list values and creates custom tables only for lookups that have no OOTB match.
+
+
+# Prerequisites
+
+## ServiceNow instance
+
+You need a ServiceNow instance with admin access. A Personal Developer Instance (PDI) from developer.servicenow.com works for testing. For production use, you need an enterprise instance with API access enabled.
+
+For custom table creation via the API, the instance needs the `glide.rest.create_metadata` system property set to `true`. This allows the adapter to create Tier 2 and Tier 3 tables automatically. If your instance is locked down and you cannot set this property, use the `--report-only` flag to generate manual creation instructions instead.
+
+## Credentials
+
+You need a username and password for an account with the `admin` role. The adapter authenticates via HTTP basic auth against the Table API.
+
+If your organization uses LDAP or SSO for ServiceNow authentication and the admin account does not have a local password, you have two options: create a dedicated service account with local credentials, or use `--skip-users` to skip Person record imports and match existing users by name.
+
+## Local tools
+
+- Node.js 18 or later
+- Git (to clone the repository)
+- A terminal with `bash` or equivalent
+
+
+# Environment Setup
+
+Set the following environment variables before running any adapter commands.
+
+```bash
+# Required: ServiceNow connection
+export SN_INSTANCE=https://dev12345.service-now.com  # Your instance URL, no trailing slash
+export SN_USER=admin                                  # Admin username
+export SN_PASSWORD=your-password                      # Password
+
+# Required: Schema source
+export SCHEMA_DIR=schema/base                         # Directory containing schema JSON files
+export DATA_DIR=schema/base/data                      # Directory containing data JSON files
+
+# Optional: Configuration
+export SN_TABLE_PREFIX=u_cmdbk                        # Custom table prefix (default: u_cmdbk)
+export SN_LOOKUP_STRATEGY=table                       # table or hybrid (default: table)
+export SN_BATCH_SIZE=200                              # Records per pagination batch
+export SN_REQUEST_DELAY=100                           # Delay between API calls in ms
+export DEBUG=true                                     # HTTP debug logging
+```
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| SN_INSTANCE | Yes | none | ServiceNow instance URL |
+| SN_USER | Yes | | Admin username |
+| SN_PASSWORD | Yes | | Password |
+| SCHEMA_DIR | No | schema/base | Path to schema-structure.json and schema-attributes.json |
+| DATA_DIR | No | schema/base/data | Path to data JSON files |
+| SN_TABLE_PREFIX | No | u_cmdbk | Prefix for custom tables |
+| SN_LOOKUP_STRATEGY | No | table | Lookup mapping strategy (table or hybrid) |
+| SN_BATCH_SIZE | No | 200 | Records per pagination batch |
+| SN_REQUEST_DELAY | No | 100 | Delay between API calls in milliseconds |
+| DEBUG | No | false | HTTP debug logging |
+
+## Table prefix
+
+Custom tables use the `u_` prefix (global scope) by default. This avoids requiring a scoped application install on the instance. If your organization requires scoped apps, set:
+
+```bash
+export SN_TABLE_PREFIX=x_cmdbk
+```
+
+Scoped app tables require the app to be installed on the instance before the adapter can create tables under its namespace.
+
+## Choosing a schema layer
+
+| Schema | Best for |
+|--------|----------|
+| Base (schema/base) | Getting started, small teams, proof of concept |
+| Extended (schema/extended) | Full CMDB with baselines, compliance, licensing, and SLA management |
+| Enterprise (schema/enterprise) | Financial tracking, EA modeling, requirements, configuration library |
+
+Start with base. You can switch to extended or enterprise later by changing `SCHEMA_DIR` and `DATA_DIR` and re-running the import. Extended includes everything in base plus more types, and enterprise includes everything in extended plus more.
+
+
+# Running the Import
+
+## Step 1: Test connectivity
+
+Verify that the adapter can reach your ServiceNow instance and authenticate.
+
+```bash
+node adapters/servicenow/import.js --test-connection
+```
+
+This makes a single API call to confirm credentials and connectivity. If it fails, check your `SN_INSTANCE` URL (no trailing slash), username, and password.
+
+## Step 2: Validate locally
+
+Before touching ServiceNow, confirm that your schema and data files are internally consistent.
+
+```bash
+node tools/validate.js --schema schema/base
+```
+
+Fix any errors before proceeding. The validator output tells you exactly what is wrong.
+
+## Step 3: Schema sync
+
+This creates all custom tables (Tier 2 and Tier 3) and their columns in ServiceNow. Run this first.
+
+```bash
+node adapters/servicenow/import.js schema
+```
+
+What happens:
+
+1. Connects to ServiceNow and authenticates
+2. For Tier 1 types, verifies that the OOTB tables exist and adds any missing custom columns
+3. For Tier 2 and Tier 3 types, creates custom tables with the configured prefix
+4. Creates all columns on each table, including reference columns linking between tables
+
+**Dry run:** To see what would happen without making changes:
+
+```bash
+node adapters/servicenow/import.js schema --dry-run
+```
+
+**Report only:** If your instance does not allow API-based table creation, generate manual creation instructions:
+
+```bash
+node adapters/servicenow/import.js schema --report-only
+```
+
+This outputs a report listing every table and column that needs to be created, which you can hand to a ServiceNow administrator.
+
+## Step 4: Data sync
+
+This imports all records from your data JSON files, respecting the LOAD_PRIORITY order.
+
+```bash
+node adapters/servicenow/import.js sync
+```
+
+The LOAD_PRIORITY order in `tools/lib/constants.js` controls which types are imported first. Lookup types go first, then directory types, then CIs, and finally library types that reference everything else.
+
+**Import modes:**
+
+```bash
+# Create new records and update existing ones (default)
+node adapters/servicenow/import.js sync
+
+# Create only, skip records that already exist
+node adapters/servicenow/import.js create
+
+# Update only, skip records not found in ServiceNow
+node adapters/servicenow/import.js update
+
+# Import a single type
+node adapters/servicenow/import.js sync --type "Application"
+
+# Import multiple specific types
+node adapters/servicenow/import.js sync --type "Server,Database"
+
+# Dry run
+node adapters/servicenow/import.js sync --dry-run
+```
+
+## Step 5: Review the output
+
+The import prints a summary showing how many records were added, updated, skipped, or errored for each type. A successful import has zero errors.
+
+If you see errors, check:
+
+1. Is the referenced record actually in ServiceNow? (Check LOAD_PRIORITY order)
+2. Does the Name in your data file match exactly? (Case-sensitive)
+3. Is the attribute name in your data file correct? (camelCase, matching schema-attributes.json)
+4. For 403 errors on table creation, see [Troubleshooting](#troubleshooting)
+
+
+# Verifying the Result
+
+After import, run the validation tools to confirm everything landed correctly.
+
+## Post-import validation
+
+Compares local data files field-by-field against live ServiceNow data.
+
+```bash
+# Full validation
+node adapters/servicenow/validate-import.js
+
+# Quick count check (faster, skips field comparison)
+node adapters/servicenow/validate-import.js --skip-fields --summary-only
+
+# Validate one type
+node adapters/servicenow/validate-import.js --type "Application"
+```
+
+## Schema check
+
+Compares local schema definitions against live ServiceNow tables and columns. Read-only, makes no changes.
+
+```bash
+# Full schema check
+node adapters/servicenow/check-schema.js
+
+# Check one type with verbose output
+node adapters/servicenow/check-schema.js --type "Server" --verbose
+```
+
+## Browsing in the ServiceNow UI
+
+For Tier 1 types, navigate to the standard CMDB views. Open **Configuration** in the application navigator and browse CI classes like Application, Server, and Database to see imported records.
+
+For Tier 2 and Tier 3 types, search the application navigator for the table name (e.g., `u_cmdbk_product_version`) or use the **System Definition > Tables** module to find and open custom tables.
+
+ServiceNow's CMDB Map view shows relationship graphs between CIs, similar to JSM Assets' graph view.
+
+
+# Replacing Example Data with Your Own
+
+The process for replacing example data is the same as described in the [JSM Setup Guide](03-01-JSM-Assets-Setup.md#replacing-example-data-with-your-own). Edit the JSON data files or use the CSV workflow, then re-run the import.
+
+ServiceNow-specific notes:
+
+- **Person records and LDAP.** If your ServiceNow instance provisions users through LDAP or SSO, use `--skip-users` to skip Person record imports. The adapter will match existing `sys_user` records by name when resolving references from other types.
+
+
+# Troubleshooting
+
+**403 on table creation.** The admin user needs the `admin` role and the `glide.rest.create_metadata` system property must be set to `true`. Navigate to **System Properties > All** in ServiceNow and search for `glide.rest.create_metadata`. If you cannot change this property, use `--report-only` to generate manual creation instructions.
+
+**Person records fail to import.** ServiceNow `sys_user` records are typically provisioned by LDAP or SSO, not created via the Table API. Use `--skip-users` to skip Person records. The adapter will still resolve Person references from other types by matching against existing `sys_user` records by name.
+
+**Rate limiting on developer instances.** Personal Developer Instances have lower API rate limits than production instances. If you see throttling errors, increase the delay between API calls:
+
+```bash
+export SN_REQUEST_DELAY=200
+```
+
+
+**Custom columns not appearing.** After schema sync, ServiceNow may cache the table schema. Navigate to the table definition in **System Definition > Tables** and verify the columns exist. If they appear there but not in forms or lists, update the form layout to include the new fields.
+
+
+# Next Steps
+
+- [Other Platforms](other-platforms.md) for options beyond JSM and ServiceNow
+- [Schema Reference](../Internals/schema-reference.md) for all types and attributes
+- [Editing Data](../Data/editing-data.md) for JSON editing and the CSV workflow
+- [Writing Adapters](../Extending/writing-custom-adapters.md) to connect to a new CMDB platform
+- [ServiceNow Adapter Reference](../../../adapters/servicenow/README.md) for all adapter commands and options

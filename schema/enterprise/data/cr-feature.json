@@ -1,0 +1,5 @@
+[
+  { "Name": "CR Advanced Reporting", "description": "Customizable report builder with pivot tables", "featureType": "Enhancement", "version": "2.4.0", "releaseDate": "2025-09-15", "status": "Released", "implementedIn": "CR Core Platform" },
+  { "Name": "CR Workflow Automation", "description": "Rule-based workflow engine for CRM processes", "featureType": "New Feature", "version": "2.3.0", "releaseDate": "2025-03-01", "status": "Released", "implementedIn": "CR Core Platform" },
+  { "Name": "CR GraphQL API", "description": "GraphQL endpoint for flexible data queries", "featureType": "Enhancement", "version": "2.4.0", "releaseDate": "2025-09-15", "status": "Released", "implementedIn": "CR API Gateway" }
+]

@@ -1,0 +1,6 @@
+[
+  { "Name": "Tolerate", "description": "Application is adequate, no investment planned" },
+  { "Name": "Invest", "description": "Application is strategic, invest in enhancement" },
+  { "Name": "Migrate", "description": "Application to be replaced by a target solution" },
+  { "Name": "Eliminate", "description": "Application to be decommissioned" }
+]

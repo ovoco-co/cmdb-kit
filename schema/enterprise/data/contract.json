@@ -1,0 +1,32 @@
+[
+  {
+    "Name": "Ovoco Cloud Infrastructure Agreement",
+    "description": "Master cloud infrastructure agreement covering compute, storage, and networking",
+    "vendor": "Elastic NV",
+    "status": "Active",
+    "startDate": "2025-10-01",
+    "endDate": "2026-09-30",
+    "value": "$120,000/year",
+    "contractManager": "Casey Morgan"
+  },
+  {
+    "Name": "Ovoco Support Contract",
+    "description": "Enterprise support contract for Redis and messaging infrastructure",
+    "vendor": "Redis Ltd",
+    "status": "Active",
+    "startDate": "2025-04-01",
+    "endDate": "2027-03-01",
+    "value": "$48,000/year",
+    "contractManager": "Alex Chen"
+  },
+  {
+    "Name": "Ovoco Email Delivery Agreement",
+    "description": "Email delivery service agreement for transactional and marketing emails",
+    "vendor": "Twilio",
+    "status": "Active",
+    "startDate": "2025-01-01",
+    "endDate": "2026-12-31",
+    "value": "$24,000/year",
+    "contractManager": "Morgan Blake"
+  }
+]

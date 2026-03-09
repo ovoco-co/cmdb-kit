@@ -1,0 +1,6 @@
+[
+  { "Name": "Active", "description": "Site is operational" },
+  { "Name": "Provisioning", "description": "Site is being set up" },
+  { "Name": "Maintenance", "description": "Site is under maintenance" },
+  { "Name": "Decommissioned", "description": "Site has been shut down" }
+]

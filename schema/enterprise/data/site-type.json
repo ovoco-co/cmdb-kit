@@ -1,0 +1,8 @@
+[
+  { "Name": "On-Premise", "description": "Customer-hosted on-premise deployment", "sortOrder": 1 },
+  { "Name": "Cloud Hosted", "description": "Ovoco-managed cloud deployment", "sortOrder": 2 },
+  { "Name": "Hybrid", "description": "Mixed on-premise and cloud deployment", "sortOrder": 3 },
+  { "Name": "Development", "description": "Internal development environment", "sortOrder": 4 },
+  { "Name": "Staging", "description": "Pre-production staging environment", "sortOrder": 5 },
+  { "Name": "Demo", "description": "Customer demonstration instance", "sortOrder": 6 }
+]

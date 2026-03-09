@@ -1,0 +1,4 @@
+[
+  { "Name": "AN Predictive Analytics", "description": "ML-powered predictive analytics for CRM data", "featureType": "New Feature", "version": "1.2.0", "releaseDate": "2025-07-01", "status": "Released", "implementedIn": "AN Analytics Engine" },
+  { "Name": "AN Real-time Streaming", "description": "Real-time data streaming from CRM events", "featureType": "Enhancement", "version": "1.1.0", "releaseDate": "2025-02-01", "status": "Released", "implementedIn": "AN Data Pipeline" }
+]

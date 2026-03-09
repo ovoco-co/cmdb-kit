@@ -1,0 +1,48 @@
+[
+  {
+    "Name": "REQ-001 Multi-tenant Isolation",
+    "description": "The system shall enforce strict data isolation between tenant instances to prevent cross-tenant data access",
+    "requirementType": "Security",
+    "status": "Verified",
+    "priority": "Essential",
+    "source": "OvocoCRM Security Requirements Document",
+    "verificationMethod": "Test",
+    "verifiedDate": "2026-02-25"
+  },
+  {
+    "Name": "REQ-002 SSO Integration",
+    "description": "The system shall support single sign-on via SAML 2.0 and OpenID Connect for enterprise customers",
+    "requirementType": "Interface",
+    "status": "Implemented",
+    "priority": "Essential",
+    "source": "OvocoCRM Enterprise Feature Requirements",
+    "verificationMethod": "Demonstration"
+  },
+  {
+    "Name": "REQ-003 Bulk Export",
+    "description": "The system shall support export of up to 100,000 contact records in CSV and JSON formats",
+    "requirementType": "Program",
+    "status": "Verified",
+    "priority": "Essential",
+    "source": "OvocoCRM 2.4 Feature Requirements",
+    "verificationMethod": "Test",
+    "verifiedDate": "2026-02-27"
+  },
+  {
+    "Name": "REQ-004 EU Data Residency",
+    "description": "The system shall store and process EU customer data exclusively within European data centers",
+    "requirementType": "Program",
+    "status": "Open",
+    "priority": "Essential",
+    "source": "OvocoCRM GDPR Compliance Requirements"
+  },
+  {
+    "Name": "REQ-005 Mobile Offline Mode",
+    "description": "The mobile application shall support offline access to recently viewed contacts and deals",
+    "requirementType": "Derived",
+    "status": "Draft",
+    "priority": "Conditional",
+    "source": "OvocoCRM Mobile Requirements",
+    "parentRequirement": "REQ-002 SSO Integration"
+  }
+]

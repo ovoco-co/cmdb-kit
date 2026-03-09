@@ -1,0 +1,3 @@
+[
+  { "Name": "Dell PowerEdge R760 GPU", "description": "GPU-accelerated server for analytics processing", "manufacturer": "Dell", "modelNumber": "R760-GPU", "hardwareType": "GPU Server", "cpu": "Intel Xeon Gold 6430", "ram": "1TB", "storage": "16TB NVMe", "approvedDate": "2024-06-01" }
+]

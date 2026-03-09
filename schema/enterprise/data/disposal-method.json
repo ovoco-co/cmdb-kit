@@ -1,0 +1,7 @@
+[
+  { "Name": "Return to Vendor", "description": "Asset returned to vendor per contract terms" },
+  { "Name": "Recycle", "description": "Asset sent for certified electronics recycling" },
+  { "Name": "Destroy", "description": "Asset physically destroyed per security policy" },
+  { "Name": "Donate", "description": "Asset donated to qualifying organization" },
+  { "Name": "Resale", "description": "Asset sold through approved resale channel" }
+]

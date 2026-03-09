@@ -1,0 +1,50 @@
+[
+  {
+    "Name": "v2.3.1 US-East Distribution",
+    "description": "Distribution of v2.3.1 to US East region",
+    "version": "OvocoCRM 2.3.1",
+    "site": "US East (Virginia)",
+    "distributionDate": "2026-02-10",
+    "distributedBy": "Jordan Lee"
+  },
+  {
+    "Name": "v2.3.1 US-West Distribution",
+    "description": "Distribution of v2.3.1 to US West region",
+    "version": "OvocoCRM 2.3.1",
+    "site": "US West (Oregon)",
+    "distributionDate": "2026-02-10",
+    "distributedBy": "Jordan Lee"
+  },
+  {
+    "Name": "v2.4.0 US-East Distribution",
+    "description": "Distribution of v2.4.0 to US East region",
+    "version": "OvocoCRM 2.4.0",
+    "site": "US East (Virginia)",
+    "distributionDate": "2026-03-01",
+    "distributedBy": "Jordan Lee"
+  },
+  {
+    "Name": "v2.4.0 US-West Distribution",
+    "description": "Distribution of v2.4.0 to US West region",
+    "version": "OvocoCRM 2.4.0",
+    "site": "US West (Oregon)",
+    "distributionDate": "2026-03-01",
+    "distributedBy": "Jordan Lee"
+  },
+  {
+    "Name": "v2.4.0 Acme Corp Distribution",
+    "description": "Distribution of v2.4.0 to Acme Corp production instance",
+    "version": "OvocoCRM 2.4.0",
+    "site": "Acme Corp Production",
+    "distributionDate": "2026-03-02",
+    "distributedBy": "Riley Patel"
+  },
+  {
+    "Name": "v2.4.0 Globex Corp Distribution",
+    "description": "Distribution of v2.4.0 to Globex Corp production instance",
+    "version": "OvocoCRM 2.4.0",
+    "site": "Globex Corp Production",
+    "distributionDate": "2026-03-03",
+    "distributedBy": "Riley Patel"
+  }
+]

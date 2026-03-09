@@ -1,0 +1,12 @@
+[
+  {
+    "Name": "SS ISO 27001 Infrastructure",
+    "description": "ISO 27001 certification for shared infrastructure",
+    "product": "SS Jira",
+    "certificationType": "ISO 27001",
+    "certificationStatus": "Active",
+    "issueDate": "2025-01-01",
+    "expirationDate": "2028-01-01",
+    "certifyingAuthority": "BSI"
+  }
+]

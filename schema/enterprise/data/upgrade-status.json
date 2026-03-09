@@ -1,0 +1,8 @@
+[
+  { "Name": "Not Started", "description": "Upgrade not yet initiated" },
+  { "Name": "Scheduled", "description": "Upgrade scheduled with customer" },
+  { "Name": "In Progress", "description": "Upgrade actively underway" },
+  { "Name": "Completed", "description": "Upgrade completed successfully" },
+  { "Name": "Deferred", "description": "Upgrade postponed" },
+  { "Name": "Failed", "description": "Upgrade failed, rollback required" }
+]

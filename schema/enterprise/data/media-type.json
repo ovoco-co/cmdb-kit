@@ -1,0 +1,8 @@
+[
+  { "Name": "Container Image", "description": "Docker/OCI container image" },
+  { "Name": "ISO", "description": "ISO disk image" },
+  { "Name": "Package", "description": "Software package (RPM, DEB, MSI)" },
+  { "Name": "Archive", "description": "Compressed archive (ZIP, TAR.GZ)" },
+  { "Name": "Helm Chart", "description": "Kubernetes Helm chart" },
+  { "Name": "VM Image", "description": "Virtual machine disk image" }
+]

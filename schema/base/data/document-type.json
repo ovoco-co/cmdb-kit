@@ -1,0 +1,8 @@
+[
+  { "Name": "Runbook", "description": "Operational procedure for routine tasks" },
+  { "Name": "Architecture", "description": "System design and architecture documentation" },
+  { "Name": "SOP", "description": "Standard operating procedure" },
+  { "Name": "API Reference", "description": "API endpoint and usage documentation" },
+  { "Name": "Post-Mortem", "description": "Incident analysis and lessons learned" },
+  { "Name": "Release Notes", "description": "Summary of changes in a release" }
+]

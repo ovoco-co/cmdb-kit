@@ -1,0 +1,6 @@
+[
+  { "Name": "Software Release", "description": "Complete software release package" },
+  { "Name": "Patch", "description": "Incremental fix or update package" },
+  { "Name": "Documentation", "description": "Controlled documentation package" },
+  { "Name": "Configuration", "description": "Configuration files or templates" }
+]

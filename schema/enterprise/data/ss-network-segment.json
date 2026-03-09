@@ -1,0 +1,18 @@
+[
+  {
+    "Name": "SS Management Network",
+    "description": "Shared services management network",
+    "networkName": "ss-mgmt",
+    "networkType": "Management",
+    "subnetCidr": "10.0.1.0/24",
+    "gatewayIp": "10.0.1.1"
+  },
+  {
+    "Name": "SS Build Network",
+    "description": "CI/CD build network",
+    "networkName": "ss-build",
+    "networkType": "Application",
+    "subnetCidr": "10.0.2.0/24",
+    "gatewayIp": "10.0.2.1"
+  }
+]

@@ -1,0 +1,12 @@
+[
+  { "Name": "Prospect", "description": "Potential deployment site under evaluation", "sortOrder": 1, "category": "Pre-deployment", "isActive": false },
+  { "Name": "Approved", "description": "Site approved for deployment", "sortOrder": 2, "category": "Pre-deployment", "isActive": false },
+  { "Name": "Provisioning", "description": "Infrastructure being provisioned", "sortOrder": 3, "category": "Deployment", "isActive": true },
+  { "Name": "Installing", "description": "Software installation in progress", "sortOrder": 4, "category": "Deployment", "isActive": true },
+  { "Name": "Testing", "description": "Acceptance testing in progress", "sortOrder": 5, "category": "Deployment", "isActive": true },
+  { "Name": "Active", "description": "Site operational and in production", "sortOrder": 6, "category": "Operational", "isActive": true },
+  { "Name": "Upgrading", "description": "Site undergoing version upgrade", "sortOrder": 7, "category": "Operational", "isActive": true },
+  { "Name": "Maintenance", "description": "Site in maintenance window", "sortOrder": 8, "category": "Operational", "isActive": true },
+  { "Name": "Decommissioning", "description": "Site being decommissioned", "sortOrder": 9, "category": "End of Life", "isActive": false },
+  { "Name": "Decommissioned", "description": "Site fully decommissioned", "sortOrder": 10, "category": "End of Life", "isActive": false }
+]

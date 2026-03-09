@@ -1,0 +1,8 @@
+[
+  { "Name": "SRR", "description": "System Requirements Review", "milestonePhase": "Requirements", "sortOrder": 1 },
+  { "Name": "PDR", "description": "Preliminary Design Review", "milestonePhase": "Design", "sortOrder": 2 },
+  { "Name": "CDR", "description": "Critical Design Review", "milestonePhase": "Design", "sortOrder": 3 },
+  { "Name": "TRR", "description": "Test Readiness Review", "milestonePhase": "Testing", "sortOrder": 4 },
+  { "Name": "FCA", "description": "Functional Configuration Audit", "milestonePhase": "Audit", "sortOrder": 5 },
+  { "Name": "PCA", "description": "Physical Configuration Audit", "milestonePhase": "Audit", "sortOrder": 6 }
+]

@@ -1,0 +1,6 @@
+[
+  { "Name": "Test", "description": "Verified through execution of test procedures" },
+  { "Name": "Analysis", "description": "Verified through technical analysis or modeling" },
+  { "Name": "Demonstration", "description": "Verified through operational demonstration" },
+  { "Name": "Inspection", "description": "Verified through visual or document inspection" }
+]

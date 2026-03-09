@@ -1,0 +1,6 @@
+[
+  { "Name": "Active", "description": "Certification is current and valid" },
+  { "Name": "Pending", "description": "Certification in progress" },
+  { "Name": "Expired", "description": "Certification has lapsed" },
+  { "Name": "Revoked", "description": "Certification was revoked" }
+]

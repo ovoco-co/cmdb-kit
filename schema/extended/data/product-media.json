@@ -1,0 +1,74 @@
+[
+  {
+    "Name": "ovococrm-2.3.1-server.tar.gz",
+    "description": "Server application package for OvocoCRM 2.3.1",
+    "version": "OvocoCRM 2.3.1",
+    "fileName": "ovococrm-2.3.1-server.tar.gz",
+    "fileSize": "245 MB",
+    "checksum": "sha256:a1b2c3d4e5f6789012345678abcdef0123456789abcdef0123456789abcdef01"
+  },
+  {
+    "Name": "ovococrm-2.3.1-frontend.tar.gz",
+    "description": "Frontend assets package for OvocoCRM 2.3.1",
+    "version": "OvocoCRM 2.3.1",
+    "fileName": "ovococrm-2.3.1-frontend.tar.gz",
+    "fileSize": "82 MB",
+    "checksum": "sha256:b2c3d4e5f6789012345678abcdef0123456789abcdef0123456789abcdef0123"
+  },
+  {
+    "Name": "ovococrm-2.3.1-db-migrations.tar.gz",
+    "description": "Database migration scripts for OvocoCRM 2.3.1",
+    "version": "OvocoCRM 2.3.1",
+    "fileName": "ovococrm-2.3.1-db-migrations.tar.gz",
+    "fileSize": "1.2 MB",
+    "checksum": "sha256:c3d4e5f6789012345678abcdef0123456789abcdef0123456789abcdef012345"
+  },
+  {
+    "Name": "ovococrm-2.3.0-server.tar.gz",
+    "description": "Server application package for OvocoCRM 2.3.0",
+    "version": "OvocoCRM 2.3.0",
+    "fileName": "ovococrm-2.3.0-server.tar.gz",
+    "fileSize": "242 MB",
+    "checksum": "sha256:d4e5f6789012345678abcdef0123456789abcdef0123456789abcdef01234567"
+  },
+  {
+    "Name": "ovococrm-2.3.0-frontend.tar.gz",
+    "description": "Frontend assets package for OvocoCRM 2.3.0",
+    "version": "OvocoCRM 2.3.0",
+    "fileName": "ovococrm-2.3.0-frontend.tar.gz",
+    "fileSize": "80 MB",
+    "checksum": "sha256:e5f6789012345678abcdef0123456789abcdef0123456789abcdef0123456789"
+  },
+  {
+    "Name": "ovococrm-2.3.0-db-migrations.tar.gz",
+    "description": "Database migration scripts for OvocoCRM 2.3.0",
+    "version": "OvocoCRM 2.3.0",
+    "fileName": "ovococrm-2.3.0-db-migrations.tar.gz",
+    "fileSize": "1.1 MB",
+    "checksum": "sha256:f6789012345678abcdef0123456789abcdef012345678901"
+  },
+  {
+    "Name": "ovococrm-2.4.0-server.tar.gz",
+    "description": "Server application package for OvocoCRM 2.4.0",
+    "version": "OvocoCRM 2.4.0",
+    "fileName": "ovococrm-2.4.0-server.tar.gz",
+    "fileSize": "251 MB",
+    "checksum": "sha256:1a2b3c4d5e6f7890abcdef1234567890abcdef1234567890abcdef1234567890"
+  },
+  {
+    "Name": "ovococrm-2.4.0-frontend.tar.gz",
+    "description": "Frontend assets package for OvocoCRM 2.4.0",
+    "version": "OvocoCRM 2.4.0",
+    "fileName": "ovococrm-2.4.0-frontend.tar.gz",
+    "fileSize": "88 MB",
+    "checksum": "sha256:2b3c4d5e6f7890abcdef1234567890abcdef1234567890abcdef1234567890ab"
+  },
+  {
+    "Name": "ovococrm-2.4.0-db-migrations.tar.gz",
+    "description": "Database migration scripts for OvocoCRM 2.4.0",
+    "version": "OvocoCRM 2.4.0",
+    "fileName": "ovococrm-2.4.0-db-migrations.tar.gz",
+    "fileSize": "1.4 MB",
+    "checksum": "sha256:3c4d5e6f7890abcdef1234567890abcdef1234567890abcdef1234567890abcd"
+  }
+]

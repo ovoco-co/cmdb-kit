@@ -1,0 +1,34 @@
+[
+  {
+    "Name": "Customer Relationship Management",
+    "description": "Core CRM service delivering contact, deal, and workflow management to customers",
+    "serviceType": "Business Service",
+    "owner": "CRM Platform Team",
+    "status": "Active",
+    "capability": "Customer Management"
+  },
+  {
+    "Name": "CRM Platform Hosting",
+    "description": "Infrastructure service providing compute, storage, and networking for CRM workloads",
+    "serviceType": "Technical Service",
+    "owner": "Infrastructure Team",
+    "status": "Active",
+    "capability": "Platform Operations"
+  },
+  {
+    "Name": "Analytics and Reporting",
+    "description": "Business intelligence and reporting service for CRM data",
+    "serviceType": "Business Service",
+    "owner": "Analytics Platform Team",
+    "status": "Active",
+    "capability": "Business Intelligence"
+  },
+  {
+    "Name": "Notification Delivery",
+    "description": "Shared service for email, SMS, and push notification delivery",
+    "serviceType": "Shared Service",
+    "owner": "Infrastructure Team",
+    "status": "Active",
+    "capability": "Customer Communication"
+  }
+]

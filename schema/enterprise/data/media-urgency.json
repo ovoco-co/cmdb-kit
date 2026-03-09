@@ -1,0 +1,5 @@
+[
+  { "Name": "Standard", "description": "Normal processing within 5 business days" },
+  { "Name": "Expedited", "description": "Priority processing within 2 business days" },
+  { "Name": "Emergency", "description": "Critical processing within 24 hours" }
+]

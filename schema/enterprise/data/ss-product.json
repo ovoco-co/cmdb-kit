@@ -1,0 +1,40 @@
+[
+  {
+    "Name": "SS Jira",
+    "description": "Atlassian Jira for project and issue tracking",
+    "vendor": "Atlassian",
+    "version": "9.12",
+    "category": "Project Management",
+    "status": "Active",
+    "url": "https://jira.ovoco.internal"
+  },
+  {
+    "Name": "SS Confluence",
+    "description": "Atlassian Confluence for knowledge management",
+    "vendor": "Atlassian",
+    "version": "8.5",
+    "category": "Knowledge Management",
+    "status": "Active",
+    "url": "https://confluence.ovoco.internal"
+  },
+  {
+    "Name": "SS Jenkins",
+    "description": "Jenkins CI/CD automation server",
+    "vendor": "CloudBees",
+    "version": "2.426",
+    "category": "CI/CD",
+    "hostedOn": "SS-CI-01",
+    "status": "Active",
+    "url": "https://jenkins.ovoco.internal"
+  },
+  {
+    "Name": "SS Grafana",
+    "description": "Monitoring and observability platform",
+    "vendor": "Grafana Labs",
+    "version": "10.2",
+    "category": "Monitoring",
+    "hostedOn": "SS-MON-01",
+    "status": "Active",
+    "url": "https://grafana.ovoco.internal"
+  }
+]

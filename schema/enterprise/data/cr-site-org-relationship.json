@@ -1,0 +1,3 @@
+[
+  { "Name": "CR Acme Customer Rel", "description": "Acme Corp customer relationship for CRM deployment", "deploymentSite": "CR Acme Corp US-East", "organization": "Acme Corporation", "relationshipType": "Customer", "relationshipStatus": "Active", "isPrimary": true, "startDate": "2024-11-01" }
+]

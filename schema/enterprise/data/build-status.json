@@ -1,0 +1,7 @@
+[
+  { "Name": "Building", "description": "Build in progress", "sortOrder": 1 },
+  { "Name": "Built", "description": "Build completed successfully", "sortOrder": 2 },
+  { "Name": "Failed", "description": "Build failed", "sortOrder": 3 },
+  { "Name": "Released", "description": "Build released for distribution", "sortOrder": 4 },
+  { "Name": "Recalled", "description": "Build recalled due to defect", "sortOrder": 5 }
+]

@@ -1,0 +1,8 @@
+[
+  { "Name": "Security Audit", "description": "Internal security assessment", "abbreviation": "SA" },
+  { "Name": "Penetration Test", "description": "External penetration testing", "abbreviation": "PT" },
+  { "Name": "Compliance Audit", "description": "Regulatory compliance audit (SOC2, ISO)", "abbreviation": "CA" },
+  { "Name": "Architecture Review", "description": "Technical architecture assessment", "abbreviation": "AR" },
+  { "Name": "Vulnerability Scan", "description": "Automated vulnerability scanning", "abbreviation": "VS" },
+  { "Name": "Code Review", "description": "Security-focused code review", "abbreviation": "CR" }
+]

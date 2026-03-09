@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "SS CM Policy",
+    "description": "Ovoco Configuration Management Policy",
+    "documentType": "Policy",
+    "documentState": "Published",
+    "filename": "SS-CM-Policy-v3.pdf",
+    "documentDate": "2025-01-15",
+    "version": "3.0",
+    "dmlPath": "/docs/ss/SS-CM-Policy-v3.pdf"
+  },
+  {
+    "Name": "SS Change Control Procedure",
+    "description": "Change control board procedures and governance",
+    "documentType": "Procedure",
+    "documentState": "Published",
+    "filename": "SS-CCB-Procedure-v2.pdf",
+    "documentDate": "2025-02-01",
+    "version": "2.0",
+    "dmlPath": "/docs/ss/SS-CCB-Procedure-v2.pdf"
+  }
+]

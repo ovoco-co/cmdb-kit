@@ -1,0 +1,47 @@
+[
+  {
+    "Name": "SS-CI-01",
+    "description": "CI/CD build server",
+    "serverRole": "CI/CD",
+    "environment": "Production",
+    "status": "Active",
+    "manufacturer": "Dell",
+    "model": "PowerEdge R660",
+    "serialNumber": "SS-SN-001",
+    "ipAddress": "10.0.1.10",
+    "operatingSystem": "Ubuntu 22.04 LTS",
+    "cpu": "Intel Xeon Gold 6430",
+    "ram": "128GB",
+    "storage": "2TB SSD"
+  },
+  {
+    "Name": "SS-MON-01",
+    "description": "Monitoring and metrics server",
+    "serverRole": "Monitoring",
+    "environment": "Production",
+    "status": "Active",
+    "manufacturer": "Dell",
+    "model": "PowerEdge R660",
+    "serialNumber": "SS-SN-002",
+    "ipAddress": "10.0.1.20",
+    "operatingSystem": "Ubuntu 22.04 LTS",
+    "cpu": "Intel Xeon Gold 6430",
+    "ram": "64GB",
+    "storage": "4TB SSD"
+  },
+  {
+    "Name": "SS-ATL-01",
+    "description": "Atlassian application server (Jira + Confluence)",
+    "serverRole": "Application",
+    "environment": "Production",
+    "status": "Active",
+    "manufacturer": "Dell",
+    "model": "PowerEdge R760",
+    "serialNumber": "SS-SN-003",
+    "ipAddress": "10.0.1.30",
+    "operatingSystem": "Ubuntu 22.04 LTS",
+    "cpu": "Intel Xeon Gold 6430",
+    "ram": "256GB",
+    "storage": "2TB SSD"
+  }
+]

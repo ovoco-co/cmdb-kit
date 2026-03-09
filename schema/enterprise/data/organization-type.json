@@ -1,0 +1,10 @@
+[
+  { "Name": "Company", "description": "Top-level corporate entity" },
+  { "Name": "Department", "description": "Organizational department" },
+  { "Name": "Division", "description": "Business division or unit" },
+  { "Name": "Vendor", "description": "External supplier or partner" },
+  { "Name": "Customer", "description": "External customer organization" },
+  { "Name": "Software Company", "description": "Software development company" },
+  { "Name": "Engineering", "description": "Engineering organization or department" },
+  { "Name": "Operations", "description": "Operations organization or department" }
+]

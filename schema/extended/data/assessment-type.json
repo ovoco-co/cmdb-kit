@@ -1,0 +1,6 @@
+[
+  { "Name": "Security Audit", "description": "Internal security assessment" },
+  { "Name": "Penetration Test", "description": "External penetration testing" },
+  { "Name": "Compliance Review", "description": "Regulatory compliance check" },
+  { "Name": "Architecture Review", "description": "Technical architecture assessment" }
+]

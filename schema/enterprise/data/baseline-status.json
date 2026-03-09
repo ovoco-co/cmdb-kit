@@ -1,0 +1,5 @@
+[
+  { "Name": "Draft", "description": "Baseline being defined" },
+  { "Name": "Approved", "description": "Baseline formally approved" },
+  { "Name": "Superseded", "description": "Replaced by newer baseline" }
+]

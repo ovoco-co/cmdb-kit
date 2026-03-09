@@ -1,0 +1,10 @@
+[
+  { "Name": "Developer", "description": "Builds and tests code changes" },
+  { "Name": "Operator", "description": "Manages deployments and infrastructure" },
+  { "Name": "Manager", "description": "Approves and oversees releases" },
+  { "Name": "Architect", "description": "Designs system architecture" },
+  { "Name": "SRE", "description": "Site reliability engineering" },
+  { "Name": "Site Administrator", "description": "Manages a customer deployment site" },
+  { "Name": "Data Administrator", "description": "Manages data and database operations" },
+  { "Name": "Support Engineer", "description": "Provides technical support at deployment sites" }
+]

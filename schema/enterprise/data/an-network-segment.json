@@ -1,0 +1,3 @@
+[
+  { "Name": "AN Acme East Analytics Network", "description": "Analytics processing network at Acme US-East", "networkName": "an-analytics-east", "networkType": "Application", "deploymentSite": "AN Acme Corp US-East", "subnetCidr": "10.2.1.0/24", "gatewayIp": "10.2.1.1", "dhcpEnabled": false }
+]

@@ -1,0 +1,3 @@
+[
+  { "Name": "AN Predictive Analytics v1.2.0", "description": "Predictive analytics implementation for 1.2.0", "parentFeature": "AN Predictive Analytics", "productVersion": "OvocoAnalytics 1.2.0", "implementationStatus": "Frozen", "frozenDate": "2025-06-20", "jiraEpic": "AN-567" }
+]

@@ -1,0 +1,3 @@
+[
+  { "Name": "CR Dist OvocoCRM 2.4.0 to Acme", "description": "OvocoCRM 2.4.0 distribution to Acme Corp US-East", "deploymentSite": "CR Acme Corp US-East", "version": "2.4.0", "requestDate": "2025-09-16", "deliveryMethod": "Electronic Transfer", "urgency": "Standard", "preparedDate": "2025-09-17", "mediaType": "Container Image", "checksum": "sha256:abc123def456", "status": "Installed", "installedDate": "2025-09-20", "verifiedDate": "2025-09-21" }
+]

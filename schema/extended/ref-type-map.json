@@ -1,0 +1,15 @@
+{
+  "_default": "Reference",
+  "owner": "Owned by",
+  "teamLead": "Owned by",
+  "author": "Owned by",
+  "deployedBy": "Performed by",
+  "server": "Runs on",
+  "environment": "Deployed to",
+  "components": "Contains",
+  "previousVersion": "Supersedes",
+  "companionProducts": "Related to",
+  "parentOrganization": "Member of",
+  "organization": "Member of",
+  "team": "Member of"
+}

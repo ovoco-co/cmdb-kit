@@ -1,0 +1,7 @@
+[
+  { "Name": "End of Life", "description": "Product reached end of lifecycle" },
+  { "Name": "Superseded", "description": "Replaced by a newer version" },
+  { "Name": "Security Vulnerability", "description": "Critical security issue requiring retirement" },
+  { "Name": "Technology Deprecation", "description": "Underlying technology no longer supported" },
+  { "Name": "Business Decision", "description": "Strategic decision to discontinue" }
+]

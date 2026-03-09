@@ -1,0 +1,3 @@
+[
+  { "Name": "AN Query Engine 1.2.0-b45", "description": "Query engine build 45 for 1.2.0", "component": "AN Query Engine", "version": "1.2.0", "productVersion": "OvocoAnalytics 1.2.0", "buildDate": "2025-06-25", "buildNumber": "45", "checksum": "sha256:q1w2e3r4t5y6", "buildStatus": "Released", "packageSize": "200MB", "dmlPath": "/releases/an/1.2.0/an-query-engine-1.2.0-b45.tar.gz" }
+]

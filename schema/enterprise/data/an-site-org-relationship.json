@@ -1,0 +1,3 @@
+[
+  { "Name": "AN Acme Customer Rel", "description": "Acme Corp customer relationship for Analytics", "deploymentSite": "AN Acme Corp US-East", "organization": "Acme Corporation", "relationshipType": "Customer", "relationshipStatus": "Active", "isPrimary": true, "startDate": "2025-02-01" }
+]

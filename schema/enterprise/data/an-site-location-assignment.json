@@ -1,0 +1,3 @@
+[
+  { "Name": "AN Acme US-East Location", "description": "Primary location for AN Acme deployment", "deploymentSite": "AN Acme Corp US-East", "location": "US East (Virginia)", "locationType": "Primary", "assignmentStatus": "Active", "startDate": "2025-03-01", "serverCount": 2, "localPOC": "John Smith" }
+]

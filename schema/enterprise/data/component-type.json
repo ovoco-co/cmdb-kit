@@ -1,0 +1,12 @@
+[
+  { "Name": "Application", "description": "Standalone application or platform", "abbreviation": "APP" },
+  { "Name": "Service", "description": "Backend microservice or API", "abbreviation": "SVC" },
+  { "Name": "Library", "description": "Shared code library or SDK", "abbreviation": "LIB" },
+  { "Name": "Database", "description": "Data storage component", "abbreviation": "DB" },
+  { "Name": "Queue", "description": "Message queue or event bus", "abbreviation": "MQ" },
+  { "Name": "Cache", "description": "In-memory caching layer", "abbreviation": "CACHE" },
+  { "Name": "Gateway", "description": "API gateway or reverse proxy", "abbreviation": "GW" },
+  { "Name": "Frontend", "description": "User-facing web or mobile application", "abbreviation": "FE" },
+  { "Name": "Driver", "description": "System driver or adapter", "abbreviation": "DRV" },
+  { "Name": "Plugin", "description": "Extension or plugin module", "abbreviation": "PLG" }
+]

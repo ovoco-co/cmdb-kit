@@ -1,0 +1,8 @@
+[
+  { "Name": "Current", "description": "Active production release", "sortOrder": 1 },
+  { "Name": "Beta", "description": "Pre-release version under testing", "sortOrder": 2 },
+  { "Name": "Previous", "description": "Superseded by a newer release", "sortOrder": 3 },
+  { "Name": "Sunset", "description": "End of support, upgrade required", "sortOrder": 4 },
+  { "Name": "Deprecated", "description": "No longer supported", "sortOrder": 5 },
+  { "Name": "Retired", "description": "End of life, removed from distribution", "sortOrder": 6 }
+]

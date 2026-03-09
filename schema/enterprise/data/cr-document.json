@@ -1,0 +1,4 @@
+[
+  { "Name": "CR System Specification 2.4.0", "description": "System specification for OvocoCRM 2.4.0", "documentType": "System Specification", "documentState": "Published", "relatedProduct": "CR Core Platform", "productVersion": "OvocoCRM 2.4.0", "filename": "CR-SS-2.4.0.pdf", "documentDate": "2025-09-01", "version": "2.4.0", "dmlPath": "/docs/cr/2.4.0/CR-SS-2.4.0.pdf" },
+  { "Name": "CR Installation Guide 2.4.0", "description": "Installation guide for OvocoCRM 2.4.0", "documentType": "Installation Guide", "documentState": "Published", "relatedProduct": "CR Core Platform", "productVersion": "OvocoCRM 2.4.0", "filename": "CR-IG-2.4.0.pdf", "documentDate": "2025-09-10", "version": "2.4.0", "dmlPath": "/docs/cr/2.4.0/CR-IG-2.4.0.pdf" }
+]

@@ -1,0 +1,7 @@
+[
+  { "Name": "Program", "description": "Top-level program requirement from stakeholder" },
+  { "Name": "Derived", "description": "Requirement derived from higher-level requirement" },
+  { "Name": "Interface", "description": "Interface or integration requirement" },
+  { "Name": "Test", "description": "Test requirement specifying verification approach" },
+  { "Name": "Security", "description": "Security or compliance requirement" }
+]

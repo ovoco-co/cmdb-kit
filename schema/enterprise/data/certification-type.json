@@ -1,0 +1,9 @@
+[
+  { "Name": "SOC2 Type II", "description": "Service organization control audit - Type II" },
+  { "Name": "ISO 27001", "description": "Information security management system" },
+  { "Name": "GDPR", "description": "General Data Protection Regulation compliance" },
+  { "Name": "HIPAA", "description": "Health Insurance Portability compliance" },
+  { "Name": "PCI DSS", "description": "Payment Card Industry Data Security Standard" },
+  { "Name": "FedRAMP", "description": "Federal Risk and Authorization Management Program" },
+  { "Name": "SOC 1 Type II", "description": "Service organization control - financial reporting" }
+]

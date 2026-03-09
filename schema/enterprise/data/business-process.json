@@ -1,0 +1,26 @@
+[
+  {
+    "Name": "Customer Onboarding",
+    "description": "End-to-end process for onboarding new CRM customers from signup to first use",
+    "capability": "Customer Management",
+    "owner": "CRM Platform Team"
+  },
+  {
+    "Name": "Subscription Renewal",
+    "description": "Process for managing subscription renewals, upgrades, and cancellations",
+    "capability": "Account Management",
+    "owner": "CRM Platform Team"
+  },
+  {
+    "Name": "Incident Response",
+    "description": "Process for detecting, triaging, and resolving production incidents",
+    "capability": "Platform Operations",
+    "owner": "Infrastructure Team"
+  },
+  {
+    "Name": "Release Deployment",
+    "description": "Process for deploying new versions across all customer sites",
+    "capability": "Platform Operations",
+    "owner": "Release Engineering"
+  }
+]

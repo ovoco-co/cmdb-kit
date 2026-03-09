@@ -1,0 +1,6 @@
+[
+  { "Name": "Active", "description": "Active vendor relationship" },
+  { "Name": "Under Review", "description": "Vendor under evaluation" },
+  { "Name": "Inactive", "description": "No active engagement" },
+  { "Name": "Terminated", "description": "Relationship ended" }
+]

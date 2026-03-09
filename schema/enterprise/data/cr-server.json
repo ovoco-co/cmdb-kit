@@ -1,0 +1,4 @@
+[
+  { "Name": "CR-APP-EAST-01", "description": "OvocoCRM application server, US East", "hostname": "cr-app-east-01.ovoco.internal", "hardwareModel": "Dell PowerEdge R760", "cpu": "Intel Xeon Gold 6430", "ram": "512GB", "storage": "4TB NVMe", "siteLocation": "CR Acme Corp US-East", "ipAddress": "10.1.1.10", "deploymentStatus": "Deployed", "operatingSystem": "Ubuntu 22.04 LTS", "installDate": "2025-01-15" },
+  { "Name": "CR-DB-EAST-01", "description": "OvocoCRM database server, US East", "hostname": "cr-db-east-01.ovoco.internal", "hardwareModel": "Dell PowerEdge R660", "cpu": "Intel Xeon Gold 6430", "ram": "256GB", "storage": "8TB NVMe", "siteLocation": "CR Acme Corp US-East", "ipAddress": "10.1.2.10", "deploymentStatus": "Deployed", "operatingSystem": "Ubuntu 22.04 LTS", "installDate": "2025-01-15" }
+]

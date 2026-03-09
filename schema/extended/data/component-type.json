@@ -1,0 +1,9 @@
+[
+  { "Name": "Service", "description": "Backend microservice or API" },
+  { "Name": "Library", "description": "Shared code library or SDK" },
+  { "Name": "Database", "description": "Data storage component" },
+  { "Name": "Queue", "description": "Message queue or event bus" },
+  { "Name": "Cache", "description": "In-memory caching layer" },
+  { "Name": "Gateway", "description": "API gateway or reverse proxy" },
+  { "Name": "Frontend", "description": "User-facing web or mobile application" }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "Name": "PostgreSQL License",
+    "description": "PostgreSQL open source license",
+    "licenseType": "Open Source",
+    "vendor": "PostgreSQL Global Development Group",
+    "status": "Active"
+  },
+  {
+    "Name": "Redis Enterprise",
+    "description": "Redis enterprise subscription",
+    "licenseType": "SaaS Subscription",
+    "vendor": "Redis Ltd",
+    "expirationDate": "2027-03-01",
+    "quantity": "3",
+    "status": "Active"
+  },
+  {
+    "Name": "SendGrid Pro",
+    "description": "Email delivery service",
+    "licenseType": "SaaS Subscription",
+    "vendor": "Twilio",
+    "expirationDate": "2026-12-31",
+    "quantity": "1",
+    "status": "Active"
+  }
+]

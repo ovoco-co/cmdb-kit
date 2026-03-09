@@ -1,0 +1,8 @@
+*.log
+.env
+src/
+docs/marketing/
+docs/wip/
+screenshots/
+site-content/
+node_modules/

@@ -1,0 +1,5 @@
+[
+  { "Name": "AN Analytics Engine", "description": "OvocoAnalytics core analytics processing engine", "productType": "Platform", "currentVersion": "1.2.0", "releaseDate": "2025-07-01", "versionStatus": "Active", "vendor": "Ovoco Inc", "distributionMethod": "Container Registry" },
+  { "Name": "AN Data Pipeline", "description": "ETL and data ingestion pipeline", "productType": "Service", "currentVersion": "1.2.0", "releaseDate": "2025-07-01", "versionStatus": "Active", "vendor": "Ovoco Inc", "parentProduct": "AN Analytics Engine", "distributionMethod": "Container Registry" },
+  { "Name": "AN Dashboard Service", "description": "Real-time analytics dashboards and visualizations", "productType": "Service", "currentVersion": "1.2.0", "releaseDate": "2025-07-01", "versionStatus": "Active", "vendor": "Ovoco Inc", "parentProduct": "AN Analytics Engine", "distributionMethod": "Container Registry" }
+]

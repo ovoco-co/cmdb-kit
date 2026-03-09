@@ -1,0 +1,36 @@
+{
+  "Location": [
+    {
+      "Name": "US East (Virginia)",
+      "description": "US East datacenter region",
+      "city": "Ashburn",
+      "state": "Virginia",
+      "country": "United States",
+      "locationType": "Datacenter"
+    },
+    {
+      "Name": "US West (Oregon)",
+      "description": "US West datacenter region",
+      "city": "Boardman",
+      "state": "Oregon",
+      "country": "United States",
+      "locationType": "Datacenter"
+    },
+    {
+      "Name": "EU West (Frankfurt)",
+      "description": "EU West datacenter region",
+      "city": "Frankfurt",
+      "country": "Germany",
+      "locationType": "Datacenter"
+    },
+    {
+      "Name": "Ovoco HQ",
+      "description": "Ovoco headquarters office",
+      "address": "123 Innovation Drive",
+      "city": "San Francisco",
+      "state": "California",
+      "country": "United States",
+      "locationType": "Office"
+    }
+  ]
+}

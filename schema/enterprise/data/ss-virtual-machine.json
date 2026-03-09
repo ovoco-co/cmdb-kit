@@ -1,0 +1,28 @@
+[
+  {
+    "Name": "SS-CI-VM-01",
+    "description": "Jenkins build agent VM",
+    "vmName": "ss-ci-vm-01",
+    "hostServer": "SS-CI-01",
+    "status": "Running",
+    "operatingSystem": "Ubuntu 22.04 LTS",
+    "cpuCores": 8,
+    "memoryGB": 32,
+    "storageSizeGB": 500,
+    "ipAddress": "10.0.2.10",
+    "purpose": "Build Agent"
+  },
+  {
+    "Name": "SS-CI-VM-02",
+    "description": "Jenkins build agent VM",
+    "vmName": "ss-ci-vm-02",
+    "hostServer": "SS-CI-01",
+    "status": "Running",
+    "operatingSystem": "Ubuntu 22.04 LTS",
+    "cpuCores": 8,
+    "memoryGB": 32,
+    "storageSizeGB": 500,
+    "ipAddress": "10.0.2.11",
+    "purpose": "Build Agent"
+  }
+]

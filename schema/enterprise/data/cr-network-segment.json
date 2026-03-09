@@ -1,0 +1,4 @@
+[
+  { "Name": "CR Acme East App Network", "description": "Application network at Acme Corp US-East", "networkName": "cr-app-east", "networkType": "Application", "deploymentSite": "CR Acme Corp US-East", "subnetCidr": "10.1.1.0/24", "gatewayIp": "10.1.1.1", "dhcpEnabled": false },
+  { "Name": "CR Acme East DB Network", "description": "Database network at Acme Corp US-East", "networkName": "cr-db-east", "networkType": "Database", "deploymentSite": "CR Acme Corp US-East", "subnetCidr": "10.1.2.0/24", "gatewayIp": "10.1.2.1", "dhcpEnabled": false }
+]

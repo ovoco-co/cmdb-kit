@@ -1,0 +1,6 @@
+[
+  { "Name": "Draft", "description": "Document is being written" },
+  { "Name": "Review", "description": "Document is under peer review" },
+  { "Name": "Published", "description": "Document is approved and available" },
+  { "Name": "Archived", "description": "Document is no longer current" }
+]

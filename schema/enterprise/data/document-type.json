@@ -1,0 +1,15 @@
+[
+  { "Name": "System Specification", "description": "System specification document", "code": "SS", "category": "Engineering" },
+  { "Name": "Version Description", "description": "Comprehensive description of a product version", "code": "SVD", "category": "Engineering" },
+  { "Name": "System Design", "description": "System design and architecture decisions", "code": "SD", "category": "Engineering" },
+  { "Name": "Installation Guide", "description": "Installation and deployment instructions", "code": "IG", "category": "Operations" },
+  { "Name": "System Administrator Guide", "description": "System administration procedures", "code": "SAG", "category": "Operations" },
+  { "Name": "Test Plan", "description": "Test plan and test procedures", "code": "TP", "category": "Testing" },
+  { "Name": "Test Report", "description": "Test results and analysis", "code": "TR", "category": "Testing" },
+  { "Name": "Release Notes", "description": "Summary of changes in a release", "code": "RN", "category": "Engineering" },
+  { "Name": "Runbook", "description": "Operational procedure for routine tasks", "code": "RB", "category": "Operations" },
+  { "Name": "API Reference", "description": "API endpoint and usage documentation", "code": "API", "category": "Engineering" },
+  { "Name": "Policy", "description": "Organizational policy document", "code": "POL", "category": "Governance" },
+  { "Name": "Procedure", "description": "Process and procedure document", "code": "PROC", "category": "Governance" },
+  { "Name": "Post-Mortem", "description": "Incident analysis and lessons learned", "code": "PM", "category": "Operations" }
+]

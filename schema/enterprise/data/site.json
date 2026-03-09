@@ -1,0 +1,8 @@
+[
+  { "Name": "Acme Corp", "description": "Acme Corporation - enterprise customer" },
+  { "Name": "GlobalTech Industries", "description": "GlobalTech Industries - manufacturing customer" },
+  { "Name": "Meridian Healthcare", "description": "Meridian Healthcare Systems - healthcare customer" },
+  { "Name": "Pacific Financial", "description": "Pacific Financial Group - financial services customer" },
+  { "Name": "Summit Education", "description": "Summit Education Network - education customer" },
+  { "Name": "Ovoco Internal", "description": "Internal Ovoco infrastructure" }
+]

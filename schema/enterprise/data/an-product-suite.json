@@ -1,0 +1,3 @@
+[
+  { "Name": "AN Release Suite 1.2.0", "description": "Complete release package for OvocoAnalytics 1.2.0", "product": "AN Analytics Engine", "suiteVersion": "1.2.0", "productVersion": "OvocoAnalytics 1.2.0", "productMedia": "AN Engine 1.2.0 Container", "releaseDate": "2025-07-01", "suiteStatus": "Published", "dmlPath": "/releases/an/1.2.0/" }
+]

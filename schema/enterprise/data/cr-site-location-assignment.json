@@ -1,0 +1,3 @@
+[
+  { "Name": "CR Acme US-East Location", "description": "Primary location for CR Acme US-East deployment", "deploymentSite": "CR Acme Corp US-East", "location": "US East (Virginia)", "locationType": "Primary", "assignmentStatus": "Active", "startDate": "2025-01-01", "serverCount": 4, "localPOC": "John Smith" }
+]

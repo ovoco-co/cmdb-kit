@@ -1,0 +1,5 @@
+[
+  { "Name": "OvocoCRM 2.4.0", "description": "Current production release with advanced reporting", "product": "CR Core Platform", "versionStatus": "Current", "versionNumber": "2.4.0", "releaseDate": "2025-09-15", "dmlPath": "/releases/cr/2.4.0/" },
+  { "Name": "OvocoCRM 2.3.1", "description": "Previous maintenance release", "product": "CR Core Platform", "versionStatus": "Previous", "versionNumber": "2.3.1", "previousVersion": "OvocoCRM 2.3.0", "releaseDate": "2025-06-01", "dmlPath": "/releases/cr/2.3.1/" },
+  { "Name": "OvocoCRM 2.3.0", "description": "Previous feature release with workflow automation", "product": "CR Core Platform", "versionStatus": "Sunset", "versionNumber": "2.3.0", "releaseDate": "2025-03-01", "sunsetReason": "Superseded", "sunsetDate": "2025-09-15", "dmlPath": "/releases/cr/2.3.0/" }
+]

@@ -1,0 +1,40 @@
+{
+  "Team": [
+    {
+      "Name": "CRM Platform Team",
+      "description": "OvocoCRM core platform development",
+      "organization": "Ovoco Engineering",
+      "teamLead": "Sarah Chen"
+    },
+    {
+      "Name": "Analytics Platform Team",
+      "description": "OvocoAnalytics development",
+      "organization": "Ovoco Engineering",
+      "teamLead": "Michael Torres"
+    },
+    {
+      "Name": "CRM Operations",
+      "description": "OvocoCRM deployment and site operations",
+      "organization": "Ovoco Operations",
+      "teamLead": "David Park"
+    },
+    {
+      "Name": "Analytics Operations",
+      "description": "OvocoAnalytics deployment and operations",
+      "organization": "Ovoco Operations",
+      "teamLead": "Emily Rodriguez"
+    },
+    {
+      "Name": "Infrastructure Team",
+      "description": "Shared infrastructure and DevOps",
+      "organization": "Ovoco Operations",
+      "teamLead": "James Wilson"
+    },
+    {
+      "Name": "Release Engineering",
+      "description": "Build, release, and configuration management",
+      "organization": "Ovoco Engineering",
+      "teamLead": "Lisa Kim"
+    }
+  ]
+}

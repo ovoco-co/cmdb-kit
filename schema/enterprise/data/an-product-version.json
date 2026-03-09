@@ -1,0 +1,5 @@
+[
+  { "Name": "OvocoAnalytics 1.2.0", "description": "Current release with predictive analytics", "product": "AN Analytics Engine", "versionStatus": "Current", "versionNumber": "1.2.0", "releaseDate": "2025-07-01", "dmlPath": "/releases/an/1.2.0/" },
+  { "Name": "OvocoAnalytics 1.1.0", "description": "Previous release with real-time streaming", "product": "AN Analytics Engine", "versionStatus": "Previous", "versionNumber": "1.1.0", "previousVersion": "OvocoAnalytics 1.0.0", "releaseDate": "2025-02-01", "dmlPath": "/releases/an/1.1.0/" },
+  { "Name": "OvocoAnalytics 1.0.0", "description": "Initial release", "product": "AN Analytics Engine", "versionStatus": "Sunset", "versionNumber": "1.0.0", "releaseDate": "2024-09-01", "sunsetReason": "Superseded", "sunsetDate": "2025-07-01", "dmlPath": "/releases/an/1.0.0/" }
+]

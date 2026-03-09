@@ -1,0 +1,6 @@
+[
+  { "Name": "CR Web Frontend", "description": "React-based CRM user interface", "product": "CR Core Platform", "componentType": "Application", "version": "2.4.0" },
+  { "Name": "CR Backend API", "description": "Node.js backend API service", "product": "CR Core Platform", "componentType": "Service", "version": "2.4.0" },
+  { "Name": "CR Data Layer", "description": "PostgreSQL data access layer", "product": "CR Core Platform", "componentType": "Library", "version": "2.4.0" },
+  { "Name": "CR Auth Service", "description": "OAuth2/SAML authentication service", "product": "CR Authentication Module", "componentType": "Service", "version": "2.4.0" }
+]

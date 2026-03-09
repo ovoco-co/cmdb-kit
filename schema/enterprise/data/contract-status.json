@@ -1,0 +1,7 @@
+[
+  { "Name": "Draft", "description": "Contract is being negotiated" },
+  { "Name": "Active", "description": "Contract is in effect" },
+  { "Name": "Expiring", "description": "Contract is within 90 days of expiration" },
+  { "Name": "Expired", "description": "Contract has passed its end date" },
+  { "Name": "Terminated", "description": "Contract was terminated early" }
+]

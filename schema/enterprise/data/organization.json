@@ -1,0 +1,47 @@
+{
+  "Organization": [
+    {
+      "Name": "Ovoco Inc",
+      "description": "Ovoco SaaS - parent company",
+      "orgType": "Software Company",
+      "website": "https://ovoco.example.com"
+    },
+    {
+      "Name": "Ovoco Engineering",
+      "description": "Ovoco product engineering division",
+      "orgType": "Engineering",
+      "parentOrganization": "Ovoco Inc"
+    },
+    {
+      "Name": "Ovoco Operations",
+      "description": "Ovoco IT operations division",
+      "orgType": "Operations",
+      "parentOrganization": "Ovoco Inc"
+    },
+    {
+      "Name": "Acme Corporation",
+      "description": "Enterprise CRM customer",
+      "orgType": "Customer"
+    },
+    {
+      "Name": "GlobalTech Industries",
+      "description": "Manufacturing sector customer",
+      "orgType": "Customer"
+    },
+    {
+      "Name": "Meridian Healthcare",
+      "description": "Healthcare sector customer",
+      "orgType": "Customer"
+    },
+    {
+      "Name": "Pacific Financial Group",
+      "description": "Financial services customer",
+      "orgType": "Customer"
+    },
+    {
+      "Name": "Summit Education Network",
+      "description": "Education sector customer",
+      "orgType": "Customer"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "Name": "CRM Core",
+    "description": "Primary CRM application handling contacts, deals, and workflows",
+    "productType": "Web Application",
+    "technology": "Node.js, React, PostgreSQL",
+    "owner": "Platform Engineering",
+    "status": "Active"
+  },
+  {
+    "Name": "API Gateway",
+    "description": "Central API gateway for all external and internal API traffic",
+    "productType": "API Gateway",
+    "technology": "Kong, Nginx",
+    "owner": "Platform Engineering",
+    "status": "Active"
+  },
+  {
+    "Name": "Analytics Engine",
+    "description": "Real-time analytics and reporting for CRM data",
+    "productType": "Data Processing",
+    "technology": "Python, ClickHouse, Apache Kafka",
+    "owner": "Data Engineering",
+    "status": "Active"
+  },
+  {
+    "Name": "Mobile API",
+    "description": "Backend-for-frontend serving the OvocoCRM mobile apps",
+    "productType": "API Service",
+    "technology": "Node.js, GraphQL",
+    "owner": "Mobile",
+    "status": "Active"
+  },
+  {
+    "Name": "Notification Service",
+    "description": "Manages email, SMS, and push notification delivery",
+    "productType": "Messaging Service",
+    "technology": "Go, RabbitMQ, SendGrid",
+    "owner": "Platform Engineering",
+    "status": "Active"
+  },
+  {
+    "Name": "Search Service",
+    "description": "Full-text search across contacts, deals, and documents",
+    "productType": "Search Engine",
+    "technology": "Elasticsearch, Node.js",
+    "owner": "Platform Engineering",
+    "status": "Active"
+  }
+]

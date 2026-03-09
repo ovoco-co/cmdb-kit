@@ -1,0 +1,4 @@
+[
+  { "Name": "CR Acme Corp License", "description": "OvocoCRM enterprise license for Acme Corp", "licenseType": "Enterprise", "licenseStatus": "Active", "product": "CR Core Platform", "deploymentSite": "CR Acme Corp US-East", "seatCount": 500, "startDate": "2025-01-01", "expirationDate": "2026-12-31" },
+  { "Name": "CR GlobalTech License", "description": "OvocoCRM standard license for GlobalTech", "licenseType": "Standard", "licenseStatus": "Active", "product": "CR Core Platform", "deploymentSite": "CR GlobalTech US-West", "seatCount": 200, "startDate": "2025-03-01", "expirationDate": "2026-02-28" }
+]

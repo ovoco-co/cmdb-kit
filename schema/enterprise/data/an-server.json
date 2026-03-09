@@ -1,0 +1,3 @@
+[
+  { "Name": "AN-PROC-EAST-01", "description": "OvocoAnalytics processing server, US East", "hostname": "an-proc-east-01.ovoco.internal", "hardwareModel": "Dell PowerEdge R760 GPU", "cpu": "Intel Xeon Gold 6430 + NVIDIA A100", "ram": "1TB", "storage": "16TB NVMe", "siteLocation": "AN Acme Corp US-East", "ipAddress": "10.2.1.10", "deploymentStatus": "Deployed", "operatingSystem": "Ubuntu 22.04 LTS", "installDate": "2025-03-01" }
+]

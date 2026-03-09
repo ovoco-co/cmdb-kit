@@ -1,0 +1,5 @@
+[
+  { "Name": "FBL", "description": "Functional Baseline - approved requirements", "sortOrder": 1 },
+  { "Name": "ABL", "description": "Allocated Baseline - approved design", "sortOrder": 2 },
+  { "Name": "PBL", "description": "Product Baseline - approved product configuration", "sortOrder": 3 }
+]

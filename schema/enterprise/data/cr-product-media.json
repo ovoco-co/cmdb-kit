@@ -1,0 +1,3 @@
+[
+  { "Name": "CR Platform 2.4.0 Container", "description": "OvocoCRM 2.4.0 container image", "mediaType": "Container Image", "relatedProduct": "CR Core Platform", "filename": "ovococrm-platform:2.4.0", "fileSize": "1.2GB", "fileDate": "2025-09-15", "version": "2.4.0", "checksum": "sha256:abc123def456", "dmlPath": "/releases/cr/2.4.0/images/" }
+]

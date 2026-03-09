@@ -1,0 +1,12 @@
+[
+  {
+    "Name": "SS Infrastructure Pen Test 2025",
+    "description": "Annual penetration test of shared infrastructure",
+    "assessmentType": "Penetration Test",
+    "assessmentStatus": "Completed",
+    "assessor": "NCC Group",
+    "assessmentDate": "2025-04-01",
+    "completionDate": "2025-04-15",
+    "findingsCount": 3
+  }
+]

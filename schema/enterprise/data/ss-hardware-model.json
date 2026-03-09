@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "SS Dell R660",
+    "description": "Standard 1U server for shared services",
+    "manufacturer": "Dell",
+    "modelName": "PowerEdge R660",
+    "modelNumber": "R660",
+    "hardwareType": "Rack Server",
+    "approvalStatus": "Approved",
+    "approvalDate": "2024-03-01"
+  },
+  {
+    "Name": "SS Dell R760",
+    "description": "2U server for Atlassian applications",
+    "manufacturer": "Dell",
+    "modelName": "PowerEdge R760",
+    "modelNumber": "R760",
+    "hardwareType": "Rack Server",
+    "approvalStatus": "Approved",
+    "approvalDate": "2024-03-01"
+  }
+]

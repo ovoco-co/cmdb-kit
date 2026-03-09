@@ -1,0 +1,6 @@
+[
+  { "Name": "Active", "description": "Product is live and serving traffic" },
+  { "Name": "Planned", "description": "Product is approved but not yet built" },
+  { "Name": "Deprecated", "description": "Product is being phased out" },
+  { "Name": "Retired", "description": "Product has been decommissioned" }
+]

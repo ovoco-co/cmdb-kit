@@ -1,0 +1,31 @@
+{
+  "Facility": [
+    {
+      "Name": "US East DC-A",
+      "description": "Primary datacenter in US East region",
+      "facilityType": "Datacenter",
+      "location": "US East (Virginia)",
+      "building": "DC-A",
+      "rackCount": 20,
+      "rackCapacity": "42U per rack"
+    },
+    {
+      "Name": "US West DC-B",
+      "description": "Datacenter in US West region",
+      "facilityType": "Datacenter",
+      "location": "US West (Oregon)",
+      "building": "DC-B",
+      "rackCount": 10,
+      "rackCapacity": "42U per rack"
+    },
+    {
+      "Name": "EU West DC-C",
+      "description": "Datacenter in EU West region",
+      "facilityType": "Datacenter",
+      "location": "EU West (Frankfurt)",
+      "building": "DC-C",
+      "rackCount": 8,
+      "rackCapacity": "42U per rack"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+[
+  { "Name": "Secure File Transfer", "description": "Encrypted file transfer over secure channel", "sortOrder": 1 },
+  { "Name": "Electronic Transfer", "description": "Electronic delivery via network", "sortOrder": 2 },
+  { "Name": "Container Registry", "description": "Pull from container image registry", "sortOrder": 3 },
+  { "Name": "Direct Download", "description": "Authenticated download from distribution server", "sortOrder": 4 },
+  { "Name": "Encrypted Physical Media", "description": "Physical media with encryption at rest", "sortOrder": 5 }
+]

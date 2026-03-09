@@ -1,0 +1,5 @@
+[
+  { "Name": "AN Query Engine", "description": "Distributed query processing engine", "product": "AN Analytics Engine", "componentType": "Service", "version": "1.2.0" },
+  { "Name": "AN ML Runtime", "description": "Machine learning model runtime", "product": "AN Analytics Engine", "componentType": "Service", "version": "1.2.0" },
+  { "Name": "AN Ingestion Worker", "description": "Data ingestion and transformation worker", "product": "AN Data Pipeline", "componentType": "Service", "version": "1.2.0" }
+]

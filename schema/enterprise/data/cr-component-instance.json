@@ -1,0 +1,4 @@
+[
+  { "Name": "CR Web Frontend 2.4.0-b142", "description": "Web frontend build 142 for 2.4.0", "component": "CR Web Frontend", "version": "2.4.0", "productVersion": "OvocoCRM 2.4.0", "buildDate": "2025-09-10", "buildNumber": "142", "checksum": "sha256:a1b2c3d4e5f6", "buildStatus": "Released", "packageSize": "45MB", "dmlPath": "/releases/cr/2.4.0/cr-web-frontend-2.4.0-b142.tar.gz" },
+  { "Name": "CR Backend API 2.4.0-b98", "description": "Backend API build 98 for 2.4.0", "component": "CR Backend API", "version": "2.4.0", "productVersion": "OvocoCRM 2.4.0", "buildDate": "2025-09-10", "buildNumber": "98", "checksum": "sha256:f6e5d4c3b2a1", "buildStatus": "Released", "packageSize": "120MB", "dmlPath": "/releases/cr/2.4.0/cr-backend-api-2.4.0-b98.tar.gz" }
+]

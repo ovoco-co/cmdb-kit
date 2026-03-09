@@ -1,0 +1,4 @@
+[
+  { "Name": "CR Advanced Reporting v2.4.0", "description": "Report builder implementation for 2.4.0 release", "parentFeature": "CR Advanced Reporting", "productVersion": "OvocoCRM 2.4.0", "implementationStatus": "Frozen", "frozenDate": "2025-09-01", "jiraEpic": "CR-1234" },
+  { "Name": "CR GraphQL API v2.4.0", "description": "GraphQL API implementation for 2.4.0 release", "parentFeature": "CR GraphQL API", "productVersion": "OvocoCRM 2.4.0", "implementationStatus": "Frozen", "frozenDate": "2025-09-01", "jiraEpic": "CR-1456" }
+]

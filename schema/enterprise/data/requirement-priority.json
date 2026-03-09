@@ -1,0 +1,5 @@
+[
+  { "Name": "Essential", "description": "Must be implemented, no workaround acceptable" },
+  { "Name": "Conditional", "description": "Should be implemented if resources permit" },
+  { "Name": "Optional", "description": "Nice to have, can be deferred" }
+]

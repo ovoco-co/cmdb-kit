@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 310" width="1100" height="310" font-family="sans-serif">
+
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#AAAAAA"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="310" fill="#FAFAFA" rx="8"/>
+
+  <!-- Title -->
+  <text x="550" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#333333">Release Lifecycle Flow</text>
+
+  <!-- Legend -->
+  <rect x="370" y="44" width="12" height="12" rx="3" fill="#7B68EE"/>
+  <text x="388" y="55" font-size="11" fill="#666666">Product Library</text>
+  <rect x="500" y="44" width="12" height="12" rx="3" fill="#4A90D9"/>
+  <text x="518" y="55" font-size="11" fill="#666666">Product CMDB</text>
+
+  <!-- ROW 1: 5 boxes, left to right, centered -->
+  <!-- Box width=112, gap=24. Total = 5*112 + 4*24 = 656. Start x = (1100-656)/2 = 222 -->
+
+  <!-- Product Version -->
+  <rect x="222" y="78" width="112" height="56" rx="8" fill="#7B68EE" fill-opacity="0.12" stroke="#7B68EE" stroke-width="1.5"/>
+  <text x="278" y="100" text-anchor="middle" font-size="11" font-weight="600" fill="#5B48CE">Product</text>
+  <text x="278" y="114" text-anchor="middle" font-size="11" font-weight="600" fill="#5B48CE">Version</text>
+  <text x="278" y="147" text-anchor="middle" font-size="9" fill="#999999">versionNumber</text>
+  <text x="278" y="159" text-anchor="middle" font-size="9" fill="#999999">releaseDate</text>
+
+  <line x1="334" y1="106" x2="356" y2="106" stroke="#AAAAAA" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Product Component -->
+  <rect x="358" y="78" width="112" height="56" rx="8" fill="#4A90D9" fill-opacity="0.12" stroke="#4A90D9" stroke-width="1.5"/>
+  <text x="414" y="100" text-anchor="middle" font-size="11" font-weight="600" fill="#3570A9">Product</text>
+  <text x="414" y="114" text-anchor="middle" font-size="11" font-weight="600" fill="#3570A9">Component</text>
+  <text x="414" y="147" text-anchor="middle" font-size="9" fill="#999999">componentType</text>
+  <text x="414" y="159" text-anchor="middle" font-size="9" fill="#999999">technology</text>
+
+  <line x1="470" y1="106" x2="492" y2="106" stroke="#AAAAAA" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Documentation Suite -->
+  <rect x="494" y="78" width="112" height="56" rx="8" fill="#7B68EE" fill-opacity="0.12" stroke="#7B68EE" stroke-width="1.5"/>
+  <text x="550" y="100" text-anchor="middle" font-size="11" font-weight="600" fill="#5B48CE">Documentation</text>
+  <text x="550" y="114" text-anchor="middle" font-size="11" font-weight="600" fill="#5B48CE">Suite</text>
+  <text x="550" y="147" text-anchor="middle" font-size="9" fill="#999999">documents (multi-ref)</text>
+  <text x="550" y="159" text-anchor="middle" font-size="9" fill="#999999">state</text>
+
+  <line x1="606" y1="106" x2="628" y2="106" stroke="#AAAAAA" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Document -->
+  <rect x="630" y="78" width="112" height="56" rx="8" fill="#7B68EE" fill-opacity="0.12" stroke="#7B68EE" stroke-width="1.5"/>
+  <text x="686" y="110" text-anchor="middle" font-size="11" font-weight="600" fill="#5B48CE">Document</text>
+  <text x="686" y="147" text-anchor="middle" font-size="9" fill="#999999">documentType</text>
+  <text x="686" y="159" text-anchor="middle" font-size="9" fill="#999999">state</text>
+
+  <line x1="742" y1="106" x2="764" y2="106" stroke="#AAAAAA" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Baseline -->
+  <rect x="766" y="78" width="112" height="56" rx="8" fill="#7B68EE" fill-opacity="0.12" stroke="#7B68EE" stroke-width="1.5"/>
+  <text x="822" y="110" text-anchor="middle" font-size="11" font-weight="600" fill="#5B48CE">Baseline</text>
+  <text x="822" y="147" text-anchor="middle" font-size="9" fill="#999999">baselineType</text>
+  <text x="822" y="159" text-anchor="middle" font-size="9" fill="#999999">approvalDate</text>
+
+  <!-- Connector: Baseline bottom down, left across to Certification, then down into Certification -->
+  <polyline points="822,134 822,172 414,172 414,210" fill="none" stroke="#AAAAAA" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ROW 2: 4 boxes, right-aligned with Row 1 -->
+  <!-- Box width=112, gap=24. Total = 4*112 + 3*24 = 520. Right edge = 878. Start x = 358 -->
+
+  <!-- Certification -->
+  <rect x="358" y="212" width="112" height="56" rx="8" fill="#7B68EE" fill-opacity="0.12" stroke="#7B68EE" stroke-width="1.5"/>
+  <text x="414" y="244" text-anchor="middle" font-size="11" font-weight="600" fill="#5B48CE">Certification</text>
+  <text x="414" y="281" text-anchor="middle" font-size="9" fill="#999999">certificationType</text>
+  <text x="414" y="293" text-anchor="middle" font-size="9" fill="#999999">expirationDate</text>
+
+  <line x1="470" y1="240" x2="492" y2="240" stroke="#AAAAAA" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Deployment -->
+  <rect x="494" y="212" width="112" height="56" rx="8" fill="#7B68EE" fill-opacity="0.12" stroke="#7B68EE" stroke-width="1.5"/>
+  <text x="550" y="244" text-anchor="middle" font-size="11" font-weight="600" fill="#5B48CE">Deployment</text>
+  <text x="550" y="281" text-anchor="middle" font-size="9" fill="#999999">environment</text>
+  <text x="550" y="293" text-anchor="middle" font-size="9" fill="#999999">deployDate</text>
+
+  <line x1="606" y1="240" x2="628" y2="240" stroke="#AAAAAA" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Distribution Log -->
+  <rect x="630" y="212" width="112" height="56" rx="8" fill="#7B68EE" fill-opacity="0.12" stroke="#7B68EE" stroke-width="1.5"/>
+  <text x="686" y="234" text-anchor="middle" font-size="11" font-weight="600" fill="#5B48CE">Distribution</text>
+  <text x="686" y="248" text-anchor="middle" font-size="11" font-weight="600" fill="#5B48CE">Log</text>
+  <text x="686" y="281" text-anchor="middle" font-size="9" fill="#999999">site</text>
+  <text x="686" y="293" text-anchor="middle" font-size="9" fill="#999999">distributionDate</text>
+
+  <line x1="742" y1="240" x2="764" y2="240" stroke="#AAAAAA" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Deployment Site -->
+  <rect x="766" y="212" width="112" height="56" rx="8" fill="#7B68EE" fill-opacity="0.12" stroke="#7B68EE" stroke-width="1.5"/>
+  <text x="822" y="234" text-anchor="middle" font-size="11" font-weight="600" fill="#5B48CE">Deployment</text>
+  <text x="822" y="248" text-anchor="middle" font-size="11" font-weight="600" fill="#5B48CE">Site</text>
+  <text x="822" y="281" text-anchor="middle" font-size="9" fill="#999999">location</text>
+  <text x="822" y="293" text-anchor="middle" font-size="9" fill="#999999">goLiveDate</text>
+
+</svg>

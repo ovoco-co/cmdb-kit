@@ -1,0 +1,4 @@
+[
+  { "Name": "Dell PowerEdge R760", "description": "2U rack server for CRM application tier", "manufacturer": "Dell", "modelNumber": "R760", "hardwareType": "Rack Server", "cpu": "Intel Xeon Gold 6430", "ram": "512GB", "storage": "4TB NVMe", "approvedDate": "2024-06-01" },
+  { "Name": "Dell PowerEdge R660", "description": "1U rack server for CRM database tier", "manufacturer": "Dell", "modelNumber": "R660", "hardwareType": "Rack Server", "cpu": "Intel Xeon Gold 6430", "ram": "256GB", "storage": "8TB NVMe", "approvedDate": "2024-06-01" }
+]

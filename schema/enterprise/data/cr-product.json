@@ -1,0 +1,6 @@
+[
+  { "Name": "CR Core Platform", "description": "OvocoCRM core CRM platform", "productType": "Platform", "currentVersion": "2.4.0", "releaseDate": "2025-09-15", "versionStatus": "Active", "vendor": "Ovoco Inc", "distributionMethod": "Container Registry" },
+  { "Name": "CR API Gateway", "description": "REST and GraphQL API gateway for OvocoCRM", "productType": "Service", "currentVersion": "2.4.0", "releaseDate": "2025-09-15", "versionStatus": "Active", "vendor": "Ovoco Inc", "parentProduct": "CR Core Platform", "distributionMethod": "Container Registry" },
+  { "Name": "CR Search Service", "description": "Full-text search and indexing service", "productType": "Service", "currentVersion": "2.4.0", "releaseDate": "2025-09-15", "versionStatus": "Active", "vendor": "Ovoco Inc", "parentProduct": "CR Core Platform", "distributionMethod": "Container Registry" },
+  { "Name": "CR Authentication Module", "description": "SSO and authentication module", "productType": "Module", "currentVersion": "2.4.0", "releaseDate": "2025-09-15", "versionStatus": "Active", "vendor": "Ovoco Inc", "parentProduct": "CR Core Platform", "distributionMethod": "Container Registry" }
+]

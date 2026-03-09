@@ -1,0 +1,7 @@
+[
+  { "Name": "Draft", "description": "Feature implementation planned but not started", "sortOrder": 1 },
+  { "Name": "In Development", "description": "Feature actively being implemented", "sortOrder": 2 },
+  { "Name": "Staged", "description": "Implementation complete, awaiting release", "sortOrder": 3 },
+  { "Name": "Live", "description": "Feature released and active in production", "sortOrder": 4 },
+  { "Name": "Frozen", "description": "Implementation record frozen for audit purposes", "sortOrder": 5 }
+]

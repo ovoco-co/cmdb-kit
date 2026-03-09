@@ -1,0 +1,6 @@
+[
+  { "Name": "Planned", "description": "Assessment is scheduled", "sortOrder": 1 },
+  { "Name": "In Progress", "description": "Assessment is underway", "sortOrder": 2 },
+  { "Name": "Completed", "description": "Assessment finished", "sortOrder": 3 },
+  { "Name": "Remediation", "description": "Findings being addressed", "sortOrder": 4 }
+]

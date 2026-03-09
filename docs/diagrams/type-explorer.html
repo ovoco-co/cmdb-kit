@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cmdb-kit Type Explorer</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f5f7fa;
+    color: #333;
+    line-height: 1.5;
+  }
+
+  header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 20px 32px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+
+  header span {
+    font-size: 13px;
+    color: #8a8fa8;
+    font-weight: 400;
+  }
+
+  .layout {
+    display: flex;
+    height: calc(100vh - 66px);
+  }
+
+  /* Tree panel */
+  .tree-panel {
+    width: 360px;
+    min-width: 280px;
+    background: #fff;
+    border-right: 1px solid #e2e6ed;
+    overflow-y: auto;
+    padding: 16px 0;
+  }
+
+  .branch {
+    margin-bottom: 4px;
+  }
+
+  .branch-header {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 600;
+    font-size: 14px;
+    gap: 8px;
+    transition: background 0.15s;
+  }
+
+  .branch-header:hover {
+    background: #f0f2f5;
+  }
+
+  .branch-header .chevron {
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #666;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .branch-header .chevron.collapsed {
+    transform: rotate(-90deg);
+  }
+
+  .branch-header .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .branch-header .count {
+    font-size: 11px;
+    font-weight: 500;
+    color: #888;
+    margin-left: auto;
+  }
+
+  .branch-children {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .branch-children.collapsed {
+    max-height: 0 !important;
+  }
+
+  .type-item {
+    padding: 6px 16px 6px 52px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #444;
+    transition: background 0.12s, color 0.12s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .type-item:hover {
+    background: #f0f4ff;
+    color: #222;
+  }
+
+  .type-item.selected {
+    background: #e8eeff;
+    color: #1a1a2e;
+    font-weight: 600;
+  }
+
+  .type-item .type-icon {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  /* Detail panel */
+  .detail-panel {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 40px;
+  }
+
+  .detail-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #999;
+    font-size: 15px;
+  }
+
+  .detail-header {
+    margin-bottom: 24px;
+  }
+
+  .detail-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+  }
+
+  .detail-header .branch-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 12px;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .detail-header .description {
+    font-size: 15px;
+    color: #555;
+  }
+
+  .attr-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 16px;
+  }
+
+  .attr-table thead th {
+    text-align: left;
+    padding: 10px 14px;
+    background: #f5f7fa;
+    border-bottom: 2px solid #e2e6ed;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #666;
+  }
+
+  .attr-table tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #eef0f4;
+    vertical-align: top;
+  }
+
+  .attr-table tbody tr:hover {
+    background: #fafbfd;
+  }
+
+  .attr-name {
+    font-weight: 500;
+    color: #1a1a2e;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 13px;
+  }
+
+  .attr-display {
+    color: #666;
+    font-size: 12px;
+    margin-top: 2px;
+  }
+
+  .type-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #e8eeff;
+    color: #4A6FA5;
+  }
+
+  .type-badge.ref {
+    background: #fff0e6;
+    color: #c06020;
+  }
+
+  .type-badge.date {
+    background: #e6f7f0;
+    color: #2d8a5e;
+  }
+
+  .type-badge.integer {
+    background: #f0e6ff;
+    color: #7b4dbf;
+  }
+
+  .type-badge.boolean {
+    background: #fde8e8;
+    color: #c04040;
+  }
+
+  .ref-target {
+    font-size: 12px;
+    color: #4A6FA5;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 2px;
+  }
+
+  .ref-target:hover {
+    color: #2a5090;
+  }
+
+  .multi-indicator {
+    font-size: 10px;
+    font-weight: 600;
+    color: #999;
+    margin-left: 4px;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #eef0f4;
+  }
+
+  .stat {
+    font-size: 12px;
+    color: #888;
+  }
+
+  .stat strong {
+    font-size: 18px;
+    color: #333;
+    display: block;
+    font-weight: 700;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .layout {
+      flex-direction: column;
+      height: auto;
+    }
+    .tree-panel {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #e2e6ed;
+      max-height: 50vh;
+    }
+    .detail-panel {
+      padding: 24px 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>cmdb-kit Type Explorer</h1>
+  <span>Extended schema - 59 types across 4 branches</span>
+</header>
+
+<div class="layout">
+  <nav class="tree-panel" id="tree"></nav>
+  <main class="detail-panel" id="detail">
+    <div class="detail-empty">Select a type from the tree to view its attributes</div>
+  </main>
+</div>
+
+<script>
+(function() {
+
+  // -- Schema structure data --
+  var structure = [
+    { name: "Product CMDB", description: "Product infrastructure and components" },
+    { name: "Application", parent: "Product CMDB", description: "Software services and applications" },
+    { name: "Server", parent: "Product CMDB", description: "Compute instances and hosts" },
+    { name: "Database", parent: "Product CMDB", description: "Database instances" },
+    { name: "Product Component", parent: "Product CMDB", description: "Modular parts of a product" },
+    { name: "Hardware Model", parent: "Product CMDB", description: "Approved hardware and instance types" },
+    { name: "Network Segment", parent: "Product CMDB", description: "Network zones and segments" },
+    { name: "Virtual Machine", parent: "Product CMDB", description: "VMs and containers" },
+    { name: "License", parent: "Product CMDB", description: "Software license tracking" },
+    { name: "Assessment", parent: "Product CMDB", description: "Security and compliance assessments" },
+    { name: "Feature", parent: "Product CMDB", description: "Product features and capabilities" },
+
+    { name: "Product Library", description: "Releases, documents, and deployments" },
+    { name: "Product Version", parent: "Product Library", description: "Released software versions" },
+    { name: "Document", parent: "Product Library", description: "Controlled documentation" },
+    { name: "Deployment", parent: "Product Library", description: "Version deployed to an environment" },
+    { name: "Baseline", parent: "Product Library", description: "Configuration baselines" },
+    { name: "Documentation Suite", parent: "Product Library", description: "Versioned documentation packages" },
+    { name: "Product Media", parent: "Product Library", description: "Downloadable artifacts and binaries" },
+    { name: "Product Suite", parent: "Product Library", description: "Software distribution bundles" },
+    { name: "Certification", parent: "Product Library", description: "Compliance certifications" },
+    { name: "Deployment Site", parent: "Product Library", description: "Customer regions or tenant instances" },
+    { name: "Distribution Log", parent: "Product Library", description: "Software distribution audit trail" },
+    { name: "Change Request", parent: "Product Library", description: "Change management records" },
+    { name: "Incident", parent: "Product Library", description: "Incident records" },
+    { name: "SLA", parent: "Product Library", description: "Service level agreements" },
+
+    { name: "Directory", description: "People, teams, and organizations" },
+    { name: "Organization", parent: "Directory", description: "Companies and departments" },
+    { name: "Team", parent: "Directory", description: "Engineering and operations teams" },
+    { name: "Person", parent: "Directory", description: "Team members and contacts" },
+    { name: "Location", parent: "Directory", description: "Offices and data centers" },
+    { name: "Facility", parent: "Directory", description: "Server rooms and secure areas" },
+    { name: "Vendor", parent: "Directory", description: "Third-party suppliers" },
+
+    { name: "Lookup Types", description: "Reference data and enumerations" },
+    { name: "Application Status", parent: "Lookup Types", description: "Lifecycle status for applications" },
+    { name: "Version Status", parent: "Lookup Types", description: "Lifecycle status for product versions" },
+    { name: "Deployment Status", parent: "Lookup Types", description: "Status of a deployment" },
+    { name: "Environment Type", parent: "Lookup Types", description: "Deployment environment classification" },
+    { name: "Document Type", parent: "Lookup Types", description: "Classification of documents" },
+    { name: "Document State", parent: "Lookup Types", description: "Document lifecycle state" },
+    { name: "Component Type", parent: "Lookup Types", description: "Classification of product components" },
+    { name: "Priority", parent: "Lookup Types", description: "Priority levels" },
+    { name: "Organization Type", parent: "Lookup Types", description: "Classification of organizations" },
+    { name: "Deployment Role", parent: "Lookup Types", description: "Roles involved in deployments" },
+    { name: "Change Type", parent: "Lookup Types", description: "Classification of change requests" },
+    { name: "Change Impact", parent: "Lookup Types", description: "Impact level of changes" },
+    { name: "Incident Severity", parent: "Lookup Types", description: "Severity levels for incidents" },
+    { name: "Incident Status", parent: "Lookup Types", description: "Lifecycle status for incidents" },
+    { name: "Certification Type", parent: "Lookup Types", description: "Types of compliance certifications" },
+    { name: "Certification Status", parent: "Lookup Types", description: "Status of certifications" },
+    { name: "Assessment Type", parent: "Lookup Types", description: "Types of assessments" },
+    { name: "Assessment Status", parent: "Lookup Types", description: "Status of assessments" },
+    { name: "Network Type", parent: "Lookup Types", description: "Classification of network segments" },
+    { name: "Baseline Type", parent: "Lookup Types", description: "Types of configuration baselines" },
+    { name: "Baseline Status", parent: "Lookup Types", description: "Status of baselines" },
+    { name: "License Type", parent: "Lookup Types", description: "Types of software licenses" },
+    { name: "License Status", parent: "Lookup Types", description: "Status of licenses" },
+    { name: "Site Status", parent: "Lookup Types", description: "Status of deployment sites" },
+    { name: "Vendor Status", parent: "Lookup Types", description: "Status of vendor relationships" },
+    { name: "SLA Status", parent: "Lookup Types", description: "Status of service level agreements" }
+  ];
+
+  // -- Schema attributes data --
+  var attributes = {
+    "Application": {
+      "description": { type: 0 },
+      "applicationType": { type: 0 },
+      "technology": { type: 0 },
+      "owner": { type: 1, referenceType: "Team" },
+      "status": { type: 1, referenceType: "Application Status" }
+    },
+    "Server": {
+      "description": { type: 0 },
+      "hostname": { type: 0 },
+      "ipAddress": { type: 0 },
+      "operatingSystem": { type: 0 },
+      "environment": { type: 1, referenceType: "Environment Type" },
+      "cpu": { type: 0 },
+      "ram": { type: 0 },
+      "storage": { type: 0 }
+    },
+    "Database": {
+      "description": { type: 0 },
+      "databaseEngine": { type: 0 },
+      "version": { type: 0 },
+      "server": { type: 1, referenceType: "Server" },
+      "storageSize": { type: 0 },
+      "environment": { type: 1, referenceType: "Environment Type" }
+    },
+    "Product Component": {
+      "description": { type: 0 },
+      "componentType": { type: 1, referenceType: "Component Type" },
+      "repository": { type: 0 },
+      "technology": { type: 0 },
+      "owner": { type: 1, referenceType: "Team" }
+    },
+    "Hardware Model": {
+      "description": { type: 0 },
+      "manufacturer": { type: 0 },
+      "modelNumber": { type: 0 },
+      "cpu": { type: 0 },
+      "ram": { type: 0 },
+      "storage": { type: 0 },
+      "formFactor": { type: 0 }
+    },
+    "Network Segment": {
+      "description": { type: 0 },
+      "networkType": { type: 1, referenceType: "Network Type" },
+      "cidr": { type: 0 },
+      "vlan": { type: 0 },
+      "gateway": { type: 0 }
+    },
+    "Virtual Machine": {
+      "description": { type: 0 },
+      "hostname": { type: 0 },
+      "server": { type: 1, referenceType: "Server" },
+      "operatingSystem": { type: 0 },
+      "cpu": { type: 0 },
+      "ram": { type: 0 },
+      "environment": { type: 1, referenceType: "Environment Type" }
+    },
+    "License": {
+      "description": { type: 0 },
+      "licenseType": { type: 1, referenceType: "License Type" },
+      "vendor": { type: 1, referenceType: "Vendor" },
+      "expirationDate": { type: 0, defaultTypeId: 4 },
+      "quantity": { type: 0, defaultTypeId: 1 },
+      "status": { type: 1, referenceType: "License Status" }
+    },
+    "Assessment": {
+      "description": { type: 0 },
+      "assessmentType": { type: 1, referenceType: "Assessment Type" },
+      "assessmentDate": { type: 0, defaultTypeId: 4 },
+      "status": { type: 1, referenceType: "Assessment Status" },
+      "assessor": { type: 1, referenceType: "Person" },
+      "findings": { type: 0 }
+    },
+    "Feature": {
+      "description": { type: 0 },
+      "version": { type: 1, referenceType: "Product Version" },
+      "status": { type: 1, referenceType: "Version Status" },
+      "owner": { type: 1, referenceType: "Team" }
+    },
+    "Product Version": {
+      "description": { type: 0 },
+      "versionNumber": { type: 0 },
+      "releaseDate": { type: 0, defaultTypeId: 4 },
+      "status": { type: 1, referenceType: "Version Status" },
+      "components": { type: 1, referenceType: "Product Component", max: -1 },
+      "previousVersion": { type: 1, referenceType: "Product Version" }
+    },
+    "Document": {
+      "description": { type: 0 },
+      "documentType": { type: 1, referenceType: "Document Type" },
+      "state": { type: 1, referenceType: "Document State" },
+      "author": { type: 1, referenceType: "Person" },
+      "publishDate": { type: 0, defaultTypeId: 4 },
+      "url": { type: 0 }
+    },
+    "Deployment": {
+      "description": { type: 0 },
+      "version": { type: 1, referenceType: "Product Version" },
+      "environment": { type: 1, referenceType: "Environment Type" },
+      "deployDate": { type: 0, defaultTypeId: 4 },
+      "status": { type: 1, referenceType: "Deployment Status" },
+      "deployedBy": { type: 1, referenceType: "Person" }
+    },
+    "Baseline": {
+      "description": { type: 0 },
+      "baselineType": { type: 1, referenceType: "Baseline Type" },
+      "version": { type: 1, referenceType: "Product Version" },
+      "status": { type: 1, referenceType: "Baseline Status" },
+      "approvalDate": { type: 0, defaultTypeId: 4 }
+    },
+    "Documentation Suite": {
+      "description": { type: 0 },
+      "version": { type: 1, referenceType: "Product Version" },
+      "documents": { type: 1, referenceType: "Document", max: -1 },
+      "state": { type: 1, referenceType: "Document State" }
+    },
+    "Product Media": {
+      "description": { type: 0 },
+      "version": { type: 1, referenceType: "Product Version" },
+      "fileName": { type: 0 },
+      "fileSize": { type: 0 },
+      "checksum": { type: 0 }
+    },
+    "Product Suite": {
+      "description": { type: 0 },
+      "version": { type: 1, referenceType: "Product Version" },
+      "media": { type: 1, referenceType: "Product Media", max: -1 }
+    },
+    "Certification": {
+      "description": { type: 0 },
+      "certificationType": { type: 1, referenceType: "Certification Type" },
+      "status": { type: 1, referenceType: "Certification Status" },
+      "issueDate": { type: 0, defaultTypeId: 4 },
+      "expirationDate": { type: 0, defaultTypeId: 4 },
+      "issuingBody": { type: 0 }
+    },
+    "Deployment Site": {
+      "description": { type: 0 },
+      "location": { type: 1, referenceType: "Location" },
+      "status": { type: 1, referenceType: "Site Status" },
+      "environment": { type: 1, referenceType: "Environment Type" },
+      "goLiveDate": { type: 0, defaultTypeId: 4 }
+    },
+    "Distribution Log": {
+      "description": { type: 0 },
+      "version": { type: 1, referenceType: "Product Version" },
+      "site": { type: 1, referenceType: "Deployment Site" },
+      "distributionDate": { type: 0, defaultTypeId: 4 },
+      "distributedBy": { type: 1, referenceType: "Person" }
+    },
+    "Change Request": {
+      "description": { type: 0 },
+      "changeType": { type: 1, referenceType: "Change Type" },
+      "impact": { type: 1, referenceType: "Change Impact" },
+      "requestedBy": { type: 1, referenceType: "Person" },
+      "requestDate": { type: 0, defaultTypeId: 4 },
+      "status": { type: 1, referenceType: "Deployment Status" }
+    },
+    "Incident": {
+      "description": { type: 0 },
+      "severity": { type: 1, referenceType: "Incident Severity" },
+      "status": { type: 1, referenceType: "Incident Status" },
+      "reportedBy": { type: 1, referenceType: "Person" },
+      "reportDate": { type: 0, defaultTypeId: 4 },
+      "resolvedDate": { type: 0, defaultTypeId: 4 },
+      "affectedApplication": { type: 1, referenceType: "Application" }
+    },
+    "SLA": {
+      "description": { type: 0 },
+      "application": { type: 1, referenceType: "Application" },
+      "status": { type: 1, referenceType: "SLA Status" },
+      "targetUptime": { type: 0 },
+      "responseTime": { type: 0 },
+      "reviewDate": { type: 0, defaultTypeId: 4 }
+    },
+    "Organization": {
+      "description": { type: 0 },
+      "orgType": { type: 1, referenceType: "Organization Type" },
+      "website": { type: 0 },
+      "parentOrganization": { type: 1, referenceType: "Organization" }
+    },
+    "Team": {
+      "description": { type: 0 },
+      "organization": { type: 1, referenceType: "Organization" },
+      "teamLead": { type: 1, referenceType: "Person" }
+    },
+    "Person": {
+      "description": { type: 0 },
+      "firstName": { type: 0 },
+      "lastName": { type: 0 },
+      "email": { type: 0 },
+      "role": { type: 0 },
+      "team": { type: 1, referenceType: "Team" }
+    },
+    "Location": {
+      "description": { type: 0 },
+      "address": { type: 0 },
+      "city": { type: 0 },
+      "country": { type: 0 },
+      "locationType": { type: 0 }
+    },
+    "Facility": {
+      "description": { type: 0 },
+      "location": { type: 1, referenceType: "Location" },
+      "facilityType": { type: 0 },
+      "capacity": { type: 0 }
+    },
+    "Vendor": {
+      "description": { type: 0 },
+      "website": { type: 0 },
+      "contactEmail": { type: 0 },
+      "status": { type: 1, referenceType: "Vendor Status" },
+      "contractExpiry": { type: 0, defaultTypeId: 4 }
+    },
+    "Application Status": { "description": { type: 0 } },
+    "Version Status": { "description": { type: 0 } },
+    "Deployment Status": { "description": { type: 0 } },
+    "Environment Type": { "description": { type: 0 } },
+    "Document Type": { "description": { type: 0 } },
+    "Document State": { "description": { type: 0 } },
+    "Component Type": { "description": { type: 0 } },
+    "Priority": { "description": { type: 0 } },
+    "Organization Type": { "description": { type: 0 } },
+    "Deployment Role": { "description": { type: 0 } },
+    "Change Type": { "description": { type: 0 } },
+    "Change Impact": { "description": { type: 0 } },
+    "Incident Severity": { "description": { type: 0 } },
+    "Incident Status": { "description": { type: 0 } },
+    "Certification Type": { "description": { type: 0 } },
+    "Certification Status": { "description": { type: 0 } },
+    "Assessment Type": { "description": { type: 0 } },
+    "Assessment Status": { "description": { type: 0 } },
+    "Network Type": { "description": { type: 0 } },
+    "Baseline Type": { "description": { type: 0 } },
+    "Baseline Status": { "description": { type: 0 } },
+    "License Type": { "description": { type: 0 } },
+    "License Status": { "description": { type: 0 } },
+    "Site Status": { "description": { type: 0 } },
+    "Vendor Status": { "description": { type: 0 } },
+    "SLA Status": { "description": { type: 0 } }
+  };
+
+  // -- Branch colors --
+  var branchColors = {
+    "Product CMDB": "#4A90D9",
+    "Product Library": "#7B68EE",
+    "Directory": "#50C878",
+    "Lookup Types": "#F0AD4E"
+  };
+
+  // -- Build tree data --
+  var branches = [];
+  var structureMap = {};
+  structure.forEach(function(item) {
+    structureMap[item.name] = item;
+    if (!item.parent) {
+      branches.push({ name: item.name, description: item.description, children: [] });
+    }
+  });
+  structure.forEach(function(item) {
+    if (item.parent) {
+      var branch = branches.find(function(b) { return b.name === item.parent; });
+      if (branch) branch.children.push(item);
+    }
+  });
+
+  // -- Utility: camelCase to Title Case --
+  function camelToTitle(str) {
+    return str
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, function(s) { return s.toUpperCase(); })
+      .trim();
+  }
+
+  // -- Utility: resolve attribute type --
+  function resolveType(attr) {
+    if (attr.type === 1) return "Reference";
+    if (attr.defaultTypeId === 4) return "Date";
+    if (attr.defaultTypeId === 1) return "Integer";
+    if (attr.defaultTypeId === 2) return "Boolean";
+    return "Text";
+  }
+
+  function typeBadgeClass(typeStr) {
+    if (typeStr === "Reference") return "ref";
+    if (typeStr === "Date") return "date";
+    if (typeStr === "Integer") return "integer";
+    if (typeStr === "Boolean") return "boolean";
+    return "";
+  }
+
+  // -- State --
+  var selectedType = null;
+
+  // -- Render tree --
+  function renderTree() {
+    var treeEl = document.getElementById("tree");
+    var html = "";
+
+    branches.forEach(function(branch) {
+      var color = branchColors[branch.name] || "#888";
+      var childCount = branch.children.length;
+
+      html += '<div class="branch" data-branch="' + branch.name + '">';
+      html += '<div class="branch-header" onclick="toggleBranch(this)">';
+      html += '<span class="chevron">&#9660;</span>';
+      html += '<span class="dot" style="background:' + color + '"></span>';
+      html += '<span>' + branch.name + '</span>';
+      html += '<span class="count">' + childCount + '</span>';
+      html += '</div>';
+      html += '<div class="branch-children" style="max-height:' + (childCount * 36) + 'px">';
+
+      branch.children.forEach(function(child) {
+        html += '<div class="type-item" data-type="' + child.name + '" onclick="selectType(\'' + child.name.replace(/'/g, "\\'") + '\')">';
+        html += '<span class="type-icon" style="background:' + color + '"></span>';
+        html += '<span>' + child.name + '</span>';
+        html += '</div>';
+      });
+
+      html += '</div></div>';
+    });
+
+    treeEl.innerHTML = html;
+  }
+
+  // -- Toggle branch --
+  window.toggleBranch = function(headerEl) {
+    var chevron = headerEl.querySelector(".chevron");
+    var children = headerEl.nextElementSibling;
+    if (children.classList.contains("collapsed")) {
+      children.classList.remove("collapsed");
+      chevron.classList.remove("collapsed");
+    } else {
+      children.classList.add("collapsed");
+      chevron.classList.add("collapsed");
+    }
+  };
+
+  // -- Select type --
+  window.selectType = function(typeName) {
+    selectedType = typeName;
+
+    // Update tree selection
+    var items = document.querySelectorAll(".type-item");
+    items.forEach(function(el) {
+      el.classList.toggle("selected", el.getAttribute("data-type") === typeName);
+    });
+
+    renderDetail(typeName);
+  };
+
+  // -- Render detail --
+  function renderDetail(typeName) {
+    var detailEl = document.getElementById("detail");
+    var typeInfo = structureMap[typeName];
+    var attrs = attributes[typeName];
+
+    if (!typeInfo) {
+      detailEl.innerHTML = '<div class="detail-empty">Type not found</div>';
+      return;
+    }
+
+    var branchName = typeInfo.parent || typeName;
+    var color = branchColors[branchName] || "#888";
+
+    var html = '<div class="detail-header">';
+    html += '<span class="branch-badge" style="background:' + color + '">' + branchName + '</span>';
+    html += '<h2>' + typeName + '</h2>';
+    html += '<p class="description">' + (typeInfo.description || "") + '</p>';
+    html += '</div>';
+
+    if (attrs) {
+      var attrKeys = Object.keys(attrs);
+      var refCount = 0;
+      var textCount = 0;
+      attrKeys.forEach(function(key) {
+        var t = resolveType(attrs[key]);
+        if (t === "Reference") refCount++;
+        else textCount++;
+      });
+
+      html += '<div class="stats-bar">';
+      html += '<div class="stat"><strong>' + attrKeys.length + '</strong>attributes</div>';
+      html += '<div class="stat"><strong>' + textCount + '</strong>value fields</div>';
+      html += '<div class="stat"><strong>' + refCount + '</strong>references</div>';
+      html += '</div>';
+
+      html += '<table class="attr-table"><thead><tr>';
+      html += '<th>Attribute</th><th>Type</th><th>Reference Target</th>';
+      html += '</tr></thead><tbody>';
+
+      attrKeys.forEach(function(key) {
+        var attr = attrs[key];
+        var typeStr = resolveType(attr);
+        var badgeClass = typeBadgeClass(typeStr);
+        var isMulti = attr.max === -1;
+
+        html += '<tr>';
+        html += '<td><div class="attr-name">' + key + '</div><div class="attr-display">' + camelToTitle(key) + '</div></td>';
+        html += '<td><span class="type-badge ' + badgeClass + '">' + typeStr + '</span>';
+        if (isMulti) html += '<span class="multi-indicator">(multi)</span>';
+        html += '</td>';
+
+        if (attr.referenceType) {
+          html += '<td><span class="ref-target" onclick="selectType(\'' + attr.referenceType.replace(/'/g, "\\'") + '\')">' + attr.referenceType + '</span></td>';
+        } else {
+          html += '<td></td>';
+        }
+
+        html += '</tr>';
+      });
+
+      html += '</tbody></table>';
+    } else {
+      html += '<p style="color:#888;margin-top:16px;">No attributes defined for this type.</p>';
+    }
+
+    detailEl.innerHTML = html;
+  }
+
+  // -- Init --
+  renderTree();
+
+})();
+</script>
+
+</body>
+</html>
