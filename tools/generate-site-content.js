@@ -2,7 +2,7 @@
 /**
  * Generate website content from CMDB-Kit schema files.
  *
- * Produces HTML (for Odoo blog posts) and Markdown (for AI crawling)
+ * Produces HTML and Markdown (for AI crawling)
  * with type hierarchy diagrams, attribute tables, and relationship maps.
  *
  * Usage:
