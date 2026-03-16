@@ -199,11 +199,19 @@ async function main() {
     const mapping = classMap[typeName];
     if (!mapping || !mapping.table) continue;
 
-    // Get remote columns for this table
+    // Get remote columns for this table (and parent table for CI class extensions)
     const remoteColumns = await getColumns(api, mapping.table);
     const remoteByName = {};
     for (const col of remoteColumns) {
       if (col.element) remoteByName[col.element] = col;
+    }
+    // For CI class extensions, inherited columns may be defined anywhere in the
+    // hierarchy. Check if missing columns exist on any table in the CI tree.
+    if (mapping.superClass) {
+      const parentColumns = await getColumns(api, mapping.superClass);
+      for (const col of parentColumns) {
+        if (col.element && !remoteByName[col.element]) remoteByName[col.element] = col;
+      }
     }
 
     let typeIssues = 0;
@@ -228,14 +236,28 @@ async function main() {
         continue;
       }
 
-      const remoteCol = remoteByName[column];
+      let remoteCol = remoteByName[column];
+      // For CI class extensions, inherited columns may be defined on any ancestor
+      if (!remoteCol && mapping.superClass) {
+        try {
+          const inherited = await api.get('/api/now/table/sys_dictionary', {
+            sysparm_query: `element=${column}`,
+            sysparm_fields: 'element,internal_type,name',
+            sysparm_limit: 1,
+          });
+          const recs = Array.isArray(inherited) ? inherited : [];
+          if (recs.length > 0) remoteCol = recs[0];
+        } catch (_e) {}
+      }
       if (!remoteCol) {
         issues.push(`    ${C.red}MISSING${C.reset}  ${column} (expected: ${snInternalType(attrDef)})`);
         columnsMissing++;
         typeIssues++;
       } else {
         const expectedType = snInternalType(attrDef);
-        const actualType = remoteCol.internal_type;
+        // ServiceNow may return internal_type as a reference object { link, value }
+        const rawType = remoteCol.internal_type;
+        const actualType = rawType && typeof rawType === 'object' ? rawType.value : rawType;
         if (actualType && actualType !== expectedType) {
           issues.push(`    ${C.yellow}MISMATCH${C.reset} ${column}: expected ${expectedType}, got ${actualType}`);
           columnsMismatch++;

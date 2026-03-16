@@ -148,7 +148,14 @@ async function createTable(tableName, label, superClass = null) {
     create_access_controls: 'true',
   };
   if (superClass) {
-    payload.super_class = superClass;
+    // Zurich+ requires super_class to be a sys_id, not a table name.
+    // Look up the sys_id from sys_db_object.
+    const superRecord = await tableExists(superClass);
+    if (superRecord) {
+      payload.super_class = superRecord.sys_id;
+    } else {
+      payload.super_class = superClass; // Fall back to name for older releases
+    }
   }
 
   try {
@@ -175,6 +182,24 @@ async function columnExists(tableName, columnName) {
     return records.length > 0 ? records[0] : null;
   } catch (_err) {
     return null;
+  }
+}
+
+/**
+ * Check if a column is inherited from a parent table in the CI hierarchy.
+ * Zurich+ rejects creating columns that already exist via inheritance.
+ */
+async function columnExistsInHierarchy(columnName) {
+  try {
+    const result = await api.get('/api/now/table/sys_dictionary', {
+      sysparm_query: `element=${columnName}`,
+      sysparm_fields: 'sys_id,name,element',
+      sysparm_limit: 1,
+    });
+    const records = Array.isArray(result) ? result : [];
+    return records.length > 0;
+  } catch (_err) {
+    return false;
   }
 }
 
@@ -208,8 +233,19 @@ async function createColumn(tableName, columnName, label, internalType, refTable
     return true;
   } catch (err) {
     if (err.status === 403) {
-      console.log(`    ${C.yellow}Permission denied creating column ${columnName} on ${tableName}${C.reset}`);
-      return false;
+      // Zurich+ business rules can reject column creation on recently-created
+      // CI class tables. Retry once after a delay.
+      try {
+        await new Promise(r => setTimeout(r, 3000));
+        await api.post('/api/now/table/sys_dictionary', payload);
+        return true;
+      } catch (retryErr) {
+        if (retryErr.status === 403) {
+          console.log(`    ${C.yellow}Permission denied creating column ${columnName} on ${tableName}${C.reset}`);
+          return false;
+        }
+        throw retryErr;
+      }
     }
     throw err;
   }
@@ -245,6 +281,19 @@ async function syncSchema() {
       } else {
         console.log(`  ${C.green}Creating:${C.reset} ${table} (${typeDef.name})`);
         await createTable(table, typeDef.name, superClass || null);
+        // ServiceNow needs time to commit new tables before accepting columns,
+        // especially for CI class extensions. Wait briefly to avoid 403 errors.
+        await new Promise(r => setTimeout(r, 2000));
+        // Tier 3 standalone tables don't inherit a name column from cmdb_ci.
+        // Create one explicitly so records can be looked up by name.
+        // Note: ServiceNow auto-prefixes columns with u_ on global-scope tables,
+        // so we create u_name directly.
+        if (!superClass) {
+          const nameExists = await columnExists(table, 'u_name');
+          if (!nameExists) {
+            await createColumn(table, 'u_name', 'Name', 'string');
+          }
+        }
         tablesCreated++;
       }
     } else if (tier === 1) {
@@ -276,11 +325,25 @@ async function syncSchema() {
         continue;
       }
 
+      // If schema says this is a reference but class-map has no ref,
+      // resolve the target table from the schema's referenceType.
+      // Zurich+ requires reference columns to specify their target table.
+      if (!refTable && attrDef.type === 1 && attrDef.referenceType) {
+        const refMapping = classMap[attrDef.referenceType];
+        if (refMapping && refMapping.table) {
+          refTable = refMapping.table;
+        }
+      }
+
       // Only create u_ columns (custom); skip OOTB columns
       if (!columnName.startsWith('u_')) continue;
 
       const existing = await columnExists(table, columnName);
-      if (existing) {
+      // For CI class extensions, also check if the column is inherited from a parent class
+      const inherited = !existing && mapping.superClass
+        ? await columnExistsInHierarchy(columnName)
+        : false;
+      if (existing || inherited) {
         columnsExist++;
       } else if (cliOpts.dryRun || cliOpts.reportOnly) {
         const internalType = snInternalType(attrDef);
@@ -354,16 +417,19 @@ function resolveDataFile(typeName) {
 // Build name -> sys_id cache for a table
 // ---------------------------------------------------------------------------
 
-async function cacheSysIds(table, nameField = 'name') {
+async function cacheSysIds(table, nameField = 'name', mapping = null) {
   if (sysIdCache[table]) return;
   sysIdCache[table] = {};
 
+  // Tier 3 standalone custom tables use u_name instead of name
+  const actualField = (mapping && mapping.tier === 3 && nameField === 'name') ? 'u_name' : nameField;
+
   try {
     const records = await api.getAll(`/api/now/table/${table}`, {
-      sysparm_fields: `sys_id,${nameField}`,
+      sysparm_fields: `sys_id,${actualField}`,
     });
     for (const rec of records) {
-      const name = rec[nameField];
+      const name = rec[actualField];
       if (name) sysIdCache[table][name] = rec.sys_id;
     }
   } catch (_err) {
@@ -380,9 +446,12 @@ async function buildPayload(item, mapping, typeName) {
   const { attrMap, nameField } = mapping;
   const name = item.Name || item.name;
 
-  // Set the name field
+  // Set the name field.
+  // Tier 3 standalone custom tables have their name column as u_name
+  // (ServiceNow auto-prefixes columns on global-scope custom tables).
   if (nameField && !mapping.autoName) {
-    payload[nameField] = name;
+    const actualNameField = (mapping.tier === 3 && nameField === 'name') ? 'u_name' : nameField;
+    payload[actualNameField] = name;
   }
 
   // Set vendor flag for Vendor type mapped to core_company
@@ -442,7 +511,7 @@ async function processType(typeName, mode) {
   console.log(`  Processing ${typeName} (${mapping.table})...`);
 
   // Ensure sys_id cache is populated for target table and reference tables
-  await cacheSysIds(mapping.table, mapping.nameField);
+  await cacheSysIds(mapping.table, mapping.nameField, mapping);
 
   const { table, nameField } = mapping;
   let added = 0, updated = 0, skipped = 0, errors = 0;

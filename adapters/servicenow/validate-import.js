@@ -106,6 +106,12 @@ function resolveDataFile(dataDir, typeName) {
 // ---------------------------------------------------------------------------
 function normalizeValue(val) {
   if (val === null || val === undefined) return null;
+  // ServiceNow may return reference fields as { link, value, display_value } objects
+  if (val && typeof val === 'object' && !Array.isArray(val)) {
+    // Prefer display_value, fall back to value
+    const resolved = val.display_value || val.value || '';
+    return normalizeValue(resolved);
+  }
   const s = String(val).trim();
   if (s === '' || s === 'null' || s === 'undefined') return null;
   return s;
@@ -127,7 +133,7 @@ async function validateType(typeName, mapping, api, config, options) {
   let remoteRecords;
   try {
     remoteRecords = await api.getAll(`/api/now/table/${table}`, {
-      sysparm_display_value: 'true',
+      sysparm_display_value: 'all',
     });
   } catch (err) {
     return { typeName, status: 'ERROR', message: `API error: ${err.error?.message || err.message || err}` };
@@ -140,9 +146,14 @@ async function validateType(typeName, mapping, api, config, options) {
     if (name) localIndex.set(name, rec);
   }
 
+  // Tier 3 standalone custom tables use u_name instead of name
+  const actualNameField = (mapping.tier === 3 && nameField === 'name') ? 'u_name' : nameField;
+
   const remoteIndex = new Map();
   for (const rec of remoteRecords) {
-    const name = rec[nameField];
+    let name = rec[actualNameField];
+    // With sysparm_display_value=all, fields are { display_value, value } objects
+    if (name && typeof name === 'object') name = name.display_value || name.value;
     if (name) remoteIndex.set(name, rec);
   }
 
@@ -174,11 +185,13 @@ async function validateType(typeName, mapping, api, config, options) {
         if (!column) continue;
 
         const remoteVal = remoteRec[column];
-        if (normalizeValue(localVal) !== normalizeValue(remoteVal)) {
+        const normLocal = normalizeValue(localVal);
+        const normRemote = normalizeValue(remoteVal);
+        if (normLocal !== normRemote) {
           mismatches.push({
             field: mapAttrName(localKey),
-            local: String(localVal),
-            remote: remoteVal != null ? String(remoteVal) : '(empty)',
+            local: normLocal || '(empty)',
+            remote: normRemote || '(empty)',
           });
         }
       }

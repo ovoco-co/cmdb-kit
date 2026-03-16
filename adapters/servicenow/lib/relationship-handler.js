@@ -42,6 +42,10 @@ async function resolveMultiRef(value, refTable, sysIdCache, api) {
 
 /**
  * Resolve a single name to a sys_id, using cache first.
+ *
+ * Tries 'name' first (works for OOTB tables and CI class extensions),
+ * then falls back to 'u_name' for Tier 3 standalone custom tables
+ * where ServiceNow auto-prefixes column names.
  */
 async function resolveSysId(name, table, sysIdCache, api) {
   if (!name || !table) return null;
@@ -51,7 +55,7 @@ async function resolveSysId(name, table, sysIdCache, api) {
     return sysIdCache[table][name];
   }
 
-  // Query ServiceNow
+  // Try 'name' first (works for OOTB and CI class extensions)
   try {
     const result = await api.get(`/api/now/table/${table}`, {
       sysparm_query: `name=${name}`,
@@ -62,10 +66,24 @@ async function resolveSysId(name, table, sysIdCache, api) {
     const records = Array.isArray(result) ? result : [];
     if (records.length > 0) {
       const sysId = records[0].sys_id;
-      // Cache the result
       if (!sysIdCache[table]) sysIdCache[table] = {};
       sysIdCache[table][name] = sysId;
       return sysId;
+    }
+
+    // Fall back to 'u_name' for standalone custom tables
+    if (table.startsWith('u_') || table.startsWith('x_')) {
+      const fallback = await api.get(`/api/now/table/${table}`, {
+        sysparm_query: `u_name=${name}`,
+        sysparm_fields: 'sys_id,u_name',
+        sysparm_limit: 1,
+      });
+      const fbRecords = Array.isArray(fallback) ? fallback : [];
+      if (fbRecords.length > 0) {
+        if (!sysIdCache[table]) sysIdCache[table] = {};
+        sysIdCache[table][name] = fbRecords[0].sys_id;
+        return fbRecords[0].sys_id;
+      }
     }
   } catch (err) {
     // Silently fail - caller handles null

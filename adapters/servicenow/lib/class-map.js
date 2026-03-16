@@ -294,8 +294,8 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     isCi: true,
     attrMap: {
       description: 'short_description',
-      componentType: 'u_component_type',
-      repository: 'u_repository',
+      componentType: { column: `${tablePrefix}_comp_type`, ref: `${tablePrefix}_component_type` },
+      repository: `${tablePrefix}_source_repo`,
       technology: 'u_technology',
       owner: { column: 'u_owner', ref: 'sys_user_group' },
     },

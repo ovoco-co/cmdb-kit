@@ -1,5 +1,7 @@
 # ServiceNow Setup
 
+> **Tested against:** ServiceNow Zurich release (March 2026). Schema creation, data import, validation, and export have been verified end-to-end against a live Zurich instance. All OOTB tables, custom table creation, CI class extensions, and relationship handling work as documented.
+
 A complete walkthrough for importing CMDB-Kit into ServiceNow CMDB via the Table API. This guide explains how CMDB-Kit's schema maps to ServiceNow's native CMDB model, walks through every step of the import, and covers the differences you will encounter compared to the JSM adapter.
 
 
