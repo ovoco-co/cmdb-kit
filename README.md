@@ -1,18 +1,27 @@
 CMDB-Kit
 
-An open-source, database-agnostic CMDB starter kit. ITIL-aligned schema patterns, realistic example data, pluggable adapters for JSM Assets and ServiceNow, and comprehensive documentation for administrators and developers.
+Existing CMDB schemas are designed around IT service processes, infrastructure discovery, or asset procurement. None of them are designed around product delivery.
+
+If you ship software products to customer sites, none of that helps. You need to track what version is deployed where, what components make up each release, what infrastructure supports each site, and what changed since the last baseline. That's a product delivery problem, and no existing CMDB schema is designed for it.
+
+CMDB-Kit is. It's a production-ready, product-centric CMDB schema with example data, import scripts for JSM Assets and ServiceNow, and documentation that covers the full arc from schema design to multi-site deployment tracking.
 
 ## Product-Centric, Not Infrastructure-Centric
 
-Most CMDB schemas start with infrastructure: servers, networks, storage, then attach applications on top. CMDB-Kit inverts this. The root organizing concept is the **Product**, and infrastructure exists to support products.
+The root organizing concept is the **Product**, not the server. A server exists because a product needs it. A database exists because a product stores data in it. The taxonomy mirrors the questions product delivery teams actually ask: "what version is at this site?" not "what's running on this VM?"
 
-When a change advisory board reviews a change, they ask "what product does this affect?" not "what server is this on?" When an incident is raised, the first question is "which product is down?" not "which VM faulted?" The taxonomy mirrors the questions people actually ask.
+Three schema layers scale from a proof of concept to a multi-product enterprise portfolio without redesign. Start with base, upgrade to extended or enterprise when you need baselines, compliance tracking, or multi-product isolation.
 
-In the schema, Product is a peer of Server and Database, not a child of them. A server exists because a product needs it. A database exists because a product stores data in it. The dependency flows from product downward. This means the CMDB is organized around what the organization delivers, not what it operates.
+For the full design rationale, including why the schema is product-centric, how the three layers were designed, and lessons from production use, see the [case study](docs/Schema-Design/case-study-ovococrm.md).
 
-CMDB-Kit fits best when the organization develops products (not just operates infrastructure), when configuration management is a formal discipline (not just IT asset tracking), when release management, baselines, and controlled documentation matter, and when the CMDB needs to answer "what version is deployed where?" not just "what servers do we own?"
+## Who It's For
 
-It fits less well when the organization is purely an IT operations shop with no product development, when discovery-driven infrastructure inventory is the primary goal, when the CMDB is mainly for IT asset management and procurement, or when ServiceNow CSDM is already adopted and working. For those scenarios, start from the platform's built-in model and use CMDB-Kit's patterns selectively where they add value.
+- Configuration managers who manage product baselines across deployment sites
+- Software teams shipping to multiple customer environments who need to track versions, components, and dependencies
+- ITSM teams that have outgrown spreadsheet-based deployment tracking
+- Anyone who has tried to bend a process-centric CMDB into a product delivery tracking system and found it doesn't fit
+
+CMDB-Kit fits less well when the organization is purely an IT operations shop with no product development, when discovery-driven infrastructure inventory is the primary goal, or when the CMDB is mainly for IT asset management and procurement. For those scenarios, start from the platform's built-in model and use CMDB-Kit's patterns selectively where they add value.
 
 ## Quick Start
 
