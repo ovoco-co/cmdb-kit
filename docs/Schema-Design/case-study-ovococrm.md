@@ -5,19 +5,11 @@ This case study explains the decisions behind CMDB-Kit's three-layer schema, ser
 
 ## The Design Problem
 
-CMDB-Kit needed a taxonomy that could work as a teaching tool for people who have never built a CMDB, scale from a proof of concept to a multi-product enterprise without requiring a redesign, run on platforms with no built-in CI class hierarchy (like JSM Assets) and platforms with one (like ServiceNow), and demonstrate real configuration management patterns rather than just IT asset inventory.
+Existing CMDB schemas fall into three categories: process-centric (built around ITIL workflows), infrastructure-centric (built around what discovery tools find), and asset-centric (built around procurement and lifecycle). None of them start from product delivery.
 
-Most open-source CMDB schemas model infrastructure (servers, networks, storage) because that is what discovery tools find. That was deliberately not the starting point here. The question was not "what can we scan?" but "what does a configuration manager need to control?"
+CMDB-Kit needed a schema for teams that ship software to customer sites and need to answer: what version is deployed where, what infrastructure supports each deployment, who is responsible at each location, and what changed since the last baseline. It also needed to work as a teaching tool, scale from a proof of concept to a multi-product enterprise without redesign, and run on platforms with no built-in CI class hierarchy (JSM Assets) and platforms with one (ServiceNow).
 
-## Theoretical Foundation
-
-The taxonomy draws on three sources, layered in order of influence.
-
-Configuration management standards define four CM functions: identification, change control, status accounting, and audits. The taxonomy was designed so that each function has somewhere to land. CI types exist for the things you identify (Product, Server, Component). Change Request and Incident types exist for change control. Status and lifecycle lookups exist for status accounting. Baselines, Certifications, and Assessments exist for audits. If a CI type does not support at least one CM function, it does not belong in the schema.
-
-The baseline and media library discipline directly influenced several design choices. The baseline model (Functional, Allocated, Product) influenced the Baseline type and its Baseline Type lookup (FBL, ABL, PBL). The distinction between a CI's identity and its deployed instances influenced the separation of Product Component (what it is) from Component Instance (what was built and released) in the enterprise schema. The Definitive Media Library pattern (Product Media, Product Suite, Distribution Log) comes from treating controlled software artifacts as configuration items in their own right.
-
-ITIL Service Asset and Configuration Management (SACM) provided the four-branch structure: things you build (Product CMDB), things you release (Product Library), people who do the work (Directory), and controlled vocabulary (Lookup Types). The extended and enterprise layers add ITIL's service modeling concepts (Service, Capability, Business Process) and ITSM records (Change Request, Incident, SLA). ITIL's principle that a CMDB should support service impact analysis, not just asset tracking, drove the relationship model: every CI connects upward to a product and downward to infrastructure.
+The question was not "what can we scan?" or "what ITIL process does this support?" but "what does a product delivery team need to track?"
 
 ## Why Product-Centric, Not Infrastructure-Centric
 
@@ -85,3 +77,15 @@ The Site vs Deployment Site split was not in the original design. It was added a
 Feature Implementation was added to satisfy an audit requirement: prove that every requirement allocated to a release was actually implemented and tested. It became the most-queried type in the schema because it answered the question engineers and program managers asked daily: "is this feature in this release?"
 
 Baselines (FBL, ABL, PBL) were initially seen as bureaucratic overhead. They became essential when the organization needed to answer "what was the approved design at the time of a specific review?" months after the review happened. Without baselines, that answer requires archaeology. With them, it is a single query.
+
+## Standards Alignment
+
+The schema wasn't designed in a vacuum. It draws on established frameworks, but the frameworks informed the design rather than dictating it.
+
+The four-branch structure (Product CMDB, Product Library, Directory, Lookup Types) maps to ITIL's Service Asset and Configuration Management practice: things you build, things you release, people who do the work, and controlled vocabulary. The extended and enterprise layers add ITIL service modeling concepts (Service, Capability, Business Process) for organizations that need them.
+
+Configuration management standards define four functions: identification, change control, status accounting, and audits. Every type in the schema traces back to at least one of these functions. Products, Servers, and Components support identification. Baselines and change records support change control. Status and lifecycle lookups support status accounting. Certifications and Assessments support audits. If a type doesn't serve at least one CM function, it doesn't belong.
+
+The baseline model (Functional, Allocated, Product baselines) influenced the Baseline type and its lookup values. The Definitive Media Library pattern influenced the Product Media, Product Suite, and Distribution Log types in the enterprise schema, treating controlled software artifacts as configuration items. The separation of Product Component (what it is) from Component Instance (what was built and released) comes from the CM distinction between a CI's design identity and its deployed reality.
+
+These connections matter if you need to justify the schema to a standards body, map it to an existing CM plan, or explain to an auditor why the CMDB is structured the way it is. They don't matter for getting started.
