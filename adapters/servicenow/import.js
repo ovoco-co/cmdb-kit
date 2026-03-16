@@ -438,6 +438,91 @@ async function cacheSysIds(table, nameField = 'name', mapping = null) {
 }
 
 // ---------------------------------------------------------------------------
+// Data transforms: convert human-readable values to ServiceNow-native formats
+// ---------------------------------------------------------------------------
+
+/**
+ * Parse RAM string like "32 GB" or "16 GB" to integer megabytes.
+ * ServiceNow stores ram as an integer in MB.
+ * Returns { ram: number } or {} if unparseable.
+ */
+function parseRam(val) {
+  const str = String(val).trim();
+  const match = str.match(/^([\d.]+)\s*(TB|GB|MB|KB)?/i);
+  if (!match) return {};
+  const num = parseFloat(match[1]);
+  const unit = (match[2] || 'MB').toUpperCase();
+  let mb;
+  if (unit === 'TB') mb = Math.round(num * 1024 * 1024);
+  else if (unit === 'GB') mb = Math.round(num * 1024);
+  else if (unit === 'MB') mb = Math.round(num);
+  else if (unit === 'KB') mb = Math.round(num / 1024);
+  else mb = Math.round(num);
+  return { ram: String(mb) };
+}
+
+/**
+ * Parse disk space string like "500 GB SSD" or "2 TB NVMe" to decimal GB.
+ * ServiceNow stores disk_space as a decimal in GB. Unit suffixes (SSD, NVMe, HDD) are dropped.
+ * Returns { disk_space: string } or {} if unparseable.
+ */
+function parseDiskSpace(val) {
+  const str = String(val).trim();
+  const match = str.match(/^([\d.]+)\s*(TB|GB|MB)?/i);
+  if (!match) return {};
+  const num = parseFloat(match[1]);
+  const unit = (match[2] || 'GB').toUpperCase();
+  let gb;
+  if (unit === 'TB') gb = num * 1024;
+  else if (unit === 'GB') gb = num;
+  else if (unit === 'MB') gb = num / 1024;
+  else gb = num;
+  return { disk_space: String(gb) };
+}
+
+/**
+ * Split OS string like "Ubuntu 22.04 LTS" into os and os_version.
+ * Strategy: first word is the OS name, remainder is the version string.
+ * Returns { os: string, os_version: string }.
+ */
+function splitOs(val) {
+  const str = String(val).trim();
+  if (!str) return {};
+  const spaceIdx = str.indexOf(' ');
+  if (spaceIdx === -1) return { os: str };
+  return {
+    os: str.substring(0, spaceIdx),
+    os_version: str.substring(spaceIdx + 1),
+  };
+}
+
+/**
+ * Split CPU string like "8 vCPU" or "16 vCPU" into cpu_count and cpu_name.
+ * Returns { cpu_count: string, cpu_name: string }.
+ */
+function splitCpu(val) {
+  const str = String(val).trim();
+  if (!str) return {};
+  const match = str.match(/^(\d+)\s*(.*)$/);
+  if (!match) return { cpu_name: str };
+  const result = { cpu_count: match[1] };
+  if (match[2]) result.cpu_name = match[2].trim();
+  return result;
+}
+
+/**
+ * Registry of named data transforms. Each function takes a raw value and
+ * returns an object of { snColumnName: transformedValue } pairs.
+ * A single input field can produce multiple SN columns (e.g., os -> os + os_version).
+ */
+const DATA_TRANSFORMS = {
+  parseRam,
+  parseDiskSpace,
+  splitOs,
+  splitCpu,
+};
+
+// ---------------------------------------------------------------------------
 // Data import
 // ---------------------------------------------------------------------------
 
@@ -472,8 +557,14 @@ async function buildPayload(item, mapping, typeName) {
     } else if (typeof attrMapping === 'object') {
       const { column, ref, transform, multi } = attrMapping;
 
-      if (transform) {
-        // Value transformation (e.g., install_status)
+      if (transform && typeof transform === 'string' && DATA_TRANSFORMS[transform]) {
+        // Named data transform (e.g., splitOs, parseRam) - may produce multiple fields
+        const transformed = DATA_TRANSFORMS[transform](val);
+        for (const [snCol, snVal] of Object.entries(transformed)) {
+          payload[snCol] = String(snVal);
+        }
+      } else if (transform && typeof transform === 'object') {
+        // Value lookup transformation (e.g., install_status map)
         payload[column] = transform[String(val)] || String(val);
       } else if (multi && ref) {
         // Multi-reference: resolve to glide_list

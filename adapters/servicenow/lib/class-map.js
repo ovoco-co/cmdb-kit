@@ -66,8 +66,14 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
       description: 'short_description',
       productType: 'subcategory',
       technology: 'u_technology',
-      owner: { column: 'owned_by', ref: 'sys_user_group' },
+      version: 'version',
+      owner: { column: 'assignment_group', ref: 'sys_user_group' },
       status: { column: 'install_status', transform: INSTALL_STATUS },
+      // Inherited from cmdb_ci
+      environment: 'environment',
+      company: { column: 'company', ref: 'core_company' },
+      location: { column: 'location', ref: 'cmn_location' },
+      assignedTo: { column: 'assigned_to', ref: 'sys_user' },
     },
   };
 
@@ -80,11 +86,21 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
       description: 'short_description',
       hostname: 'host_name',
       ipAddress: 'ip_address',
-      operatingSystem: 'os',
-      environment: 'u_environment',
-      cpu: 'cpu_name',
-      ram: 'ram',
-      storage: 'disk_space',
+      operatingSystem: { column: 'os', transform: 'splitOs' },
+      cpu: { column: 'cpu_name', transform: 'splitCpu' },
+      ram: { column: 'ram', transform: 'parseRam' },
+      storage: { column: 'disk_space', transform: 'parseDiskSpace' },
+      classification: 'classification',
+      manufacturer: { column: 'manufacturer', ref: 'core_company' },
+      modelId: { column: 'model_id', ref: 'cmdb_model' },
+      serialNumber: 'serial_number',
+      virtual: 'virtual',
+      // Inherited from cmdb_ci
+      environment: 'environment',
+      company: { column: 'company', ref: 'core_company' },
+      location: { column: 'location', ref: 'cmn_location' },
+      assignedTo: { column: 'assigned_to', ref: 'sys_user' },
+      assignmentGroup: { column: 'assignment_group', ref: 'sys_user_group' },
     },
   };
 
@@ -97,9 +113,16 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
       description: 'short_description',
       databaseEngine: 'type',
       version: 'version',
-      server: { column: 'u_server', ref: 'cmdb_ci_server' },
+      server: { column: 'db_server', ref: 'cmdb_ci_server' },
       storageSize: 'u_storage_size',
-      environment: 'u_environment',
+      port: 'port',
+      instanceName: 'instance_name',
+      // Inherited from cmdb_ci
+      environment: 'environment',
+      company: { column: 'company', ref: 'core_company' },
+      location: { column: 'location', ref: 'cmn_location' },
+      assignedTo: { column: 'assigned_to', ref: 'sys_user' },
+      assignmentGroup: { column: 'assignment_group', ref: 'sys_user_group' },
     },
   };
 
@@ -142,10 +165,15 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
       description: 'short_description',
       hostname: 'host_name',
       server: { column: 'u_host_server', ref: 'cmdb_ci_server' },
-      operatingSystem: 'os',
-      cpu: 'cpu_name',
-      ram: 'ram',
-      environment: 'u_environment',
+      operatingSystem: { column: 'os', transform: 'splitOs' },
+      cpu: { column: 'cpu_name', transform: 'splitCpu' },
+      ram: { column: 'ram', transform: 'parseRam' },
+      // Inherited from cmdb_ci
+      environment: 'environment',
+      company: { column: 'company', ref: 'core_company' },
+      location: { column: 'location', ref: 'cmn_location' },
+      assignedTo: { column: 'assigned_to', ref: 'sys_user' },
+      assignmentGroup: { column: 'assignment_group', ref: 'sys_user_group' },
     },
   };
 
@@ -222,6 +250,11 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
       orgType: 'u_org_type',
       website: 'website',
       parentOrganization: { column: 'parent', ref: 'core_company' },
+      phone: 'phone',
+      city: 'city',
+      state: 'state',
+      country: 'country',
+      zip: 'zip',
     },
   };
 
@@ -237,6 +270,11 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
       contactEmail: 'u_contact_email',
       status: 'u_vendor_status',
       contractExpiry: 'u_contract_expiry',
+      phone: 'phone',
+      city: 'city',
+      state: 'state',
+      country: 'country',
+      zip: 'zip',
     },
   };
 
@@ -265,6 +303,10 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
       email: 'email',
       role: 'title',
       team: { column: 'u_team', ref: 'sys_user_group' },
+      phone: 'phone',
+      department: { column: 'department', ref: 'cmn_department' },
+      location: { column: 'location', ref: 'cmn_location' },
+      manager: { column: 'manager', ref: 'sys_user' },
     },
   };
 
