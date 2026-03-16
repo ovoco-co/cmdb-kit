@@ -1,6 +1,8 @@
 # Documentation Guide
 
-This guide lists every documentation page in recommended reading order. Start with Getting Started to set up and run your first import, then read the Concepts section to understand the design principles. Everything after that is reference material you can read as needed.
+CMDB-Kit is product-centric: the root organizing concept is the Product, and infrastructure exists to support products. Most CMDB schemas start with servers and networks, then attach applications on top. CMDB-Kit inverts this to match the questions people actually ask: "what product is affected?" not "what server is this on?" For the full rationale, see the [case study](Schema-Design/case-study-ovococrm.md).
+
+Start with Getting Started to set up and run your first import, then read the Concepts section to understand the design principles. Everything after that is reference material you can read as needed.
 
 
 ## Getting Started

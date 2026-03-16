@@ -2,6 +2,18 @@ CMDB-Kit
 
 An open-source, database-agnostic CMDB starter kit. ITIL-aligned schema patterns, realistic example data, pluggable adapters for JSM Assets and ServiceNow, and comprehensive documentation for administrators and developers.
 
+## Product-Centric, Not Infrastructure-Centric
+
+Most CMDB schemas start with infrastructure: servers, networks, storage, then attach applications on top. CMDB-Kit inverts this. The root organizing concept is the **Product**, and infrastructure exists to support products.
+
+When a change advisory board reviews a change, they ask "what product does this affect?" not "what server is this on?" When an incident is raised, the first question is "which product is down?" not "which VM faulted?" The taxonomy mirrors the questions people actually ask.
+
+In the schema, Product is a peer of Server and Database, not a child of them. A server exists because a product needs it. A database exists because a product stores data in it. The dependency flows from product downward. This means the CMDB is organized around what the organization delivers, not what it operates.
+
+CMDB-Kit fits best when the organization develops products (not just operates infrastructure), when configuration management is a formal discipline (not just IT asset tracking), when release management, baselines, and controlled documentation matter, and when the CMDB needs to answer "what version is deployed where?" not just "what servers do we own?"
+
+It fits less well when the organization is purely an IT operations shop with no product development, when discovery-driven infrastructure inventory is the primary goal, when the CMDB is mainly for IT asset management and procurement, or when ServiceNow CSDM is already adopted and working. For those scenarios, start from the platform's built-in model and use CMDB-Kit's patterns selectively where they add value.
+
 ## Quick Start
 
 ```bash
