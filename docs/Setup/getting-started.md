@@ -1,5 +1,7 @@
 # Getting Started
 
+CMDB-Kit is a product-delivery CMDB. Unlike process-centric schemas (built around ITIL workflows), infrastructure-centric schemas (built around discovery tools), or asset-centric schemas (built around procurement), CMDB-Kit is organized around the products you build and deliver. The root concept is the Product, and everything else - servers, databases, versions, deployment sites, teams - exists in relation to it.
+
 # Prerequisites
 
 - Node.js 18 or later

@@ -1,6 +1,6 @@
 # Atlassian Cloud
 
-A complete guide to setting up and operating CMDB-Kit on the Atlassian Cloud stack. This covers JSM Assets, Jira Cloud, Confluence Cloud, and Cloud-only products. Everything you need is in this document, from initial schema creation through dashboards and automation.
+A complete guide to setting up and operating CMDB-Kit on the Atlassian Cloud stack. JSM Assets ships as a blank canvas with no predefined schema. CMDB-Kit gives it a product-delivery schema: products, versions, components, deployment sites, servers, databases, and teams, all organized around what you deliver rather than what you operate. This guide covers initial schema creation through dashboards and automation.
 
 The examples use OvocoCRM, the fictional SaaS CRM that ships with CMDB-Kit's example data. Replace "OvocoCRM" with your own product when working with real data.
 

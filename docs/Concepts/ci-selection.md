@@ -1,6 +1,10 @@
 # CI Selection
 
-Not everything should be a configuration item. Tracking too little means the CMDB cannot answer operational questions. Tracking too much means the CMDB drowns in maintenance overhead and stale data. This section provides the criteria for deciding what to track, the indicators that something should (or should not) be a CI, and a practical framework for making selection decisions using CMDB-Kit's type catalog.
+Not everything should be a configuration item. Tracking too little means the CMDB cannot answer operational questions. Tracking too much means the CMDB drowns in maintenance overhead and stale data.
+
+Because CMDB-Kit is product-delivery-centric, the selection criteria start from "does this help us track what we deliver and where we deliver it?" rather than "did a discovery tool find it?" A server is a CI because a product runs on it. A deployment site is a CI because a product is deployed there. A document is a CI because it's part of a controlled release. If something doesn't connect back to a product you deliver, question whether it belongs.
+
+This section provides the criteria for deciding what to track, the indicators that something should (or should not) be a CI, and a practical framework for making selection decisions using CMDB-Kit's type catalog.
 
 
 ## What Makes Something a CI

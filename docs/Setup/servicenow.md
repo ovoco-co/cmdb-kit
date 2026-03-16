@@ -2,7 +2,7 @@
 
 > **Tested against:** ServiceNow Zurich release (March 2026). Schema creation, data import, validation, and export have been verified end-to-end against a live Zurich instance. All OOTB tables, custom table creation, CI class extensions, and relationship handling work as documented.
 
-A complete walkthrough for importing CMDB-Kit into ServiceNow CMDB via the Table API. This guide explains how CMDB-Kit's schema maps to ServiceNow's native CMDB model, walks through every step of the import, and covers the differences you will encounter compared to the JSM adapter.
+A complete walkthrough for importing CMDB-Kit into ServiceNow CMDB via the Table API. ServiceNow's native CMDB is infrastructure-centric and process-centric (CSDM, discovery-driven CI classes). CMDB-Kit's product-delivery schema maps onto it by using OOTB tables where they fit and creating custom tables for product delivery concepts that ServiceNow doesn't model natively. This guide walks through that mapping, every step of the import, and the differences you will encounter compared to the JSM adapter.
 
 
 # How CMDB-Kit Maps to ServiceNow

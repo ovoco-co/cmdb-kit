@@ -1,6 +1,10 @@
 # CMDB Fundamentals
 
-A Configuration Management Database is a structured repository of configuration items and their relationships. It answers questions that spreadsheets and tribal knowledge cannot: what do we have, how does it connect, what state is it in, and who is responsible for it? This section introduces the concepts that the rest of the guide builds on: what a CMDB is, how it fits into ITIL service management, and when you actually need one.
+A Configuration Management Database is a structured repository of configuration items and their relationships. It answers questions that spreadsheets and tribal knowledge cannot: what do we have, how does it connect, what state is it in, and who is responsible for it?
+
+Most CMDB schemas are designed around IT service processes, infrastructure discovery, or asset procurement. CMDB-Kit takes a different approach: it's designed around product delivery. If you ship software to customer sites and need to track what version is deployed where, what infrastructure supports it, and what changed since the last baseline, that's the problem CMDB-Kit solves.
+
+This section introduces the concepts that the rest of the guide builds on: what a CMDB is, how it fits into service management, and when you actually need one.
 
 
 # What a CMDB Is and Why It Matters

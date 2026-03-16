@@ -1,6 +1,6 @@
 # Atlassian Data Center
 
-Full setup and operational guide for running CMDB-Kit on the Atlassian Data Center stack: JSM Assets, Jira, Confluence, and ScriptRunner. This document is self-contained. It covers environment configuration, schema import, custom fields, AQL queries, ScriptRunner automation, workflows, dashboards, Confluence integration, and multi-product schema design.
+Full setup and operational guide for running CMDB-Kit on the Atlassian Data Center stack: JSM Assets, Jira, Confluence, and ScriptRunner. CMDB-Kit brings a product-delivery schema to JSM Assets, organizing your CMDB around the products you build and the sites you deploy to, rather than starting from infrastructure or ITIL process categories.
 
 The Data Center audience typically manages more complex environments than Cloud: multiple products sharing one schema, formal change control boards, ScriptRunner-driven automation, and classified or air-gapped networks. This guide reflects that complexity throughout.
 
