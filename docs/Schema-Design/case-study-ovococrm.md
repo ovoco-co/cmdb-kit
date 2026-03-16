@@ -1,82 +1,115 @@
 # Case Study: How CMDB-Kit's Taxonomy Was Designed
 
-This case study explains the decisions behind CMDB-Kit's three-layer schema, serves as a worked example of the process described in the [Taxonomy Playbook](taxonomy-playbook.md), and provides a rationale document for anyone extending or adapting the schema for their own organization.
+This case study tells the story of how CMDB-Kit's schema evolved through real production use. Every design decision was forced by a problem that the previous design couldn't solve. The schema didn't arrive as a finished blueprint. It was built iteratively, and the iterations are the most useful part.
 
 
-## The Design Problem
+## The Starting Point
 
-Existing CMDB schemas fall into three categories: process-centric (built around ITIL workflows), infrastructure-centric (built around what discovery tools find), and asset-centric (built around procurement and lifecycle). None of them start from product delivery.
+The original CMDB was a flat schema. All products lived in one object type hierarchy. Tags and category fields were used to differentiate which product a CI belonged to. The thinking was: a server is a server, a component is a component, why would you need separate types for each product?
 
-CMDB-Kit needed a schema for teams that ship software to customer sites and need to answer: what version is deployed where, what infrastructure supports each deployment, who is responsible at each location, and what changed since the last baseline. It also needed to work as a teaching tool, scale from a proof of concept to a multi-product enterprise without redesign, and run on platforms with no built-in CI class hierarchy (JSM Assets) and platforms with one (ServiceNow).
+This worked for about a month.
 
-The question was not "what can we scan?" or "what ITIL process does this support?" but "what does a product delivery team need to track?"
 
-## Why Product-Centric, Not Infrastructure-Centric
+## Iteration 1: Products Don't Share a Taxonomy
 
-Most CMDB taxonomies start with infrastructure: servers, networks, storage, then attach applications on top. CMDB-Kit inverts this. The root organizing concept is the Product, and infrastructure exists to support products.
+The first product was a platform with firmware components, hardware models, and physical gateways. The second product was a software suite with virtual machines, disk image templates, and content filters. The third was a media gateway with codecs and session controllers.
 
-This was a deliberate choice based on operational experience. When a change advisory board reviews a change, they ask "what product does this affect?" not "what server is this on?" When an incident is raised, the first question is "which product is down?" not "which VM faulted?" The taxonomy should mirror the questions people actually ask.
+Their component types had nothing in common. A single Component Type lookup with values like "Firmware," "Codec," "Hypervisor," "Content Filter," and "Session Controller" was meaningless noise. Every query returned a mix of unrelated items from different products. Filtering by tag helped, but every dashboard, every report, and every automation rule needed the tag filter added manually. Miss it once and you're looking at cross-product garbage.
 
-The base schema makes this concrete. Product is a peer of Server and Database under Product CMDB, not a child of them. A server exists because a product needs it. A database exists because a product stores data in it. The dependency flows from product downward.
+The fix was product-prefixed types. Each product gets its own branch in the schema: its own Server type, its own Component type, its own Feature type. The prefix (like CR, AN, SS in the OvocoCRM example data) scopes every query automatically. "Show me all CR Servers in Production" is a single query with no filter tricks.
 
-In the OvocoCRM example data, the products are the organizing concept. CRM Core, API Gateway, Analytics Engine, Mobile API, Notification Service, and Search Service are the six products. Servers like crm-app-01 and crm-db-01 exist because CRM Core needs them. Components like Contact Manager and Deal Pipeline exist because CRM Core is composed of them. The taxonomy reflects this: products come first, and everything else relates to them.
+This multiplied the number of types in the schema, but it eliminated an entire class of data quality problems. The schema got larger, but the data got cleaner.
 
-```json
-[
-  {
-    "Name": "CRM Core",
-    "description": "Primary CRM application handling contacts, deals, and workflows",
-    "productType": "Web Application",
-    "technology": "Node.js, React, PostgreSQL",
-    "owner": "Platform Engineering",
-    "status": "Active"
-  }
-]
-```
 
-This does not mean infrastructure is unimportant. It means the taxonomy is organized around the thing the organization delivers (products and services), not the thing it operates (hardware and networks).
+## Iteration 2: Sites Are Not Simple
 
-## The Three-Layer Strategy
+A deployment site seemed straightforward: a customer location running a version of the product. One record per site, track the version and status, done.
 
-The three layers were not designed as "basic, medium, advanced." They were designed around three different organizational questions.
+Then reality hit. The same customer site was running multiple products, each at a different version, with different support teams, different upgrade schedules, and different contractual obligations. A single "Deployment" record couldn't represent "Site A has Product 1 at version 3.2 supported by Team Alpha, and Product 2 at version 1.1 supported by Team Bravo, and Product 3 is in the planning phase."
 
-The base layer answers "what do we have and who owns it?" It has four branches (Product CMDB, Product Library, Directory, Lookup Types) and covers the minimum viable set of CM questions: what products exist, what versions have been released, where are they deployed, and who is responsible. A small team can populate this in a day. It is deliberately incomplete, with no baselines, no change records, and no assessments, because adding those before you have the foundation creates empty types that nobody maintains. The base layer is also the teaching layer. Someone learning CMDB concepts can read the entire schema in ten minutes and understand how types relate to each other.
+The fix was splitting the concept into two records. A Site is a shared identity record: just a name representing a customer or location. A Deployment Site is a product-specific record that tracks everything about deploying that specific product to that specific customer. One Site can have zero, one, two, or three Deployment Site records, one per product.
 
-The extended layer answers "how do we control changes and track compliance?" It adds the types needed for operational CM: Baselines, Certifications, Assessments, Change Requests, Incidents, and SLAs. It also adds infrastructure depth (Virtual Machine, Network Segment, Hardware Model) and organizational depth (Location, Facility, Vendor). The dividing line between base and extended is whether you can run a change advisory board with just the schema. The base schema cannot support a CAB. The extended schema can. It provides everything you need for ITIL-aligned service management except service modeling and financial tracking.
+This also handled sub-locations. Some sites had deployments in multiple buildings, or mobile units, or forward operating locations. Site Location Assignment records link a Deployment Site to multiple physical locations with a location type (Primary, Alternate) and status. The deployment isn't tied to one building.
 
-The enterprise layer answers "how do we manage a portfolio of products?" When an organization has more than one product sharing infrastructure, shared services, and customer sites, the single-product schema breaks down. You need to know which product's deployment at which site is running which version. The enterprise schema introduces product-prefixed types (CR Server, AN Server, SS Server) that isolate product-specific CIs while sharing Directory and Lookup data across the portfolio. The prefixing is not cosmetic: it enables queries scoped to a single product ("show me all CR Servers in Production") without cross-product noise. Enterprise also adds branches that only matter at scale: Enterprise Architecture (Service, Capability, Business Process), Configuration Library (controlled software artifacts), and Financial (Contract, Cost Category).
 
-## Key Design Decisions and Their Rationale
+## Iteration 3: Cross-Domain and Custom Feature Sets
 
-**Lookup types as first-class objects, not picklists.** Every status, category, and classification is a separate object type with a Name and description. This means every value is documented (the description explains what "Active" means in context), every value is referenceable (you can query "show me everything with Status = Deprecated"), and adding a value is a data change, not a schema change.
+Not every site gets the same product configuration. Some sites run the product on a single network. Others run it across multiple classification domains with different feature sets on each side. A site might get features 1 through 5 on one network and only features 1 and 3 on a more restricted network due to security requirements or contract scope.
 
-**Separation of Product Library from Product CMDB.** The CMDB branch holds what exists now (current infrastructure state). The Library branch holds what was released (versioned artifacts, baselines, deployment records). This mirrors the CM distinction between "as-deployed" configuration and "as-released" configuration. A server's current state might differ from its baselined state, and the schema must represent both.
+The Deployment Site record needed attributes for classification scheme, network domains, and which features are active at that site. Feature Implementation records link a Feature to a Product Version, but the per-site customization is tracked at the Deployment Site level. The CMDB can answer "which sites have Feature X active?" and "which sites are running a restricted feature set?"
 
-**Site as a shared identity, Deployment Site as product-specific.** In the enterprise schema, a Site (like "ACME Corp Dallas") is a single Directory record shared across products. Each product has its own Deployment Site record (CR Deployment Site, AN Deployment Site) that tracks product-specific deployment details at that location. This avoids duplicating site identity data while allowing each product to track its own deployment state independently. Different products at the same customer site can be at different versions, with different support teams, on different upgrade schedules.
+This is the problem that no process-centric, infrastructure-centric, or asset-centric CMDB schema handles. They can tell you what servers exist. They can't tell you which features are deployed where, on which networks, with which restrictions.
 
-**Feature Implementation as an immutable audit record.** The enterprise schema includes Feature Implementation, a type that links a Feature to a Product Version with an implementation status. Once a feature is marked as implemented in a release, that record is frozen. This creates an auditable history of what was delivered in each release, which is required for regulated industries but useful anywhere you need to answer "when did we ship this feature?"
 
-**No discovery-driven types.** The schema does not include types like "Router," "Switch," "Load Balancer," or "Firewall" that discovery tools typically surface. These can be modeled as subtypes of Network Segment or Server if needed, or handled through a Component Type lookup value. The taxonomy stays closer to "what we manage" than "what we can scan." Organizations with discovery tools can extend the schema to match their discovered classes.
+## Iteration 4: Requirements Traceability
 
-## Where CMDB-Kit Fits in the Landscape
+An auditor asked: "prove that every requirement allocated to this release was actually implemented and tested."
 
-CMDB-Kit is not trying to be a universal CMDB taxonomy. It is a product-centric, CM-discipline taxonomy designed for organizations that build and deliver software products. It fits best when the organization develops products (not just operates infrastructure), when configuration management is a formal discipline (not just IT asset tracking), when release management, baselines, and controlled documentation matter, and when the CMDB needs to answer "what version is deployed where?" not just "what servers do we own?"
+The existing schema had Feature records and Product Version records, but no connection between them that said "this feature was implemented in this release and here's the evidence." You could see that a feature existed and that a version existed, but not that the feature was delivered in that specific version.
 
-It fits less well when the organization is purely an IT operations shop with no product development, when discovery-driven infrastructure inventory is the primary goal, when the CMDB is mainly for IT asset management and procurement, or when ServiceNow CSDM is already adopted and working. For those scenarios, start from the platform's built-in model and use CMDB-Kit's patterns selectively where they add value.
+Feature Implementation was added as an immutable audit record. It links a Feature to a Product Version with an implementation status. Once marked as implemented, the record is frozen. This creates an auditable chain: Requirement to Feature to Feature Implementation to Product Version. You can trace from a customer need through to what was actually shipped in a specific release.
 
-## Lessons from Production Use
+This became the most-queried type in the schema. Engineers and program managers asked the same question daily: "is this feature in this release?" The answer was always one query away.
 
-The multi-product prefixing pattern came from a production CMDB managing multiple product lines across deployment sites. Several lessons emerged from that experience.
+The enterprise schema extends this further with a Requirement type that connects to Features, closing the loop from requirements capture through to delivered capability.
 
-Prefixing adds visual noise but eliminates query ambiguity. When you have hundreds of servers across multiple products, "CR Server" is instantly filterable. "Server with product = OvocoCRM" requires a compound query that is slower and more error-prone.
 
-Shared services (tooling, CI/CD pipelines, monitoring) need their own branch, not a product prefix. They serve all products equally and should not appear to belong to any single product.
+## Iteration 5: Baselines Are Not Bureaucratic Overhead
 
-The Site vs Deployment Site split was not in the original design. It was added after discovering that different products at the same physical site had different support teams, different upgrade windows, and different contractual obligations. A single "Deployment" record could not represent this complexity without becoming overloaded.
+Baselines were initially seen as unnecessary process overhead. The schema tracked current state. Why freeze a snapshot?
 
-Feature Implementation was added to satisfy an audit requirement: prove that every requirement allocated to a release was actually implemented and tested. It became the most-queried type in the schema because it answered the question engineers and program managers asked daily: "is this feature in this release?"
+The answer came when someone asked "what was the approved design at the time of the review six months ago?" Without baselines, answering that question required archaeology: digging through email, meeting notes, and version control history to reconstruct what the configuration looked like at a point in time.
 
-Baselines (FBL, ABL, PBL) were initially seen as bureaucratic overhead. They became essential when the organization needed to answer "what was the approved design at the time of a specific review?" months after the review happened. Without baselines, that answer requires archaeology. With them, it is a single query.
+With baselines, it's a single query. A Functional Baseline (FBL) captures the approved design. An Allocated Baseline (ABL) captures the approved allocation of requirements to components. A Product Baseline (PBL) captures the approved build that was released. Each baseline type freezes a different aspect of the configuration at a point in time.
+
+Baselines also solved the "as-deployed vs as-released" problem. The Product Library tracks what was released (the approved configuration). The Product CMDB tracks what exists now (the current state). A server's current configuration might differ from its baselined state. The schema must represent both so you can detect drift.
+
+
+## Iteration 6: The Definitive Media Library
+
+Controlled software artifacts - ISOs, install packages, checksums - needed their own tracking. The release wasn't just a version number. It was a set of physical media files that had to be built, verified, stored, and distributed to deployment sites.
+
+Product Media tracks individual files with checksums. Product Suite bundles files into a versioned package. Distribution Log tracks the full lifecycle of getting media to a site: request, preparation, shipment, receipt, installation, verification. This is a pattern from formal configuration management practice that no commercial CMDB framework includes.
+
+For air-gapped deployments where you're burning DVDs and physically shipping them to secure facilities, this tracking is not optional. You need to know which media was sent where, who received it, and whether it was verified on installation.
+
+
+## Iteration 7: Shared Services
+
+The three products shared infrastructure: CI/CD pipelines, monitoring systems, development tools, build servers. This infrastructure didn't belong to any single product. Putting it under one product's prefix made it look like that product owned it. Leaving it unscoped meant it had no home.
+
+The fix was a Shared Services branch with its own prefix (SS in the open-source version, TS in the production system). Shared services get their own Server, Application, Network Segment, and other infrastructure types. They serve all products equally and don't appear to belong to any single one.
+
+
+## What the Schema Looks Like Now
+
+The production schema has over 100 object types across four branches:
+
+- **Product CMDB** - one branch per product, each with its own Features, Components, Servers, Hardware Models, Assessments, and Licenses
+- **Product Library** - one branch per product, each with Versions, Baselines, Documents, Documentation Suites, Media, Certifications, Deployment Sites, and Distribution Logs
+- **Directory** - shared across all products: Organizations, Locations, Facilities, People, Teams, Clearances, Training
+- **Lookup Types** - 60+ controlled vocabulary types shared across all products
+
+CMDB-Kit's open-source schema is a sanitized, generalized version of this production system. The OvocoCRM example data replaces the real products with a fictional SaaS CRM, but the structure, the type relationships, and the design patterns are the same.
+
+
+## Product-Centric, Not Infrastructure-Centric
+
+Every iteration reinforced the same principle: the schema should be organized around what you deliver, not what you operate.
+
+When a change advisory board reviews a change, they ask "what product does this affect?" not "what server is this on?" When an incident takes down a server, the first question is "which products are impacted and which customer sites are affected?" When an auditor asks about a release, they want to see the chain from requirement to feature to version to deployment site.
+
+The product is the organizing concept. Infrastructure exists to support it. Deployment sites exist to track where it goes. Baselines exist to freeze its approved state. Features exist to define what it does. Requirements exist to define what it should do. Everything in the schema connects back to a product.
+
+This is what makes CMDB-Kit different from process-centric schemas (built around ITIL workflows), infrastructure-centric schemas (built around what discovery tools find), and asset-centric schemas (built around procurement and lifecycle). Those approaches answer useful questions, but not the questions product delivery teams ask every day.
+
+
+## Where CMDB-Kit Fits
+
+CMDB-Kit fits best when the organization develops products, when configuration management is a formal discipline, when release management and baselines matter, and when the CMDB needs to answer "what version is deployed where?"
+
+It fits less well when the organization is purely an IT operations shop with no product development, when discovery-driven infrastructure inventory is the primary goal, or when the CMDB is mainly for IT asset management and procurement. For those scenarios, start from the platform's built-in model and use CMDB-Kit's patterns selectively where they add value.
+
 
 ## Standards Alignment
 
@@ -86,6 +119,6 @@ The four-branch structure (Product CMDB, Product Library, Directory, Lookup Type
 
 Configuration management standards define four functions: identification, change control, status accounting, and audits. Every type in the schema traces back to at least one of these functions. Products, Servers, and Components support identification. Baselines and change records support change control. Status and lifecycle lookups support status accounting. Certifications and Assessments support audits. If a type doesn't serve at least one CM function, it doesn't belong.
 
-The baseline model (Functional, Allocated, Product baselines) influenced the Baseline type and its lookup values. The Definitive Media Library pattern influenced the Product Media, Product Suite, and Distribution Log types in the enterprise schema, treating controlled software artifacts as configuration items. The separation of Product Component (what it is) from Component Instance (what was built and released) comes from the CM distinction between a CI's design identity and its deployed reality.
+The baseline model (Functional, Allocated, Product baselines) comes from formal CM discipline. The Definitive Media Library pattern comes from treating controlled software artifacts as configuration items. The separation of Product Component (what it is) from Component Instance (what was built and released) comes from the distinction between a CI's design identity and its deployed reality.
 
 These connections matter if you need to justify the schema to a standards body, map it to an existing CM plan, or explain to an auditor why the CMDB is structured the way it is. They don't matter for getting started.
