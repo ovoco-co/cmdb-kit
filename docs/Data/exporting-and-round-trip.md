@@ -33,11 +33,14 @@ node adapters/servicenow/export.js --overwrite --type "Server"
 To export without overwriting your working data files, use `--outdir`:
 
 ```bash
+mkdir -p /tmp/sn-export && chmod 755 /tmp/sn-export
 node adapters/servicenow/export.js --outdir /tmp/sn-export
+
+mkdir -p /tmp/jsm-export && chmod 755 /tmp/jsm-export
 node adapters/jsm/export.js --outdir /tmp/jsm-export
 ```
 
-This writes to the specified directory instead of your `data/` files. You can then compare, review, or merge selectively. The directory is created if it doesn't exist.
+This writes to the specified directory instead of your `data/` files. You can then compare, review, or merge selectively.
 
 You can also use the `DATA_DIR` environment variable to redirect the default output:
 
