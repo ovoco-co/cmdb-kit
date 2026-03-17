@@ -146,3 +146,26 @@ Boolean fields use JSON booleans: `true` or `false` (without quotes). Using the 
 Integer fields use JSON numbers: `42`, not `"42"`.
 
 Reference fields use the Name string of the referenced record, as described above.
+
+
+# Relationship Data
+
+CI-to-CI relationships are defined in `relationships.json` in the data directory. This file is separate from the per-type data files because relationships span multiple types.
+
+```json
+[
+  { "parent": "CRM Core", "parentClass": "u_cmdbk_product", "child": "crm-app-01", "childClass": "cmdb_ci_server", "type": "Runs on::Runs" },
+  { "parent": "CRM Core", "parentClass": "u_cmdbk_product", "child": "crm-primary", "childClass": "u_cmdbk_database", "type": "Depends on::Used by" },
+  { "parent": "crm-db-01", "parentClass": "cmdb_ci_server", "child": "crm-primary", "childClass": "u_cmdbk_database", "type": "Contains::Contained by" }
+]
+```
+
+Each relationship has five fields:
+
+- `parent` and `child`: the Name of each CI (must match the name in its data file)
+- `parentClass` and `childClass`: the ServiceNow table name for each CI (used to resolve the sys_id)
+- `type`: the relationship type name from ServiceNow's `cmdb_rel_type` table (e.g., "Runs on::Runs", "Depends on::Used by", "Contains::Contained by")
+
+The ServiceNow adapter imports relationships after all CI records are loaded. The JSM adapter expresses the same relationships as reference attribute values on the object types. The relationship data is platform-agnostic in intent but uses ServiceNow relationship type names. JSM adapters translate these to reference attributes.
+
+The base schema ships with 21 relationships covering three types: Runs on (applications to servers), Depends on (applications to databases and app-to-app), and Contains (servers containing databases).

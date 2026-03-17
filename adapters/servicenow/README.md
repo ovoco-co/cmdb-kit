@@ -100,35 +100,33 @@ CMDB-Kit types map to ServiceNow tables in three tiers:
 
 ### Tier 1: OOTB Tables
 
-Types that map directly to built-in ServiceNow tables:
+Infrastructure and directory types that map to built-in ServiceNow tables. CI types use the CMDB Instance API; non-CI types use the Table API.
 
-| CMDB-Kit Type | ServiceNow Table |
-|---|---|
-| Product | cmdb_ci_appl |
-| Server | cmdb_ci_server |
-| Database | cmdb_ci_database |
-| Hardware Model | cmdb_hardware_product_model |
-| Network Segment | cmdb_ci_ip_network |
-| Virtual Machine | cmdb_ci_vm_instance |
-| License | alm_license |
-| Change Request | change_request |
-| Incident | incident |
-| SLA | contract_sla |
-| Organization | core_company |
-| Team | sys_user_group |
-| Person | sys_user |
-| Location | cmn_location |
-| Vendor | core_company (with vendor flag) |
+| CMDB-Kit Type | ServiceNow Table | API |
+|---|---|---|
+| Server | cmdb_ci_server | CMDB Instance API |
+| Hardware Model | cmdb_hardware_product_model | Table API |
+| Network Segment | cmdb_ci_ip_network | CMDB Instance API |
+| License | alm_license | Table API |
+| SLA | contract_sla | Table API |
+| Organization | core_company | Table API |
+| Team | sys_user_group | Table API |
+| Person | sys_user | Table API |
+| Location | cmn_location | Table API |
+| Vendor | core_company (with vendor flag) | Table API |
 
 ### Tier 2: Custom CI Classes
 
-Types that extend cmdb_ci (require table creation):
+Product-delivery types that extend cmdb_ci with independent identification rules. The adapter creates these tables, columns, and IRE identification rules during schema sync. All use the CMDB Instance API for automatic deduplication.
 
-| CMDB-Kit Type | ServiceNow Table |
-|---|---|
-| Product Component | u_cmdbk_product_component |
-| Feature | u_cmdbk_feature |
-| Assessment | u_cmdbk_assessment |
+| CMDB-Kit Type | ServiceNow Table | Identification |
+|---|---|---|
+| Product | u_cmdbk_product | Independent, match by name |
+| Database | u_cmdbk_database | Independent, match by name |
+| Virtual Machine | u_cmdbk_virtual_machine | Independent, match by name |
+| Product Component | u_cmdbk_product_component | Independent, match by name |
+| Feature | u_cmdbk_feature | Independent, match by name |
+| Assessment | u_cmdbk_assessment | Independent, match by name |
 
 ### Tier 3: Custom Standalone Tables
 

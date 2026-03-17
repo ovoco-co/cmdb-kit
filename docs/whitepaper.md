@@ -264,7 +264,7 @@ JSM Assets' object type model maps directly to CMDB-Kit's schema: one JSM object
 
 ### 5.3 ServiceNow Implementation
 
-ServiceNow has a large built-in CI class hierarchy under cmdb_ci. CMDB-Kit maps to it in three tiers: OOTB tables for types that ServiceNow already models (cmdb_ci_appl for Product, cmdb_ci_server for Server), custom CI classes for product-delivery types that extend cmdb_ci (Product Component, Feature, Assessment), and custom standalone tables for types that are not CIs in ServiceNow's model (Product Version, Document, Deployment Site, lookup types).
+ServiceNow has a large built-in CI class hierarchy under cmdb_ci. CMDB-Kit maps to it in three tiers: OOTB tables for infrastructure types that ServiceNow already models (cmdb_ci_server for Server, cmdb_ci_ip_network for Network Segment), custom CI classes with independent identification rules for product-delivery types (u_cmdbk_product for Product, u_cmdbk_database for Database, u_cmdbk_product_component for Product Component, u_cmdbk_feature for Feature), and custom standalone tables for non-CI types (Product Version, Document, Deployment, lookup types). Product-delivery types are custom CI classes because ServiceNow's OOTB Application and Database classes require hosting relationships that conflict with CMDB-Kit's product-centric model.
 
 The ServiceNow adapter has been tested end-to-end against the Zurich release. All OOTB tables, custom table creation, CI class extensions, and relationship handling are verified.
 
