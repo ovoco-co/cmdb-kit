@@ -38,6 +38,7 @@ const fs = require('fs');
 const path = require('path');
 const {
   loadConfig, createApiClient, getClassMap, getMapping, resolveMultiRef, resolveSysId,
+  createCiRelationship, getRelationshipType,
   loadJsonFile, loadDataFile, mapAttrName, LOAD_PRIORITY, PERSONNEL_TYPES, C,
 } = require('./lib');
 
@@ -759,6 +760,80 @@ function dryRunType(typeName) {
 }
 
 // ---------------------------------------------------------------------------
+// Relationship import
+// ---------------------------------------------------------------------------
+
+async function importRelationships() {
+  const relFile = path.join(config.dataDir, 'relationships.json');
+  if (!fs.existsSync(relFile)) return;
+
+  const relationships = loadJsonFile(relFile);
+  if (!relationships || !relationships.length) return;
+
+  console.log(`\n--- Importing Relationships ---\n`);
+
+  const relTypeCache = {};
+  let created = 0, skipped = 0, errors = 0;
+
+  for (const rel of relationships) {
+    const { parent, parentClass, child, childClass, type } = rel;
+
+    // Resolve parent sys_id from cache, then fall back to API lookup
+    const parentSysId = await resolveSysId(parent, parentClass, sysIdCache, api);
+    if (!parentSysId) {
+      console.log(`  ${C.yellow}Skip:${C.reset} parent "${parent}" not found in ${parentClass}`);
+      skipped++;
+      continue;
+    }
+
+    // Resolve child sys_id from cache, then fall back to API lookup
+    const childSysId = await resolveSysId(child, childClass, sysIdCache, api);
+    if (!childSysId) {
+      console.log(`  ${C.yellow}Skip:${C.reset} child "${child}" not found in ${childClass}`);
+      skipped++;
+      continue;
+    }
+
+    // Resolve relationship type sys_id
+    const relTypeSysId = await getRelationshipType(type, api, relTypeCache);
+    if (!relTypeSysId) {
+      console.log(`  ${C.red}Error:${C.reset} relationship type "${type}" not found in cmdb_rel_type`);
+      errors++;
+      continue;
+    }
+
+    if (cliOpts.dryRun) {
+      console.log(`  ${C.yellow}Would create:${C.reset} ${parent} -[${type}]-> ${child}`);
+      created++;
+      continue;
+    }
+
+    try {
+      const result = await createCiRelationship(parentSysId, childSysId, relTypeSysId, api);
+      if (result) {
+        console.log(`  ${C.green}+${C.reset} ${parent} -[${type}]-> ${child}`);
+        created++;
+      } else {
+        // null return means 409 duplicate - already exists
+        skipped++;
+      }
+    } catch (err) {
+      errors++;
+      const detail = err.error?.message || err.error?.detail || String(err);
+      console.log(`  ${C.red}Error:${C.reset} ${parent} -> ${child}: ${detail}`);
+    }
+  }
+
+  const parts = [];
+  if (created > 0) parts.push(`${created} created`);
+  if (skipped > 0) parts.push(`${skipped} skipped`);
+  if (errors > 0) parts.push(`${C.red}${errors} errors${C.reset}`);
+  console.log(`\n  Relationships: ${parts.join(', ')}`);
+
+  totalErrors += errors;
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
@@ -833,6 +908,11 @@ async function main() {
       const result = await processType(typeName, mode);
       results.push(result);
     }
+  }
+
+  // Import relationships after all data records are loaded
+  if (mode !== 'schema') {
+    await importRelationships();
   }
 
   // Summary
