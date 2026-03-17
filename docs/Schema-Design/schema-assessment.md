@@ -36,7 +36,7 @@ The `owner` reference to Team, the `status` reference to a lookup type, and the 
 
 CMDB-Kit ships three schema tiers: base, extended, and enterprise. These are not arbitrary size tiers or pricing gates. Each layer answers a different organizational question.
 
-The base schema (defined in `schema/base/schema-attributes.json`) answers "what do we have?" It covers Products, Servers, Databases, Product Components, Product Versions, Documents, Deployments, and directory types like Organization, Team, and Person. An organization that just needs to track what exists and who owns it can stop at the base layer and have a working CMDB with roughly 20 types.
+The base schema (defined in `schema/base/schema-attributes.json`) answers "what do we have?" It covers Products, Servers, Databases, Product Components, Product Versions, Documents, Deployments, and directory types like Organization, Team, and Person. An organization that just needs to track what exists and who owns it can stop at the base layer and have a working CMDB with the essentials.
 
 The extended schema (in `schema/extended/schema-attributes.json`) answers "how do we control changes?" It adds Hardware Model, Network Segment, Virtual Machine, License, Assessment, Feature, Baseline, Documentation Suite, Product Media, Product Suite, Certification, Deployment Site, Distribution Log, SLA, Facility, and Vendor. These types support release management, compliance tracking, and formal change control. An organization that ships software to customer sites and needs to track baselines, certifications, and distribution records uses the extended layer.
 
@@ -310,7 +310,7 @@ This is a sound boundary for organizations that use separate tools for CMDB and 
 
 The enterprise schema contains product-prefixed types that duplicate the extended schema per product line. CR Server and AN Server have identical attribute definitions, differing only in their reference targets (CR Hardware Model versus AN Hardware Model, CR Deployment Site versus AN Deployment Site). This is the cost of the prefixing pattern: schema size scales linearly with the number of products.
 
-With two product lines (OvocoCRM and OvocoAnalytics) plus shared services, the enterprise schema has 78 types. Adding a third product line would require duplicating every product-prefixed type (roughly 15 types per product line) and adding each one to the LOAD_PRIORITY array in `tools/lib/constants.js`. This is manageable for three or four products but becomes unwieldy at five or more.
+With two product lines (OvocoCRM and OvocoAnalytics) plus shared services, the enterprise schema has the full portfolio model. Adding a third product line would require duplicating every product-prefixed type and adding each one to the LOAD_PRIORITY array in `tools/lib/constants.js`. This is manageable for three or four products but becomes unwieldy at five or more.
 
 The prefixing pattern trades schema complexity for query simplicity. A prefixed schema is larger and harder to maintain, but product-scoped queries are trivial and cross-product contamination is impossible. An unprefixed schema is smaller and easier to maintain, but product-scoped queries depend on filter attributes that must be consistently populated.
 

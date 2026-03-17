@@ -83,7 +83,7 @@ The fix was a Shared Services branch with its own prefix (SS in the open-source 
 
 ## What the Schema Looks Like Now
 
-The production schema has over 100 object types across four branches:
+The production schema has a comprehensive type hierarchy across four branches:
 
 - **Product CMDB** - one branch per product, each with its own Features, Components, Servers, Hardware Models, Assessments, and Licenses
 - **Product Library** - one branch per product, each with Versions, Baselines, Documents, Documentation Suites, Media, Certifications, Deployment Sites, and Distribution Logs

@@ -277,7 +277,7 @@ Product Library (3 CI types)
 Directory (3 CI types)
   Organization, Team, Person
 
-Lookup Types (10 types)
+Lookup Types
   Product Status, Version Status, Deployment Status,
   Environment Type, Document Type, Document State,
   Component Type, Priority, Organization Type, Deployment Role
@@ -303,7 +303,7 @@ Product Library (+8 CI types)
 Directory (+3 CI types)
   Location, Facility, Vendor
 
-Lookup Types (+12 types)
+Lookup Types
   Certification Type, Certification Status, Assessment Type,
   Assessment Status, Network Type, Baseline Type, Baseline Status,
   License Type, License Status, Site Status, Vendor Status, SLA Status

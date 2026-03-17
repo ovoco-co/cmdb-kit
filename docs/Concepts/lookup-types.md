@@ -479,7 +479,7 @@ Types not listed (Team, Person, Location, Facility, Hardware Model, Product Medi
 
 ## Default Values Provided in the Example Data
 
-The extended schema ships with 88 lookup values across the 22 types. These values are designed to be practical starting points, not exhaustive lists. Most organizations will use them as-is for initial setup and then add values as their processes mature.
+The extended schema ships with lookup values across the lookup types. These values are designed to be practical starting points, not exhaustive lists. Most organizations will use them as-is for initial setup and then add values as their processes mature.
 
 A few guidelines for working with the defaults:
 
