@@ -9,18 +9,17 @@ Start with Getting Started to set up and run your first import, then read the Co
 
 | Page | Description |
 |------|-------------|
-| [Getting Started](Setup/getting-started.md) | Prerequisites, installation, and your first import in five minutes |
+| [Getting Started](Setup/getting-started.md) | Prerequisites, installation, and your first import |
 
 
 ## Platform Setup
 
-Pick the guide for your platform. You only need one.
+Pick the guide for your platform. You only need one. These cover schema import and data sync. For custom fields, dashboards, automation, and workflow integration, see the [integration documentation](#integration).
 
 | Page | Description |
 |------|-------------|
-| [Atlassian Cloud](Setup/atlassian-cloud.md) | JSM Assets on Atlassian Cloud. Schema import, data sync, workspace setup |
-| [Atlassian Data Center](Setup/atlassian-data-center.md) | JSM Assets on Jira Data Center. REST API setup, import, and validation |
-| [Cloud vs DC Reference](Setup/cloud-vs-dc-reference.md) | Side-by-side comparison of Cloud and Data Center terminology, APIs, and behavior |
+| [Atlassian Cloud](Setup/atlassian-cloud.md) | JSM Assets on Atlassian Cloud. Schema import, data sync, validation |
+| [Atlassian Data Center](Setup/atlassian-data-center.md) | JSM Assets on Jira Data Center. Schema import, data sync, validation |
 | [ServiceNow](Setup/servicenow.md) | ServiceNow CMDB via CMDB Instance API and Table API. Custom CI classes for product delivery, OOTB tables for infrastructure. Tested against Zurich |
 | [Other Platforms](Setup/other-platforms.md) | iTop, Device42, and other CMDB platforms. Adapter patterns and what to expect |
 
@@ -31,33 +30,34 @@ Read these in order. Each builds on the previous.
 
 | Page | Description |
 |------|-------------|
-| [CMDB Fundamentals](Concepts/cmdb-fundamentals.md) | What a CMDB is, how it fits into ITIL, and when you actually need one |
-| [CI Selection](Concepts/ci-selection.md) | Criteria for deciding what to track. Too little vs too much. Practical selection framework |
-| [Taxonomy Design](Concepts/taxonomy-design.md) | How CMDB-Kit's classification hierarchy works. Schema files, type hierarchy, naming conventions |
-| [Lookup Types and Reference Data](Concepts/lookup-types.md) | Why statuses and categories are first-class objects, not picklists. How to design and extend lookup types |
-| [Service Management Design](Concepts/service-management-design.md) | Mapping ITIL 4 practices to CMDB-Kit schema types. Change, incident, release, SLA |
+| [CMDB Fundamentals](Concepts/cmdb-fundamentals.md) | What a CMDB is, how it fits into configuration management, and when you need one |
+| [CI Selection](Concepts/ci-selection.md) | Criteria for deciding what to track. Product-delivery focus: does it connect to a product you deliver? |
+| [Taxonomy Design](Concepts/taxonomy-design.md) | How the classification hierarchy works. Schema files, type hierarchy, naming conventions |
+| [Lookup Types and Reference Data](Concepts/lookup-types.md) | Why statuses and categories are first-class objects. How to design and extend |
+| [Service Management Design](Concepts/service-management-design.md) | How CMDB types map to CM functions. Boundary between CMDB state and process records |
 
 
 ## Working with Data
 
 | Page | Description |
 |------|-------------|
-| [Data Files and Rules](Data/data-files-and-rules.md) | JSON data file format, naming conventions, load priority, and validation rules |
-| [Editing Data](Data/editing-data.md) | How to edit data files directly or use the CSV workflow for team collaboration |
-| [Exporting and Round-Trip](Data/exporting-and-round-trip.md) | Export from a live instance, diff against local files, and round-trip sync |
-| [Validation and Troubleshooting](Data/validation-and-troubleshooting.md) | Running the validator, interpreting errors, and fixing common issues |
+| [Data Files and Rules](Data/data-files-and-rules.md) | JSON format, naming conventions, load priority, relationships.json |
+| [Editing Data](Data/editing-data.md) | JSON editing and CSV workflow for team collaboration |
+| [Exporting and Round-Trip](Data/exporting-and-round-trip.md) | Export from a live instance, diff, re-import |
+| [Validation and Troubleshooting](Data/validation-and-troubleshooting.md) | Running the validator, interpreting errors, fixing issues |
 
 
 ## Schema Design
 
 | Page | Description |
 |------|-------------|
-| [Taxonomy Playbook](Schema-Design/taxonomy-playbook.md) | End-to-end guide for designing a CMDB taxonomy from scratch. Stakeholder discovery through governance |
-| [Case Study: OvocoCRM](Schema-Design/case-study-ovococrm.md) | How CMDB-Kit's three-layer schema was designed. Design rationale, key decisions, lessons from production |
-| [Building the Product Library](Schema-Design/building-the-product-library.md) | Version tracking, deployment records, and the Product Library branch |
+| [Taxonomy Playbook](Schema-Design/taxonomy-playbook.md) | End-to-end guide for designing a CMDB taxonomy from scratch |
+| [Case Study](Schema-Design/case-study-ovococrm.md) | How CMDB-Kit's schema evolved through seven iterations. Design rationale, key decisions, lessons |
+| [Building the Product Library](Schema-Design/building-the-product-library.md) | Version tracking, deployment records, the Product Library branch |
 | [Definitive Media Library](Schema-Design/definitive-media-library.md) | Controlled software artifacts. Product Media, Product Suite, Distribution Log |
-| [Designing Site Deployments](Schema-Design/designing-site-deployments.md) | Multi-site deployment modeling. Site vs Deployment Site, upgrade pipelines |
-| [Schema Assessment](Schema-Design/schema-assessment.md) | Evaluating and improving an existing CMDB schema. Gap analysis and recommendations |
+| [Designing Site Deployments](Schema-Design/designing-site-deployments.md) | Site vs Deployment Site. Multi-product tracking at customer locations |
+| [Multi-Product Schema Design](Extending/multi-product-schema-design.md) | Enterprise schema with product-prefixed types and shared services |
+| [Schema Assessment](Schema-Design/schema-assessment.md) | Evaluating and improving an existing CMDB schema |
 
 
 ## Configuration Management
@@ -65,10 +65,9 @@ Read these in order. Each builds on the previous.
 | Page | Description |
 |------|-------------|
 | [CM Operations](Configuration-Management/cm-operations.md) | Day-to-day configuration management operations using the CMDB |
-| [Change Control Governance](Configuration-Management/change-control-governance.md) | Change advisory boards, baselines, and approval workflows |
-| [Change Management in Jira](Configuration-Management/change-management-in-jira.md) | Modeling change requests and approvals in Jira instead of the CMDB |
-| [Personnel Management](Configuration-Management/personnel-management.md) | Tracking people, teams, roles, and organizational structure in the CMDB |
-| [Requirements Management](Configuration-Management/requirements-management.md) | Requirements traceability, verification methods, and allocation |
+| [Change Control and Baselines](Configuration-Management/change-control-governance.md) | Baseline types (FBL, ABL, PBL), change governance concepts, baseline lifecycle |
+| [Personnel Management](Configuration-Management/personnel-management.md) | Person CIs as external contacts, isUser flag, organizational structure |
+| [Requirements Management](Configuration-Management/requirements-management.md) | Requirements traceability from requirement to feature to version to deployment |
 
 
 ## Governance
@@ -76,38 +75,51 @@ Read these in order. Each builds on the previous.
 | Page | Description |
 |------|-------------|
 | [Portfolio and Shared Services](Governance/portfolio-and-shared-services.md) | Multi-product portfolios, shared services branch, cross-product dependencies |
-| [Enterprise Architecture](Governance/enterprise-architecture.md) | Service, Capability, and Business Process types. When and how to add EA to the CMDB |
-| [Scaling and Governance](Governance/scaling-and-governance.md) | Data governance, ownership, quality metrics, and scaling the CMDB practice |
-| [IT Asset Lifecycle](Governance/it-asset-lifecycle.md) | Asset lifecycle management, financial tracking, and procurement integration |
-| [Wiki Structure](Governance/wiki-structure.md) | Organizing CMDB documentation in Confluence or another wiki |
-
-
-## Deployment Operations
-
-| Page | Description |
-|------|-------------|
-| [Site Lifecycle and Pipeline](Deployment-Operations/site-lifecycle-and-pipeline.md) | How sites move through provisioning, active, and decommission states |
-| [Pre-deployment Pipeline](Deployment-Operations/pre-deployment-pipeline.md) | Build, test, and staging gates before production deployment |
-| [Deployment Handoff](Deployment-Operations/deployment-handoff.md) | Handoff process between development, CM, and operations teams |
-| [Upgrade and Distribution](Deployment-Operations/upgrade-and-distribution.md) | Version upgrades, media distribution, and rollback procedures |
-| [DML Operations](Deployment-Operations/dml-operations.md) | Definitive Media Library operations. Intake, storage, distribution, and auditing |
-| [Air-Gapped Deployment](Deployment-Operations/air-gapped-deployment.md) | Deploying to disconnected or classified environments without network access |
-
-
-## Extending CMDB-Kit
-
-| Page | Description |
-|------|-------------|
-| [Multi-Product Schema Design](Extending/multi-product-schema-design.md) | How the enterprise schema isolates products with prefixed types and shared services |
-| [System Integration Patterns](Extending/system-integration-patterns.md) | Integrating the CMDB with CI/CD, monitoring, ticketing, and other systems |
-| [API References](Extending/api-references.md) | JSM Assets and ServiceNow API reference for adapter development |
-| [Writing Custom Adapters](Extending/writing-custom-adapters.md) | How to write a new adapter for a platform CMDB-Kit doesn't support yet |
+| [Enterprise Architecture](Governance/enterprise-architecture.md) | Service, Capability, Business Process types. When and how to add EA |
+| [Scaling and Governance](Governance/scaling-and-governance.md) | Data governance, ownership, quality metrics, growing the CMDB practice |
+| [IT Asset Lifecycle](Governance/it-asset-lifecycle.md) | Asset lifecycle management and financial tracking |
 
 
 ## Internals
 
 | Page | Description |
 |------|-------------|
-| [Schema Reference](Internals/schema-reference.md) | Complete reference for all types and attributes across base, extended, and enterprise tiers |
-| [File Naming and Project Structure](Internals/file-naming-and-project-structure.md) | Repository layout, file naming conventions, and directory structure |
-| [Schema Changes](Internals/schema-changes.md) | How to modify the schema safely. Version control, migration, and backward compatibility |
+| [Schema Reference](Internals/schema-reference.md) | Complete type and attribute reference across base, extended, enterprise |
+| [File Naming and Project Structure](Internals/file-naming-and-project-structure.md) | Repository layout, conventions |
+| [Schema Changes](Internals/schema-changes.md) | Modifying the schema safely, version control, migration |
+| [Writing Custom Adapters](Extending/writing-custom-adapters.md) | How to build an adapter for a new platform |
+
+
+---
+
+## Integration
+
+Integration documentation covers connecting the CMDB to Jira, ServiceNow ITSM, Confluence, and other tools. These pages describe how other systems consume and update CMDB data.
+
+### JSM Cloud Integration
+
+| Page | Description |
+|------|-------------|
+| [Cloud Integration Setup](integration/jsm-cloud/setup.md) | Custom fields, dashboards, automation rules, Confluence integration |
+
+### JSM Data Center Integration
+
+| Page | Description |
+|------|-------------|
+| [DC Integration Setup](integration/jsm-data-center/setup.md) | Custom fields, ScriptRunner, workflows, dashboards, Confluence |
+
+### Common Integration Patterns
+
+| Page | Description |
+|------|-------------|
+| [Change Management](integration/common/change-management.md) | Change requests, incidents, and CCB workflows in Jira |
+| [Deployment Pipeline](integration/common/deployment-pipeline.md) | Jira-driven site registration, media distribution, upgrade tracking |
+| [Deployment Handoff](integration/common/deployment-handoff.md) | Handoff between development, CM, and operations teams |
+| [Site Lifecycle](integration/common/site-lifecycle.md) | How sites move through provisioning, active, and decommission |
+| [Upgrade and Distribution](integration/common/upgrade-and-distribution.md) | Version upgrades, media distribution, and rollback procedures |
+| [DML Operations](integration/common/dml-operations.md) | Definitive Media Library operations with Jira tracking |
+| [Air-Gapped Deployment](integration/common/air-gapped.md) | Deploying to disconnected or classified environments |
+| [Integration Patterns](integration/common/integration-patterns.md) | CMDB-to-Jira, CI/CD, monitoring, and ticketing integrations |
+| [API References](integration/common/api-references.md) | JSM Assets and ServiceNow API reference |
+| [Cloud vs DC Reference](integration/common/cloud-vs-dc.md) | Cloud and Data Center feature comparison |
+| [Wiki Structure](integration/common/wiki-structure.md) | Organizing CMDB documentation in Confluence |
