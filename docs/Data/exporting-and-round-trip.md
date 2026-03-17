@@ -5,20 +5,44 @@ The round-trip workflow pulls live data from a target database, generates editab
 
 # Exporting From a Live Database
 
+Each adapter has its own export tool. The commands below show both JSM and ServiceNow. Pick the one for your platform.
+
 ## Pulling Current State to Local JSON
 
 The export tool fetches every record from the target database and writes it to local JSON files:
 
 ```bash
+# JSM Assets
 node adapters/jsm/export.js --overwrite
+
+# ServiceNow
+node adapters/servicenow/export.js --overwrite
 ```
 
-This overwrites the JSON files in your `data/` directory with what is currently in JSM. Every object type in LOAD_PRIORITY is exported. After exporting, your local JSON files are an exact mirror of the live database.
+This overwrites the JSON files in your `data/` directory with what is currently in the live database. Every object type in LOAD_PRIORITY is exported. After exporting, your local JSON files are an exact mirror of the live state.
 
 To export a single type:
 
 ```bash
 node adapters/jsm/export.js --overwrite --type "Server"
+node adapters/servicenow/export.js --overwrite --type "Server"
+```
+
+## Exporting to a Separate Directory
+
+To export without overwriting your working data files, use `--outdir`:
+
+```bash
+node adapters/servicenow/export.js --outdir /tmp/sn-export
+node adapters/jsm/export.js --outdir /tmp/jsm-export
+```
+
+This writes to the specified directory instead of your `data/` files. You can then compare, review, or merge selectively. The directory is created if it doesn't exist.
+
+You can also use the `DATA_DIR` environment variable to redirect the default output:
+
+```bash
+DATA_DIR=/tmp/sn-export node adapters/servicenow/export.js --overwrite
 ```
 
 ## Previewing Changes With Diff
@@ -27,20 +51,10 @@ Before overwriting local files, preview what changed in the database since your 
 
 ```bash
 node adapters/jsm/export.js --diff
+node adapters/servicenow/export.js --diff
 ```
 
 Diff mode compares JSM's current state against local data files and reports added, removed, and changed records per type. This is useful for detecting manual changes someone made directly in the database UI.
-
-## Exporting to a Separate Directory
-
-To export without overwriting your working data files:
-
-```bash
-node adapters/jsm/export.js --outdir objects-export
-```
-
-This writes to the `objects-export/` directory instead, leaving your `data/` files untouched. You can then compare manually or merge selectively.
-
 
 # The Round-Trip Workflow
 
