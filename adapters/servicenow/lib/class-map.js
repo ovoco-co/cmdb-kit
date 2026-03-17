@@ -70,9 +70,9 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
-      productType: { column: `${tablePrefix}_product_type`, ref: `${tablePrefix}_product_status` },
-      technology: `${tablePrefix}_technology`,
-      version: `${tablePrefix}_version`,
+      productType: { column: `${tablePrefix}_prod_type`, ref: `${tablePrefix}_product_status` },
+      technology: `${tablePrefix}_tech_stack`,
+      version: `${tablePrefix}_prod_version`,
       owner: { column: 'assignment_group', ref: 'sys_user_group' },
       status: { column: 'install_status', transform: INSTALL_STATUS },
       // Inherited from cmdb_ci
@@ -123,12 +123,12 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
-      databaseEngine: `${tablePrefix}_db_engine`,
-      version: `${tablePrefix}_db_version`,
-      server: { column: `${tablePrefix}_db_server`, ref: 'cmdb_ci_server' },
-      storageSize: `${tablePrefix}_storage_size`,
-      port: `${tablePrefix}_port`,
-      instanceName: `${tablePrefix}_instance_name`,
+      databaseEngine: `${tablePrefix}_engine_type`,
+      version: `${tablePrefix}_ver`,
+      server: { column: `${tablePrefix}_host_server`, ref: 'cmdb_ci_server' },
+      storageSize: `${tablePrefix}_store_size`,
+      port: `${tablePrefix}_db_port`,
+      instanceName: `${tablePrefix}_inst_name`,
       // Inherited from cmdb_ci
       environment: 'environment',
       company: { column: 'company', ref: 'core_company' },
