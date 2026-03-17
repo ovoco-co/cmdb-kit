@@ -325,6 +325,8 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
       role: `${tablePrefix}_role`,
       team: { column: `${tablePrefix}_team`, ref: 'sys_user_group' },
       phone: `${tablePrefix}_phone`,
+      isUser: `${tablePrefix}_is_user`,
+      userAccount: { column: `${tablePrefix}_user_account`, ref: 'sys_user' },
     },
   };
 
