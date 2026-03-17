@@ -251,6 +251,63 @@ async function createColumn(tableName, columnName, label, internalType, refTable
   }
 }
 
+// ---------------------------------------------------------------------------
+// Identification rule management for CMDB Instance API
+// ---------------------------------------------------------------------------
+
+/**
+ * Ensure an independent identification rule exists for a custom CI class.
+ * The IRE uses these rules to match incoming records against existing CIs
+ * and deduplicate automatically.
+ */
+async function ensureIdentificationRule(tableName, label, attributes) {
+  // Check if a rule already exists for this table
+  try {
+    const existing = await api.get('/api/now/table/cmdb_identifier', {
+      sysparm_query: `applies_to=${tableName}^active=true`,
+      sysparm_fields: 'sys_id,name',
+      sysparm_limit: 1,
+    });
+    if (existing.length > 0) {
+      if (!cliOpts.dryRun) {
+        console.log(`  ${C.dim}Identification rule exists:${C.reset} ${label}`);
+      }
+      return;
+    }
+  } catch (_e) {}
+
+  if (cliOpts.dryRun || cliOpts.reportOnly) {
+    console.log(`  ${C.yellow}Would create identification rule:${C.reset} ${label} (${attributes.join(', ')})`);
+    return;
+  }
+
+  try {
+    // Create the identifier
+    const rule = await api.post('/api/now/table/cmdb_identifier', {
+      name: `${label} Rule`,
+      applies_to: tableName,
+      independent: 'true',
+      active: 'true',
+    });
+    console.log(`  ${C.green}+ Identification rule:${C.reset} ${label} Rule`);
+
+    // Create the identifier entry with matching attributes
+    await api.post('/api/now/table/cmdb_identifier_entry', {
+      identifier: rule.sys_id,
+      table: tableName,
+      attributes: attributes.join(','),
+      active: 'true',
+      order: '100',
+    });
+    console.log(`  ${C.green}+ Identifier entry:${C.reset} match by ${attributes.join(', ')}`);
+
+    // Wait for the IRE to pick up the new rule
+    await new Promise(r => setTimeout(r, 5000));
+  } catch (err) {
+    console.log(`  ${C.yellow}Could not create identification rule for ${label}:${C.reset} ${err.error?.message || err}`);
+  }
+}
+
 async function syncSchema() {
   console.log('\n--- Syncing Schema (Tables and Columns) ---');
 
@@ -295,6 +352,11 @@ async function syncSchema() {
           }
         }
         tablesCreated++;
+      }
+
+      // Create identification rule for Tier 2 CI classes that use the CMDB Instance API
+      if (mapping.cmdbApi && mapping.identificationAttributes && mapping.superClass) {
+        await ensureIdentificationRule(table, typeDef.name, mapping.identificationAttributes);
       }
     } else if (tier === 1) {
       const existing = await tableExists(table);
@@ -620,7 +682,21 @@ async function processType(typeName, mode) {
     try {
       const payload = await buildPayload(item, mapping, typeName);
 
-      if (existingSysId) {
+      if (mapping.cmdbApi) {
+        // CMDB Instance API: IRE handles create vs update automatically
+        payload.discovery_source = config.discoverySource;
+        const result = await api.cmdbInstance(table, payload, config.discoverySource);
+        const sysId = result.attributes?.sys_id || result.sys_id;
+        if (sysId) {
+          if (!sysIdCache[table]) sysIdCache[table] = {};
+          const isNew = !sysIdCache[table][name];
+          sysIdCache[table][name] = sysId;
+          if (isNew) added++;
+          else updated++;
+        } else {
+          added++; // Assume created if no sys_id in response
+        }
+      } else if (existingSysId) {
         await api.put(`/api/now/table/${table}/${existingSysId}`, payload);
         updated++;
       } else {

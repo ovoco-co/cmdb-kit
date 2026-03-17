@@ -57,16 +57,22 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
   // TIER 1: OOTB ServiceNow tables
   // =========================================================================
 
+  // Product is a custom CI class, not cmdb_ci_appl. ServiceNow's Application
+  // class requires a hosting relationship to hardware (independent=false).
+  // Product is an independent entity you build and deliver.
   map['Product'] = {
-    tier: 1,
-    table: 'cmdb_ci_appl',
+    tier: 2,
+    table: `${tablePrefix}_product`,
+    superClass: 'cmdb_ci',
     nameField: 'name',
     isCi: true,
+    cmdbApi: true,
+    identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
-      productType: 'subcategory',
-      technology: 'u_technology',
-      version: 'version',
+      productType: { column: `${tablePrefix}_product_type`, ref: `${tablePrefix}_product_status` },
+      technology: `${tablePrefix}_technology`,
+      version: `${tablePrefix}_version`,
       owner: { column: 'assignment_group', ref: 'sys_user_group' },
       status: { column: 'install_status', transform: INSTALL_STATUS },
       // Inherited from cmdb_ci
@@ -82,6 +88,7 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     table: 'cmdb_ci_server',
     nameField: 'name',
     isCi: true,
+    cmdbApi: true,
     attrMap: {
       description: 'short_description',
       hostname: 'host_name',
@@ -104,19 +111,24 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     },
   };
 
+  // Database is a custom CI class. ServiceNow's cmdb_ci_database requires
+  // a Contains relationship to cmdb_ci_cloud_database (independent=false).
   map['Database'] = {
-    tier: 1,
-    table: 'cmdb_ci_database',
+    tier: 2,
+    table: `${tablePrefix}_database`,
+    superClass: 'cmdb_ci',
     nameField: 'name',
     isCi: true,
+    cmdbApi: true,
+    identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
-      databaseEngine: 'type',
-      version: 'version',
-      server: { column: 'db_server', ref: 'cmdb_ci_server' },
-      storageSize: 'u_storage_size',
-      port: 'port',
-      instanceName: 'instance_name',
+      databaseEngine: `${tablePrefix}_db_engine`,
+      version: `${tablePrefix}_db_version`,
+      server: { column: `${tablePrefix}_db_server`, ref: 'cmdb_ci_server' },
+      storageSize: `${tablePrefix}_storage_size`,
+      port: `${tablePrefix}_port`,
+      instanceName: `${tablePrefix}_instance_name`,
       // Inherited from cmdb_ci
       environment: 'environment',
       company: { column: 'company', ref: 'core_company' },
@@ -147,6 +159,7 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     table: 'cmdb_ci_ip_network',
     nameField: 'name',
     isCi: true,
+    cmdbApi: true,
     attrMap: {
       description: 'short_description',
       networkType: 'u_network_type',
@@ -156,15 +169,20 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     },
   };
 
+  // Virtual Machine is a custom CI class. ServiceNow's cmdb_ci_vm_instance
+  // requires a hosting relationship (independent=false).
   map['Virtual Machine'] = {
-    tier: 1,
-    table: 'cmdb_ci_vm_instance',
+    tier: 2,
+    table: `${tablePrefix}_virtual_machine`,
+    superClass: 'cmdb_ci',
     nameField: 'name',
     isCi: true,
+    cmdbApi: true,
+    identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
       hostname: 'host_name',
-      server: { column: 'u_host_server', ref: 'cmdb_ci_server' },
+      server: { column: `${tablePrefix}_host_server`, ref: 'cmdb_ci_server' },
       operatingSystem: { column: 'os', transform: 'splitOs' },
       cpu: { column: 'cpu_name', transform: 'splitCpu' },
       ram: { column: 'ram', transform: 'parseRam' },
@@ -334,6 +352,8 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     superClass: 'cmdb_ci',
     nameField: 'name',
     isCi: true,
+    cmdbApi: true,
+    identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
       componentType: { column: `${tablePrefix}_comp_type`, ref: `${tablePrefix}_component_type` },
@@ -349,6 +369,8 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     superClass: 'cmdb_ci',
     nameField: 'name',
     isCi: true,
+    cmdbApi: true,
+    identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
       version: { column: 'u_version', ref: `${tablePrefix}_product_version` },
@@ -363,6 +385,8 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     superClass: 'cmdb_ci',
     nameField: 'name',
     isCi: true,
+    cmdbApi: true,
+    identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
       assessmentType: 'u_assessment_type',

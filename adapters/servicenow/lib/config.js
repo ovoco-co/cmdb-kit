@@ -33,6 +33,7 @@ function loadConfig(options = {}) {
     lookupStrategy: process.env.SN_LOOKUP_STRATEGY || defaults.lookupStrategy || 'table',
     batchSize: parseInt(process.env.SN_BATCH_SIZE || defaults.batchSize || '200', 10),
     requestDelay: parseInt(process.env.SN_REQUEST_DELAY || defaults.requestDelay || '0', 10),
+    discoverySource: process.env.SN_DISCOVERY_SOURCE || defaults.discoverySource || 'ServiceNow',
   };
 
   if (requireSchema) {

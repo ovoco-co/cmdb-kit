@@ -70,6 +70,16 @@ function createApiClient(config, clientOptions = {}) {
         res.on('data', chunk => body += chunk);
         res.on('end', () => {
           try {
+            // Detect hibernating instance (returns HTML instead of JSON)
+            if (body && body.trimStart().startsWith('<')) {
+              reject({
+                status: 503,
+                error: { message: 'Instance appears to be hibernating (received HTML instead of JSON). Wake the instance and retry.' },
+                path: fullPath,
+              });
+              return;
+            }
+
             const json = body ? JSON.parse(body) : {};
             debug(`Response ${res.statusCode}`, json);
 
@@ -156,6 +166,25 @@ function createApiClient(config, clientOptions = {}) {
     }
   }
 
+  /**
+   * Create or update a CI via the CMDB Instance API.
+   * Routes through the Identification and Reconciliation Engine (IRE)
+   * for automatic deduplication.
+   *
+   * @param {string} className - CI class table name (e.g., 'u_cmdbk_product')
+   * @param {object} attributes - CI field values
+   * @param {string} source - Discovery source (must be a valid sys_choice value)
+   * @returns {object} The created/updated CI record (attributes object)
+   */
+  async function cmdbInstance(className, attributes, source) {
+    const payload = { source, attributes };
+    await throttle();
+    const result = await request('POST', `/api/now/cmdb/instance/${className}`, payload);
+    // CMDB Instance API returns { attributes: {...} } not { result: [...] }
+    // The auto-unwrap in request() handles the outer wrapper
+    return result;
+  }
+
   return {
     request: requestWithRetry,
     get:  (endpoint, queryParams) => requestWithRetry('GET', endpoint, null, queryParams),
@@ -164,6 +193,7 @@ function createApiClient(config, clientOptions = {}) {
     del:  (endpoint, queryParams) => requestWithRetry('DELETE', endpoint, null, queryParams),
     getAll,
     testConnection,
+    cmdbInstance,
   };
 }
 
