@@ -21,7 +21,7 @@ Pick the guide for your platform. You only need one.
 | [Atlassian Cloud](Setup/atlassian-cloud.md) | JSM Assets on Atlassian Cloud. Schema import, data sync, workspace setup |
 | [Atlassian Data Center](Setup/atlassian-data-center.md) | JSM Assets on Jira Data Center. REST API setup, import, and validation |
 | [Cloud vs DC Reference](Setup/cloud-vs-dc-reference.md) | Side-by-side comparison of Cloud and Data Center terminology, APIs, and behavior |
-| [ServiceNow](Setup/servicenow.md) | ServiceNow CMDB via Table API. Three-tier type mapping, schema creation, data sync. Tested against Zurich |
+| [ServiceNow](Setup/servicenow.md) | ServiceNow CMDB via CMDB Instance API and Table API. Custom CI classes for product delivery, OOTB tables for infrastructure. Tested against Zurich |
 | [Other Platforms](Setup/other-platforms.md) | iTop, Device42, and other CMDB platforms. Adapter patterns and what to expect |
 
 

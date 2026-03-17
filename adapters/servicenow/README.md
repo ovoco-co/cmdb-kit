@@ -1,6 +1,6 @@
 # ServiceNow CMDB Adapter
 
-Imports CMDB-Kit schema and data into ServiceNow CMDB via the Table API.
+Imports CMDB-Kit schema and data into ServiceNow CMDB. Uses the CMDB Instance API with IRE deduplication for CI types and the Table API for non-CI types.
 
 ## Prerequisites
 

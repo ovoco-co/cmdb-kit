@@ -369,7 +369,15 @@ Note: "N/A" in the standards columns indicates concepts unique to CMDB-Kit's pro
 
 ## Appendix C: CSDM Comparison Table
 
-See Section 4.5 for the full comparison. Summary: CMDB-Kit provides 7 capability categories that CSDM does not model (product decomposition, multi-product isolation, deployment site tracking, baselines, feature implementation, DML, requirements traceability). CSDM provides 5 capability categories that CMDB-Kit does not deeply model (discovery integration, infrastructure depth, financial tracking, native ITSM integration, runtime data quality monitoring).
+See Section 4.5 for the full comparison.
+
+**CMDB-Kit provides 8 capability categories that CSDM does not model:**
+Product as root concept, multi-product isolation (prefixed types), deployment site tracking (per-product state and personnel), baselines (FBL/ABL/PBL), feature implementation (immutable audit records), Definitive Media Library (media, suites, distribution logs), requirements traceability (requirement to feature to version to site), and controlled media distribution (chain of custody for air-gapped delivery).
+
+**CSDM provides 5 capability categories that CMDB-Kit does not deeply model:**
+Discovery integration (native Discovery and Service Mapping), infrastructure depth (hundreds of CI classes for network devices, storage, cloud), financial tracking (mature cost and contract models), native ITSM integration (incident, change, problem workflows consuming CI data), and runtime data quality monitoring (CMDB Health dashboards, Data Certification, IRE).
+
+**Key architectural difference:** CMDB-Kit uses custom CI classes with independent identification rules for product-delivery types (Product, Database, Virtual Machine, Product Component, Feature, Assessment) rather than ServiceNow's OOTB classes, which require hosting/containment dependencies designed for discovery-driven infrastructure. This allows CMDB-Kit and CSDM to coexist on the same ServiceNow instance without conflicting.
 
 
 ## Appendix D: Glossary
