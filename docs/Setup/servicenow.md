@@ -294,11 +294,37 @@ node adapters/servicenow/check-schema.js --type "Server" --verbose
 
 ## Browsing in the ServiceNow UI
 
-For Tier 1 types, navigate to the standard CMDB views. Open **Configuration** in the application navigator and browse CI classes like Application, Server, and Database to see imported records.
+**Servers** (OOTB class) appear in the standard CMDB views under **Configuration > Servers**.
 
-For Tier 2 and Tier 3 types, search the application navigator for the table name (e.g., `u_cmdbk_product_version`) or use the **System Definition > Tables** module to find and open custom tables.
+**Custom CI classes** (Product, Database, Product Component) won't appear in the CMDB hierarchy by default. To view them:
 
-ServiceNow's CMDB Map view shows relationship graphs between CIs, similar to JSM Assets' graph view.
+- Type the table name in the navigator search (e.g., `u_cmdbk_product`) and click the `.list` result
+- Or navigate directly: `https://your-instance.service-now.com/nav_to.do?uri=u_cmdbk_product_list.do`
+
+**Standalone tables** (Person, Product Version, Document, Deployment, lookups) use the same approach: search the navigator for the table name.
+
+## Configuring Relationships Display
+
+After importing data with relationships, ServiceNow's CMDB record view may show "This CI does not have any infrastructure relationships" for custom CI classes. The relationships exist in `cmdb_rel_ci` but the UI needs related lists configured to display them.
+
+Add the CI Relationships related lists to each custom CI class form. In the navigator, go to **System UI > Related Lists** and create two entries for each custom CI table:
+
+| Table Name | Related List | Position |
+|------------|-------------|----------|
+| u_cmdbk_product | cmdb_rel_ci.parent | 0 |
+| u_cmdbk_product | cmdb_rel_ci.child | 1 |
+| u_cmdbk_database | cmdb_rel_ci.parent | 0 |
+| u_cmdbk_database | cmdb_rel_ci.child | 1 |
+| u_cmdbk_product_component | cmdb_rel_ci.parent | 0 |
+| u_cmdbk_product_component | cmdb_rel_ci.child | 1 |
+
+After adding these, open any Product record (e.g., CRM Core) using the classic form view:
+
+`https://your-instance.service-now.com/nav_to.do?uri=u_cmdbk_product.do?sysparm_query=name=CRM Core`
+
+The relationship related lists should appear at the bottom showing "Runs on", "Depends on", and other relationships created during import.
+
+The schema sync does not configure these automatically. A future ServiceNow scoped app would handle this on install.
 
 
 # Replacing Example Data with Your Own
