@@ -139,7 +139,7 @@ The LOAD_PRIORITY array in `tools/lib/constants.js` defines the import order. Lo
 
 ServiceNow exposes two APIs for writing records. Which one you use depends on whether the target table is a CI class or a supporting table.
 
-**Table API** (`/api/now/table/{tablename}`) works for non-CI types: sys_user, core_company, cmn_location, and lookup tables. You control create-vs-update logic yourself by querying first and then choosing POST or PATCH.
+**Table API** (`/api/now/table/{tablename}`) works for non-CI types: core_company, cmn_location, custom standalone tables (u_cmdbk_person, u_cmdbk_product_version, etc.), and lookup tables. You control create-vs-update logic yourself by querying first and then choosing POST or PATCH.
 
 **CMDB Instance API** (`/api/now/cmdb/instance/{classname}`) is the correct endpoint for CI classes. It routes records through the Identification and Reconciliation Engine (IRE), which handles deduplication automatically. If a CI with the same identifying attributes already exists, IRE updates it instead of creating a duplicate.
 

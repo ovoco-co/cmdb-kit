@@ -17,9 +17,9 @@ The same pattern applies to other product-delivery types that have no OOTB equiv
 
 ## ServiceNow's native CMDB model
 
-ServiceNow ships with a large out-of-the-box (OOTB) CMDB built around the `cmdb_ci` base table. Types like Server (`cmdb_ci_server`), Database (`cmdb_ci_database`), and Virtual Machine (`cmdb_ci_vm_instance`) are pre-defined CI classes that extend `cmdb_ci`. ServiceNow also has standalone tables for non-CI data: `sys_user` for people, `core_company` for organizations, `cmn_location` for locations, and `change_request` and `incident` for ITSM records.
+ServiceNow ships with a large out-of-the-box (OOTB) CMDB built around the `cmdb_ci` base table. Types like Server (`cmdb_ci_server`), Database (`cmdb_ci_database`), and Virtual Machine (`cmdb_ci_vm_instance`) are pre-defined CI classes that extend `cmdb_ci`. ServiceNow also has standalone tables for non-CI data: `core_company` for organizations, `cmn_location` for locations, and `change_request` and `incident` for ITSM records.
 
-CMDB-Kit uses OOTB tables for infrastructure types that ServiceNow already models well, and creates custom CI classes for product-delivery types that ServiceNow does not model. Non-CI types (people, organizations, locations, lookup data) use standalone tables.
+CMDB-Kit uses OOTB tables for infrastructure types that ServiceNow already models well, and creates custom CI classes for product-delivery types that ServiceNow does not model. Non-CI types (organizations, locations, lookup data) use standalone tables. Person uses a custom standalone table (`u_cmdbk_person`) because Person records represent external contacts and site POCs, not platform users.
 
 ## The three-tier type mapping
 
@@ -36,7 +36,6 @@ CMDB-Kit uses OOTB tables for infrastructure types that ServiceNow already model
 | SLA | contract_sla | Table API |
 | Organization | core_company | Table API |
 | Team | sys_user_group | Table API |
-| Person | sys_user | Table API |
 | Location | cmn_location | Table API |
 | Vendor | core_company (with vendor flag) | Table API |
 
@@ -55,10 +54,13 @@ These types use the CMDB Instance API (`POST /api/now/cmdb/instance/{classname}`
 
 | CMDB-Kit Type | ServiceNow Table |
 |---|---|
+| Person | u_cmdbk_person |
 | Product Version | u_cmdbk_product_version |
 | Document | u_cmdbk_document |
 | Deployment | u_cmdbk_deployment |
 | All lookup types | u_cmdbk_{type_name} |
+
+Person is a custom standalone table representing external contacts, site POCs, and deployment stakeholders. Person records are not platform users and should never be mapped to ServiceNow's `sys_user` table or any platform's user directory. The optional `isUser` flag and `userAccount` reference allow linking a Person to a platform user account when that person happens to also be one. This design applies across all platforms, not just ServiceNow.
 
 ## Migration from previous versions
 
@@ -99,7 +101,7 @@ For custom table creation via the API, the instance needs the `glide.rest.create
 
 You need a username and password for an account with the `admin` role. The adapter authenticates via HTTP basic auth against the Table API.
 
-If your organization uses LDAP or SSO for ServiceNow authentication and the admin account does not have a local password, you have two options: create a dedicated service account with local credentials, or use `--skip-users` to skip Person record imports and match existing users by name.
+If your organization uses LDAP or SSO for ServiceNow authentication and the admin account does not have a local password, create a dedicated service account with local credentials.
 
 ## Local tools
 
@@ -305,14 +307,14 @@ The process for replacing example data is the same as described in the [JSM Setu
 
 ServiceNow-specific notes:
 
-- **Person records and LDAP.** If your ServiceNow instance provisions users through LDAP or SSO, use `--skip-users` to skip Person record imports. The adapter will match existing `sys_user` records by name when resolving references from other types.
+- **Person records.** Person records import to the custom `u_cmdbk_person` table, not `sys_user`. They represent external contacts and site POCs, not platform users. If a Person also has a platform user account, set the `isUser` flag and `userAccount` reference to link the two.
 
 
 # Troubleshooting
 
 **403 on table creation.** The admin user needs the `admin` role and the `glide.rest.create_metadata` system property must be set to `true`. Navigate to **System Properties > All** in ServiceNow and search for `glide.rest.create_metadata`. If you cannot change this property, use `--report-only` to generate manual creation instructions.
 
-**Person records fail to import.** ServiceNow `sys_user` records are typically provisioned by LDAP or SSO, not created via the Table API. Use `--skip-users` to skip Person records. The adapter will still resolve Person references from other types by matching against existing `sys_user` records by name.
+**Person records fail to import.** Person records import to the custom `u_cmdbk_person` table via the Table API. If you see errors, check that schema sync has run and created the table. Person records represent external contacts and site POCs, not platform users.
 
 **Rate limiting on developer instances.** Personal Developer Instances have lower API rate limits than production instances. If you see throttling errors, increase the delay between API calls:
 

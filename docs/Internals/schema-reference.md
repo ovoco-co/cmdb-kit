@@ -371,7 +371,7 @@ Engineering and operations teams.
 
 ## Person
 
-Team members and contacts.
+External contacts, site POCs, and deployment stakeholders. Person records are CIs representing people relevant to the CMDB, not platform users. They should never be mapped to a platform's user directory (sys_user in ServiceNow, Jira users in JSM, etc.). The optional `isUser` flag and `userAccount` reference allow linking a Person to a platform user account when that person happens to also be one.
 
 | Attribute | Type | Reference |
 |-----------|------|-----------|
@@ -381,6 +381,8 @@ Team members and contacts.
 | email | Text | |
 | role | Text | |
 | team | Reference | Team |
+| isUser | Boolean | |
+| userAccount | Text | |
 
 # Extended CI Types
 
@@ -613,14 +615,16 @@ Beyond the core attributes listed in the CI type tables above, the ServiceNow ad
 | cpu | cpu_count, cpu_name | Via splitCpu transform |
 | ram | ram | Via parseRam transform (MB) |
 
-### Person (sys_user)
+### Person (u_cmdbk_person)
+
+Person is a custom standalone table, not sys_user. Person records represent external contacts and site POCs, not platform users.
 
 | Source Field | ServiceNow Column | Notes |
 |-------------|-------------------|-------|
-| phone | phone | |
-| department | department | Reference to cmn_department |
-| location | location | Reference to cmn_location |
-| manager | manager | Reference to sys_user |
+| isUser | u_is_user | Boolean |
+| userAccount | u_user_account | Reference to sys_user (optional) |
+| phone | u_phone | |
+| location | u_location | Reference to cmn_location |
 
 ### Organization (core_company)
 

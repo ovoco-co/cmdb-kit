@@ -65,7 +65,6 @@ node adapters/servicenow/import.js schema    # Tables and columns only
 --type "Server,Database" # Multiple types
 --dry-run               # Preview without changes
 --report-only           # Generate manual creation report
---skip-users            # Skip Person records (LDAP environments)
 --test-connection       # Test connectivity and exit
 ```
 
@@ -111,7 +110,6 @@ Infrastructure and directory types that map to built-in ServiceNow tables. CI ty
 | SLA | contract_sla | Table API |
 | Organization | core_company | Table API |
 | Team | sys_user_group | Table API |
-| Person | sys_user | Table API |
 | Location | cmn_location | Table API |
 | Vendor | core_company (with vendor flag) | Table API |
 
@@ -130,14 +128,17 @@ Product-delivery types that extend cmdb_ci with independent identification rules
 
 ### Tier 3: Custom Standalone Tables
 
-Product Library types and lookup types (not CIs):
+Product Library types, directory types, and lookup types that use custom standalone tables:
 
 | CMDB-Kit Type | ServiceNow Table |
 |---|---|
+| Person | u_cmdbk_person |
 | Product Version | u_cmdbk_product_version |
 | Document | u_cmdbk_document |
 | Deployment | u_cmdbk_deployment |
 | All lookup types | u_cmdbk_{type_name} |
+
+Person is a custom standalone table representing external contacts, site POCs, and deployment stakeholders. Person records are not platform users and should never be mapped to `sys_user` or any platform's user directory. The optional `isUser` flag and `userAccount` reference allow linking a Person to a platform user account when applicable.
 
 ## Table Prefix
 
@@ -157,7 +158,7 @@ Set `SN_LOOKUP_STRATEGY=hybrid` to map OOTB-equivalent lookups to ServiceNow cho
 
 **403 on table creation**: The admin user needs the `admin` role and the `glide.rest.create_metadata` system property must be `true`. Use `--report-only` to generate instructions for manual creation.
 
-**Person records**: ServiceNow users are typically provisioned by LDAP or SSO. Use `--skip-users` to skip Person records and match existing users by name instead.
+**Person records**: Person records import to the custom `u_cmdbk_person` table, not `sys_user`. They represent external contacts and site POCs, not platform users. If you see import errors, verify that schema sync has created the table.
 
 **Rate limiting on dev instances**: Set `SN_REQUEST_DELAY=200` to add a 200ms delay between API calls.
 
