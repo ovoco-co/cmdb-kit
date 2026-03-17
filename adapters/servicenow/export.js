@@ -14,7 +14,7 @@
  *   --type <name>       Export only this type (repeatable/comma-separated)
  *   --diff              Compare exported data against local files, report differences
  *   --overwrite         Write directly to data dir (overwrite local files)
- *   --skip-users        Skip Person/sys_user records
+ *   --skip-users        Skip Person records
  *   --help              Show this help message
  *
  * Environment:
@@ -84,7 +84,7 @@ Options:
   --type <name>, -t   Export only this type (repeatable/comma-separated)
   --diff              Compare SN data against local files instead of exporting
   --overwrite         Write directly to data dir (overwrite local files)
-  --skip-users        Skip Person/sys_user records
+  --skip-users        Skip Person records
   --help, -h          Show this help message
 
 Environment:

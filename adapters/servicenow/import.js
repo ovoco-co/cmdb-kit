@@ -17,7 +17,7 @@
  *   --type <name>, -t     Import only this type (repeatable/comma-separated)
  *   --dry-run             Show what would be imported without making changes
  *   --report-only         Generate a report for manual creation (locked-down instances)
- *   --skip-users          Skip Person/sys_user records (for LDAP/SSO environments)
+ *   --skip-users          Skip Person records ()
  *   --test-connection     Test ServiceNow connectivity and exit
  *   --help, -h            Show help
  *
@@ -95,7 +95,7 @@ Options:
   --type <name>, -t     Import only this type (repeatable/comma-separated)
   --dry-run             Show what would be imported without hitting SN API
   --report-only         Generate a report for manual creation
-  --skip-users          Skip Person/sys_user records
+  --skip-users          Skip Person records
   --test-connection     Test connectivity and exit
   --help, -h            Show this help message
 

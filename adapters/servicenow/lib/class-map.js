@@ -239,7 +239,7 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
       reportedBy: { column: 'caller_id', ref: 'sys_user' },
       reportDate: 'opened_at',
       resolvedDate: 'resolved_at',
-      affectedProduct: { column: 'cmdb_ci', ref: 'cmdb_ci_appl' },
+      affectedProduct: { column: 'cmdb_ci', ref: `${tablePrefix}_product` },
     },
   };
 
@@ -250,7 +250,7 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     isCi: false,
     attrMap: {
       description: 'short_description',
-      product: { column: 'cmdb_ci', ref: 'cmdb_ci_appl' },
+      product: { column: 'cmdb_ci', ref: `${tablePrefix}_product` },
       status: 'u_status',
       targetUptime: 'u_target_uptime',
       responseTime: 'u_response_time',
@@ -375,9 +375,9 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
-      version: { column: 'u_version', ref: `${tablePrefix}_product_version` },
-      status: 'u_status',
-      owner: { column: 'u_owner', ref: 'sys_user_group' },
+      version: { column: `${tablePrefix}_version`, ref: `${tablePrefix}_product_version` },
+      status: `${tablePrefix}_status`,
+      owner: { column: `${tablePrefix}_owner`, ref: 'sys_user_group' },
     },
   };
 
@@ -391,11 +391,11 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
-      assessmentType: 'u_assessment_type',
-      assessmentDate: 'u_assessment_date',
-      status: 'u_status',
-      assessor: { column: 'u_assessor', ref: 'sys_user' },
-      findings: 'u_findings',
+      assessmentType: `${tablePrefix}_assessment_type`,
+      assessmentDate: `${tablePrefix}_assessment_date`,
+      status: `${tablePrefix}_status`,
+      assessor: { column: `${tablePrefix}_assessor`, ref: 'sys_user' },
+      findings: `${tablePrefix}_findings`,
     },
   };
 

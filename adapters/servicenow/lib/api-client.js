@@ -13,7 +13,7 @@
  *   const { createApiClient } = require('./api-client');
  *   const config = loadConfig({ requireAuth: true });
  *   const api = createApiClient(config);
- *   const result = await api.get('/api/now/table/cmdb_ci_appl');
+ *   const result = await api.get('/api/now/table/u_cmdbk_product');
  */
 
 const https = require('https');

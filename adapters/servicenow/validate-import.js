@@ -11,7 +11,7 @@
  * Options:
  *   --type <name>       Validate only this type (repeatable/comma-separated)
  *   --skip-fields       Only check record counts and presence, skip field comparison
- *   --skip-users        Skip Person/sys_user records
+ *   --skip-users        Skip Person records
  *   --verbose           Show all field details for mismatched records
  *   --summary-only      Only print the summary table
  *   --help              Show this help message
@@ -71,7 +71,7 @@ Usage:
 Options:
   --type <name>, -t    Validate only this type (repeatable/comma-separated)
   --skip-fields        Only check record counts, skip field comparison
-  --skip-users         Skip Person/sys_user records
+  --skip-users         Skip Person records
   --verbose, -v        Show all field details for mismatched records
   --summary-only       Only print the summary table
   --help, -h           Show this help message
