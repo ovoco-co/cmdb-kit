@@ -2,46 +2,56 @@
 
 > **Tested against:** ServiceNow Zurich release (March 2026). Schema creation, data import, validation, and export have been verified end-to-end against a live Zurich instance. All OOTB tables, custom table creation, CI class extensions, and relationship handling work as documented.
 
-A complete walkthrough for importing CMDB-Kit into ServiceNow CMDB via the Table API. ServiceNow's native CMDB is infrastructure-centric and process-centric (CSDM, discovery-driven CI classes). CMDB-Kit's product-delivery schema maps onto it by using OOTB tables where they fit and creating custom tables for product delivery concepts that ServiceNow doesn't model natively. This guide walks through that mapping, every step of the import, and the differences you will encounter compared to the JSM adapter.
+A complete walkthrough for importing CMDB-Kit into ServiceNow CMDB. ServiceNow's native CMDB is infrastructure-centric and process-centric (CSDM, discovery-driven CI classes). CMDB-Kit's product-delivery schema maps onto it by using OOTB tables for infrastructure types and creating custom CI classes for product delivery concepts that ServiceNow doesn't model natively. This guide walks through that mapping, every step of the import, and the differences you will encounter compared to the JSM adapter.
 
 
 # How CMDB-Kit Maps to ServiceNow
 
+## Why Product is not Application
+
+ServiceNow's OOTB `cmdb_ci_appl` (Application) class is designed for applications discovered running on hardware. The Identification and Reconciliation Engine (IRE) requires every application to have a "Runs on" relationship to hardware before it can be created. This makes sense for ServiceNow's discovery-driven model but breaks for product delivery, where a Product is an independent entity that you build and ship, not something discovered running on a server.
+
+CMDB-Kit creates its own `u_cmdbk_product` CI class extending `cmdb_ci` directly. This class has an independent identification rule that matches by name, with no hosting dependency. The CMDB Instance API creates and deduplicates Products without requiring a "Runs on" relationship. This is the core architectural difference between CMDB-Kit's product-delivery model and ServiceNow's native infrastructure-centric model.
+
+The same pattern applies to other product-delivery types that have no OOTB equivalent: Feature, Assessment, and Product Component are all custom CI classes with independent identification rules.
+
 ## ServiceNow's native CMDB model
 
-ServiceNow ships with a large out-of-the-box (OOTB) CMDB built around the `cmdb_ci` base table. Types like Application (`cmdb_ci_appl`), Server (`cmdb_ci_server`), and Database (`cmdb_ci_database`) are pre-defined CI classes that extend `cmdb_ci`. ServiceNow also has standalone tables for non-CI data: `sys_user` for people, `core_company` for organizations, `cmn_location` for locations, and `change_request` and `incident` for ITSM records.
+ServiceNow ships with a large out-of-the-box (OOTB) CMDB built around the `cmdb_ci` base table. Types like Server (`cmdb_ci_server`), Database (`cmdb_ci_database`), and Virtual Machine (`cmdb_ci_vm_instance`) are pre-defined CI classes that extend `cmdb_ci`. ServiceNow also has standalone tables for non-CI data: `sys_user` for people, `core_company` for organizations, `cmn_location` for locations, and `change_request` and `incident` for ITSM records.
 
-CMDB-Kit's schema does not assume any of these tables exist. The ServiceNow adapter bridges the gap by mapping CMDB-Kit types to ServiceNow tables in three tiers.
+CMDB-Kit uses OOTB tables for infrastructure types that ServiceNow already models well, and creates custom CI classes for product-delivery types that ServiceNow does not model. Non-CI types (people, organizations, locations, lookup data) use standalone tables.
 
 ## The three-tier type mapping
 
-**Tier 1: OOTB tables.** Types that map directly to built-in ServiceNow tables. The adapter writes to these tables using their native column names. No table creation is needed.
+**Tier 1: OOTB tables.** Infrastructure and directory types that map directly to built-in ServiceNow tables. No table creation needed.
 
-| CMDB-Kit Type | ServiceNow Table |
-|---|---|
-| Application | cmdb_ci_appl |
-| Server | cmdb_ci_server |
-| Database | cmdb_ci_database |
-| Hardware Model | cmdb_hardware_product_model |
-| Network Segment | cmdb_ci_ip_network |
-| Virtual Machine | cmdb_ci_vm_instance |
-| License | alm_license |
-| SLA | contract_sla |
-| Organization | core_company |
-| Team | sys_user_group |
-| Person | sys_user |
-| Location | cmn_location |
-| Vendor | core_company (with vendor flag) |
+| CMDB-Kit Type | ServiceNow Table | API |
+|---|---|---|
+| Server | cmdb_ci_server | CMDB Instance API |
+| Database | cmdb_ci_database | CMDB Instance API |
+| Hardware Model | cmdb_hardware_product_model | Table API |
+| Network Segment | cmdb_ci_ip_network | CMDB Instance API |
+| Virtual Machine | cmdb_ci_vm_instance | CMDB Instance API |
+| License | alm_license | Table API |
+| SLA | contract_sla | Table API |
+| Organization | core_company | Table API |
+| Team | sys_user_group | Table API |
+| Person | sys_user | Table API |
+| Location | cmn_location | Table API |
+| Vendor | core_company (with vendor flag) | Table API |
 
-**Tier 2: Custom CI classes.** Types that extend `cmdb_ci` but do not have an OOTB equivalent. The adapter creates these tables with the configured prefix (default `u_cmdbk_`).
+**Tier 2: Custom CI classes.** Product-delivery types that extend `cmdb_ci` with independent identification rules. The adapter creates these tables, their columns, and their IRE identification rules automatically during schema sync.
 
-| CMDB-Kit Type | ServiceNow Table |
-|---|---|
-| Product Component | u_cmdbk_product_component |
-| Feature | u_cmdbk_feature |
-| Assessment | u_cmdbk_assessment |
+| CMDB-Kit Type | ServiceNow Table | Identification |
+|---|---|---|
+| Product | u_cmdbk_product | Independent, match by name |
+| Product Component | u_cmdbk_product_component | Independent, match by name |
+| Feature | u_cmdbk_feature | Independent, match by name |
+| Assessment | u_cmdbk_assessment | Independent, match by name |
 
-**Tier 3: Custom standalone tables.** Product Library types and lookup types that are not CIs. These are standalone tables, not CI classes.
+These types use the CMDB Instance API (`POST /api/now/cmdb/instance/{classname}`) which routes through the IRE for automatic deduplication. Sending the same Product name twice updates the existing record instead of creating a duplicate.
+
+**Tier 3: Custom standalone tables.** Product Library types and lookup types that are not CIs. These are standalone tables, not CI classes. They do not have identification rules and use the Table API.
 
 | CMDB-Kit Type | ServiceNow Table |
 |---|---|
@@ -49,6 +59,20 @@ CMDB-Kit's schema does not assume any of these tables exist. The ServiceNow adap
 | Document | u_cmdbk_document |
 | Deployment | u_cmdbk_deployment |
 | All lookup types | u_cmdbk_{type_name} |
+
+## Migration from previous versions
+
+If you previously imported CMDB-Kit data with Product mapped to `cmdb_ci_appl`, use the migration tool to move records to the new table:
+
+```bash
+# See what would happen
+node adapters/servicenow/migrate.js --from cmdb_ci_appl --to u_cmdbk_product --type Product --dry-run
+
+# Migrate records, update relationships, delete old
+node adapters/servicenow/migrate.js --from cmdb_ci_appl --to u_cmdbk_product --type Product --delete-old
+```
+
+The migration tool matches records by name against your local data files so it only touches records CMDB-Kit created. Relationships are updated to point at the new sys_ids.
 
 ## Lookup types in ServiceNow
 
