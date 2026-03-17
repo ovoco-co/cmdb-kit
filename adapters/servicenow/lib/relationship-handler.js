@@ -103,6 +103,17 @@ async function resolveSysId(name, table, sysIdCache, api) {
 async function createCiRelationship(parentSysId, childSysId, relType, api) {
   if (!parentSysId || !childSysId) return null;
 
+  // Check if relationship already exists (Zurich doesn't return 409 for duplicates)
+  try {
+    const existing = await api.get('/api/now/table/cmdb_rel_ci', {
+      sysparm_query: `parent=${parentSysId}^child=${childSysId}^type=${relType}`,
+      sysparm_fields: 'sys_id',
+      sysparm_limit: 1,
+    });
+    const records = Array.isArray(existing) ? existing : [];
+    if (records.length > 0) return null; // Already exists
+  } catch (_e) {}
+
   try {
     const result = await api.post('/api/now/table/cmdb_rel_ci', {
       parent: parentSysId,
@@ -111,7 +122,6 @@ async function createCiRelationship(parentSysId, childSysId, relType, api) {
     });
     return result;
   } catch (err) {
-    // Duplicate relationships return 409 - not an error
     if (err.status === 409) return null;
     throw err;
   }

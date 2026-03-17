@@ -308,23 +308,23 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     },
   };
 
+  // Person is a custom standalone table, NOT sys_user. CMDB-Kit Person records
+  // represent external contacts, site POCs, and deployment stakeholders, not
+  // ServiceNow platform users. Mapping to sys_user conflates CMDB data with
+  // the platform's user directory and creates conflicts with LDAP/SSO provisioning.
   map['Person'] = {
-    tier: 1,
-    table: 'sys_user',
+    tier: 3,
+    table: `${tablePrefix}_person`,
     nameField: 'name',
     isCi: false,
-    skipOnFlag: 'skipUsers',
     attrMap: {
-      description: 'introduction',
-      firstName: 'first_name',
-      lastName: 'last_name',
-      email: 'email',
-      role: 'title',
-      team: { column: 'u_team', ref: 'sys_user_group' },
-      phone: 'phone',
-      department: { column: 'department', ref: 'cmn_department' },
-      location: { column: 'location', ref: 'cmn_location' },
-      manager: { column: 'manager', ref: 'sys_user' },
+      description: `${tablePrefix}_description`,
+      firstName: `${tablePrefix}_first_name`,
+      lastName: `${tablePrefix}_last_name`,
+      email: `${tablePrefix}_email`,
+      role: `${tablePrefix}_role`,
+      team: { column: `${tablePrefix}_team`, ref: 'sys_user_group' },
+      phone: `${tablePrefix}_phone`,
     },
   };
 
@@ -358,8 +358,8 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
       description: 'short_description',
       componentType: { column: `${tablePrefix}_comp_type`, ref: `${tablePrefix}_component_type` },
       repository: `${tablePrefix}_source_repo`,
-      technology: 'u_technology',
-      owner: { column: 'u_owner', ref: 'sys_user_group' },
+      technology: `${tablePrefix}_technology`,
+      owner: { column: `${tablePrefix}_owner`, ref: 'sys_user_group' },
     },
   };
 
