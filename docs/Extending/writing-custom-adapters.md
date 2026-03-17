@@ -135,6 +135,33 @@ File names are resolved by convention: type "Product Version" maps to `product-v
 
 The LOAD_PRIORITY array in `tools/lib/constants.js` defines the import order. Lookup types come first (no dependencies), then entity types that reference them. Your adapter must respect this order to avoid broken references.
 
+# CMDB Instance API vs Table API (ServiceNow)
+
+ServiceNow exposes two APIs for writing records. Which one you use depends on whether the target table is a CI class or a supporting table.
+
+**Table API** (`/api/now/table/{tablename}`) works for non-CI types: sys_user, core_company, cmn_location, and lookup tables. You control create-vs-update logic yourself by querying first and then choosing POST or PATCH.
+
+**CMDB Instance API** (`/api/now/cmdb/instance/{classname}`) is the correct endpoint for CI classes. It routes records through the Identification and Reconciliation Engine (IRE), which handles deduplication automatically. If a CI with the same identifying attributes already exists, IRE updates it instead of creating a duplicate.
+
+The single-CI payload format:
+
+```json
+{
+  "source": "ServiceNow",
+  "attributes": {
+    "name": "web-prod-01",
+    "ip_address": "10.0.1.50",
+    "os": "Ubuntu 22.04"
+  }
+}
+```
+
+POST this to `/api/now/cmdb/instance/{classname}` where `{classname}` is the table name (e.g., `cmdb_ci_server`).
+
+For IRE to match incoming records against existing CIs, the target class needs an identification rule. OOTB ServiceNow classes (cmdb_ci_server, cmdb_ci_db_instance) already have rules. Tier 2 custom CI classes (u_cmdbk_product, u_cmdbk_database, u_cmdbk_virtual_machine, u_cmdbk_product_component, u_cmdbk_feature, u_cmdbk_assessment) need independent identification rules created via cmdb_identifier and cmdb_identifier_entry, matching by name.
+
+In the ServiceNow adapter, the `cmdbApi` flag in class-map.js controls routing. When `cmdbApi: true`, the import script sends records through the CMDB Instance API. When false or absent, it uses the Table API.
+
 # Reference Resolution
 
 When importing a record with a reference field (e.g., `"environment": "Production"`), the adapter must:

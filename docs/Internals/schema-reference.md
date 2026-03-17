@@ -548,3 +548,86 @@ The enterprise tier adds lookup types not present in the extended tier:
 | Verification Method | Methods for verifying requirements |
 | Contract Status | Lifecycle status for contracts |
 | Disposal Method | Asset disposal methods |
+
+# ServiceNow Adapter Details
+
+## Identification Rules
+
+The ServiceNow adapter uses the CMDB Instance API for CI classes, which requires identification rules so the Identification and Reconciliation Engine (IRE) can match incoming records against existing CIs. OOTB ServiceNow classes already have rules. CMDB-Kit's Tier 2 custom CI classes need independent identification rules, created automatically during schema import via cmdb_identifier and cmdb_identifier_entry records.
+
+Each rule matches by name:
+
+| Custom Class | Table Name | Identification Attribute |
+|-------------|------------|------------------------|
+| Product | u_cmdbk_product | name |
+| Database | u_cmdbk_database | name |
+| Virtual Machine | u_cmdbk_virtual_machine | name |
+| Product Component | u_cmdbk_product_component | name |
+| Feature | u_cmdbk_feature | name |
+| Assessment | u_cmdbk_assessment | name |
+
+## Data Transforms
+
+The ServiceNow adapter includes data transforms that convert human-readable values from CMDB-Kit data files into the formats ServiceNow expects.
+
+| Transform | Input Example | Output | Notes |
+|-----------|--------------|--------|-------|
+| parseRam | "32 GB" | 32768 | Converts to MB (ServiceNow stores RAM in MB) |
+| parseDiskSpace | "500 GB SSD" | 500 | Extracts numeric GB value, drops media type |
+| splitOs | "Ubuntu 22.04 LTS" | os: "Ubuntu", os_version: "22.04 LTS" | Splits into separate os and os_version fields |
+| splitCpu | "8 vCPU" | cpu_count: 8, cpu_name: "vCPU" | Splits into count and name fields |
+
+Transforms are declared in class-map.js attribute mappings. A single source field can produce multiple target columns (splitOs, splitCpu) or convert units (parseRam, parseDiskSpace).
+
+## ServiceNow Field Mappings
+
+Beyond the core attributes listed in the CI type tables above, the ServiceNow adapter maps additional fields to OOTB ServiceNow columns.
+
+### Server (cmdb_ci_server)
+
+| Source Field | ServiceNow Column | Notes |
+|-------------|-------------------|-------|
+| operatingSystem | os, os_version | Via splitOs transform |
+| cpu | cpu_count, cpu_name | Via splitCpu transform |
+| ram | ram | Via parseRam transform (MB) |
+| storage | disk_space | Via parseDiskSpace transform (GB) |
+| classification | classification | |
+| manufacturer | manufacturer | Reference to core_company |
+| model_id | model_id | Reference to cmdb_model |
+| serial_number | serial_number | |
+| virtual | virtual | Boolean |
+
+### Database (u_cmdbk_database)
+
+| Source Field | ServiceNow Column | Notes |
+|-------------|-------------------|-------|
+| port | u_port | |
+| instance_name | u_instance_name | |
+| db_server | u_db_server | Reference to cmdb_ci_server |
+
+### Virtual Machine (u_cmdbk_virtual_machine)
+
+| Source Field | ServiceNow Column | Notes |
+|-------------|-------------------|-------|
+| operatingSystem | os, os_version | Via splitOs transform |
+| cpu | cpu_count, cpu_name | Via splitCpu transform |
+| ram | ram | Via parseRam transform (MB) |
+
+### Person (sys_user)
+
+| Source Field | ServiceNow Column | Notes |
+|-------------|-------------------|-------|
+| phone | phone | |
+| department | department | Reference to cmn_department |
+| location | location | Reference to cmn_location |
+| manager | manager | Reference to sys_user |
+
+### Organization (core_company)
+
+| Source Field | ServiceNow Column | Notes |
+|-------------|-------------------|-------|
+| phone | phone | |
+| city | city | |
+| state | state | |
+| country | country | |
+| zip | zip | |

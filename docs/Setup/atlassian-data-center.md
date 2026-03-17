@@ -428,7 +428,7 @@ Each issue type carries a defined set of fields. The field source indicates how 
 
 ## The Tiered Dependency Model
 
-Custom fields in JSM have dependencies: a Product Version field cannot cascade from a Product field unless the Product field exists first. Organizing fields into tiers makes the creation order clear.
+Custom fields in JSM have dependencies: a Product Version field cannot cascade from a Product field unless the Product field exists first. Organizing fields into tiers makes the creation order clear. These tiers refer to import dependency order (which types must be imported before others), not to the ServiceNow adapter's table classification.
 
 **Tier 1** fields have no dependencies: Product, Organization. Create these first.
 
