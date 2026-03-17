@@ -125,10 +125,11 @@ async function convertRecord(snRecord, mapping, api) {
   const record = {};
   const { nameField } = mapping;
 
-  // Extract name
-  if (nameField && snRecord[nameField]) {
-    const nameVal = snRecord[nameField];
-    record.Name = typeof nameVal === 'object' ? nameVal.display_value || nameVal.value : nameVal;
+  // Extract name - Tier 3 standalone custom tables use u_name
+  const actualNameField = (mapping.tier === 3 && nameField === 'name') ? 'u_name' : nameField;
+  const nameVal = snRecord[actualNameField] || snRecord[nameField];
+  if (nameVal) {
+    record.Name = typeof nameVal === 'object' ? (nameVal.display_value || nameVal.value) : nameVal;
   }
 
   const reverseMap = buildReverseAttrMap(mapping);
@@ -152,7 +153,11 @@ async function convertRecord(snRecord, mapping, api) {
       value = reverseTransform[String(val)] || val;
     } else if (typeof attrMapping === 'object' && attrMapping.multi && attrMapping.ref) {
       // Multi-reference: resolve glide_list sys_ids to names
-      value = await resolveGlideListToNames(val, attrMapping.ref, api);
+      // With sysparm_display_value=all, val may be { display_value, value } object
+      const rawVal = (val && typeof val === 'object' && !Array.isArray(val))
+        ? (val.display_value || val.value || '')
+        : val;
+      value = await resolveGlideListToNames(rawVal, attrMapping.ref, api);
     } else if (typeof attrMapping === 'object' && attrMapping.ref) {
       // Single reference: use display_value if available
       if (typeof val === 'object' && val !== null) {
