@@ -417,7 +417,7 @@ async function main() {
   for (const typeName of typesToProcess) {
     const mapping = classMap[typeName];
     if (!mapping || !mapping.table || mapping.container) {
-      results.push({ typeName, status: 'ERROR', message: 'no table mapping' });
+      results.push({ typeName, status: 'SKIP', message: 'no table mapping' });
       continue;
     }
 
@@ -490,16 +490,18 @@ async function main() {
     console.log(`\n  Result: ${overall}\n`);
     process.exit(diffed > 0 || errors > 0 ? 1 : 0);
   } else {
-    let exported = 0, empty = 0, errors = 0, totalRecords = 0;
+    let exported = 0, empty = 0, skipped = 0, errors = 0, totalRecords = 0;
     for (const r of results) {
       if (r.status === 'OK') { exported++; totalRecords += r.count; }
       else if (r.status === 'EMPTY') empty++;
+      else if (r.status === 'SKIP') skipped++;
       else errors++;
     }
     console.log(`  Output:         ${outdir}`);
     console.log(`  Types exported: ${C.green}${exported}${C.reset}`);
     console.log(`  Total records:  ${totalRecords}`);
     if (empty > 0) console.log(`  Empty types:    ${C.dim}${empty}${C.reset}`);
+    if (skipped > 0) console.log(`  Skipped:        ${C.dim}${skipped}${C.reset}`);
     if (errors > 0) console.log(`  Errors:         ${C.red}${errors}${C.reset}`);
     console.log('');
   }
