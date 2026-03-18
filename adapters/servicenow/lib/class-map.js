@@ -596,6 +596,29 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     'Site Status',
     'Vendor Status',
     'SLA Status',
+    // Enterprise lookup types
+    'Baseline Milestone',
+    'Site Type',
+    'Site Workflow Status',
+    'Upgrade Status',
+    'Service Type',
+    'Capability Status',
+    'Disposition',
+    'Library Item Type',
+    'Distribution Status',
+    'Delivery Method',
+    'Media Urgency',
+    'Transfer Status',
+    'Build Status',
+    'Sunset Reason',
+    'Implementation Status',
+    'Requirement Type',
+    'Requirement Status',
+    'Requirement Priority',
+    'Verification Method',
+    'Contract Status',
+    'Disposal Method',
+    'Media Type',
   ];
 
   for (const typeName of LOOKUP_TYPES) {
@@ -614,10 +637,221 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
   // =========================================================================
   // Container types (not imported, structure only)
   // =========================================================================
-  map['Product CMDB'] = { tier: 0, table: null, nameField: null, isCi: false, container: true };
-  map['Product Library'] = { tier: 0, table: null, nameField: null, isCi: false, container: true };
-  map['Directory'] = { tier: 0, table: null, nameField: null, isCi: false, container: true };
-  map['Lookup Types'] = { tier: 0, table: null, nameField: null, isCi: false, container: true };
+  const CONTAINERS = [
+    'Product CMDB', 'Product Library', 'Directory', 'Lookup Types',
+    // Enterprise containers
+    'Ovoco Portfolio CMDB', 'OvocoCRM CMDB', 'OvocoAnalytics CMDB',
+    'Shared Services CMDB', 'Ovoco Library', 'OvocoCRM Library',
+    'OvocoAnalytics Library', 'Shared Library',
+    'Enterprise Architecture', 'Configuration Library', 'Financial',
+  ];
+  for (const name of CONTAINERS) {
+    map[name] = { tier: 0, table: null, nameField: null, isCi: false, container: true };
+  }
+
+  // =========================================================================
+  // Enterprise: Standalone types
+  // =========================================================================
+
+  map['Site'] = {
+    tier: 3,
+    table: `${tablePrefix}_site`,
+    nameField: 'name',
+    isCi: false,
+    attrMap: {},
+  };
+
+  map['Requirement'] = {
+    tier: 3,
+    table: `${tablePrefix}_requirement`,
+    nameField: 'name',
+    isCi: false,
+    attrMap: {
+      description: 'u_description',
+      requirementType: 'u_requirement_type',
+      status: 'u_status',
+      priority: 'u_priority',
+      verificationMethod: 'u_verification_method',
+    },
+  };
+
+  map['Library Item'] = {
+    tier: 3,
+    table: `${tablePrefix}_library_item`,
+    nameField: 'name',
+    isCi: false,
+    attrMap: {
+      description: 'u_description',
+      itemType: 'u_item_type',
+      version: 'u_version',
+      status: 'u_status',
+    },
+  };
+
+  map['Contract'] = {
+    tier: 3,
+    table: `${tablePrefix}_contract`,
+    nameField: 'name',
+    isCi: false,
+    attrMap: {
+      description: 'u_description',
+      vendor: { column: 'u_vendor', ref: 'core_company' },
+      startDate: 'u_start_date',
+      endDate: 'u_end_date',
+      value: 'u_value',
+      status: 'u_status',
+    },
+  };
+
+  map['Cost Category'] = {
+    tier: 3,
+    table: `${tablePrefix}_cost_category`,
+    nameField: 'name',
+    isCi: false,
+    attrMap: {
+      description: 'u_description',
+      parent: { column: 'u_parent', ref: `${tablePrefix}_cost_category` },
+    },
+  };
+
+  // =========================================================================
+  // Enterprise: EA types (custom CI classes)
+  // =========================================================================
+
+  map['Service'] = {
+    tier: 2,
+    table: `${tablePrefix}_service`,
+    superClass: 'cmdb_ci',
+    nameField: 'name',
+    isCi: true,
+    cmdbApi: true,
+    identificationAttributes: ['name'],
+    attrMap: {
+      description: 'short_description',
+      serviceType: col('service_type', `${tablePrefix}_service_type`),
+      owner: { column: 'assignment_group', ref: 'sys_user_group' },
+      status: { column: 'install_status', transform: INSTALL_STATUS },
+    },
+  };
+
+  map['Capability'] = {
+    tier: 2,
+    table: `${tablePrefix}_capability`,
+    superClass: 'cmdb_ci',
+    nameField: 'name',
+    isCi: true,
+    cmdbApi: true,
+    identificationAttributes: ['name'],
+    attrMap: {
+      description: 'short_description',
+      parentCapability: { column: col('parent_capability', `${tablePrefix}_parent_cap`), ref: `${tablePrefix}_capability` },
+      owner: { column: 'assignment_group', ref: 'sys_user_group' },
+      status: { column: 'install_status', transform: INSTALL_STATUS },
+    },
+  };
+
+  map['Business Process'] = {
+    tier: 2,
+    table: `${tablePrefix}_business_process`,
+    superClass: 'cmdb_ci',
+    nameField: 'name',
+    isCi: true,
+    cmdbApi: true,
+    identificationAttributes: ['name'],
+    attrMap: {
+      description: 'short_description',
+      owner: { column: 'assignment_group', ref: 'sys_user_group' },
+    },
+  };
+
+  map['Information Object'] = {
+    tier: 2,
+    table: `${tablePrefix}_information_object`,
+    superClass: 'cmdb_ci',
+    nameField: 'name',
+    isCi: true,
+    cmdbApi: true,
+    identificationAttributes: ['name'],
+    attrMap: {
+      description: 'short_description',
+    },
+  };
+
+  // =========================================================================
+  // Enterprise: Product-prefixed types
+  // =========================================================================
+  // Each product line (CR=OvocoCRM, AN=OvocoAnalytics, SS=Shared Services)
+  // gets its own set of types mirroring the base schema.
+
+  function prefixedCiType(prefix, baseName, table, attrMap) {
+    map[`${prefix} ${baseName}`] = {
+      tier: 2,
+      table: `${tablePrefix}_${prefix.toLowerCase()}_${table}`,
+      superClass: 'cmdb_ci',
+      nameField: 'name',
+      isCi: true,
+      cmdbApi: true,
+      identificationAttributes: ['name'],
+      attrMap: { description: 'short_description', ...attrMap },
+    };
+  }
+
+  function prefixedStandaloneType(prefix, baseName, table, attrMap) {
+    map[`${prefix} ${baseName}`] = {
+      tier: 3,
+      table: `${tablePrefix}_${prefix.toLowerCase()}_${table}`,
+      nameField: 'name',
+      isCi: false,
+      attrMap: attrMap || {},
+    };
+  }
+
+  for (const prefix of ['CR', 'AN']) {
+    // CI types
+    prefixedCiType(prefix, 'Product', 'product', {
+      status: { column: 'install_status', transform: INSTALL_STATUS },
+      owner: { column: 'assignment_group', ref: 'sys_user_group' },
+    });
+    prefixedCiType(prefix, 'Server', 'server', {});
+    prefixedCiType(prefix, 'Hardware Model', 'hardware_model', {});
+    prefixedCiType(prefix, 'Network Segment', 'network_segment', {});
+    prefixedCiType(prefix, 'Product Component', 'product_component', {});
+    prefixedCiType(prefix, 'Virtual Machine', 'virtual_machine', {});
+    prefixedCiType(prefix, 'Assessment', 'assessment', {});
+    prefixedCiType(prefix, 'License', 'license', {});
+    prefixedCiType(prefix, 'Feature', 'feature', {});
+    prefixedCiType(prefix, 'Feature Implementation', 'feature_impl', {});
+    prefixedCiType(prefix, 'Component Instance', 'component_instance', {});
+
+    // Library types
+    prefixedStandaloneType(prefix, 'Product Version', 'product_version', { description: 'u_description' });
+    prefixedStandaloneType(prefix, 'Baseline', 'baseline', { description: 'u_description' });
+    prefixedStandaloneType(prefix, 'Document', 'document', { description: 'u_description' });
+    prefixedStandaloneType(prefix, 'Documentation Suite', 'doc_suite', { description: 'u_description' });
+    prefixedStandaloneType(prefix, 'Product Media', 'product_media', { description: 'u_description' });
+    prefixedStandaloneType(prefix, 'Product Suite', 'product_suite', { description: 'u_description' });
+    prefixedStandaloneType(prefix, 'Certification', 'certification', { description: 'u_description' });
+    prefixedStandaloneType(prefix, 'Deployment Site', 'deployment_site', { description: 'u_description' });
+    prefixedStandaloneType(prefix, 'Distribution Log', 'distribution_log', { description: 'u_description' });
+
+    // Site assignment types
+    prefixedStandaloneType(prefix, 'Site Location Assignment', 'site_location', { description: 'u_description' });
+    prefixedStandaloneType(prefix, 'Site Org Relationship', 'site_org_rel', { description: 'u_description' });
+    prefixedStandaloneType(prefix, 'Site Personnel Assignment', 'site_personnel', { description: 'u_description' });
+  }
+
+  // Shared Services types
+  prefixedCiType('SS', 'Product', 'product', {
+    status: { column: 'install_status', transform: INSTALL_STATUS },
+  });
+  prefixedCiType('SS', 'Server', 'server', {});
+  prefixedCiType('SS', 'Virtual Machine', 'virtual_machine', {});
+  prefixedCiType('SS', 'Network Segment', 'network_segment', {});
+  prefixedCiType('SS', 'Hardware Model', 'hardware_model', {});
+  prefixedCiType('SS', 'Assessment', 'assessment', {});
+  prefixedCiType('SS', 'License', 'license', {});
+  prefixedStandaloneType('SS', 'Document', 'document', { description: 'u_description' });
+  prefixedStandaloneType('SS', 'Certification', 'certification', { description: 'u_description' });
 
   return map;
 }
