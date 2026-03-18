@@ -53,6 +53,13 @@ function lookupTable(prefix, typeName) {
 function getClassMap(tablePrefix = 'u_cmdbk') {
   const map = {};
 
+  // Scoped app tables (x_cmdbk_*) use clean column names (product_type).
+  // Global scope tables (u_cmdbk_*) use prefixed column names (u_cmdbk_prod_type).
+  const isScoped = tablePrefix.startsWith('x_');
+  function col(scopedName, globalName) {
+    return isScoped ? scopedName : globalName;
+  }
+
   // =========================================================================
   // TIER 1: OOTB ServiceNow tables
   // =========================================================================
@@ -70,9 +77,9 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
-      productType: { column: `${tablePrefix}_prod_type`, ref: `${tablePrefix}_product_status` },
-      technology: `${tablePrefix}_tech_stack`,
-      version: `${tablePrefix}_prod_version`,
+      productType: { column: col('product_type', `${tablePrefix}_prod_type`), ref: `${tablePrefix}_product_status` },
+      technology: col('technology', `${tablePrefix}_tech_stack`),
+      version: col('version', `${tablePrefix}_prod_version`),
       owner: { column: 'assignment_group', ref: 'sys_user_group' },
       status: { column: 'install_status', transform: INSTALL_STATUS },
       // Inherited from cmdb_ci
@@ -123,12 +130,12 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
-      databaseEngine: `${tablePrefix}_engine_type`,
-      version: `${tablePrefix}_ver`,
-      server: { column: `${tablePrefix}_host_server`, ref: 'cmdb_ci_server' },
-      storageSize: `${tablePrefix}_store_size`,
-      port: `${tablePrefix}_db_port`,
-      instanceName: `${tablePrefix}_inst_name`,
+      databaseEngine: col('engine_type', `${tablePrefix}_engine_type`),
+      version: col('db_version', `${tablePrefix}_ver`),
+      server: { column: col('host_server', `${tablePrefix}_host_server`), ref: 'cmdb_ci_server' },
+      storageSize: col('storage_size', `${tablePrefix}_store_size`),
+      port: col('port', `${tablePrefix}_db_port`),
+      instanceName: col('instance_name', `${tablePrefix}_inst_name`),
       // Inherited from cmdb_ci
       environment: 'environment',
       company: { column: 'company', ref: 'core_company' },
@@ -318,15 +325,15 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     nameField: 'name',
     isCi: false,
     attrMap: {
-      description: `${tablePrefix}_description`,
-      firstName: `${tablePrefix}_first_name`,
-      lastName: `${tablePrefix}_last_name`,
-      email: `${tablePrefix}_email`,
-      role: `${tablePrefix}_role`,
-      team: { column: `${tablePrefix}_team`, ref: 'sys_user_group' },
-      phone: `${tablePrefix}_phone`,
-      isUser: `${tablePrefix}_is_user`,
-      userAccount: { column: `${tablePrefix}_user_account`, ref: 'sys_user' },
+      description: col('description', `${tablePrefix}_description`),
+      firstName: col('first_name', `${tablePrefix}_first_name`),
+      lastName: col('last_name', `${tablePrefix}_last_name`),
+      email: col('email', `${tablePrefix}_email`),
+      role: col('role', `${tablePrefix}_role`),
+      team: { column: col('team', `${tablePrefix}_team`), ref: 'sys_user_group' },
+      phone: col('phone', `${tablePrefix}_phone`),
+      isUser: col('is_user', `${tablePrefix}_is_user`),
+      userAccount: { column: col('user_account', `${tablePrefix}_user_account`), ref: 'sys_user' },
     },
   };
 
@@ -358,10 +365,10 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
-      componentType: { column: `${tablePrefix}_comp_type`, ref: `${tablePrefix}_component_type` },
-      repository: `${tablePrefix}_source_repo`,
-      technology: `${tablePrefix}_technology`,
-      owner: { column: `${tablePrefix}_owner`, ref: 'sys_user_group' },
+      componentType: { column: col('component_type', `${tablePrefix}_comp_type`), ref: `${tablePrefix}_component_type` },
+      repository: col('source_repo', `${tablePrefix}_source_repo`),
+      technology: col('technology', `${tablePrefix}_technology`),
+      owner: { column: col('owner', `${tablePrefix}_owner`), ref: 'sys_user_group' },
     },
   };
 
@@ -375,9 +382,9 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
-      version: { column: `${tablePrefix}_version`, ref: `${tablePrefix}_product_version` },
-      status: `${tablePrefix}_status`,
-      owner: { column: `${tablePrefix}_owner`, ref: 'sys_user_group' },
+      version: { column: col('version', `${tablePrefix}_version`), ref: `${tablePrefix}_product_version` },
+      status: col('status', `${tablePrefix}_status`),
+      owner: { column: col('owner', `${tablePrefix}_owner`), ref: 'sys_user_group' },
     },
   };
 
@@ -391,11 +398,11 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
-      assessmentType: `${tablePrefix}_assessment_type`,
-      assessmentDate: `${tablePrefix}_assessment_date`,
-      status: `${tablePrefix}_status`,
-      assessor: { column: `${tablePrefix}_assessor`, ref: 'sys_user' },
-      findings: `${tablePrefix}_findings`,
+      assessmentType: col('assessment_type', `${tablePrefix}_assessment_type`),
+      assessmentDate: col('assessment_date', `${tablePrefix}_assessment_date`),
+      status: col('status', `${tablePrefix}_status`),
+      assessor: { column: col('assessor', `${tablePrefix}_assessor`), ref: 'sys_user' },
+      findings: col('findings', `${tablePrefix}_findings`),
     },
   };
 

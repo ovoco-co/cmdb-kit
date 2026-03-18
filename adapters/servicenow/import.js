@@ -776,7 +776,10 @@ async function importRelationships() {
   let created = 0, skipped = 0, errors = 0;
 
   for (const rel of relationships) {
-    const { parent, parentClass, child, childClass, type } = rel;
+    const { parent, child, type } = rel;
+    // Translate class names to current table prefix (relationships.json may use u_cmdbk_*)
+    const parentClass = rel.parentClass.replace(/^u_cmdbk_/, `${config.tablePrefix}_`);
+    const childClass = rel.childClass.replace(/^u_cmdbk_/, `${config.tablePrefix}_`);
 
     // Resolve parent sys_id from cache, then fall back to API lookup
     const parentSysId = await resolveSysId(parent, parentClass, sysIdCache, api);
