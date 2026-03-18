@@ -77,7 +77,7 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
     identificationAttributes: ['name'],
     attrMap: {
       description: 'short_description',
-      productType: { column: col('product_type', `${tablePrefix}_prod_type`), ref: `${tablePrefix}_product_status` },
+      productType: col('product_type', `${tablePrefix}_prod_type`),
       technology: col('technology', `${tablePrefix}_tech_stack`),
       version: col('version', `${tablePrefix}_prod_version`),
       owner: { column: 'assignment_group', ref: 'sys_user_group' },
