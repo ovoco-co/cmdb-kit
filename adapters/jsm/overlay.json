@@ -1,0 +1,167 @@
+{
+  "_comment": "JSM Assets platform overlay for CMDB-Kit. Describes how the platform-agnostic schema maps to JSM Assets object types and attributes.",
+  "_version": "1.0.0",
+
+  "platform": "jsm-assets",
+
+  "defaults": {
+    "schemaKey": "CMDB",
+    "defaultIcon": "generic"
+  },
+
+  "attributeTypes": {
+    "text": 0,
+    "reference": 1,
+    "date": 4,
+    "integer": 1,
+    "boolean": 2,
+    "url": 7
+  },
+
+  "types": {
+    "_comment": "Every type from the schema becomes a JSM object type. No tier system. No table prefix. Object type names match schema type names directly.",
+
+    "Product": {
+      "icon": "application",
+      "attributes": {
+        "description": { "type": "text" },
+        "productType": { "type": "text" },
+        "technology": { "type": "text" },
+        "version": { "type": "text" },
+        "owner": { "type": "reference", "referenceType": "Team" },
+        "status": { "type": "reference", "referenceType": "Product Status" },
+        "environment": { "type": "reference", "referenceType": "Environment Type" },
+        "companionProducts": { "type": "reference", "referenceType": "Product", "cardinality": "many" }
+      }
+    },
+
+    "Server": {
+      "icon": "server",
+      "attributes": {
+        "description": { "type": "text" },
+        "hostname": { "type": "text" },
+        "ipAddress": { "type": "text" },
+        "operatingSystem": { "type": "text" },
+        "environment": { "type": "reference", "referenceType": "Environment Type" },
+        "cpu": { "type": "text" },
+        "ram": { "type": "text" },
+        "storage": { "type": "text" }
+      }
+    },
+
+    "Database": {
+      "icon": "database",
+      "attributes": {
+        "description": { "type": "text" },
+        "databaseEngine": { "type": "text" },
+        "version": { "type": "text" },
+        "server": { "type": "reference", "referenceType": "Server" },
+        "storageSize": { "type": "text" },
+        "environment": { "type": "reference", "referenceType": "Environment Type" }
+      }
+    },
+
+    "Product Component": {
+      "icon": "component",
+      "attributes": {
+        "description": { "type": "text" },
+        "componentType": { "type": "reference", "referenceType": "Component Type" },
+        "repository": { "type": "text" },
+        "technology": { "type": "text" },
+        "owner": { "type": "reference", "referenceType": "Team" }
+      }
+    },
+
+    "Person": {
+      "icon": "person",
+      "attributes": {
+        "description": { "type": "text" },
+        "firstName": { "type": "text" },
+        "lastName": { "type": "text" },
+        "email": { "type": "text" },
+        "role": { "type": "text" },
+        "team": { "type": "reference", "referenceType": "Team" },
+        "phone": { "type": "text" }
+      }
+    },
+
+    "Organization": {
+      "icon": "organization",
+      "attributes": {
+        "description": { "type": "text" },
+        "orgType": { "type": "reference", "referenceType": "Organization Type" },
+        "website": { "type": "url" },
+        "parentOrganization": { "type": "reference", "referenceType": "Organization" }
+      }
+    },
+
+    "Team": {
+      "icon": "team",
+      "attributes": {
+        "description": { "type": "text" },
+        "organization": { "type": "reference", "referenceType": "Organization" },
+        "teamLead": { "type": "reference", "referenceType": "Person" }
+      }
+    },
+
+    "Product Version": {
+      "icon": "version",
+      "attributes": {
+        "description": { "type": "text" },
+        "versionNumber": { "type": "text" },
+        "releaseDate": { "type": "date" },
+        "status": { "type": "reference", "referenceType": "Version Status" },
+        "components": { "type": "reference", "referenceType": "Product Component", "cardinality": "many" },
+        "previousVersion": { "type": "reference", "referenceType": "Product Version" }
+      }
+    },
+
+    "Document": {
+      "icon": "document",
+      "attributes": {
+        "description": { "type": "text" },
+        "documentType": { "type": "reference", "referenceType": "Document Type" },
+        "state": { "type": "reference", "referenceType": "Document State" },
+        "author": { "type": "reference", "referenceType": "Person" },
+        "publishDate": { "type": "date" },
+        "url": { "type": "url" }
+      }
+    },
+
+    "Deployment": {
+      "icon": "deployment",
+      "attributes": {
+        "description": { "type": "text" },
+        "version": { "type": "reference", "referenceType": "Product Version" },
+        "environment": { "type": "reference", "referenceType": "Environment Type" },
+        "deployDate": { "type": "date" },
+        "status": { "type": "reference", "referenceType": "Deployment Status" },
+        "deployedBy": { "type": "reference", "referenceType": "Person" }
+      }
+    },
+
+    "Location": {
+      "icon": "location",
+      "attributes": {
+        "description": { "type": "text" },
+        "address": { "type": "text" },
+        "city": { "type": "text" },
+        "country": { "type": "text" },
+        "locationType": { "type": "text" }
+      }
+    },
+
+    "_lookupDefaults": {
+      "_comment": "All lookup types use the same pattern: name (built-in) + description (text attribute). The overlay doesn't need to list every lookup individually.",
+      "icon": "tag",
+      "attributes": {
+        "description": { "type": "text" }
+      }
+    },
+
+    "_containerDefaults": {
+      "_comment": "Container types become JSM object types with no attributes. They serve as parent types in the hierarchy.",
+      "icon": "folder"
+    }
+  }
+}
