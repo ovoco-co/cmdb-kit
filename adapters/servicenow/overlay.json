@@ -1,0 +1,1488 @@
+{
+  "_comment": "ServiceNow platform overlay for CMDB-Kit. Auto-generated from class-map.js.",
+  "_version": "1.0.0",
+  "platform": "servicenow",
+  "defaults": {
+    "tablePrefix": "u_cmdbk",
+    "scopedPrefix": "x_cmdbk",
+    "discoverySource": "ServiceNow"
+  },
+  "transforms": {
+    "installStatus": {
+      "Active": "1",
+      "Retired": "7",
+      "In Development": "2",
+      "In Maintenance": "6",
+      "Absent": "100",
+      "Installed": "1",
+      "On Order": "101",
+      "In Stock": "102",
+      "In Transit": "103"
+    }
+  },
+  "types": {
+    "Product": {
+      "tier": 2,
+      "table": "{prefix}_product",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description",
+        "productType": {
+          "scoped": "product_type",
+          "global": "{prefix}_prod_type"
+        },
+        "technology": {
+          "scoped": "technology",
+          "global": "{prefix}_tech_stack"
+        },
+        "version": {
+          "scoped": "version",
+          "global": "{prefix}_prod_version"
+        },
+        "owner": {
+          "column": "assignment_group",
+          "ref": "sys_user_group"
+        },
+        "status": {
+          "column": "install_status",
+          "transform": "installStatus"
+        },
+        "environment": "environment",
+        "company": {
+          "column": "company",
+          "ref": "core_company"
+        },
+        "location": {
+          "column": "location",
+          "ref": "cmn_location"
+        },
+        "assignedTo": {
+          "column": "assigned_to",
+          "ref": "sys_user"
+        }
+      }
+    },
+    "Server": {
+      "tier": 1,
+      "table": "cmdb_ci_server",
+      "isCi": true,
+      "cmdbApi": true,
+      "attributes": {
+        "description": "short_description",
+        "hostname": "host_name",
+        "ipAddress": "ip_address",
+        "operatingSystem": {
+          "column": "os",
+          "transform": "splitOs"
+        },
+        "cpu": {
+          "column": "cpu_name",
+          "transform": "splitCpu"
+        },
+        "ram": {
+          "column": "ram",
+          "transform": "parseRam"
+        },
+        "storage": {
+          "column": "disk_space",
+          "transform": "parseDiskSpace"
+        },
+        "classification": "classification",
+        "manufacturer": {
+          "column": "manufacturer",
+          "ref": "core_company"
+        },
+        "modelId": {
+          "column": "model_id",
+          "ref": "cmdb_model"
+        },
+        "serialNumber": "serial_number",
+        "virtual": "virtual",
+        "environment": "environment",
+        "company": {
+          "column": "company",
+          "ref": "core_company"
+        },
+        "location": {
+          "column": "location",
+          "ref": "cmn_location"
+        },
+        "assignedTo": {
+          "column": "assigned_to",
+          "ref": "sys_user"
+        },
+        "assignmentGroup": {
+          "column": "assignment_group",
+          "ref": "sys_user_group"
+        }
+      }
+    },
+    "Database": {
+      "tier": 2,
+      "table": "{prefix}_database",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description",
+        "databaseEngine": {
+          "scoped": "engine_type",
+          "global": "{prefix}_engine_type"
+        },
+        "version": {
+          "scoped": "db_version",
+          "global": "{prefix}_ver"
+        },
+        "server": {
+          "column": {
+            "scoped": "host_server",
+            "global": "{prefix}_host_server"
+          },
+          "ref": "cmdb_ci_server"
+        },
+        "storageSize": {
+          "scoped": "storage_size",
+          "global": "{prefix}_store_size"
+        },
+        "port": {
+          "scoped": "port",
+          "global": "{prefix}_db_port"
+        },
+        "instanceName": {
+          "scoped": "instance_name",
+          "global": "{prefix}_inst_name"
+        },
+        "environment": "environment",
+        "company": {
+          "column": "company",
+          "ref": "core_company"
+        },
+        "location": {
+          "column": "location",
+          "ref": "cmn_location"
+        },
+        "assignedTo": {
+          "column": "assigned_to",
+          "ref": "sys_user"
+        },
+        "assignmentGroup": {
+          "column": "assignment_group",
+          "ref": "sys_user_group"
+        }
+      }
+    },
+    "Hardware Model": {
+      "tier": 1,
+      "table": "cmdb_hardware_product_model",
+      "attributes": {
+        "description": "short_description",
+        "manufacturer": "manufacturer",
+        "modelNumber": "model_number",
+        "cpu": "u_cpu",
+        "ram": "u_ram",
+        "storage": "u_storage",
+        "formFactor": "u_form_factor"
+      }
+    },
+    "Network Segment": {
+      "tier": 1,
+      "table": "cmdb_ci_ip_network",
+      "isCi": true,
+      "cmdbApi": true,
+      "attributes": {
+        "description": "short_description",
+        "networkType": "u_network_type",
+        "cidr": "u_cidr",
+        "vlan": "u_vlan",
+        "gateway": "u_gateway"
+      }
+    },
+    "Virtual Machine": {
+      "tier": 2,
+      "table": "{prefix}_virtual_machine",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description",
+        "hostname": "host_name",
+        "server": {
+          "column": {
+            "scoped": "x_cmdbk_host_server",
+            "global": "{prefix}_host_server"
+          },
+          "ref": "cmdb_ci_server"
+        },
+        "operatingSystem": {
+          "column": "os",
+          "transform": "splitOs"
+        },
+        "cpu": {
+          "column": "cpu_name",
+          "transform": "splitCpu"
+        },
+        "ram": {
+          "column": "ram",
+          "transform": "parseRam"
+        },
+        "environment": "environment",
+        "company": {
+          "column": "company",
+          "ref": "core_company"
+        },
+        "location": {
+          "column": "location",
+          "ref": "cmn_location"
+        },
+        "assignedTo": {
+          "column": "assigned_to",
+          "ref": "sys_user"
+        },
+        "assignmentGroup": {
+          "column": "assignment_group",
+          "ref": "sys_user_group"
+        }
+      }
+    },
+    "License": {
+      "tier": 1,
+      "table": "alm_license",
+      "attributes": {
+        "description": "short_description",
+        "licenseType": "u_license_type",
+        "vendor": {
+          "column": "vendor",
+          "ref": "core_company"
+        },
+        "expirationDate": "end_date",
+        "quantity": "quantity",
+        "status": "u_status"
+      }
+    },
+    "Change Request": {
+      "tier": 1,
+      "table": "change_request",
+      "autoName": true,
+      "attributes": {
+        "description": "short_description",
+        "changeType": "type",
+        "impact": "impact",
+        "requestedBy": {
+          "column": "requested_by",
+          "ref": "sys_user"
+        },
+        "requestDate": "opened_at",
+        "status": "state"
+      }
+    },
+    "Incident": {
+      "tier": 1,
+      "table": "incident",
+      "autoName": true,
+      "attributes": {
+        "description": "short_description",
+        "severity": "severity",
+        "status": "state",
+        "reportedBy": {
+          "column": "caller_id",
+          "ref": "sys_user"
+        },
+        "reportDate": "opened_at",
+        "resolvedDate": "resolved_at",
+        "affectedProduct": {
+          "column": "cmdb_ci",
+          "ref": "{prefix}_product"
+        }
+      }
+    },
+    "SLA": {
+      "tier": 1,
+      "table": "contract_sla",
+      "attributes": {
+        "description": "short_description",
+        "product": {
+          "column": "cmdb_ci",
+          "ref": "{prefix}_product"
+        },
+        "status": "u_status",
+        "targetUptime": "u_target_uptime",
+        "responseTime": "u_response_time",
+        "reviewDate": "u_review_date"
+      }
+    },
+    "Organization": {
+      "tier": 1,
+      "table": "core_company",
+      "attributes": {
+        "description": "notes",
+        "orgType": "u_org_type",
+        "website": "website",
+        "parentOrganization": {
+          "column": "parent",
+          "ref": "core_company"
+        },
+        "phone": "phone",
+        "city": "city",
+        "state": "state",
+        "country": "country",
+        "zip": "zip"
+      }
+    },
+    "Vendor": {
+      "tier": 1,
+      "table": "core_company",
+      "vendorFlag": true,
+      "attributes": {
+        "description": "notes",
+        "website": "website",
+        "contactEmail": "u_contact_email",
+        "status": "u_vendor_status",
+        "contractExpiry": "u_contract_expiry",
+        "phone": "phone",
+        "city": "city",
+        "state": "state",
+        "country": "country",
+        "zip": "zip"
+      }
+    },
+    "Team": {
+      "tier": 1,
+      "table": "sys_user_group",
+      "attributes": {
+        "description": "description",
+        "organization": {
+          "column": "company",
+          "ref": "core_company"
+        },
+        "teamLead": {
+          "column": "manager",
+          "ref": "sys_user"
+        }
+      }
+    },
+    "Person": {
+      "tier": 3,
+      "table": "{prefix}_person",
+      "attributes": {
+        "description": {
+          "scoped": "description",
+          "global": "{prefix}_description"
+        },
+        "firstName": {
+          "scoped": "first_name",
+          "global": "{prefix}_first_name"
+        },
+        "lastName": {
+          "scoped": "last_name",
+          "global": "{prefix}_last_name"
+        },
+        "email": {
+          "scoped": "email",
+          "global": "{prefix}_email"
+        },
+        "role": {
+          "scoped": "role",
+          "global": "{prefix}_role"
+        },
+        "team": {
+          "column": {
+            "scoped": "team",
+            "global": "{prefix}_team"
+          },
+          "ref": "sys_user_group"
+        },
+        "phone": {
+          "scoped": "phone",
+          "global": "{prefix}_phone"
+        },
+        "isUser": {
+          "scoped": "is_user",
+          "global": "{prefix}_is_user"
+        },
+        "userAccount": {
+          "column": {
+            "scoped": "user_account",
+            "global": "{prefix}_user_account"
+          },
+          "ref": "sys_user"
+        }
+      }
+    },
+    "Location": {
+      "tier": 1,
+      "table": "cmn_location",
+      "attributes": {
+        "description": "street",
+        "address": "street",
+        "city": "city",
+        "country": "country",
+        "locationType": "u_location_type"
+      }
+    },
+    "Product Component": {
+      "tier": 2,
+      "table": "{prefix}_product_component",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description",
+        "componentType": {
+          "column": {
+            "scoped": "component_type",
+            "global": "{prefix}_comp_type"
+          },
+          "ref": "{prefix}_component_type"
+        },
+        "repository": {
+          "scoped": "source_repo",
+          "global": "{prefix}_source_repo"
+        },
+        "technology": {
+          "scoped": "technology",
+          "global": "{prefix}_technology"
+        },
+        "owner": {
+          "column": {
+            "scoped": "owner",
+            "global": "{prefix}_owner"
+          },
+          "ref": "sys_user_group"
+        }
+      }
+    },
+    "Feature": {
+      "tier": 2,
+      "table": "{prefix}_feature",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description",
+        "version": {
+          "column": {
+            "scoped": "version",
+            "global": "{prefix}_version"
+          },
+          "ref": "{prefix}_product_version"
+        },
+        "status": {
+          "scoped": "status",
+          "global": "{prefix}_status"
+        },
+        "owner": {
+          "column": {
+            "scoped": "owner",
+            "global": "{prefix}_owner"
+          },
+          "ref": "sys_user_group"
+        }
+      }
+    },
+    "Assessment": {
+      "tier": 2,
+      "table": "{prefix}_assessment",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description",
+        "assessmentType": {
+          "scoped": "assessment_type",
+          "global": "{prefix}_assessment_type"
+        },
+        "assessmentDate": {
+          "scoped": "assessment_date",
+          "global": "{prefix}_assessment_date"
+        },
+        "status": {
+          "scoped": "status",
+          "global": "{prefix}_status"
+        },
+        "assessor": {
+          "column": {
+            "scoped": "assessor",
+            "global": "{prefix}_assessor"
+          },
+          "ref": "sys_user"
+        },
+        "findings": {
+          "scoped": "findings",
+          "global": "{prefix}_findings"
+        }
+      }
+    },
+    "Product Version": {
+      "tier": 3,
+      "table": "{prefix}_product_version",
+      "attributes": {
+        "description": "u_description",
+        "versionNumber": "u_version_number",
+        "releaseDate": "u_release_date",
+        "status": "u_status",
+        "components": {
+          "column": "u_components",
+          "ref": "{prefix}_product_component",
+          "multi": true
+        },
+        "previousVersion": {
+          "column": "u_previous_version",
+          "ref": "{prefix}_product_version"
+        }
+      }
+    },
+    "Document": {
+      "tier": 3,
+      "table": "{prefix}_document",
+      "attributes": {
+        "description": "u_description",
+        "documentType": "u_document_type",
+        "state": "u_state",
+        "author": {
+          "column": "u_author",
+          "ref": "sys_user"
+        },
+        "publishDate": "u_publish_date",
+        "url": "u_url"
+      }
+    },
+    "Deployment": {
+      "tier": 3,
+      "table": "{prefix}_deployment",
+      "attributes": {
+        "description": "u_description",
+        "version": {
+          "column": "u_version",
+          "ref": "{prefix}_product_version"
+        },
+        "environment": "u_environment",
+        "deployDate": "u_deploy_date",
+        "status": "u_status",
+        "deployedBy": {
+          "column": "u_deployed_by",
+          "ref": "sys_user"
+        }
+      }
+    },
+    "Baseline": {
+      "tier": 3,
+      "table": "{prefix}_baseline",
+      "attributes": {
+        "description": "u_description",
+        "baselineType": "u_baseline_type",
+        "version": {
+          "column": "u_version",
+          "ref": "{prefix}_product_version"
+        },
+        "status": "u_status",
+        "approvalDate": "u_approval_date"
+      }
+    },
+    "Documentation Suite": {
+      "tier": 3,
+      "table": "{prefix}_doc_suite",
+      "attributes": {
+        "description": "u_description",
+        "version": {
+          "column": "u_version",
+          "ref": "{prefix}_product_version"
+        },
+        "documents": {
+          "column": "u_documents",
+          "ref": "{prefix}_document",
+          "multi": true
+        },
+        "state": "u_state"
+      }
+    },
+    "Product Media": {
+      "tier": 3,
+      "table": "{prefix}_product_media",
+      "attributes": {
+        "description": "u_description",
+        "version": {
+          "column": "u_version",
+          "ref": "{prefix}_product_version"
+        },
+        "fileName": "u_file_name",
+        "fileSize": "u_file_size",
+        "checksum": "u_checksum"
+      }
+    },
+    "Product Suite": {
+      "tier": 3,
+      "table": "{prefix}_product_suite",
+      "attributes": {
+        "description": "u_description",
+        "version": {
+          "column": "u_version",
+          "ref": "{prefix}_product_version"
+        },
+        "media": {
+          "column": "u_media",
+          "ref": "{prefix}_product_media",
+          "multi": true
+        }
+      }
+    },
+    "Certification": {
+      "tier": 3,
+      "table": "{prefix}_certification",
+      "attributes": {
+        "description": "u_description",
+        "certificationType": "u_certification_type",
+        "status": "u_status",
+        "issueDate": "u_issue_date",
+        "expirationDate": "u_expiration_date",
+        "issuingBody": "u_issuing_body"
+      }
+    },
+    "Deployment Site": {
+      "tier": 3,
+      "table": "{prefix}_deployment_site",
+      "attributes": {
+        "description": "u_description",
+        "location": {
+          "column": "u_location",
+          "ref": "cmn_location"
+        },
+        "status": "u_status",
+        "environment": "u_environment",
+        "goLiveDate": "u_go_live_date"
+      }
+    },
+    "Distribution Log": {
+      "tier": 3,
+      "table": "{prefix}_distribution_log",
+      "attributes": {
+        "description": "u_description",
+        "version": {
+          "column": "u_version",
+          "ref": "{prefix}_product_version"
+        },
+        "site": {
+          "column": "u_site",
+          "ref": "{prefix}_deployment_site"
+        },
+        "distributionDate": "u_distribution_date",
+        "distributedBy": {
+          "column": "u_distributed_by",
+          "ref": "sys_user"
+        }
+      }
+    },
+    "Facility": {
+      "tier": 3,
+      "table": "{prefix}_facility",
+      "attributes": {
+        "description": "u_description",
+        "location": {
+          "column": "u_location",
+          "ref": "cmn_location"
+        },
+        "facilityType": "u_facility_type",
+        "capacity": "u_capacity"
+      }
+    },
+    "Site": {
+      "tier": 3,
+      "table": "{prefix}_site"
+    },
+    "Requirement": {
+      "tier": 3,
+      "table": "{prefix}_requirement",
+      "attributes": {
+        "description": "u_description",
+        "requirementType": "u_requirement_type",
+        "status": "u_status",
+        "priority": "u_priority",
+        "verificationMethod": "u_verification_method"
+      }
+    },
+    "Library Item": {
+      "tier": 3,
+      "table": "{prefix}_library_item",
+      "attributes": {
+        "description": "u_description",
+        "itemType": "u_item_type",
+        "version": "u_version",
+        "status": "u_status"
+      }
+    },
+    "Contract": {
+      "tier": 3,
+      "table": "{prefix}_contract",
+      "attributes": {
+        "description": "u_description",
+        "vendor": {
+          "column": "u_vendor",
+          "ref": "core_company"
+        },
+        "startDate": "u_start_date",
+        "endDate": "u_end_date",
+        "value": "u_value",
+        "status": "u_status"
+      }
+    },
+    "Cost Category": {
+      "tier": 3,
+      "table": "{prefix}_cost_category",
+      "attributes": {
+        "description": "u_description",
+        "parent": {
+          "column": "u_parent",
+          "ref": "{prefix}_cost_category"
+        }
+      }
+    },
+    "Service": {
+      "tier": 2,
+      "table": "{prefix}_service",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description",
+        "serviceType": {
+          "scoped": "service_type",
+          "global": "{prefix}_service_type"
+        },
+        "owner": {
+          "column": "assignment_group",
+          "ref": "sys_user_group"
+        },
+        "status": {
+          "column": "install_status",
+          "transform": "installStatus"
+        }
+      }
+    },
+    "Capability": {
+      "tier": 2,
+      "table": "{prefix}_capability",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description",
+        "parentCapability": {
+          "column": {
+            "scoped": "parent_capability",
+            "global": "{prefix}_parent_cap"
+          },
+          "ref": "{prefix}_capability"
+        },
+        "owner": {
+          "column": "assignment_group",
+          "ref": "sys_user_group"
+        },
+        "status": {
+          "column": "install_status",
+          "transform": "installStatus"
+        }
+      }
+    },
+    "Business Process": {
+      "tier": 2,
+      "table": "{prefix}_business_process",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description",
+        "owner": {
+          "column": "assignment_group",
+          "ref": "sys_user_group"
+        }
+      }
+    },
+    "Information Object": {
+      "tier": 2,
+      "table": "{prefix}_information_object",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "CR Product": {
+      "tier": 2,
+      "table": "{prefix}_cr_product",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description",
+        "status": {
+          "column": "install_status",
+          "transform": "installStatus"
+        },
+        "owner": {
+          "column": "assignment_group",
+          "ref": "sys_user_group"
+        }
+      }
+    },
+    "CR Server": {
+      "tier": 2,
+      "table": "{prefix}_cr_server",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "CR Hardware Model": {
+      "tier": 2,
+      "table": "{prefix}_cr_hardware_model",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "CR Network Segment": {
+      "tier": 2,
+      "table": "{prefix}_cr_network_segment",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "CR Product Component": {
+      "tier": 2,
+      "table": "{prefix}_cr_product_component",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "CR Virtual Machine": {
+      "tier": 2,
+      "table": "{prefix}_cr_virtual_machine",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "CR Assessment": {
+      "tier": 2,
+      "table": "{prefix}_cr_assessment",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "CR License": {
+      "tier": 2,
+      "table": "{prefix}_cr_license",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "CR Feature": {
+      "tier": 2,
+      "table": "{prefix}_cr_feature",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "CR Feature Implementation": {
+      "tier": 2,
+      "table": "{prefix}_cr_feature_impl",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "CR Component Instance": {
+      "tier": 2,
+      "table": "{prefix}_cr_component_instance",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "CR Product Version": {
+      "tier": 3,
+      "table": "{prefix}_cr_product_version",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "CR Baseline": {
+      "tier": 3,
+      "table": "{prefix}_cr_baseline",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "CR Document": {
+      "tier": 3,
+      "table": "{prefix}_cr_document",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "CR Documentation Suite": {
+      "tier": 3,
+      "table": "{prefix}_cr_doc_suite",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "CR Product Media": {
+      "tier": 3,
+      "table": "{prefix}_cr_product_media",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "CR Product Suite": {
+      "tier": 3,
+      "table": "{prefix}_cr_product_suite",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "CR Certification": {
+      "tier": 3,
+      "table": "{prefix}_cr_certification",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "CR Deployment Site": {
+      "tier": 3,
+      "table": "{prefix}_cr_deployment_site",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "CR Distribution Log": {
+      "tier": 3,
+      "table": "{prefix}_cr_distribution_log",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "CR Site Location Assignment": {
+      "tier": 3,
+      "table": "{prefix}_cr_site_location",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "CR Site Org Relationship": {
+      "tier": 3,
+      "table": "{prefix}_cr_site_org_rel",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "CR Site Personnel Assignment": {
+      "tier": 3,
+      "table": "{prefix}_cr_site_personnel",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "AN Product": {
+      "tier": 2,
+      "table": "{prefix}_an_product",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description",
+        "status": {
+          "column": "install_status",
+          "transform": "installStatus"
+        },
+        "owner": {
+          "column": "assignment_group",
+          "ref": "sys_user_group"
+        }
+      }
+    },
+    "AN Server": {
+      "tier": 2,
+      "table": "{prefix}_an_server",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "AN Hardware Model": {
+      "tier": 2,
+      "table": "{prefix}_an_hardware_model",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "AN Network Segment": {
+      "tier": 2,
+      "table": "{prefix}_an_network_segment",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "AN Product Component": {
+      "tier": 2,
+      "table": "{prefix}_an_product_component",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "AN Virtual Machine": {
+      "tier": 2,
+      "table": "{prefix}_an_virtual_machine",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "AN Assessment": {
+      "tier": 2,
+      "table": "{prefix}_an_assessment",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "AN License": {
+      "tier": 2,
+      "table": "{prefix}_an_license",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "AN Feature": {
+      "tier": 2,
+      "table": "{prefix}_an_feature",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "AN Feature Implementation": {
+      "tier": 2,
+      "table": "{prefix}_an_feature_impl",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "AN Component Instance": {
+      "tier": 2,
+      "table": "{prefix}_an_component_instance",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "AN Product Version": {
+      "tier": 3,
+      "table": "{prefix}_an_product_version",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "AN Baseline": {
+      "tier": 3,
+      "table": "{prefix}_an_baseline",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "AN Document": {
+      "tier": 3,
+      "table": "{prefix}_an_document",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "AN Documentation Suite": {
+      "tier": 3,
+      "table": "{prefix}_an_doc_suite",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "AN Product Media": {
+      "tier": 3,
+      "table": "{prefix}_an_product_media",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "AN Product Suite": {
+      "tier": 3,
+      "table": "{prefix}_an_product_suite",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "AN Certification": {
+      "tier": 3,
+      "table": "{prefix}_an_certification",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "AN Deployment Site": {
+      "tier": 3,
+      "table": "{prefix}_an_deployment_site",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "AN Distribution Log": {
+      "tier": 3,
+      "table": "{prefix}_an_distribution_log",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "AN Site Location Assignment": {
+      "tier": 3,
+      "table": "{prefix}_an_site_location",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "AN Site Org Relationship": {
+      "tier": 3,
+      "table": "{prefix}_an_site_org_rel",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "AN Site Personnel Assignment": {
+      "tier": 3,
+      "table": "{prefix}_an_site_personnel",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "SS Product": {
+      "tier": 2,
+      "table": "{prefix}_ss_product",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description",
+        "status": {
+          "column": "install_status",
+          "transform": "installStatus"
+        }
+      }
+    },
+    "SS Server": {
+      "tier": 2,
+      "table": "{prefix}_ss_server",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "SS Virtual Machine": {
+      "tier": 2,
+      "table": "{prefix}_ss_virtual_machine",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "SS Network Segment": {
+      "tier": 2,
+      "table": "{prefix}_ss_network_segment",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "SS Hardware Model": {
+      "tier": 2,
+      "table": "{prefix}_ss_hardware_model",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "SS Assessment": {
+      "tier": 2,
+      "table": "{prefix}_ss_assessment",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "SS License": {
+      "tier": 2,
+      "table": "{prefix}_ss_license",
+      "superClass": "cmdb_ci",
+      "isCi": true,
+      "cmdbApi": true,
+      "identificationAttributes": [
+        "name"
+      ],
+      "attributes": {
+        "description": "short_description"
+      }
+    },
+    "SS Document": {
+      "tier": 3,
+      "table": "{prefix}_ss_document",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "SS Certification": {
+      "tier": 3,
+      "table": "{prefix}_ss_certification",
+      "attributes": {
+        "description": "u_description"
+      }
+    },
+    "_lookupTypes": [
+      "Product Status",
+      "Version Status",
+      "Deployment Status",
+      "Environment Type",
+      "Document Type",
+      "Document State",
+      "Component Type",
+      "Priority",
+      "Organization Type",
+      "Deployment Role",
+      "Change Type",
+      "Change Impact",
+      "Incident Severity",
+      "Incident Status",
+      "Certification Type",
+      "Certification Status",
+      "Assessment Type",
+      "Assessment Status",
+      "Network Type",
+      "Baseline Type",
+      "Baseline Status",
+      "License Type",
+      "License Status",
+      "Site Status",
+      "Vendor Status",
+      "SLA Status",
+      "Baseline Milestone",
+      "Site Type",
+      "Site Workflow Status",
+      "Upgrade Status",
+      "Service Type",
+      "Capability Status",
+      "Disposition",
+      "Library Item Type",
+      "Distribution Status",
+      "Delivery Method",
+      "Media Urgency",
+      "Transfer Status",
+      "Build Status",
+      "Sunset Reason",
+      "Implementation Status",
+      "Requirement Type",
+      "Requirement Status",
+      "Requirement Priority",
+      "Verification Method",
+      "Contract Status",
+      "Disposal Method",
+      "Media Type"
+    ],
+    "_containers": [
+      "Product CMDB",
+      "Product Library",
+      "Directory",
+      "Lookup Types",
+      "Ovoco Portfolio CMDB",
+      "OvocoCRM CMDB",
+      "OvocoAnalytics CMDB",
+      "Shared Services CMDB",
+      "Ovoco Library",
+      "OvocoCRM Library",
+      "OvocoAnalytics Library",
+      "Shared Library",
+      "Enterprise Architecture",
+      "Configuration Library",
+      "Financial"
+    ]
+  }
+}
