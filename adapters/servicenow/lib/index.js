@@ -13,6 +13,7 @@ const path = require('path');
 const { loadConfig } = require('./config');
 const { createApiClient } = require('./api-client');
 const { loadOverlay } = require('./overlay-loader');
+const { INSTALL_STATUS } = require('./constants');
 const hardcodedClassMap = require('./class-map');
 const { resolveMultiRef, resolveSysId, createCiRelationship, getRelationshipType, resolveGlideListToNames } = require('./relationship-handler');
 
@@ -55,7 +56,7 @@ module.exports = {
   getMapping,
   getAllMappings,
   getImportableTypes,
-  INSTALL_STATUS: hardcodedClassMap.INSTALL_STATUS,
+  INSTALL_STATUS,
   resolveMultiRef,
   resolveSysId,
   createCiRelationship,

@@ -1,0 +1,24 @@
+[
+  { "parent": "CRM Core", "parentClass": "u_cmdbk_product", "child": "crm-app-01", "childClass": "cmdb_ci_server", "type": "Runs on::Runs" },
+  { "parent": "CRM Core", "parentClass": "u_cmdbk_product", "child": "crm-app-02", "childClass": "cmdb_ci_server", "type": "Runs on::Runs" },
+  { "parent": "CRM Core", "parentClass": "u_cmdbk_product", "child": "crm-app-03", "childClass": "cmdb_ci_server", "type": "Runs on::Runs" },
+  { "parent": "API Gateway", "parentClass": "u_cmdbk_product", "child": "crm-app-01", "childClass": "cmdb_ci_server", "type": "Runs on::Runs" },
+  { "parent": "API Gateway", "parentClass": "u_cmdbk_product", "child": "crm-app-02", "childClass": "cmdb_ci_server", "type": "Runs on::Runs" },
+  { "parent": "Analytics Engine", "parentClass": "u_cmdbk_product", "child": "crm-search-01", "childClass": "cmdb_ci_server", "type": "Runs on::Runs" },
+  { "parent": "Mobile API", "parentClass": "u_cmdbk_product", "child": "crm-app-01", "childClass": "cmdb_ci_server", "type": "Runs on::Runs" },
+  { "parent": "Notification Service", "parentClass": "u_cmdbk_product", "child": "crm-app-02", "childClass": "cmdb_ci_server", "type": "Runs on::Runs" },
+  { "parent": "Search Service", "parentClass": "u_cmdbk_product", "child": "crm-search-01", "childClass": "cmdb_ci_server", "type": "Runs on::Runs" },
+
+  { "parent": "CRM Core", "parentClass": "u_cmdbk_product", "child": "crm-primary", "childClass": "u_cmdbk_database", "type": "Depends on::Used by" },
+  { "parent": "CRM Core", "parentClass": "u_cmdbk_product", "child": "crm-cache", "childClass": "u_cmdbk_database", "type": "Depends on::Used by" },
+  { "parent": "API Gateway", "parentClass": "u_cmdbk_product", "child": "CRM Core", "childClass": "u_cmdbk_product", "type": "Depends on::Used by" },
+  { "parent": "Analytics Engine", "parentClass": "u_cmdbk_product", "child": "crm-analytics", "childClass": "u_cmdbk_database", "type": "Depends on::Used by" },
+  { "parent": "Mobile API", "parentClass": "u_cmdbk_product", "child": "CRM Core", "childClass": "u_cmdbk_product", "type": "Depends on::Used by" },
+  { "parent": "Mobile API", "parentClass": "u_cmdbk_product", "child": "API Gateway", "childClass": "u_cmdbk_product", "type": "Depends on::Used by" },
+  { "parent": "Notification Service", "parentClass": "u_cmdbk_product", "child": "crm-cache", "childClass": "u_cmdbk_database", "type": "Depends on::Used by" },
+
+  { "parent": "crm-db-01", "parentClass": "cmdb_ci_server", "child": "crm-primary", "childClass": "u_cmdbk_database", "type": "Contains::Contained by" },
+  { "parent": "crm-db-01", "parentClass": "cmdb_ci_server", "child": "crm-analytics", "childClass": "u_cmdbk_database", "type": "Contains::Contained by" },
+  { "parent": "crm-db-02", "parentClass": "cmdb_ci_server", "child": "crm-replica", "childClass": "u_cmdbk_database", "type": "Contains::Contained by" },
+  { "parent": "crm-cache-01", "parentClass": "cmdb_ci_server", "child": "crm-cache", "childClass": "u_cmdbk_database", "type": "Contains::Contained by" }
+]

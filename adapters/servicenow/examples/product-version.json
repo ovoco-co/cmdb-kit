@@ -1,0 +1,46 @@
+[
+  {
+    "Name": "OvocoCRM 2.0.0",
+    "description": "Major platform rewrite with new React UI",
+    "versionNumber": "2.0.0",
+    "releaseDate": "2025-06-15",
+    "status": "Previous",
+    "components": "Contact Manager;Deal Pipeline;REST API"
+  },
+  {
+    "Name": "OvocoCRM 2.1.0",
+    "description": "Added email integration and webhook support",
+    "versionNumber": "2.1.0",
+    "releaseDate": "2025-09-01",
+    "status": "Previous",
+    "components": "Contact Manager;Deal Pipeline;Email Integration;REST API;Webhook Service",
+    "previousVersion": "OvocoCRM 2.0.0"
+  },
+  {
+    "Name": "OvocoCRM 2.2.0",
+    "description": "Analytics engine and report generator",
+    "versionNumber": "2.2.0",
+    "releaseDate": "2025-11-15",
+    "status": "Previous",
+    "components": "Contact Manager;Deal Pipeline;Email Integration;REST API;Webhook Service;Report Generator",
+    "previousVersion": "OvocoCRM 2.1.0"
+  },
+  {
+    "Name": "OvocoCRM 2.3.0",
+    "description": "Performance improvements and mobile API launch",
+    "versionNumber": "2.3.0",
+    "releaseDate": "2026-01-20",
+    "status": "Previous",
+    "components": "Contact Manager;Deal Pipeline;Email Integration;REST API;Webhook Service;Report Generator",
+    "previousVersion": "OvocoCRM 2.2.0"
+  },
+  {
+    "Name": "OvocoCRM 2.3.1",
+    "description": "Hotfix for contact import race condition",
+    "versionNumber": "2.3.1",
+    "releaseDate": "2026-02-10",
+    "status": "Current",
+    "components": "Contact Manager;Deal Pipeline;Email Integration;REST API;Webhook Service;Report Generator",
+    "previousVersion": "OvocoCRM 2.3.0"
+  }
+]
