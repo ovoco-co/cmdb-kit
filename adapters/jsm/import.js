@@ -30,7 +30,7 @@
 const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
-const { loadConfig, createApiClient, resolveWorkspaceId, loadJsonFile, loadDataFile, mapAttrName, LOAD_PRIORITY, PERSONNEL_TYPES, C } = require('./lib');
+const { loadConfig, createApiClient, resolveWorkspaceId, overlay, loadJsonFile, loadDataFile, mapAttrName, LOAD_PRIORITY, PERSONNEL_TYPES, C } = require('./lib');
 
 // ---------------------------------------------------------------------------
 // CLI
@@ -200,8 +200,11 @@ async function resolveDefaultRefType() {
 }
 
 function resolveIconForType(name, fallbackIconId) {
-  // Check icon-map.json first, then fall back to ICON_ID or the provided fallback
+  // Check icon-map.json first, then overlay, then fall back to ICON_ID or the provided fallback
   if (iconMap[name]) return iconMap[name];
+  // The overlay provides icon hints by name, but JSM needs numeric icon IDs.
+  // The overlay icon names are informational for documentation; actual IDs
+  // come from icon-map.json or ICON_ID env var.
   if (config.isCloud && config.iconId) return config.iconId;
   return fallbackIconId;
 }

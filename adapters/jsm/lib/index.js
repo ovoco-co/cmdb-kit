@@ -1,15 +1,22 @@
 /**
  * JSM adapter library entry point.
  *
- * Re-exports JSM-specific modules (api-client, config) plus shared
+ * Re-exports JSM-specific modules (api-client, config, overlay) plus shared
  * utilities from tools/lib.
  */
 
+const fs = require('fs');
+const path = require('path');
 const { loadConfig } = require('./config');
 const { createApiClient, BASE_PATHS } = require('./api-client');
+const { loadJsmOverlay } = require('./overlay-loader');
 
 // Shared utilities from tools/lib
 const toolsLib = require('../../../tools/lib');
+
+// Load overlay if it exists
+const OVERLAY_PATH = path.join(__dirname, '..', 'overlay.json');
+const overlay = loadJsmOverlay(OVERLAY_PATH);
 
 /**
  * Resolve the Assets workspace ID for Cloud instances.
@@ -49,6 +56,7 @@ module.exports = {
   loadConfig,
   createApiClient,
   resolveWorkspaceId,
+  overlay,
   BASE_PATHS,
   ...toolsLib,
 };
