@@ -1,0 +1,21 @@
+[
+  {
+    "Name": "OVC",
+    "description": "Primary site for the Ovoco production environment",
+    "siteCode": "OVC",
+    "version": "2403",
+    "siteType": "Primary",
+    "server": "crm-app-01",
+    "status": "Active"
+  },
+  {
+    "Name": "OVR",
+    "description": "Secondary site for remote office content distribution",
+    "siteCode": "OVR",
+    "version": "2403",
+    "siteType": "Secondary",
+    "server": "crm-staging-01",
+    "status": "Active",
+    "parentSite": "OVC"
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "Documentation Suite": {
+    "description": { "type": 0 },
+    "version": { "type": 1, "referenceType": "Product Version" },
+    "documents": { "type": 1, "referenceType": "Document", "max": -1 },
+    "state": { "type": 1, "referenceType": "Document State" }
+  },
+  "Product Media": {
+    "description": { "type": 0 },
+    "version": { "type": 1, "referenceType": "Product Version" },
+    "fileName": { "type": 0 },
+    "fileSize": { "type": 0 },
+    "checksum": { "type": 0 }
+  },
+  "Product Suite": {
+    "description": { "type": 0 },
+    "version": { "type": 1, "referenceType": "Product Version" },
+    "media": { "type": 1, "referenceType": "Product Media", "max": -1 }
+  },
+  "Distribution Log": {
+    "description": { "type": 0 },
+    "version": { "type": 1, "referenceType": "Product Version" },
+    "site": { "type": 1, "referenceType": "Deployment Site" },
+    "distributionDate": { "type": 0, "defaultTypeId": 4 },
+    "distributedBy": { "type": 1, "referenceType": "Person" }
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "Name": "v2.3.1 US-East Distribution",
+    "description": "Distribution of v2.3.1 to US East region",
+    "version": "OvocoCRM 2.3.1",
+    "site": "US East (Virginia)",
+    "distributionDate": "2026-02-10",
+    "distributedBy": "Jordan Lee"
+  },
+  {
+    "Name": "v2.3.1 US-West Distribution",
+    "description": "Distribution of v2.3.1 to US West region",
+    "version": "OvocoCRM 2.3.1",
+    "site": "US West (Oregon)",
+    "distributionDate": "2026-02-10",
+    "distributedBy": "Jordan Lee"
+  },
+  {
+    "Name": "v2.3.1 Acme Corp Distribution",
+    "description": "Distribution of v2.3.1 hotfix to Acme Corp",
+    "version": "OvocoCRM 2.3.1",
+    "site": "Acme Corp Production",
+    "distributionDate": "2026-02-11",
+    "distributedBy": "Drew Santos"
+  }
+]

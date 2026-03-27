@@ -1,0 +1,7 @@
+[
+  { "Name": "CRED", "description": "Credential access, harvesting accounts or secrets from SCCM" },
+  { "Name": "ELEVATE", "description": "Privilege escalation through SCCM misconfigurations" },
+  { "Name": "EXEC", "description": "Remote code execution via SCCM deployment mechanisms" },
+  { "Name": "RECON", "description": "Reconnaissance, enumerating SCCM infrastructure and permissions" },
+  { "Name": "TAKEOVER", "description": "Full site takeover through hierarchy exploitation" }
+]

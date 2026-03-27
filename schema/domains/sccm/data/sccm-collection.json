@@ -1,0 +1,27 @@
+[
+  {
+    "Name": "All Production Servers",
+    "description": "Device collection for all production environment servers",
+    "collectionId": "OVC00001",
+    "collectionType": "Device",
+    "memberCount": "42",
+    "site": "OVC"
+  },
+  {
+    "Name": "All Workstations",
+    "description": "Device collection for managed workstations",
+    "collectionId": "OVC00002",
+    "collectionType": "Device",
+    "memberCount": "850",
+    "site": "OVC"
+  },
+  {
+    "Name": "Staging Servers",
+    "description": "Subset of servers in the staging environment",
+    "collectionId": "OVC00003",
+    "collectionType": "Device",
+    "memberCount": "8",
+    "site": "OVC",
+    "limitingCollection": "All Production Servers"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "Facility": [
+    {
+      "Name": "US-East Server Room A",
+      "description": "Primary server room",
+      "location": "US-East Data Center",
+      "facilityType": "Server Room",
+      "capacity": "200 rack units"
+    },
+    {
+      "Name": "US-West Server Room A",
+      "description": "Secondary server room",
+      "location": "US-West Data Center",
+      "facilityType": "Server Room",
+      "capacity": "100 rack units"
+    }
+  ]
+}

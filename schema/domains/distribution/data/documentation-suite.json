@@ -1,0 +1,9 @@
+[
+  {
+    "Name": "OvocoCRM 2.3 Documentation",
+    "description": "Complete documentation set for the 2.3.x release",
+    "version": "OvocoCRM 2.3.1",
+    "documents": "CRM Deployment Runbook;Incident Response SOP;CRM API Architecture;Database Migration Guide",
+    "state": "Published"
+  }
+]

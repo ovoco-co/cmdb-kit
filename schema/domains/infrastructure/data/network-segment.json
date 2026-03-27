@@ -1,0 +1,26 @@
+[
+  {
+    "Name": "prod-dmz",
+    "description": "Production DMZ for load balancers",
+    "networkType": "DMZ",
+    "cidr": "10.0.0.0/24",
+    "vlan": "100",
+    "gateway": "10.0.0.1"
+  },
+  {
+    "Name": "prod-app",
+    "description": "Production application tier",
+    "networkType": "Application Tier",
+    "cidr": "10.0.1.0/24",
+    "vlan": "101",
+    "gateway": "10.0.1.1"
+  },
+  {
+    "Name": "prod-data",
+    "description": "Production database tier",
+    "networkType": "Data Tier",
+    "cidr": "10.0.2.0/24",
+    "vlan": "102",
+    "gateway": "10.0.2.1"
+  }
+]

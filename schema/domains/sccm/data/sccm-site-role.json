@@ -1,0 +1,38 @@
+[
+  {
+    "Name": "OVC Distribution Point",
+    "description": "Content distribution for primary site",
+    "roleType": "Distribution Point",
+    "site": "OVC",
+    "server": "crm-app-01",
+    "sslEnabled": "true",
+    "pxeEnabled": "false"
+  },
+  {
+    "Name": "OVC Management Point",
+    "description": "Client communication endpoint for primary site",
+    "roleType": "Management Point",
+    "site": "OVC",
+    "server": "crm-app-01",
+    "sslEnabled": "true",
+    "pxeEnabled": "false"
+  },
+  {
+    "Name": "OVC Software Update Point",
+    "description": "WSUS integration for patch management",
+    "roleType": "Software Update Point",
+    "site": "OVC",
+    "server": "crm-app-02",
+    "sslEnabled": "true",
+    "pxeEnabled": "false"
+  },
+  {
+    "Name": "OVC SMS Provider",
+    "description": "Administration service interface",
+    "roleType": "SMS Provider",
+    "site": "OVC",
+    "server": "crm-app-01",
+    "sslEnabled": "true",
+    "pxeEnabled": "false"
+  }
+]

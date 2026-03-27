@@ -1,0 +1,67 @@
+{
+  "SCCM Site": {
+    "description": { "type": 0 },
+    "siteCode": { "type": 0 },
+    "version": { "type": 0 },
+    "siteType": { "type": 1, "referenceType": "SCCM Site Type" },
+    "server": { "type": 1, "referenceType": "Server" },
+    "status": { "type": 1, "referenceType": "Product Status" },
+    "parentSite": { "type": 1, "referenceType": "SCCM Site" }
+  },
+  "SCCM Site Role": {
+    "description": { "type": 0 },
+    "roleType": { "type": 1, "referenceType": "SCCM Role Type" },
+    "site": { "type": 1, "referenceType": "SCCM Site" },
+    "server": { "type": 1, "referenceType": "Server" },
+    "sslEnabled": { "type": 0 },
+    "pxeEnabled": { "type": 0 }
+  },
+  "SCCM Collection": {
+    "description": { "type": 0 },
+    "collectionId": { "type": 0 },
+    "collectionType": { "type": 0 },
+    "memberCount": { "type": 0, "defaultTypeId": 1 },
+    "site": { "type": 1, "referenceType": "SCCM Site" },
+    "limitingCollection": { "type": 1, "referenceType": "SCCM Collection" }
+  },
+  "SCCM Security Role": {
+    "description": { "type": 0 },
+    "roleName": { "type": 0 },
+    "isBuiltIn": { "type": 0 },
+    "scope": { "type": 0 },
+    "site": { "type": 1, "referenceType": "SCCM Site" }
+  },
+  "SCCM Service Account": {
+    "description": { "type": 0 },
+    "accountType": { "type": 0 },
+    "domain": { "type": 0 },
+    "privilegeLevel": { "type": 0 },
+    "lastPasswordRotation": { "type": 0, "defaultTypeId": 4 },
+    "site": { "type": 1, "referenceType": "SCCM Site" }
+  },
+  "SCCM Boundary Group": {
+    "description": { "type": 0 },
+    "boundaries": { "type": 0, "defaultTypeId": 1 },
+    "site": { "type": 1, "referenceType": "SCCM Site" },
+    "networkSegment": { "type": 1, "referenceType": "Network Segment" }
+  },
+  "SCCM Finding": {
+    "description": { "type": 0 },
+    "techniqueId": { "type": 0 },
+    "category": { "type": 1, "referenceType": "SCCM Finding Category" },
+    "priority": { "type": 1, "referenceType": "Priority" },
+    "assessment": { "type": 1, "referenceType": "Assessment" },
+    "site": { "type": 1, "referenceType": "SCCM Site" },
+    "status": { "type": 1, "referenceType": "Assessment Status" },
+    "remediation": { "type": 0 }
+  },
+  "SCCM Site Type": {
+    "description": { "type": 0 }
+  },
+  "SCCM Role Type": {
+    "description": { "type": 0 }
+  },
+  "SCCM Finding Category": {
+    "description": { "type": 0 }
+  }
+}

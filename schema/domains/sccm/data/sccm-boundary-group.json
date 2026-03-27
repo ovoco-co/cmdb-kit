@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "HQ Boundary Group",
+    "description": "Boundary group for headquarters subnet, site assignment and content location",
+    "boundaries": "3",
+    "site": "OVC",
+    "networkSegment": "prod-app"
+  },
+  {
+    "Name": "Remote Office Boundary Group",
+    "description": "Boundary group for remote office, falls back to OVR secondary site",
+    "boundaries": "2",
+    "site": "OVR",
+    "networkSegment": "prod-dmz"
+  }
+]

@@ -1,0 +1,6 @@
+[
+  { "name": "Documentation Suite", "parent": "Product Library", "description": "Versioned documentation packages" },
+  { "name": "Product Media", "parent": "Product Library", "description": "Downloadable artifacts and binaries" },
+  { "name": "Product Suite", "parent": "Product Library", "description": "Software distribution bundles" },
+  { "name": "Distribution Log", "parent": "Product Library", "description": "Software distribution audit trail" }
+]

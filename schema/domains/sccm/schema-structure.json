@@ -1,0 +1,15 @@
+[
+  { "name": "SCCM Infrastructure", "description": "System Center Configuration Manager hierarchy and security" },
+  { "name": "SCCM Site", "parent": "SCCM Infrastructure", "description": "SCCM site servers in the hierarchy" },
+  { "name": "SCCM Site Role", "parent": "SCCM Infrastructure", "description": "Roles installed on SCCM site servers" },
+  { "name": "SCCM Collection", "parent": "SCCM Infrastructure", "description": "Device and user collections" },
+  { "name": "SCCM Security Role", "parent": "SCCM Infrastructure", "description": "RBAC roles and security scopes" },
+  { "name": "SCCM Service Account", "parent": "SCCM Infrastructure", "description": "Service accounts used by SCCM" },
+  { "name": "SCCM Boundary Group", "parent": "SCCM Infrastructure", "description": "Network boundary groups for content and site assignment" },
+  { "name": "SCCM Finding", "parent": "SCCM Infrastructure", "description": "Security misconfigurations and attack path findings" },
+
+  { "name": "SCCM Lookup Types", "description": "Reference data for SCCM domain" },
+  { "name": "SCCM Site Type", "parent": "SCCM Lookup Types", "description": "SCCM site hierarchy levels" },
+  { "name": "SCCM Role Type", "parent": "SCCM Lookup Types", "description": "Types of SCCM site system roles" },
+  { "name": "SCCM Finding Category", "parent": "SCCM Lookup Types", "description": "Attack categories for SCCM misconfigurations" }
+]

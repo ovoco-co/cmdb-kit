@@ -1,0 +1,10 @@
+[
+  { "name": "Hardware Model", "parent": "Product CMDB", "description": "Approved hardware and instance types" },
+  { "name": "Network Segment", "parent": "Product CMDB", "description": "Network zones and segments" },
+  { "name": "Virtual Machine", "parent": "Product CMDB", "description": "VMs and containers" },
+
+  { "name": "Location", "parent": "Directory", "description": "Offices and data centers" },
+  { "name": "Facility", "parent": "Directory", "description": "Server rooms and secure areas" },
+
+  { "name": "Network Type", "parent": "Lookup Types", "description": "Classification of network segments" }
+]

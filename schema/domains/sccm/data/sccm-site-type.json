@@ -1,0 +1,5 @@
+[
+  { "Name": "CAS", "description": "Central administration site, top of the hierarchy" },
+  { "Name": "Primary", "description": "Primary site, manages clients directly" },
+  { "Name": "Secondary", "description": "Secondary site, manages bandwidth for remote clients" }
+]
