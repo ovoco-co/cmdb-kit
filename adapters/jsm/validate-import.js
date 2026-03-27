@@ -235,10 +235,12 @@ function normalizeDate(s) {
   // ISO: 2025-09-15 or 2025-09-15T00:00:00.000Z
   const iso = s.match(/^(\d{4}-\d{2}-\d{2})/);
   if (iso) return iso[1];
-  // DD/Mon/YYYY (JSM format)
-  const dmy = s.match(/^(\d{1,2})\/(\w{3})\/(\d{4})/);
+  // DD/Mon/YYYY (JSM format, 2 or 4 digit year)
+  const dmy = s.match(/^(\d{1,2})\/(\w{3})\/(\d{2,4})/);
   if (dmy && MONTHS[dmy[2]]) {
-    return `${dmy[3]}-${MONTHS[dmy[2]]}-${dmy[1].padStart(2, '0')}`;
+    let year = dmy[3];
+    if (year.length === 2) year = (parseInt(year) >= 70 ? '19' : '20') + year;
+    return `${year}-${MONTHS[dmy[2]]}-${dmy[1].padStart(2, '0')}`;
   }
   return s;
 }
@@ -262,6 +264,11 @@ function valuesEqual(local, remote, attrDef) {
   // Determine if this is a date field (defaultTypeId 4 in JSM attr defs)
   const isDate = attrDef && (attrDef.defaultType && attrDef.defaultType.id === 4);
   const isBool = attrDef && (attrDef.defaultType && attrDef.defaultType.id === 2);
+
+  // Normalize semicolon-separated strings to arrays for multi-value comparison
+  if (typeof local === 'string' && local.includes(';') && Array.isArray(remote)) {
+    local = local.split(';').map(s => s.trim());
+  }
 
   // Multi-value comparison
   if (Array.isArray(local) && Array.isArray(remote)) {
