@@ -5,7 +5,10 @@
     "versionNumber": "2.0.0",
     "releaseDate": "2025-06-15",
     "status": "Previous",
-    "components": "Contact Manager;Deal Pipeline;REST API"
+    "components": "Contact Manager;Deal Pipeline;REST API",
+    "approvedBy": "Morgan Blake",
+    "approvalDate": "2025-06-14",
+    "releaseNotes": "Complete platform rewrite from Angular to React. New contact manager, deal pipeline, and public REST API."
   },
   {
     "Name": "OvocoCRM 2.1.0",
@@ -14,7 +17,10 @@
     "releaseDate": "2025-09-01",
     "status": "Previous",
     "components": "Contact Manager;Deal Pipeline;Email Integration;REST API;Webhook Service",
-    "previousVersion": "OvocoCRM 2.0.0"
+    "previousVersion": "OvocoCRM 2.0.0",
+    "approvedBy": "Morgan Blake",
+    "approvalDate": "2025-08-30",
+    "releaseNotes": "Two-way email sync with open and click tracking. Outbound webhook delivery with retry logic."
   },
   {
     "Name": "OvocoCRM 2.2.0",
@@ -23,7 +29,10 @@
     "releaseDate": "2025-11-15",
     "status": "Previous",
     "components": "Contact Manager;Deal Pipeline;Email Integration;REST API;Webhook Service;Report Generator",
-    "previousVersion": "OvocoCRM 2.1.0"
+    "previousVersion": "OvocoCRM 2.1.0",
+    "approvedBy": "Morgan Blake",
+    "approvalDate": "2025-11-14",
+    "releaseNotes": "User-defined analytics dashboards and scheduled report generation powered by ClickHouse."
   },
   {
     "Name": "OvocoCRM 2.3.0",
@@ -32,7 +41,10 @@
     "releaseDate": "2026-01-20",
     "status": "Previous",
     "components": "Contact Manager;Deal Pipeline;Email Integration;REST API;Webhook Service;Report Generator",
-    "previousVersion": "OvocoCRM 2.2.0"
+    "previousVersion": "OvocoCRM 2.2.0",
+    "approvedBy": "Morgan Blake",
+    "approvalDate": "2026-01-19",
+    "releaseNotes": "Mobile backend-for-frontend API with GraphQL. Database query optimization reducing p99 latency by 40%."
   },
   {
     "Name": "OvocoCRM 2.3.1",
@@ -41,6 +53,9 @@
     "releaseDate": "2026-02-10",
     "status": "Current",
     "components": "Contact Manager;Deal Pipeline;Email Integration;REST API;Webhook Service;Report Generator",
-    "previousVersion": "OvocoCRM 2.3.0"
+    "previousVersion": "OvocoCRM 2.3.0",
+    "approvedBy": "Alex Chen",
+    "approvalDate": "2026-02-09",
+    "releaseNotes": "Fixed race condition in bulk contact import that caused duplicate records under concurrent requests."
   }
 ]
