@@ -188,7 +188,17 @@ function extractRemoteValue(attr) {
   return v.displayValue != null ? String(v.displayValue) : String(v.value);
 }
 
-function buildRemoteIndex(entries) {
+function buildRemoteIndex(entries, attrDefs) {
+  // Build ID-to-name lookup from attribute definitions.
+  // The Cloud AQL endpoint returns objectTypeAttributeId but not the
+  // nested objectTypeAttribute object, so we need to resolve names ourselves.
+  const attrIdToName = {};
+  if (attrDefs) {
+    for (const a of attrDefs) {
+      if (a.id) attrIdToName[String(a.id)] = a.name;
+    }
+  }
+
   const index = new Map();
   for (const entry of entries) {
     // Extract Name from attributes
@@ -200,9 +210,10 @@ function buildRemoteIndex(entries) {
 
     const record = {};
     for (const attr of (entry.attributes || [])) {
+      // Try nested object first (DC), then fall back to ID lookup (Cloud)
       const attrName = attr.objectTypeAttribute
         ? (attr.objectTypeAttribute.name || '')
-        : '';
+        : (attrIdToName[String(attr.objectTypeAttributeId)] || '');
       if (!attrName || attrName === 'Name' || attrName === 'Key') continue;
       record[attrName] = extractRemoteValue(attr);
     }
@@ -342,7 +353,7 @@ async function validateType(typeName, typeId, schemaId, api, config, options) {
     if (name) localIndex.set(name, rec);
   }
 
-  const remoteIndex = buildRemoteIndex(remoteEntries);
+  const remoteIndex = buildRemoteIndex(remoteEntries, attrDefs);
 
   // Compare presence
   const missing = [];
