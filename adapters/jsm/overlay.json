@@ -79,9 +79,11 @@
         "firstName": { "type": "text" },
         "lastName": { "type": "text" },
         "email": { "type": "text" },
+        "phone": { "type": "text" },
+        "jobTitle": { "type": "text" },
         "role": { "type": "text" },
         "team": { "type": "reference", "referenceType": "Team" },
-        "phone": { "type": "text" }
+        "manager": { "type": "reference", "referenceType": "Person" }
       }
     },
 
@@ -112,7 +114,10 @@
         "releaseDate": { "type": "date" },
         "status": { "type": "reference", "referenceType": "Version Status" },
         "components": { "type": "reference", "referenceType": "Product Component", "cardinality": "many" },
-        "previousVersion": { "type": "reference", "referenceType": "Product Version" }
+        "previousVersion": { "type": "reference", "referenceType": "Product Version" },
+        "approvedBy": { "type": "reference", "referenceType": "Person" },
+        "approvalDate": { "type": "date" },
+        "releaseNotes": { "type": "text" }
       }
     },
 
@@ -122,9 +127,22 @@
         "description": { "type": "text" },
         "documentType": { "type": "reference", "referenceType": "Document Type" },
         "state": { "type": "reference", "referenceType": "Document State" },
+        "product": { "type": "reference", "referenceType": "Product" },
+        "version": { "type": "reference", "referenceType": "Product Version" },
         "author": { "type": "reference", "referenceType": "Person" },
         "publishDate": { "type": "date" },
         "url": { "type": "url" }
+      }
+    },
+
+    "Feature": {
+      "icon": "component",
+      "attributes": {
+        "description": { "type": "text" },
+        "product": { "type": "reference", "referenceType": "Product" },
+        "version": { "type": "reference", "referenceType": "Product Version" },
+        "status": { "type": "reference", "referenceType": "Version Status" },
+        "owner": { "type": "reference", "referenceType": "Team" }
       }
     },
 
@@ -137,6 +155,39 @@
         "deployDate": { "type": "date" },
         "status": { "type": "reference", "referenceType": "Deployment Status" },
         "deployedBy": { "type": "reference", "referenceType": "Person" }
+      }
+    },
+
+    "Deployment Site": {
+      "icon": "location",
+      "attributes": {
+        "description": { "type": "text" },
+        "product": { "type": "reference", "referenceType": "Product" },
+        "version": { "type": "reference", "referenceType": "Product Version" },
+        "organization": { "type": "reference", "referenceType": "Organization" },
+        "environment": { "type": "reference", "referenceType": "Environment Type" },
+        "status": { "type": "reference", "referenceType": "Site Status" },
+        "sitePOC": { "type": "reference", "referenceType": "Person" },
+        "supportTeam": { "type": "reference", "referenceType": "Team" },
+        "lastDeploymentDate": { "type": "date" },
+        "deployedBy": { "type": "reference", "referenceType": "Person" },
+        "goLiveDate": { "type": "date" }
+      }
+    },
+
+    "Baseline": {
+      "icon": "version",
+      "attributes": {
+        "description": { "type": "text" },
+        "baselineType": { "type": "reference", "referenceType": "Baseline Type" },
+        "product": { "type": "reference", "referenceType": "Product" },
+        "version": { "type": "reference", "referenceType": "Product Version" },
+        "status": { "type": "reference", "referenceType": "Baseline Status" },
+        "approvedBy": { "type": "reference", "referenceType": "Person" },
+        "approvalDate": { "type": "date" },
+        "establishedDate": { "type": "date" },
+        "components": { "type": "reference", "referenceType": "Product Component", "cardinality": "many" },
+        "documents": { "type": "reference", "referenceType": "Document", "cardinality": "many" }
       }
     },
 

@@ -391,6 +391,14 @@
           "scoped": "email",
           "global": "{prefix}_email"
         },
+        "phone": {
+          "scoped": "phone",
+          "global": "{prefix}_phone"
+        },
+        "jobTitle": {
+          "scoped": "job_title",
+          "global": "{prefix}_job_title"
+        },
         "role": {
           "scoped": "role",
           "global": "{prefix}_role"
@@ -402,9 +410,12 @@
           },
           "ref": "sys_user_group"
         },
-        "phone": {
-          "scoped": "phone",
-          "global": "{prefix}_phone"
+        "manager": {
+          "column": {
+            "scoped": "manager",
+            "global": "{prefix}_manager"
+          },
+          "ref": "{prefix}_person"
         },
         "isUser": {
           "scoped": "is_user",
@@ -476,6 +487,13 @@
       ],
       "attributes": {
         "description": "short_description",
+        "product": {
+          "column": {
+            "scoped": "product",
+            "global": "{prefix}_product"
+          },
+          "ref": "{prefix}_product"
+        },
         "version": {
           "column": {
             "scoped": "version",
@@ -548,7 +566,13 @@
         "previousVersion": {
           "column": "u_previous_version",
           "ref": "{prefix}_product_version"
-        }
+        },
+        "approvedBy": {
+          "column": "u_approved_by",
+          "ref": "sys_user"
+        },
+        "approvalDate": "u_approval_date",
+        "releaseNotes": "u_release_notes"
       }
     },
     "Document": {
@@ -558,6 +582,14 @@
         "description": "u_description",
         "documentType": "u_document_type",
         "state": "u_state",
+        "product": {
+          "column": "u_product",
+          "ref": "{prefix}_product"
+        },
+        "version": {
+          "column": "u_version",
+          "ref": "{prefix}_product_version"
+        },
         "author": {
           "column": "u_author",
           "ref": "sys_user"
@@ -590,12 +622,31 @@
       "attributes": {
         "description": "u_description",
         "baselineType": "u_baseline_type",
+        "product": {
+          "column": "u_product",
+          "ref": "{prefix}_product"
+        },
         "version": {
           "column": "u_version",
           "ref": "{prefix}_product_version"
         },
         "status": "u_status",
-        "approvalDate": "u_approval_date"
+        "approvedBy": {
+          "column": "u_approved_by",
+          "ref": "sys_user"
+        },
+        "approvalDate": "u_approval_date",
+        "establishedDate": "u_established_date",
+        "components": {
+          "column": "u_components",
+          "ref": "{prefix}_product_component",
+          "multi": true
+        },
+        "documents": {
+          "column": "u_documents",
+          "ref": "{prefix}_document",
+          "multi": true
+        }
       }
     },
     "Documentation Suite": {
@@ -662,12 +713,37 @@
       "table": "{prefix}_deployment_site",
       "attributes": {
         "description": "u_description",
+        "product": {
+          "column": "u_product",
+          "ref": "{prefix}_product"
+        },
+        "version": {
+          "column": "u_version",
+          "ref": "{prefix}_product_version"
+        },
+        "organization": {
+          "column": "u_organization",
+          "ref": "core_company"
+        },
         "location": {
           "column": "u_location",
           "ref": "cmn_location"
         },
-        "status": "u_status",
         "environment": "u_environment",
+        "status": "u_status",
+        "sitePOC": {
+          "column": "u_site_poc",
+          "ref": "sys_user"
+        },
+        "supportTeam": {
+          "column": "u_support_team",
+          "ref": "sys_user_group"
+        },
+        "lastDeploymentDate": "u_last_deployment_date",
+        "deployedBy": {
+          "column": "u_deployed_by",
+          "ref": "sys_user"
+        },
         "goLiveDate": "u_go_live_date"
       }
     },

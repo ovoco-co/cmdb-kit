@@ -75,6 +75,7 @@
   },
   "Feature": {
     "description": { "type": 0 },
+    "product": { "type": 1, "referenceType": "Product" },
     "version": { "type": 1, "referenceType": "Product Version" },
     "status": { "type": 1, "referenceType": "Version Status" },
     "owner": { "type": 1, "referenceType": "Team" }
@@ -85,12 +86,17 @@
     "releaseDate": { "type": 0, "defaultTypeId": 4 },
     "status": { "type": 1, "referenceType": "Version Status" },
     "components": { "type": 1, "referenceType": "Product Component", "max": -1 },
-    "previousVersion": { "type": 1, "referenceType": "Product Version" }
+    "previousVersion": { "type": 1, "referenceType": "Product Version" },
+    "approvedBy": { "type": 1, "referenceType": "Person" },
+    "approvalDate": { "type": 0, "defaultTypeId": 4 },
+    "releaseNotes": { "type": 0 }
   },
   "Document": {
     "description": { "type": 0 },
     "documentType": { "type": 1, "referenceType": "Document Type" },
     "state": { "type": 1, "referenceType": "Document State" },
+    "product": { "type": 1, "referenceType": "Product" },
+    "version": { "type": 1, "referenceType": "Product Version" },
     "author": { "type": 1, "referenceType": "Person" },
     "publishDate": { "type": 0, "defaultTypeId": 4 },
     "url": { "type": 0 }
@@ -106,9 +112,14 @@
   "Baseline": {
     "description": { "type": 0 },
     "baselineType": { "type": 1, "referenceType": "Baseline Type" },
+    "product": { "type": 1, "referenceType": "Product" },
     "version": { "type": 1, "referenceType": "Product Version" },
     "status": { "type": 1, "referenceType": "Baseline Status" },
-    "approvalDate": { "type": 0, "defaultTypeId": 4 }
+    "approvedBy": { "type": 1, "referenceType": "Person" },
+    "approvalDate": { "type": 0, "defaultTypeId": 4 },
+    "establishedDate": { "type": 0, "defaultTypeId": 4 },
+    "components": { "type": 1, "referenceType": "Product Component", "max": -1 },
+    "documents": { "type": 1, "referenceType": "Document", "max": -1 }
   },
   "Documentation Suite": {
     "description": { "type": 0 },
@@ -138,9 +149,16 @@
   },
   "Deployment Site": {
     "description": { "type": 0 },
+    "product": { "type": 1, "referenceType": "Product" },
+    "version": { "type": 1, "referenceType": "Product Version" },
+    "organization": { "type": 1, "referenceType": "Organization" },
     "location": { "type": 1, "referenceType": "Location" },
-    "status": { "type": 1, "referenceType": "Site Status" },
     "environment": { "type": 1, "referenceType": "Environment Type" },
+    "status": { "type": 1, "referenceType": "Site Status" },
+    "sitePOC": { "type": 1, "referenceType": "Person" },
+    "supportTeam": { "type": 1, "referenceType": "Team" },
+    "lastDeploymentDate": { "type": 0, "defaultTypeId": 4 },
+    "deployedBy": { "type": 1, "referenceType": "Person" },
     "goLiveDate": { "type": 0, "defaultTypeId": 4 }
   },
   "Distribution Log": {
@@ -174,8 +192,11 @@
     "firstName": { "type": 0 },
     "lastName": { "type": 0 },
     "email": { "type": 0 },
+    "phone": { "type": 0 },
+    "jobTitle": { "type": 0 },
     "role": { "type": 0 },
-    "team": { "type": 1, "referenceType": "Team" }
+    "team": { "type": 1, "referenceType": "Team" },
+    "manager": { "type": 1, "referenceType": "Person" }
   },
   "Location": {
     "description": { "type": 0 },

@@ -20,6 +20,9 @@ const LOAD_PRIORITY = [
   'Priority',
   'Organization Type',
   'Deployment Role',
+  'Site Status',
+  'Baseline Type',
+  'Baseline Status',
 
   // ===== EXTENDED LOOKUPS =====
   'Certification Type',
@@ -27,11 +30,8 @@ const LOAD_PRIORITY = [
   'Assessment Type',
   'Assessment Status',
   'Network Type',
-  'Baseline Type',
-  'Baseline Status',
   'License Type',
   'License Status',
-  'Site Status',
   'Vendor Status',
   'SLA Status',
 
@@ -72,9 +72,25 @@ const LOAD_PRIORITY = [
   'Server',                // refs Environment Type
   'Database',              // refs Server, Environment Type
   'Product Component',     // refs Component Type, Team
-  'Product Version',       // refs Version Status, Product Component
-  'Document',              // refs Document Type, Document State, Person
+  'Product Version',       // refs Version Status, Product Component, Person
+  'Document',              // refs Document Type, Document State, Person, Product, Product Version
   'Deployment',            // refs Product Version, Environment Type, Deployment Status, Person
+  'Feature',               // refs Product, Product Version, Version Status, Team
+  'Deployment Site',       // refs Product, Product Version, Organization, Environment Type, Site Status, Person, Team
+  'Baseline',              // refs Baseline Type, Baseline Status, Product, Product Version, Person, Product Component, Document
+
+  // ===== EXTENDED CI TYPES (depends on base + extended lookups) =====
+  'Hardware Model',        // no refs
+  'Network Segment',       // refs Network Type
+  'Virtual Machine',       // refs Server, Environment Type
+  'License',               // refs License Type, License Status, Vendor
+  'Assessment',            // refs Assessment Type, Assessment Status, Person
+  'Documentation Suite',   // refs Product Version, Document
+  'Product Media',         // refs Product Version
+  'Product Suite',         // refs Product Version, Product Media
+  'Certification',         // refs Certification Type, Certification Status
+  'Distribution Log',      // refs Product Version, Deployment Site, Person
+  'SLA',                   // refs Product, SLA Status
 
   // ===== FINANCIAL (depends on Vendor, Person) =====
   'Contract',
