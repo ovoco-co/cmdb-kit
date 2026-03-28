@@ -29,21 +29,26 @@
 
     var MENU_TITLE = 'CMDB-Kit';
 
+    // Table prefix: change this if using a scoped app (e.g., 'x_cmdbk_u_cmdbk')
+    var PREFIX = 'u_cmdbk';
+
     // Custom CI class tables - extend cmdb_ci
     var CI_CLASSES = [
-        { table: 'u_cmdbk_product',           label: 'Product',           order: 100 },
-        { table: 'u_cmdbk_database',          label: 'Database',          order: 200 },
-        { table: 'u_cmdbk_product_component', label: 'Product Component', order: 300 },
-        { table: 'u_cmdbk_feature',           label: 'Feature',           order: 400 },
-        { table: 'u_cmdbk_assessment',        label: 'Assessment',        order: 500 }
+        { table: PREFIX + '_product',           label: 'Product',           order: 100 },
+        { table: PREFIX + '_database',          label: 'Database',          order: 200 },
+        { table: PREFIX + '_product_component', label: 'Product Component', order: 300 },
+        { table: PREFIX + '_feature',           label: 'Feature',           order: 400 },
+        { table: PREFIX + '_assessment',        label: 'Assessment',        order: 500 }
     ];
 
     // Standalone tables - not CIs
     var STANDALONE_TABLES = [
-        { table: 'u_cmdbk_person',          label: 'People',            order: 600 },
-        { table: 'u_cmdbk_product_version', label: 'Product Versions',  order: 700 },
-        { table: 'u_cmdbk_document',        label: 'Documents',         order: 800 },
-        { table: 'u_cmdbk_deployment',      label: 'Deployments',       order: 900 }
+        { table: PREFIX + '_person',          label: 'People',            order: 600 },
+        { table: PREFIX + '_product_version', label: 'Product Versions',  order: 700 },
+        { table: PREFIX + '_document',        label: 'Documents',         order: 800 },
+        { table: PREFIX + '_deployment',      label: 'Deployments',       order: 900 },
+        { table: PREFIX + '_deployment_site', label: 'Deployment Sites',  order: 950 },
+        { table: PREFIX + '_baseline',        label: 'Baselines',         order: 960 }
     ];
 
     // OOTB tables
