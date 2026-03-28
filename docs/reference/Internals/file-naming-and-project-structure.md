@@ -26,7 +26,7 @@ schema/
 │   ├── compliance/
 │   ├── distribution/
 │   ├── licensing/
-│   └── ...
+│   └── sccm/
 ├── extended/
 │   └── (legacy: all domains combined)
 └── enterprise/
@@ -34,6 +34,46 @@ schema/
 ```
 
 The `core/` directory contains the minimal schema. Each domain under `domains/` adds opt-in types for a specific area (infrastructure, compliance, licensing, distribution, and others). The legacy `extended/` directory combines all domains into one schema. The legacy `enterprise/` directory adds portfolio mode with product-prefixed types for multi-product management. Core is independently valid and can be imported on its own. Domains extend Core with additional types.
+
+### Core Type Hierarchy
+
+The Core schema defines these types:
+
+```
+Product CMDB
+├── Product
+├── Server
+├── Database
+├── Product Component
+└── Feature
+
+Product Library
+├── Product Version
+├── Document
+├── Deployment
+├── Deployment Site
+└── Baseline
+
+Directory
+├── Organization
+├── Team
+└── Person
+
+Lookup Types
+├── Product Status
+├── Version Status
+├── Deployment Status
+├── Environment Type
+├── Document Type
+├── Document State
+├── Component Type
+├── Priority
+├── Organization Type
+├── Deployment Role
+├── Site Status
+├── Baseline Type
+└── Baseline Status
+```
 
 ## adapters/
 

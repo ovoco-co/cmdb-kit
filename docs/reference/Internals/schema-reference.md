@@ -13,12 +13,15 @@ Product CMDB
 ├── Product
 ├── Server
 ├── Database
-└── Product Component
+├── Product Component
+└── Feature
 
 Product Library
 ├── Product Version
 ├── Document
-└── Deployment
+├── Deployment
+├── Deployment Site
+└── Baseline
 
 Directory
 ├── Organization
@@ -35,7 +38,10 @@ Lookup Types
 ├── Component Type
 ├── Priority
 ├── Organization Type
-└── Deployment Role
+├── Deployment Role
+├── Site Status
+├── Baseline Type
+└── Baseline Status
 ```
 
 ## Core + All Domains (Extended)
@@ -319,6 +325,9 @@ Released software versions.
 | versionNumber | Text | |
 | releaseDate | Date | |
 | status | Reference | Version Status |
+| approvedBy | Reference | Person |
+| approvalDate | Date | |
+| releaseNotes | Text | |
 | components | Multi-Reference | Product Component |
 | previousVersion | Reference | Product Version |
 
@@ -329,6 +338,8 @@ Controlled documentation.
 | Attribute | Type | Reference |
 |-----------|------|-----------|
 | description | Text | |
+| product | Reference | Product |
+| version | Reference | Product Version |
 | documentType | Reference | Document Type |
 | state | Reference | Document State |
 | author | Reference | Person |
@@ -371,7 +382,7 @@ Engineering and operations teams.
 
 ## Person
 
-External contacts, site POCs, and deployment stakeholders. Person records are CIs representing people relevant to the CMDB, not platform users. They should never be mapped to a platform's user directory (sys_user in ServiceNow, Jira users in JSM, etc.). The optional `isUser` flag and `userAccount` reference allow linking a Person to a platform user account when that person happens to also be one.
+External contacts, site POCs, and deployment stakeholders. Person records are CIs representing people relevant to the CMDB, not platform users. They should never be mapped to a platform's user directory (sys_user in ServiceNow, Jira users in JSM, etc.).
 
 | Attribute | Type | Reference |
 |-----------|------|-----------|
@@ -379,10 +390,11 @@ External contacts, site POCs, and deployment stakeholders. Person records are CI
 | firstName | Text | |
 | lastName | Text | |
 | email | Text | |
+| phone | Text | |
+| jobTitle | Text | |
 | role | Text | |
 | team | Reference | Team |
-| isUser | Boolean | |
-| userAccount | Text | |
+| manager | Reference | Person |
 
 # Domain CI Types
 
@@ -459,6 +471,7 @@ Product features and capabilities.
 | Attribute | Type | Reference |
 |-----------|------|-----------|
 | description | Text | |
+| product | Reference | Product |
 | version | Reference | Product Version |
 | status | Reference | Version Status |
 | owner | Reference | Team |
@@ -471,9 +484,32 @@ Configuration baselines.
 |-----------|------|-----------|
 | description | Text | |
 | baselineType | Reference | Baseline Type |
+| product | Reference | Product |
 | version | Reference | Product Version |
 | status | Reference | Baseline Status |
+| approvedBy | Reference | Person |
 | approvalDate | Date | |
+| establishedDate | Date | |
+| components | Multi-Reference | Product Component |
+| documents | Multi-Reference | Document |
+
+## Deployment Site
+
+Product deployments at specific locations or organizations.
+
+| Attribute | Type | Reference |
+|-----------|------|-----------|
+| description | Text | |
+| product | Reference | Product |
+| version | Reference | Product Version |
+| organization | Reference | Organization |
+| environment | Reference | Environment Type |
+| status | Reference | Site Status |
+| sitePOC | Reference | Person |
+| supportTeam | Reference | Team |
+| lastDeploymentDate | Date | |
+| deployedBy | Reference | Person |
+| goLiveDate | Date | |
 
 ## SLA
 
