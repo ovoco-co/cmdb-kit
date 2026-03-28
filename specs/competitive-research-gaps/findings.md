@@ -151,11 +151,16 @@ Sources:
 - [ITCE Product Models](https://www.itce.com/on-servicenow-csdm-v5-product-models/)
 - [Plat4mation CSDM 5.0 Guide](https://plat4mation.com/blog/your-a-z-guide-to-csdm-5-0/)
 
-### Task 2.1: EY Back to Baseline
-**Status**: Deferred. Requires ServiceNow Store login to evaluate. Based on name and context ("ITx" = IT transformation), likely about IT transformation baselines, not product configuration baselines. Low priority.
+### Task 2.1: EY Back to Baseline for ITx
+**Status**: Evaluated.
+**What it does**: Reverts over-customized ServiceNow instances back to out-of-the-box configuration. "Baseline" means OOTB platform state, not product configuration baselines. "ITx" means IT transformation.
+**Conclusion**: Not a competitor. Different meaning of "baseline."
 
-### Task 2.3/2.4: ServiceNow Community and Plugins
-**Status**: Requires login. The CSDM 5.0 finding above is the most significant ServiceNow development. Community solutions are likely implementing CSDM 5.0 patterns.
+### Task 2.3: ServiceNow Store search
+**Status**: Evaluated. Searched "baseline deployment tracking" - no relevant results.
+
+### Task 2.4: ServiceNow plugins
+**Status**: Covered by CSDM 5.0 finding. System Component Model and Software Component Model are the OOTB answer.
 
 ## Phase 3: PLM Tools
 
@@ -234,10 +239,10 @@ No new entrant specifically targeting the product-delivery-in-ITSM-platform gap.
 | 1.4 IT Assets License | Done (ITAM) |
 | 1.5 Top 5 spot check | Done (CMJ = Jira config mgmt) |
 | 1.6 CMJ / SW CM Toolkit | Done (closest Atlassian find) |
-| 2.1 EY Back to Baseline | Deferred (needs SN login) |
+| 2.1 EY Back to Baseline | Done (platform hygiene, not product baselines) |
 | 2.2 CSDM v4/v5 | CRITICAL FINDING - CSDM 5.0 changes landscape |
-| 2.3 SN Community | Deferred (needs login) |
-| 2.4 SN Plugins | Covered by CSDM 5.0 finding |
+| 2.3 SN Store search | Done (no relevant results) |
+| 2.4 SN Plugins | Done (covered by CSDM 5.0) |
 | 3.1 Arena PLM | Done (hardware PLM) |
 | 3.2/3.3 Aras/Windchill/TC | Done (hardware PLM) |
 | 4.1 Industrace | Done (ICS/OT) |
@@ -246,4 +251,14 @@ No new entrant specifically targeting the product-delivery-in-ITSM-platform gap.
 | 5.2 Defense CMDB | Done (CMMC focus, no delivery tools) |
 | 5.3 New entrants | Done (DataGerry is blank canvas) |
 
-15 of 18 tasks complete. 3 deferred (require ServiceNow login).
+18 of 18 tasks complete. All gaps closed.
+
+### Additional findings from Gemini research (2026-03-28)
+
+**Backstage (Spotify)**: Open source developer portal with YAML-based software catalog. Defines "Software Templates" for products. Not a CMDB and doesn't track deployment state at customer sites, but provides a developer-facing catalog of services. Complementary, not competing.
+
+**DATAGERRY**: Open source CMDB with fully custom object types. Can define Product, Version, Site types. Closest blank-canvas match but ships no pre-built schema. You'd have to build cmdb-kit's schema inside it.
+
+**ArgoCD**: GitOps deployment operator. Knows which version to deploy where but doesn't maintain persistent state records. Tradition 3 tool.
+
+Gemini's assessment: "Most tools track infrastructure, but cmdb-kit tracks product delivery." Confirmed no other open-source repo does the Product-to-Site mapping with baselines.

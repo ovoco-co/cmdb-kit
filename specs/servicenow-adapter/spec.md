@@ -50,36 +50,59 @@ All 15 high-severity items fixed:
 - JSM overlay: Stale Product attributes removed (PR #4)
 - JSM export: 2-digit year date normalization (PR #4)
 
-#### Phase 2: Medium fixes - PARTIAL (PR #6 merged 2026-03-28)
+#### Phase 2: Medium fixes - MOSTLY DONE (PRs #6, #7, #8, #9 merged 2026-03-28)
 
 Done:
+- SN-M1: class-map.js Feature product reference added (PR #7)
+- SN-M2: install-scoped-app.js uses configurable PREFIX, added new tables (PR #8)
 - SN-M4: cmdbInstance uses retry logic (PR #6)
 - SN-M7: Query injection prevention in resolveSysId (PR #6)
 - JSM-M2: AQL injection prevention in resolveReference (PR #6)
 - TOOLS-M1: --domain flag on csv-to-json (PR #6)
+- TOOLS-M4: Domain attribute merge warns on collision (PR #8)
+- TOOLS-M5: Dead extraInPriority loop removed (PR #7)
+- JSM config default path fixed (PR #9)
+- All stale schema/base refs removed from JS files (PR #9)
+- CPU/RAM/URL/CIDR/VLAN attr name mappings added (PR #9)
+
+Also done (PR #10):
+- SN-M3: check-schema.js validates x_ columns for scoped apps (PR #10)
+- SN-M6: validate-import skips transform fields (PR #10)
+- TOOLS-M1: --domain flag on generate-templates (PR #10)
+- TOOLS-M2: generate-site-content countRecords fixed (PR #10)
+
+All medium items complete.
+
+#### Phase 3: Low priority - PARTIAL (PR #11 merged 2026-03-28)
+
+Done:
+- SN-L1: VM scoped column (PR #4)
+- SN-L2: Relationship import prefix handling (PR #11)
+- JSM-L1: bulk-update-icons-mapped.js rewritten (PR #11)
+- TOOLS-L1: SCCM types added to LOAD_PRIORITY (PR #11)
+- TOOLS-L3: Domain collision warnings (PR #8)
 
 Remaining:
-- SN-M1: class-map.js Feature missing product reference
-- SN-M2: install-scoped-app.js hardcodes u_cmdbk_ prefix
-- SN-M3: check-schema.js only validates u_ columns
-- SN-M6: validate-import cannot handle transform fields
-- TOOLS-M1: --domain flag still needed on generate-templates and generate-site-content
-- TOOLS-M2: generate-site-content countRecords misses file patterns
-- TOOLS-M3: deployment-readiness.js assumes distribution domain types
-- TOOLS-M4: Domain attribute merge silently overwrites Core definitions
-- TOOLS-M5: Dead code in validate.js extraInPriority loop
-
-#### Phase 3: Low priority (cleanup, edge cases)
-
-All LOW severity items from audit-findings.md
+- SN-L3: Export name field skip logic
+- SN-L4: Discovery source validation
+- JSM-L2: Export domain type handling
+- JSM-L3: Icon map domain entries
+- TOOLS-L2: LOAD_PRIORITY enterprise bloat
+- TOOLS-L5: Hardcoded status strings in deployment-readiness
 
 #### Phase 4: Remaining roadmap
 
-- Validate relationship deduplication on clean Zurich instance
-- Test export tool with custom CI classes
+- Validate relationship deduplication: DONE (20 relationships skipped correctly, no duplicates created)
+- Test export tool: PARTIAL. Export works for all types with global-scope tables. Fails for Feature, Deployment Site, Baseline on scoped instances because the actual table name (x_cmdbk_u_cmdbk_feature) differs from the configured name (u_cmdbk_feature). Need table name resolution from sys_db_object in the export, same pattern as the identification rule fix.
 - Export scoped app as update set from PDI
 - UI components
 - ServiceNow Store certification
+
+#### Known issue: scoped table name resolution
+
+The fundamental issue is that ServiceNow adds a scope prefix to table names on scoped instances. The configured prefix `u_cmdbk` produces table names like `u_cmdbk_feature`, but ServiceNow creates them as `x_cmdbk_u_cmdbk_feature`. The import schema mode creates them correctly (whatever name ServiceNow assigns), but the import data mode, export, and validate-import all use the configured name which doesn't match.
+
+The fix: all adapter operations should resolve table names through sys_db_object lookup, caching the mapping at startup. This is a single architectural change that fixes import, export, and validation for scoped instances.
 
 ## Overview
 

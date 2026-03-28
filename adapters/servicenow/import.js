@@ -37,7 +37,7 @@
 const fs = require('fs');
 const path = require('path');
 const {
-  loadConfig, createApiClient, getClassMap, getMapping, resolveMultiRef, resolveSysId,
+  loadConfig, createApiClient, getClassMap, getMapping, resolveTableNames, resolveMultiRef, resolveSysId,
   createCiRelationship, getRelationshipType,
   loadJsonFile, loadDataFile, mapAttrName, LOAD_PRIORITY, PERSONNEL_TYPES, C,
 } = require('./lib');
@@ -879,6 +879,14 @@ async function main() {
   config = loadConfig({ requireAuth: true, requireSchema: true });
   api = createApiClient(config, { timeout: 30000, maxRetries: 2 });
   classMap = getClassMap(config.tablePrefix);
+
+  // Resolve scoped table names (x_cmdbk_ prefix on scoped instances)
+  if (!testConn) {
+    const resolved = await resolveTableNames(classMap, api);
+    if (resolved > 0) {
+      console.log(`  Resolved ${resolved} scoped table name(s)`);
+    }
+  }
 
   // Test connection mode
   if (testConn) {
