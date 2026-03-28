@@ -15,7 +15,7 @@
  *   node tools/generate-templates.js "Server" "Database"          # Specific types
  *
  * Options:
- *   --schema <dir>                             Schema directory (default: schema/base)
+ *   --schema <dir>                             Schema directory (default: schema/core)
  *   --format csv|xlsx                          Output format (default: csv)
  *   --family cmdb|library|directory|lookups|all  Filter by schema branch
  *   --role tech-lead|cm-analyst|all            Filter by user role
@@ -86,7 +86,7 @@ Usage:
   node tools/generate-templates.js [options] [type names...]
 
 Options:
-  --schema <dir>     Schema directory (default: schema/base)
+  --schema <dir>     Schema directory (default: schema/core)
   --format csv|xlsx  Output format (default: csv)
   --family <name>    Filter: cmdb, library, directory, lookups, all (default: all)
   --role <name>      Filter: tech-lead, cm-analyst, all (default: all)
@@ -95,7 +95,7 @@ Options:
   --help, -h         Show this help message
 
 Examples:
-  node tools/generate-templates.js --schema schema/base --examples
+  node tools/generate-templates.js --schema schema/core --examples
   node tools/generate-templates.js --role tech-lead --family cmdb --examples
   node tools/generate-templates.js --format xlsx --examples
   node tools/generate-templates.js "Server" "Database"
@@ -274,7 +274,7 @@ Generated: ${new Date().toISOString().split('T')[0]}
 3. Save as CSV (UTF-8)
 4. Convert to JSON:
    \`\`\`
-   node tools/csv-to-json.js --outdir schema/base/data csv-templates/*.csv
+   node tools/csv-to-json.js --outdir schema/core/data csv-templates/*.csv
    \`\`\`
 
 ## Rules

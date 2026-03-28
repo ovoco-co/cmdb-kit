@@ -13,7 +13,7 @@
     "text": 0,
     "reference": 1,
     "date": 4,
-    "integer": 1,
+    "integer": 0,
     "boolean": 2,
     "url": 7
   },
@@ -27,10 +27,8 @@
         "description": { "type": "text" },
         "productType": { "type": "text" },
         "technology": { "type": "text" },
-        "version": { "type": "text" },
         "owner": { "type": "reference", "referenceType": "Team" },
         "status": { "type": "reference", "referenceType": "Product Status" },
-        "environment": { "type": "reference", "referenceType": "Environment Type" },
         "companionProducts": { "type": "reference", "referenceType": "Product", "cardinality": "many" }
       }
     },

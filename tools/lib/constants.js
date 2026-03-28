@@ -164,7 +164,6 @@ const LOAD_PRIORITY = [
   'CR Distribution Log',
 
   // ===== SHARED LIBRARY =====
-  'SLA',
   'Requirement',
 
   // ===== CONFIGURATION LIBRARY =====

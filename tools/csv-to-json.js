@@ -80,7 +80,7 @@ if (csvFiles.length === 0) {
 
 // ── Resolve paths ────────────────────────────────────────────────────
 const projectRoot = path.resolve(__dirname, '..');
-if (!schemaDir) schemaDir = path.join(projectRoot, 'schema', 'base');
+if (!schemaDir) schemaDir = path.join(projectRoot, 'schema', 'core');
 else schemaDir = path.resolve(schemaDir);
 
 const STRUCTURE_PATH = path.join(schemaDir, 'schema-structure.json');
@@ -157,8 +157,8 @@ function coerceValue(value, attrDef) {
   }
   if (attrDef.type === 0 && attrDef.defaultTypeId === 2) {
     const lower = str.toLowerCase();
-    if (['yes', 'true', '1', 'y'].includes(lower)) return 'true';
-    if (['no', 'false', '0', 'n'].includes(lower)) return 'false';
+    if (['yes', 'true', '1', 'y'].includes(lower)) return true;
+    if (['no', 'false', '0', 'n'].includes(lower)) return false;
     console.warn(`    Warning: unrecognized boolean "${str}"`);
     return str;
   }

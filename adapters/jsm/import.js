@@ -333,9 +333,15 @@ async function syncAttributes(schemaId) {
         if (existing) {
           const expectedDefaultTypeId = attrDef.defaultTypeId || 0;
           const currentDefaultTypeId = existing.defaultType?.id;
-          const currentRefTypeId = String(existing.typeValue || existing.defaultType?.typeValue || '');
+          const currentRefTypeId = String(
+            existing.typeValue
+            || existing.referenceObjectTypeId
+            || existing.referenceObjectType?.id
+            || existing.defaultType?.typeValue
+            || ''
+          );
 
-          const refMismatch = payload.type === 1 && payload.typeValue && currentRefTypeId !== payload.typeValue;
+          const refMismatch = payload.type === 1 && payload.typeValue && currentRefTypeId !== String(payload.typeValue);
           const cardMismatch = attrDef.max === -1 && existing.maximumCardinality !== -1;
 
           if (refMismatch || cardMismatch) {
@@ -485,7 +491,7 @@ async function importDataRows(data, typeId, schemaId, typeName, mode) {
             if (refId) finalVal = refId;
             else continue;
           } else { continue; }
-        } else if (def.type === 4) {
+        } else if (def.type === 0 && (def.defaultType?.id === 2 || def.defaultTypeId === 2)) {
           finalVal = (String(v).toLowerCase() === 'true').toString();
         }
         attrValues.push({ value: String(finalVal) });

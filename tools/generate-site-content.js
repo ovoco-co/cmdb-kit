@@ -43,7 +43,7 @@ for (let i = 0; i < args.length; i++) {
 }
 
 const projectRoot = path.resolve(__dirname, '..');
-if (!schemaDir) schemaDir = path.join(projectRoot, 'schema', 'base');
+if (!schemaDir) schemaDir = path.join(projectRoot, 'schema', 'core');
 else schemaDir = path.resolve(schemaDir);
 if (!outdir) outdir = path.join(projectRoot, 'site-content');
 

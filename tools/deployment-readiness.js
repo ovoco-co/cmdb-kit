@@ -498,10 +498,9 @@ function main() {
   if (opts.schemaDir) {
     schemaDir = path.resolve(opts.schemaDir);
   } else {
-    // Default: prefer extended, fall back to base
-    const extended = path.join(projectRoot, 'schema', 'extended');
-    const base = path.join(projectRoot, 'schema', 'base');
-    schemaDir = fs.existsSync(extended) ? extended : base;
+    // Default: prefer core
+    const core = path.join(projectRoot, 'schema', 'core');
+    schemaDir = core;
   }
 
   const dataDir = path.join(schemaDir, 'data');

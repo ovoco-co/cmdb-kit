@@ -219,7 +219,7 @@
         "hostname": "host_name",
         "server": {
           "column": {
-            "scoped": "x_cmdbk_host_server",
+            "scoped": "host_server",
             "global": "{prefix}_host_server"
           },
           "ref": "cmdb_ci_server"
@@ -478,7 +478,7 @@
     },
     "Feature": {
       "tier": 2,
-      "table": "x_cmdbk_{prefix}_feature",
+      "table": "{prefix}_feature",
       "superClass": "cmdb_ci",
       "isCi": true,
       "cmdbApi": true,
@@ -618,7 +618,7 @@
     },
     "Baseline": {
       "tier": 3,
-      "table": "x_cmdbk_{prefix}_baseline",
+      "table": "{prefix}_baseline",
       "attributes": {
         "description": "u_description",
         "baselineType": "u_baseline_type",
@@ -710,7 +710,7 @@
     },
     "Deployment Site": {
       "tier": 3,
-      "table": "x_cmdbk_{prefix}_deployment_site",
+      "table": "{prefix}_deployment_site",
       "attributes": {
         "description": "u_description",
         "product": {
@@ -733,7 +733,7 @@
         "status": "u_status",
         "sitePOC": {
           "column": "u_site_poc",
-          "ref": "sys_user"
+          "ref": "{prefix}_person"
         },
         "supportTeam": {
           "column": "u_support_team",
@@ -742,7 +742,7 @@
         "lastDeploymentDate": "u_last_deployment_date",
         "deployedBy": {
           "column": "u_deployed_by",
-          "ref": "sys_user"
+          "ref": "{prefix}_person"
         },
         "goLiveDate": "u_go_live_date"
       }
