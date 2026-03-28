@@ -29,10 +29,10 @@ Each domain references Core types but Core never references domain types. Add th
 
 ## Who It's For
 
+- Software companies deploying to customer sites (SaaS with dedicated instances, on-prem, hybrid)
 - Configuration managers tracking product baselines across deployment sites
-- Software teams shipping to multiple customer environments
 - ITSM teams that have outgrown spreadsheet-based deployment tracking
-- Defense and government programs with formal CM requirements (EIA-649C, MIL-HDBK-61B)
+- Any organization that needs to answer "what version is running at this customer's site"
 
 CMDB-Kit fits less well for pure IT operations with no product development, for discovery-driven infrastructure inventory, or for organizations that don't use ServiceNow or JSM Assets.
 
