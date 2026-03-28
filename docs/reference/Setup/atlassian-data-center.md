@@ -75,7 +75,7 @@ Product
   Status  -->  references Product Status
 ```
 
-The lookup type file (`schema/base/data/product-status.json`):
+The lookup type file (`schema/core/data/product-status.json`):
 
 ```json
 [
@@ -86,7 +86,7 @@ The lookup type file (`schema/base/data/product-status.json`):
 ]
 ```
 
-A Product record that references it (`schema/base/data/product.json`):
+A Product record that references it (`schema/core/data/product.json`):
 
 ```json
 {
@@ -103,7 +103,7 @@ The `"status": "Active"` value is resolved at import time to the "Active" record
 
 ## Understanding the Schema Hierarchy
 
-CMDB-Kit organizes types into a tree with four root branches (base and extended schemas) or seven (enterprise):
+CMDB-Kit organizes types into a tree with four root branches (Core schema and domains) or seven (portfolio mode):
 
 ```
 Root
@@ -136,7 +136,7 @@ Root
     Deployment Role       Roles involved in deployments
 ```
 
-This is the base schema. The extended schema adds SLAs, licenses, certifications, baselines, and more. The enterprise schema adds enterprise architecture, contracts, requirements, and configuration library management.
+This is the Core schema. Opt-in domains add SLAs, licenses, certifications, baselines, and more. Portfolio mode adds enterprise architecture, contracts, requirements, and configuration library management.
 
 Parent types in DC Assets define a namespace. When you browse the schema in the Assets UI, you see a collapsible tree. Grouping lookup types under "Lookup Types" keeps them visually separate from CI types. The hierarchy also enables type-level permissions and icon inheritance.
 
@@ -161,8 +161,8 @@ JSM_URL=http://your-jsm:8080
 JSM_USER=admin
 JSM_PASSWORD=password
 SCHEMA_KEY=CMDB
-SCHEMA_DIR=schema/base
-DATA_DIR=schema/base/data
+SCHEMA_DIR=schema/core
+DATA_DIR=schema/core/data
 ```
 
 `JSM_USER` is a local username, not an email address. `JSM_PASSWORD` is the account password, not an API token. The account must have direct login credentials. If your environment uses SSO exclusively, create a local service account with Assets admin permissions for the import scripts.
@@ -183,15 +183,15 @@ On Data Center, the adapter routes all API calls directly to your server at `/re
 
 If your DC instance runs behind a reverse proxy, set `JSM_URL` to the externally reachable URL that the proxy exposes.
 
-## Choosing a Schema Layer
+## Choosing a Schema
 
 | Schema | Best for |
 |--------|----------|
-| Base (schema/base) | Getting started, small teams, proof of concept |
-| Extended (schema/extended) | Full CMDB with baselines, compliance, licensing, and SLA management |
-| Enterprise (schema/enterprise) | Financial tracking, EA modeling, requirements, configuration library |
+| Core (schema/core) | Getting started, small teams, proof of concept |
+| Core + domains | Full CMDB with baselines, compliance, licensing, and SLA management |
+| Portfolio mode (schema/enterprise) | Financial tracking, EA modeling, requirements, configuration library |
 
-Start with base. You can switch to extended or enterprise later by changing `SCHEMA_DIR` and `DATA_DIR` and re-running the import. Extended includes everything in base plus more types, and enterprise includes everything in extended plus more.
+Start with Core. You can add domains later by passing `--domain` flags and re-running the import. Each domain is opt-in and adds types for a specific area.
 
 ## All Variables Reference
 
@@ -202,7 +202,7 @@ Start with base. You can switch to extended or enterprise later by changing `SCH
 | JSM_PASSWORD | Yes | | Account password |
 | SCHEMA_KEY | No | CMDB | Object schema key in JSM (case-sensitive) |
 | SCHEMA_DIR | No | Parent of DATA_DIR | Path to schema-structure.json and schema-attributes.json |
-| DATA_DIR | No | schema/base/data | Path to data JSON files |
+| DATA_DIR | No | schema/core/data | Path to data JSON files |
 | CREATE_SCHEMA | No | false | Set to 'true' to auto-create the schema if missing |
 | DEBUG | No | false | Set to 'true' for HTTP request/response logging |
 
@@ -216,7 +216,7 @@ The `JSM_WORKSPACE_ID` variable is Cloud-only and has no effect on Data Center.
 Before touching JSM, confirm that your schema and data files are internally consistent.
 
 ```bash
-node tools/validate.js --schema schema/base
+node tools/validate.js --schema schema/core
 ```
 
 This checks:
@@ -342,15 +342,15 @@ node adapters/jsm/check-schema.js --type "Product"
 
 # Replacing Example Data
 
-The base schema ships with example data for a fictional SaaS CRM called OvocoCRM. To use CMDB-Kit for your own infrastructure, replace the data files.
+The Core schema ships with example data for a fictional SaaS CRM called OvocoCRM. To use CMDB-Kit for your own infrastructure, replace the data files.
 
 ## Option 1: Edit JSON Directly
 
-1. Open the data files in `schema/base/data/`
+1. Open the data files in `schema/core/data/`
 2. Replace the example records with your own
 3. Keep the same JSON structure (array of objects with camelCase keys)
 4. Make sure reference values (like status names, team names) match exactly across files
-5. Run `node tools/validate.js --schema schema/base` to catch errors
+5. Run `node tools/validate.js --schema schema/core` to catch errors
 6. Re-run the import
 
 ## Option 2: CSV/Excel Workflow
@@ -359,11 +359,11 @@ For teams that prefer spreadsheets:
 
 ```bash
 # Generate CSV templates with example rows
-node tools/generate-templates.js --schema schema/base --examples --outdir csv-templates
+node tools/generate-templates.js --schema schema/core --examples --outdir csv-templates
 
 # Fill in the templates in Excel or Google Sheets
 # Then convert back to JSON
-node tools/csv-to-json.js --schema schema/base --outdir schema/base/data csv-templates/*.csv
+node tools/csv-to-json.js --schema schema/core --outdir schema/core/data csv-templates/*.csv
 ```
 
 Start with lookup types. Define your status values, environment types, and other reference data first. Keep Names consistent across files. If your Product references `"status": "In Production"`, the Product Status type must have a record with `"Name": "In Production"` (exact match, case-sensitive). Never include Key or id fields in your data. JSM generates these automatically.

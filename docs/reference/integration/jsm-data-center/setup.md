@@ -673,7 +673,7 @@ Requirement (RMSIS/R4J)
   -> documented in -> Document (Assets CI)
 ```
 
-CMDB-Kit's Feature type in the extended schema provides the bridge. A Feature record in Assets links to the implementing requirement (via Jira issue link) and to the Product Version where it ships. The RMSIS requirement links to the Feature's Jira issue, creating bidirectional traceability.
+CMDB-Kit's Feature type in the Core schema provides the bridge. A Feature record in Assets links to the implementing requirement (via Jira issue link) and to the Product Version where it ships. The RMSIS requirement links to the Feature's Jira issue, creating bidirectional traceability.
 
 ## Coverage Reporting
 

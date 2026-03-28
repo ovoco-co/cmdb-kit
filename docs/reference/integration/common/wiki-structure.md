@@ -90,7 +90,7 @@ Shared types from the Directory branch (Organization, Team, Person, Location) ty
 
 ## Child Pages Mirroring the Four-branch Taxonomy
 
-Within each product area, organize pages to mirror the enterprise schema's branch structure:
+Within each product area, organize pages to mirror the portfolio mode branch structure:
 
 ```
 OvocoCRM (CR)
@@ -178,7 +178,7 @@ Training materials teach new team members how to use the CMDB and its associated
 
 ## The Document CI as Catalog Record
 
-The Document CI in CMDB-Kit's enterprise schema (CR Document, AN Document, SS Document) tracks structured metadata about controlled documents. It serves as the catalog record (Tier 2) that binds the wiki page (Tier 1) to the controlled artifact on the DML (Tier 3).
+The Document CI in CMDB-Kit's portfolio mode schema (CR Document, AN Document, SS Document) tracks structured metadata about controlled documents. It serves as the catalog record (Tier 2) that binds the wiki page (Tier 1) to the controlled artifact on the DML (Tier 3).
 
 The schema defines the following attributes for Document:
 

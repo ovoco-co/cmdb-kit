@@ -51,7 +51,7 @@ Feature Implementation was added as an immutable audit record. It links a Featur
 
 This became the most-queried type in the schema. Engineers and program managers asked the same question daily: "is this feature in this release?" The answer was always one query away.
 
-The enterprise schema extends this further with a Requirement type that connects to Features, closing the loop from requirements capture through to delivered capability.
+Portfolio mode extends this further with a Requirement type that connects to Features, closing the loop from requirements capture through to delivered capability.
 
 
 ## Iteration 5: Baselines Are Not Bureaucratic Overhead
@@ -115,7 +115,7 @@ It fits less well when the organization is purely an IT operations shop with no 
 
 The schema wasn't designed in a vacuum. It draws on established frameworks, but the frameworks informed the design rather than dictating it.
 
-The four-branch structure (Product CMDB, Product Library, Directory, Lookup Types) maps to ITIL's Service Asset and Configuration Management practice: things you build, things you release, people who do the work, and controlled vocabulary. The extended and enterprise layers add ITIL service modeling concepts (Service, Capability, Business Process) for organizations that need them.
+The four-branch structure (Product CMDB, Product Library, Directory, Lookup Types) maps to ITIL's Service Asset and Configuration Management practice: things you build, things you release, people who do the work, and controlled vocabulary. Domain modules and portfolio mode add ITIL service modeling concepts (Service, Capability, Business Process) for organizations that need them.
 
 Configuration management standards define four functions: identification, change control, status accounting, and audits. Every type in the schema traces back to at least one of these functions. Products, Servers, and Components support identification. Baselines and change records support change control. Status and lifecycle lookups support status accounting. Certifications and Assessments support audits. If a type doesn't serve at least one CM function, it doesn't belong.
 

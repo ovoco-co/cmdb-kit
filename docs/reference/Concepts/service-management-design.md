@@ -7,7 +7,7 @@ A CMDB supports service management processes, but it does not replace them. The 
 
 ## Not Every Team Needs Every Type
 
-CMDB-Kit's extended schema includes types across four branches (the enterprise schema expands to nine branches, adding Enterprise Architecture, Configuration Library, and Financial branches). No organization needs all of them on day one. A startup with a single product, a small team, and no compliance requirements might need only Product, Product Version, Product Component, and a handful of lookup types. A defense contractor managing three products across classified networks might need all extended types plus custom extensions.
+CMDB-Kit's Core schema and domains include types across four branches (portfolio mode expands to nine branches, adding Enterprise Architecture, Configuration Library, and Financial branches). No organization needs all of them on day one. A startup with a single product, a small team, and no compliance requirements might need only Product, Product Version, Product Component, and a handful of lookup types. A defense contractor managing three products across classified networks might need all extended types plus custom extensions.
 
 The right approach is to start with the processes you run and map backward to the types that support them. If you do not track SLAs in the CMDB (perhaps your monitoring tool handles that), you do not need the SLA type. Each type should earn its place by supporting a real process.
 
@@ -256,7 +256,7 @@ CMDB-Kit implements the "state side" of ITIL, not the "work side." This is a del
 | IT Asset Management | License, Vendor, Hardware Model | Records licenses, suppliers, and hardware specifications |
 | Service Asset and Configuration Management | All Product CMDB and Product Library types | The complete CI inventory with relationships |
 | Knowledge Management | Document, Documentation Suite, Document Type, Document State | Records the document catalog and lifecycle |
-| Enterprise Architecture (enterprise only) | Service, Capability, Business Process, Service Type, Service Status, Capability Status, Process Status | Models services, business capabilities, and processes |
+| Enterprise Architecture (portfolio mode only) | Service, Capability, Business Process, Service Type, Service Status, Capability Status, Process Status | Models services, business capabilities, and processes |
 | Problem Management | Not in schema | Handled as issues in the work management tool |
 | Service Request Management | Not in schema | Handled as issues in the work management tool |
 
@@ -307,7 +307,7 @@ Gaps should be addressed through the schema extension process described in the S
 
 ## Identifying Types You Can Skip
 
-Not every type in the extended schema is required. If your organization does not track:
+Not every type across all domains is required. If your organization does not track:
 
 Hardware models (you use cloud infrastructure exclusively): skip Hardware Model.
 
@@ -317,4 +317,4 @@ Certifications (you do not track compliance certifications in the CMDB): skip Ce
 
 Removing types you do not need reduces schema complexity, simplifies imports, and avoids empty data files cluttering the repository. You can always add them back when a process requires them.
 
-The base schema is the minimal starting point. The extended schema is the full-featured option. The enterprise schema adds enterprise architecture types (Service, Capability, Business Process), financial tracking (Contract, Cost Allocation), requirements management (Requirement, Feature Implementation), and a configuration library. Most organizations land somewhere in between, starting with the base schema and extending as processes mature.
+The Core schema is the minimal starting point. Adding all domains gives the full-featured option. Portfolio mode adds enterprise architecture types (Service, Capability, Business Process), financial tracking (Contract, Cost Allocation), requirements management (Requirement, Feature Implementation), and a configuration library. Most organizations land somewhere in between, starting with the Core schema and adding domains as processes mature.

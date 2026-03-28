@@ -17,7 +17,7 @@ In practice, this means Person records in the CMDB contain a subset of what HR k
 
 CMDB-Kit's Directory branch provides three types that model the organizational hierarchy:
 
-Organization represents companies, departments, and divisions. In the extended schema:
+Organization represents companies, departments, and divisions. In the Core schema with the directory domain:
 
 ```json
 {
@@ -60,17 +60,17 @@ Person represents individual team members:
 }
 ```
 
-The `Name` attribute (built-in on all types) holds the display name. The `firstName` and `lastName` attributes enable sorting and searching by either name component. The `role` attribute is free text in the base schema, which provides flexibility but limits queryability. Organizations that need to query by role (show me all Engineering Leads) should consider making role a reference to a lookup type.
+The `Name` attribute (built-in on all types) holds the display name. The `firstName` and `lastName` attributes enable sorting and searching by either name component. The `role` attribute is free text in the Core schema, which provides flexibility but limits queryability. Organizations that need to query by role (show me all Engineering Leads) should consider making role a reference to a lookup type.
 
 ## Person as the Link Between People and CIs
 
-Person records are referenced throughout the schema. In the extended schema, Person appears as:
+Person records are referenced throughout the schema. In Core + domains, Person appears as:
 
 - `Team.teamLead`: who leads the team
-- `Assessment.assessor`: who performed the assessment
+- `Assessment.assessor`: who performed the assessment (compliance domain)
 - `Document.author`: who wrote the document
 - `Deployment.deployedBy`: who executed the deployment
-- `Distribution Log.distributedBy`: who distributed the media
+- `Distribution Log.distributedBy`: who distributed the media (distribution domain)
 
 This makes Person the bridge between people and operational data. When you query "what has this person been involved in?", you can find their assessments, documents, deployments, and distributions.
 
@@ -83,7 +83,7 @@ A Post is a named position in an organization that exists independently of the p
 
 This separation matters because organizational structure should survive personnel changes. If CI ownership is assigned to a person and that person leaves, the ownership assignment becomes stale. If CI ownership is assigned to a post and the person filling that post changes, the ownership assignment remains valid.
 
-The Post type does not exist in CMDB-Kit's base or extended schema. It is a schema extension pattern documented here because it is essential for organizations that manage deployment sites, security clearances, or operational roles.
+The Post type does not exist in CMDB-Kit's Core schema or any included domain. It is a schema extension pattern documented here because it is essential for organizations that manage deployment sites, security clearances, or operational roles.
 
 ## Modeling Posts as a CI Type
 
@@ -150,7 +150,7 @@ The `deputy` identifies who takes over if the primary incumbent is unavailable. 
 
 ## Using the Certification Type for Personnel Qualifications
 
-CMDB-Kit's extended schema includes a Certification type under Product Library. This type is designed for organizational compliance certifications (SOC 2 Type II, ISO 27001, GDPR). To track personnel qualifications (PMP, ITIL, CISSP), you have two options:
+CMDB-Kit's compliance domain includes a Certification type under Product Library. This type is designed for organizational compliance certifications (SOC 2 Type II, ISO 27001, GDPR). To track personnel qualifications (PMP, ITIL, CISSP), you have two options:
 
 Option 1: reuse the existing Certification type and add a Person reference. This is simpler but mixes organizational and personnel certifications in the same type.
 
@@ -449,7 +449,7 @@ Teams: CRM Platform Team, Analytics Platform Team, CRM Operations, Analytics Ope
 
 People: eleven individuals across the teams, each with a role and team assignment (Sarah Chen, Michael Torres, David Park, Emily Rodriguez, James Wilson, Lisa Kim, Alex Chen, Casey Morgan, Morgan Blake, Sam Rivera, Avery Nguyen).
 
-The enterprise schema adds two types for site-level personnel tracking. CR Site Personnel Assignment links a Person to a Deployment Site with a Deployment Role, a Team, and optional start and end dates. This records who is assigned to which site in what capacity. Deployment Role values in the enterprise schema include Site Commander, Operations Lead, System Administrator, Database Administrator, Network Engineer, Security Officer, Training Coordinator, and Help Desk Lead.
+The portfolio mode schema adds two types for site-level personnel tracking. CR Site Personnel Assignment links a Person to a Deployment Site with a Deployment Role, a Team, and optional start and end dates. This records who is assigned to which site in what capacity. Deployment Role values in the portfolio mode schema include Site Commander, Operations Lead, System Administrator, Database Administrator, Network Engineer, Security Officer, Training Coordinator, and Help Desk Lead.
 
 Locations: three office locations (San Francisco, Austin, London) where team members work.
 

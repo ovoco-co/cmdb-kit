@@ -2,13 +2,13 @@
 
 <!-- outline-v2 section 02-02 -->
 
-CMDB-Kit's single-product schema works well when one application is all you manage. The moment a second product enters the portfolio, every product-specific type needs its own copy so that references, deployment sites, and release pipelines stay isolated. This section explains the product-prefix strategy used in the enterprise schema, walks through the rules for shared versus prefixed types, and provides a step-by-step guide for adding a third product.
+CMDB-Kit's single-product schema works well when one application is all you manage. The moment a second product enters the portfolio, every product-specific type needs its own copy so that references, deployment sites, and release pipelines stay isolated. This section explains the product-prefix strategy used in the portfolio mode schema, walks through the rules for shared versus prefixed types, and provides a step-by-step guide for adding a third product.
 
-All examples below are drawn from the actual enterprise schema files in `schema/enterprise/`.
+All examples below are drawn from the actual portfolio mode schema files in `schema/enterprise/`.
 
 ## Product-Prefixed Type Strategy
 
-Each product in the portfolio receives a short uppercase prefix that is prepended to every product-specific type name. The enterprise schema uses three prefixes:
+Each product in the portfolio receives a short uppercase prefix that is prepended to every product-specific type name. The portfolio mode schema uses three prefixes:
 
 | Prefix | Product | Description |
 |--------|---------|-------------|
@@ -29,7 +29,7 @@ The prefix applies to the type name in `schema-structure.json`, the key in `sche
 
 ## Schema Hierarchy for Multi-Product
 
-The enterprise schema uses a nine-branch hierarchy under a single portfolio root. This structure separates product-specific branches from shared branches:
+The portfolio mode schema uses a nine-branch hierarchy under a single portfolio root. This structure separates product-specific branches from shared branches:
 
 ```
 Ovoco Portfolio CMDB (root)
@@ -74,7 +74,7 @@ The core design decision in a multi-product schema is which types to share and w
 
 These types appear once in the schema and are referenced by all product-prefixed types:
 
-- All Lookup Types (Product Status, Version Status, Deployment Status, Environment Type, etc.) - 40 lookup types in the enterprise schema, all unprefixed
+- All Lookup Types (Product Status, Version Status, Deployment Status, Environment Type, etc.) - 40 lookup types in the portfolio mode schema, all unprefixed
 - All Directory types (Organization, Team, Person, Location, Facility, Vendor)
 - Enterprise Architecture types (Service, Capability, Business Process, Information Object)
 - Configuration Library types (Library Item)
@@ -131,7 +131,7 @@ Notice the pattern: `CR Hardware Model` (same prefix), `CR Deployment Site` (sam
 
 ## Extending CMDB-Kit's Schema Files for Multi-Product
 
-To convert a single-product enterprise schema into a multi-product schema, you modify three files: `schema-structure.json`, `schema-attributes.json`, and `tools/lib/constants.js`.
+To convert a single-product portfolio mode schema into a multi-product schema, you modify three files: `schema-structure.json`, `schema-attributes.json`, and `tools/lib/constants.js`.
 
 ### Step 1 - Create the hierarchy branches
 
@@ -279,11 +279,11 @@ The shared Site type must appear before any Deployment Site, but types like SLA 
 'Library Item',
 ```
 
-In the actual enterprise `LOAD_PRIORITY`, Site appears just before the first Deployment Site reference (inside the AN block), because AN Deployment Site is the first Deployment Site type encountered.
+In the actual portfolio mode `LOAD_PRIORITY`, Site appears just before the first Deployment Site reference (inside the AN block), because AN Deployment Site is the first Deployment Site type encountered.
 
 ### Product block ordering
 
-The enterprise schema imports Shared Services first, then OvocoAnalytics, then OvocoCRM. This order is arbitrary when products do not reference each other. If product B depends on product A (for example, an integration type that references both), product A's block must come first.
+The portfolio mode schema imports Shared Services first, then OvocoAnalytics, then OvocoCRM. This order is arbitrary when products do not reference each other. If product B depends on product A (for example, an integration type that references both), product A's block must come first.
 
 ## Cross-Product Queries
 
@@ -477,7 +477,7 @@ node tools/validate.js --schema schema/enterprise
 
 ### Deciding which types to include
 
-Not every product needs every type. OvocoAnalytics omits Virtual Machine (no AN Virtual Machine exists in the enterprise schema), while OvocoCRM includes it. If OvocoConnect is a cloud-only SaaS product with no on-premises deployments, you might omit Server, Hardware Model, Network Segment, and Virtual Machine entirely. Only create prefixed types for the CI categories your product actually uses.
+Not every product needs every type. OvocoAnalytics omits Virtual Machine (no AN Virtual Machine exists in the portfolio mode schema), while OvocoCRM includes it. If OvocoConnect is a cloud-only SaaS product with no on-premises deployments, you might omit Server, Hardware Model, Network Segment, and Virtual Machine entirely. Only create prefixed types for the CI categories your product actually uses.
 
 ### Checklist
 

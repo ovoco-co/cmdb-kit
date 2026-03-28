@@ -7,24 +7,24 @@ CMDB-Kit is a product-delivery CMDB. Unlike process-centric schemas (built aroun
 - Node.js 18 or later
 - A target CMDB platform (JSM Assets, ServiceNow, or custom)
 
-# Choose a Schema Layer
+# Choose a Schema
 
-CMDB-Kit ships with three schema layers:
+CMDB-Kit uses a Core + Domains architecture:
 
-| Layer | Use case |
-|-------|----------|
-| Base | Quick start, small teams, proof of concept |
-| Extended | Full CMDB with baselines, assessments, certifications, and infrastructure depth |
-| Enterprise | Financial tracking, enterprise architecture, requirements, configuration library |
+| Schema | Use case |
+|--------|----------|
+| Core | Quick start, small teams, proof of concept |
+| Core + domains | Full CMDB with baselines, assessments, certifications, and infrastructure depth |
+| Portfolio mode | Financial tracking, enterprise architecture, requirements, configuration library |
 
-Start with the base layer. You can upgrade to extended or enterprise later without losing data. Extended includes everything in base plus more types, and enterprise includes everything in extended plus more. See the [Enterprise Extension README](../../../schema/enterprise/README.md) for details on what the enterprise layer adds.
+Start with Core. You can add domains later without losing data. Each domain is opt-in and adds types for a specific area (infrastructure, licensing, compliance, distribution, service management). See the [Enterprise Extension README](../../../schema/enterprise/README.md) for details on what portfolio mode adds.
 
 # Validate the Schema
 
 Run offline validation to confirm everything is consistent:
 
 ```bash
-node tools/validate.js --schema schema/base
+node tools/validate.js --schema schema/core
 ```
 
 This checks:
@@ -35,10 +35,10 @@ This checks:
 
 # Explore the Example Data
 
-The schema ships with example data for a fictional SaaS CRM called OvocoCRM. Browse the `schema/base/data/` directory to see the format:
+The schema ships with example data for a fictional SaaS CRM called OvocoCRM. Browse the `schema/core/data/` directory to see the format:
 
 ```bash
-ls schema/base/data/
+ls schema/core/data/
 ```
 
 Lookup types are simple arrays:
@@ -82,8 +82,8 @@ JSM_URL=https://yoursite.atlassian.net
 JSM_USER=you@example.com
 JSM_PASSWORD=your-api-token
 SCHEMA_KEY=CMDB
-SCHEMA_DIR=schema/base
-DATA_DIR=schema/base/data
+SCHEMA_DIR=schema/core
+DATA_DIR=schema/core/data
 ```
 
 `JSM_USER` is your Atlassian account email. `JSM_PASSWORD` is an API token generated at https://id.atlassian.com/manage-profile/security/api-tokens (not your account password). Cloud requires a paid JSM plan for Assets access.
@@ -97,21 +97,21 @@ JSM_URL=http://your-jsm:8080
 JSM_USER=admin
 JSM_PASSWORD=password
 SCHEMA_KEY=CMDB
-SCHEMA_DIR=schema/base
-DATA_DIR=schema/base/data
+SCHEMA_DIR=schema/core
+DATA_DIR=schema/core/data
 ```
 
 Data Center uses a local username and password. The URL points directly to your JSM server.
 
-### Switching schema layers
+### Adding domains
 
-To use the extended or enterprise schema, change `SCHEMA_DIR`:
+To add a domain, pass it with the `--domain` flag:
 
+```bash
+node tools/validate.js --schema schema/core --domain schema/domains/infrastructure
 ```
-SCHEMA_DIR=schema/enterprise
-```
 
-`DATA_DIR` defaults to `SCHEMA_DIR/data` when not set, so you only need to change one variable. Each layer is self-contained. You do not need to import base first, then extended, then enterprise. Just point `SCHEMA_DIR` at your chosen layer and run the import. You can switch layers at any time by changing the variable and re-running `import.js schema` followed by `import.js sync`.
+`DATA_DIR` defaults to `SCHEMA_DIR/data` when not set, so you only need to change one variable for the base path. You can add multiple domains at once. For portfolio mode, point `SCHEMA_DIR` at `schema/enterprise`.
 
 ### Create a schema in JSM
 
@@ -155,8 +155,8 @@ Copy `.env.example` to `.env` and set the ServiceNow variables:
 SN_INSTANCE=https://dev12345.service-now.com
 SN_USER=admin
 SN_PASSWORD=password
-SCHEMA_DIR=schema/base
-DATA_DIR=schema/base/data
+SCHEMA_DIR=schema/core
+DATA_DIR=schema/core/data
 ```
 
 ```bash
@@ -180,7 +180,7 @@ Write a custom adapter following the guide in [Writing Custom Adapters](../Exten
 
 To use CMDB-Kit for your own product:
 
-1. Copy `schema/base/` to a new directory (or edit in place)
+1. Copy `schema/core/` to a new directory (or edit in place)
 2. Update lookup values to match your domain
 3. Replace CI data with your actual infrastructure records
 4. Update LOAD_PRIORITY if you add or remove types
@@ -192,10 +192,10 @@ For teams that prefer Excel-based data entry:
 
 ```bash
 # Generate blank templates with example rows
-node tools/generate-templates.js --schema schema/base --examples --outdir csv-templates
+node tools/generate-templates.js --schema schema/core --examples --outdir csv-templates
 
 # After filling templates in Excel, convert to JSON
-node tools/csv-to-json.js --schema schema/base --outdir schema/base/data csv-templates/*.csv
+node tools/csv-to-json.js --schema schema/core --outdir schema/core/data csv-templates/*.csv
 ```
 
 # Next Steps

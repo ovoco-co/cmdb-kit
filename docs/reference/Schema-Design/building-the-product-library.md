@@ -7,7 +7,7 @@ The Product Library branch is where release management lives in the CMDB. While 
 
 ## The Release Management Side of the CMDB
 
-The Product Library branch holds over a dozen types in the enterprise schema, organized under each product's library (e.g., OvocoCRM Library, OvocoAnalytics Library). Seven of them form the core release management chain covered in this section:
+The Product Library branch holds over a dozen types in portfolio mode, organized under each product's library (e.g., OvocoCRM Library, OvocoAnalytics Library). Seven of them form the core release management chain covered in this section:
 
 - CR Product Version: the release itself
 - CR Document: controlled documents produced during development
@@ -53,7 +53,7 @@ Here is the complete attribute definition from schema-attributes.json:
 }
 ```
 
-The enterprise schema captures significantly more than the basics. The product attribute links the version to its parent CR Product record. The versionStatus reference (to the Version Status lookup) tracks lifecycle state (Current, Previous, Sunset). The sunsetReason and sunsetDate attributes record why and when a version was retired. The documentationSuites and productSuites multi-references link directly to the documentation and distribution packages for this release. The dmlPath attribute records the version's location on the Definitive Media Library.
+Portfolio mode captures significantly more than the basics. The product attribute links the version to its parent CR Product record. The versionStatus reference (to the Version Status lookup) tracks lifecycle state (Current, Previous, Sunset). The sunsetReason and sunsetDate attributes record why and when a version was retired. The documentationSuites and productSuites multi-references link directly to the documentation and distribution packages for this release. The dmlPath attribute records the version's location on the Definitive Media Library.
 
 In the OvocoCRM example data, v2.3.1 is a maintenance release that has since been superseded by v2.4.0:
 
@@ -98,7 +98,7 @@ This component list is a powerful traceability tool. When a security vulnerabili
 
 ### Component Instances: Built Artifacts With Checksums
 
-The enterprise schema adds CR Component Instance, which tracks specific built artifacts for each component in a release. While a CR Product Component describes what a component is, a CR Component Instance records a specific build with its checksum, build number, and DML path:
+Portfolio mode adds CR Component Instance, which tracks specific built artifacts for each component in a release. While a CR Product Component describes what a component is, a CR Component Instance records a specific build with its checksum, build number, and DML path:
 
 ```json
 {
@@ -203,7 +203,7 @@ A CR Documentation Suite should only reach "Published" suiteStatus when all its 
 
 ## Document Type Codes and Their Meanings
 
-The Document Type lookup classifies documents by their purpose. The extended schema ships with eight types:
+The Document Type lookup classifies documents by their purpose. The Core + domains schema ships with eight types:
 
 | Type | Purpose |
 |------|---------|

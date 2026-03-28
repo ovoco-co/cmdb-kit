@@ -114,9 +114,9 @@ Start broad and shallow. Track the major categories (products, servers, versions
 
 CMDB-Kit's schema provides a menu of types organized into branches. Not every organization needs all of them. Walk through the catalog and select the types that match your processes.
 
-### Base Schema as a Minimum Viable CMDB
+### Core Schema as a Minimum Viable CMDB
 
-The base schema includes the types needed for a basic CMDB:
+The Core schema includes the types needed for a basic CMDB:
 
 Infrastructure: Product, Server, Database, Product Component.
 
@@ -128,35 +128,33 @@ Lookups: Product Status, Version Status, Deployment Status, Environment Type, Do
 
 This covers the core use cases: what products exist, what versions are released, where they are deployed, and who is responsible. It is enough for a small organization with one product and straightforward operations.
 
-### Extended Schema for Mature Organizations
+### Adding Domains for Mature Organizations
 
-The extended schema adds types for:
+Opt-in domains add types on top of the Core. Each domain covers a specific area:
 
-IT asset management: License, Vendor, Hardware Model, License Type, License Status, Vendor Status.
+Licensing domain: License, License Type, License Status, Vendor, Vendor Status.
 
-SLA management: SLA, SLA Status.
+Infrastructure domain: Hardware Model, Network Segment, Virtual Machine, Network Type.
 
-Advanced release management: Product Media, Product Suite, Certification, Distribution Log, Deployment Site, Site Status, Baseline, Baseline Type, Baseline Status, Documentation Suite.
+Compliance domain: Assessment, Assessment Type, Assessment Status, Certification, Certification Type, Certification Status.
 
-Compliance: Assessment, Assessment Type, Assessment Status, Certification Type, Certification Status.
+Distribution domain: Distribution Log, Deployment Site, Site Status, Product Media, Product Suite, Baseline, Baseline Type, Baseline Status, Documentation Suite.
 
-Network infrastructure: Network Segment, Virtual Machine, Network Type.
+Service management domain: SLA, SLA Status.
 
-Extended features: Feature.
+Additional types: Feature, Location, Facility.
 
-Extended directory: Location, Facility, Vendor.
-
-Use the extended schema when your organization runs formal change control, manages multiple deployment sites, tracks compliance certifications, or needs to model the full release distribution chain.
+Add domains when your organization runs formal change control, manages multiple deployment sites, tracks compliance certifications, or needs to model the full release distribution chain.
 
 ### Walking Through the Branches
 
-Product CMDB branch (infrastructure): Product, Server, Database, Product Component, Hardware Model, Network Segment, Virtual Machine, License, Feature, Assessment. These are the things your service is made of. Most organizations start with Product, Server, and Database, then add the rest as needed.
+Product CMDB branch (infrastructure): Product, Server, Database, and Product Component in the Core, plus Hardware Model, Network Segment, and Virtual Machine from the infrastructure domain, License from the licensing domain, Assessment from the compliance domain, and Feature. These are the things your service is made of. Most organizations start with Product, Server, and Database, then add the rest as needed.
 
-Product Library branch (release management): Product Version, Document, Deployment, Baseline, Documentation Suite, Product Media, Product Suite, Certification, Deployment Site, Distribution Log, SLA. These track the lifecycle of your releases. Product Version and Deployment are almost always needed. The distribution types (Product Media, Distribution Log) matter when you ship software to external customers or air-gapped sites.
+Product Library branch (release management): Product Version, Document, and Deployment in the Core, plus Baseline, Documentation Suite, Product Media, Product Suite, Deployment Site, and Distribution Log from the distribution domain, Certification from the compliance domain, and SLA from the service management domain. These track the lifecycle of your releases. Product Version and Deployment are almost always needed. The distribution types (Product Media, Distribution Log) matter when you ship software to external customers or air-gapped sites.
 
 Directory branch (people and organizations): Organization, Team, Person, Location, Facility, Vendor. These model who is responsible for what. Organization, Team, and Person are needed for ownership tracking. Location and Vendor come in when you manage physical sites or third-party suppliers.
 
-Lookup Types branch (reference data): 26 lookup types in the extended schema. These are not CIs themselves but provide controlled vocabularies for CI attributes. Product Status, Version Status, and Environment Type are needed in any deployment. The others depend on which CI types you adopt.
+Lookup Types branch (reference data): the Core includes 10 lookup types, and domains add more as needed. These are not CIs themselves but provide controlled vocabularies for CI attributes. Product Status, Version Status, and Environment Type are needed in any deployment. The others depend on which CI types you adopt.
 
 ### Library vs Engineering CMDB
 
@@ -266,4 +264,4 @@ Documents: System Design Description, Version Description, Release Notes (Docume
 
 Teams: CRM Platform Team, Infrastructure Team, CRM Operations, Analytics Platform Team, Release Engineering (Team CIs under their respective Organizations).
 
-Each of these passed the five-question test: they support the service, their state changes, they have owners, outages trigger responses, and the tracking cost is justified. This is the CI inventory that CMDB-Kit's extended schema was designed to model.
+Each of these passed the five-question test: they support the service, their state changes, they have owners, outages trigger responses, and the tracking cost is justified. This is the CI inventory that CMDB-Kit's Core + domains was designed to model.

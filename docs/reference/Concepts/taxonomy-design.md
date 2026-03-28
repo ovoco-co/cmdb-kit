@@ -17,7 +17,7 @@ The design of a taxonomy also reflects how your organization thinks about its pr
 
 CMDB-Kit organizes all configuration items into top-level branches. These branches are themselves entries in `schema-structure.json`, but they exist purely as containers. You never create records for "Product CMDB" or "Directory." They are structural parents that group related types together.
 
-The base and extended schemas use a four-branch hierarchy:
+The Core schema and domains use a four-branch hierarchy:
 
 ```
 Product CMDB
@@ -26,7 +26,7 @@ Directory
 Lookup Types
 ```
 
-The enterprise schema expands this to a nine-branch hierarchy under the root "Ovoco Portfolio CMDB":
+Portfolio mode expands this to a nine-branch hierarchy under the root "Ovoco Portfolio CMDB":
 
 ```
 OvocoCRM CMDB
@@ -48,7 +48,7 @@ The branching model is a deliberate simplification. A flat list of a hundred unr
 
 The Product CMDB branch holds the technical infrastructure that makes your product work. These are the configuration items that operations teams monitor, developers deploy to, and architects design around.
 
-In the base schema, this branch contains four types:
+In the Core schema, this branch contains four types:
 
 ```json
 { "name": "Product", "parent": "Product CMDB", "description": "Software products and applications" }
@@ -78,13 +78,13 @@ Server represents a compute instance, whether physical hardware, a cloud VM, or 
 
 The distinction between Product and Product Component is scope. A Product is the whole service as seen by operations. A Product Component is one piece of it as seen by developers. The CRM Core product might contain the Contact Manager, Deal Pipeline, and Email Integration components.
 
-The extended schema adds six more types to this branch: Hardware Model, Network Segment, Virtual Machine, License, Assessment, and Feature. These cover infrastructure catalog items, network topology, IT asset management, compliance evaluation, and product capability tracking.
+Opt-in domains add more types to this branch: Hardware Model, Network Segment, and Virtual Machine from the infrastructure domain, License from the licensing domain, Assessment from the compliance domain, and Feature. These cover infrastructure catalog items, network topology, IT asset management, compliance evaluation, and product capability tracking.
 
 ## Product Library
 
 The Product Library branch is the release management side of the CMDB. Where Product CMDB tracks what things are, Product Library tracks what was released, what documents describe it, where it was deployed, and what changed.
 
-In the base schema, this branch contains three types:
+In the Core schema, this branch contains three types:
 
 ```json
 { "name": "Product Version", "parent": "Product Library", "description": "Released software versions" }
@@ -96,7 +96,7 @@ Product Version is the anchor record for every release. Every other record in th
 
 Document represents a controlled document tied to the product, covering architecture documents, runbooks, SOPs, release notes, and any other documentation that needs lifecycle management. Deployment records a specific instance of deploying a version to an environment; the combination of version, environment, and date makes each deployment record unique.
 
-The extended schema adds eight more types: Baseline, Documentation Suite, Product Media, Product Suite, Certification, Deployment Site, Distribution Log, and SLA. These cover formal release management (baselines and media), compliance (certifications), multi-site distribution (deployment sites and distribution logs), and service level agreements.
+Opt-in domains add more types: Baseline, Documentation Suite, Product Media, Product Suite, Deployment Site, and Distribution Log from the distribution domain, Certification from the compliance domain, and SLA from the service management domain. These cover formal release management (baselines and media), compliance (certifications), multi-site distribution (deployment sites and distribution logs), and service level agreements.
 
 The SLA type uses a `product` attribute rather than referencing infrastructure directly:
 
@@ -117,7 +117,7 @@ This means you can query the CMDB to answer questions like "which products have 
 
 The Directory branch holds the people, organizations, and places that every other branch references. These are the "who" and "where" types. They tend to be loaded first (after lookup types) because many CI types reference them.
 
-In the base schema, the Directory has three types:
+In the Core schema, the Directory has three types:
 
 ```json
 { "name": "Organization", "parent": "Directory", "description": "Companies and departments" }
@@ -127,7 +127,7 @@ In the base schema, the Directory has three types:
 
 Organization can model corporate hierarchies through its `parentOrganization` self-reference. Teams group people within an organization and own products and components. Person sits at the center of many relationships, referenced by attributes like `author` on Document, `deployedBy` on Deployment, and `teamLead` on Team.
 
-The extended schema adds Location (physical places like offices and data centers), Facility (specific areas within a location such as server rooms), and Vendor (third-party suppliers who provide licenses, hardware, and services).
+Domains add Location (physical places like offices and data centers), Facility (specific areas within a location such as server rooms), and Vendor (third-party suppliers who provide licenses, hardware, and services).
 
 The Directory branch may seem simple, but it is foundational. Because so many CI types reference Person, Team, and Organization, these records must be loaded early in the import process. The LOAD_PRIORITY array in `tools/lib/constants.js` places Directory types right after lookup types, ensuring that by the time Product, Document, or Deployment records are imported, the people and teams they reference already exist.
 
@@ -139,7 +139,7 @@ Lookup types are the reference data that gives CI fields their allowed values. E
 { "Name": "Active", "description": "Currently in production use" }
 ```
 
-The base schema includes ten lookup types:
+The Core schema includes ten lookup types:
 
 ```
 Product Status, Version Status, Deployment Status, Environment Type,
@@ -147,7 +147,7 @@ Document Type, Document State, Component Type, Priority,
 Organization Type, Deployment Role
 ```
 
-The extended schema adds twelve more:
+Domains add their own lookup types as needed:
 
 ```
 Certification Type, Certification Status, Assessment Type, Assessment Status,
@@ -157,7 +157,7 @@ Site Status, Vendor Status, SLA Status
 
 Lookup types are always imported first because every other type depends on them for reference values. The pattern is consistent: every CI type that has a status or classification field also has a corresponding lookup type. This pairing is deliberate and should be followed when you add your own types.
 
-The enterprise schema extends the lookup branch further with types like Service Type, Capability Status, Disposition, Library Item Type, Requirement Type, Requirement Status, Requirement Priority, Verification Method, Contract Status, and others. These support the additional branches and types that the enterprise schema introduces.
+Portfolio mode extends the lookup branch further with types like Service Type, Capability Status, Disposition, Library Item Type, Requirement Type, Requirement Status, Requirement Priority, Verification Method, Contract Status, and others. These support the additional branches and types that portfolio mode introduces.
 
 # CI Type vs Lookup Type vs Attribute
 
@@ -231,7 +231,7 @@ Each entry in `schema-structure.json` is an object with three fields:
 { "name": "Database", "parent": "Product CMDB", "description": "Database instances" }
 ```
 
-The `name` field is the type name in Title Case. This becomes the display name in the target database. The `parent` field is the name of the parent type, which must exactly match another entry's name. The root branches omit the parent field (or reference the root container in the enterprise schema). The `description` field is a brief explanation of what the type represents.
+The `name` field is the type name in Title Case. This becomes the display name in the target database. The `parent` field is the name of the parent type, which must exactly match another entry's name. The root branches omit the parent field (or reference the root container in portfolio mode). The `description` field is a brief explanation of what the type represents.
 
 The parent field creates the tree structure that CMDB platforms render as a navigable hierarchy. The import adapter reads this field to create the correct parent-child relationships in the target database.
 
@@ -257,15 +257,15 @@ The advantage of explicit attributes is clarity: reading a type's entry in `sche
 
 When you deploy to a platform that does support inheritance, you can restructure the attribute assignments at that point. The CMDB-Kit schema serves as the canonical source of truth, and the adapter layer handles any platform-specific mappings.
 
-# Base vs Extended vs Enterprise Schema
+# Core + Domains Architecture
 
-CMDB-Kit ships three schema tiers. Each tier builds on the previous one, adding types for increasingly sophisticated configuration management needs. You choose the tier that matches your organization's maturity and requirements.
+CMDB-Kit uses a Core + Domains architecture. The Core provides the essential types every CMDB needs. Opt-in domains add types for increasingly sophisticated configuration management needs. Portfolio mode restructures the hierarchy for multi-product organizations. You choose the combination that matches your organization's maturity and requirements.
 
-## Base Schema
+## Core Schema
 
-The base schema defines CI types and lookup types. The four branch containers (Product CMDB, Product Library, Directory, Lookup Types) are structural parents only and are not counted. This is the starting point for organizations that are new to CMDB or want a focused, minimal scope.
+The Core schema defines CI types and lookup types. The four branch containers (Product CMDB, Product Library, Directory, Lookup Types) are structural parents only and are not counted. This is the starting point for organizations that are new to CMDB or want a focused, minimal scope.
 
-The base schema covers the fundamentals:
+The Core schema covers the fundamentals:
 
 ```
 Product CMDB (4 CI types)
@@ -283,22 +283,23 @@ Lookup Types
   Component Type, Priority, Organization Type, Deployment Role
 ```
 
-Start with the base when you want to prove the value of the CMDB quickly. It covers what you build (Product CMDB), what you release (Product Library), who is involved (Directory), and the reference data that ties it together (Lookup Types). You can always grow into the extended schema later by adding types incrementally.
+Start with the Core when you want to prove the value of the CMDB quickly. It covers what you build (Product CMDB), what you release (Product Library), who is involved (Directory), and the reference data that ties it together (Lookup Types). You can always add domains later by opting in incrementally.
 
-## Extended Schema
+## Domains
 
-The extended schema adds types on top of the base. It covers release management (baselines, media, suites, distribution logs), compliance (certifications, assessments), multi-site deployments (deployment sites, distribution logs), and IT asset management (licenses, vendors, hardware models).
+Domains add types on top of the Core. Each domain covers a specific area: infrastructure, licensing, compliance, distribution, and service management.
 
-The types added to each branch:
+The types added by domains to each branch:
 
 ```
 Product CMDB (+6 CI types)
-  Hardware Model, Network Segment, Virtual Machine,
-  License, Assessment, Feature
+  Hardware Model, Network Segment, Virtual Machine (infrastructure domain),
+  License (licensing domain), Assessment (compliance domain), Feature
 
 Product Library (+8 CI types)
   Baseline, Documentation Suite, Product Media, Product Suite,
-  Certification, Deployment Site, Distribution Log, SLA
+  Deployment Site, Distribution Log (distribution domain),
+  Certification (compliance domain), SLA (service management domain)
 
 Directory (+3 CI types)
   Location, Facility, Vendor
@@ -309,19 +310,19 @@ Lookup Types
   License Type, License Status, Site Status, Vendor Status, SLA Status
 ```
 
-Notice the pattern: every new CI type that has a status or classification field also introduces the corresponding lookup type. When it adds License, it also adds License Type and License Status. This pairing keeps reference data organized and prevents free-text status fields from creeping in.
+Notice the pattern: every new CI type that has a status or classification field also introduces the corresponding lookup type. When a domain adds License, it also adds License Type and License Status. This pairing keeps reference data organized and prevents free-text status fields from creeping in.
 
-Start with the extended schema when you already know you need release management, compliance features, or multi-site deployment tracking. Starting with extended and removing what you do not need is often faster than starting with base and adding what you do need, because the extended schema has already worked out the relationships and lookup types for you.
+Add domains when you already know you need release management, compliance features, or multi-site deployment tracking. Starting with Core + all domains and removing what you do not need is often faster than starting with Core alone and adding what you do need, because the domains have already worked out the relationships and lookup types for you.
 
-## Enterprise Schema
+## Portfolio Mode
 
-The enterprise schema restructures the hierarchy into nine top-level branches under a root container ("Ovoco Portfolio CMDB"). Instead of a single Product CMDB branch, the enterprise schema introduces product-prefixed branches for each product in the portfolio:
+Portfolio mode restructures the hierarchy into nine top-level branches under a root container ("Ovoco Portfolio CMDB"). Instead of a single Product CMDB branch, portfolio mode introduces product-prefixed branches for each product in the portfolio:
 
 - OvocoCRM CMDB (CR-prefixed types) for OvocoCRM engineering and operations CIs
 - OvocoAnalytics CMDB (AN-prefixed types) for OvocoAnalytics engineering and operations CIs
 - Shared Services CMDB (SS-prefixed types) for shared infrastructure
 
-The Ovoco Library branch replaces Product Library and contains product-specific sub-branches (OvocoCRM Library, OvocoAnalytics Library) plus a Shared Library for cross-product records like SLA and Requirement. The enterprise schema adds Feature and Feature Implementation as product-prefixed types (CR Feature, CR Feature Implementation, AN Feature, AN Feature Implementation), along with Site Personnel Assignment for tracking personnel roles at deployment sites.
+The Ovoco Library branch replaces Product Library and contains product-specific sub-branches (OvocoCRM Library, OvocoAnalytics Library) plus a Shared Library for cross-product records like SLA and Requirement. Portfolio mode adds Feature and Feature Implementation as product-prefixed types (CR Feature, CR Feature Implementation, AN Feature, AN Feature Implementation), along with Site Personnel Assignment for tracking personnel roles at deployment sites.
 
 Three new branches cover domains that do not fit the product-centric model:
 
@@ -329,23 +330,23 @@ Three new branches cover domains that do not fit the product-centric model:
 - Configuration Library with the Library Item type for controlled software artifacts
 - Financial with Contract and Cost Category for contractual and cost tracking
 
-The enterprise schema adds a Requirement type in the Shared Library with formal attributes: requirementType (ref Requirement Type), status (ref Requirement Status), priority (ref Requirement Priority), source, verificationMethod (ref Verification Method), verifiedDate, and parentRequirement (self-referencing for decomposition). It also introduces numerous additional lookup types (Baseline Milestone, Build Status, Implementation Status, Requirement Type, Requirement Status, Requirement Priority, Verification Method, Contract Status, Disposition, Service Type, Capability Status, and more).
+Portfolio mode adds a Requirement type in the Shared Library with formal attributes: requirementType (ref Requirement Type), status (ref Requirement Status), priority (ref Requirement Priority), source, verificationMethod (ref Verification Method), verifiedDate, and parentRequirement (self-referencing for decomposition). It also introduces numerous additional lookup types (Baseline Milestone, Build Status, Implementation Status, Requirement Type, Requirement Status, Requirement Priority, Verification Method, Contract Status, Disposition, Service Type, Capability Status, and more).
 
-The enterprise schema is designed for large organizations with formal configuration management boards, multi-product portfolios, and regulatory compliance requirements. It supports patterns like the Technology Business Management (TBM) taxonomy for cost attribution, TIME model disposition analysis (Tolerate, Invest, Migrate, Eliminate), traceable requirements with verification methods, and the Feature Implementation freeze pattern for immutable per-release audit records.
+Portfolio mode is designed for large organizations with formal configuration management boards, multi-product portfolios, and regulatory compliance requirements. It supports patterns like the Technology Business Management (TBM) taxonomy for cost attribution, TIME model disposition analysis (Tolerate, Invest, Migrate, Eliminate), traceable requirements with verification methods, and the Feature Implementation freeze pattern for immutable per-release audit records.
 
-Most organizations should start with the base or extended schema. Move to enterprise when you need multi-product portfolio management, service catalog modeling, capability mapping, formal requirements traceability, or financial tracking within the CMDB.
+Most organizations should start with the Core schema and add domains as needed. Move to portfolio mode when you need multi-product portfolio management, service catalog modeling, capability mapping, formal requirements traceability, or financial tracking within the CMDB.
 
-The enterprise schema also demonstrates an important design principle: new branches are added only when the types they contain genuinely belong to a different domain. Enterprise Architecture types (Service, Capability, Business Process) are not release artifacts, not infrastructure CIs, not people, and not reference data. They describe the organizational landscape at a strategic level. Creating a new branch for them is correct. If the types had been shoehorned into a product CMDB branch, the branch names would have become misleading. Similarly, splitting product-specific CIs into CR-prefixed and AN-prefixed branches keeps each product's configuration items cleanly separated while sharing Directory and Lookup Types across the portfolio.
+Portfolio mode also demonstrates an important design principle: new branches are added only when the types they contain genuinely belong to a different domain. Enterprise Architecture types (Service, Capability, Business Process) are not release artifacts, not infrastructure CIs, not people, and not reference data. They describe the organizational landscape at a strategic level. Creating a new branch for them is correct. If the types had been shoehorned into a product CMDB branch, the branch names would have become misleading. Similarly, splitting product-specific CIs into CR-prefixed and AN-prefixed branches keeps each product's configuration items cleanly separated while sharing Directory and Lookup Types across the portfolio.
 
-## Choosing Between Tiers
+## Choosing Your Starting Point
 
-The decision is not permanent. The schemas are additive, so you can start with base and grow into extended by adding types one at a time. The key considerations:
+The decision is not permanent. The architecture is additive, so you can start with the Core and add domains one at a time. The key considerations:
 
-Start with base when you are new to CMDB, want a small scope to prove value quickly, or plan to add types incrementally as needs emerge.
+Start with the Core when you are new to CMDB, want a small scope to prove value quickly, or plan to add types incrementally as needs emerge.
 
-Start with extended when you already know you need release management, compliance, multi-site deployments, or IT asset management.
+Add domains when you already know you need release management, compliance, multi-site deployments, or IT asset management.
 
-Start with enterprise when you need service catalog modeling, capability mapping, formal requirements traceability, configuration library management, or financial tracking.
+Move to portfolio mode when you need service catalog modeling, capability mapping, formal requirements traceability, configuration library management, or financial tracking.
 
 In all cases, you can remove types you do not need. Deleting a type from `schema-structure.json` and `schema-attributes.json` (and removing it from `LOAD_PRIORITY` in `tools/lib/constants.js`) is straightforward. The validation tool will tell you if any remaining types reference the deleted one through their attribute definitions.
 
@@ -353,7 +354,7 @@ Be careful when removing types that other types reference. If you remove Vendor,
 
 # Extending the Taxonomy With Custom Types
 
-When you need a type that does not exist in the base or extended schema, follow a five-step process.
+When you need a type that does not exist in the Core schema or any domain, follow a five-step process.
 
 The process is the same regardless of whether you are adding a CI type, a lookup type, or both. The key rule is that dependencies must exist before dependents: if your new type references another type, that referenced type must already be in the schema and earlier in the LOAD_PRIORITY array.
 
@@ -604,4 +605,4 @@ Most types in a well-designed taxonomy are shared. Product, Server, Database, Pr
 
 Before creating a product-specific type, ask: could this concept apply to other products in the future? If yes, make it a shared type now. Renaming types later is more work than designing for reuse upfront.
 
-CMDB-Kit's base and extended schemas follow the shared-types approach: all types are generic and product-agnostic. Two products share the same Product type but have different Product records. They share the same Product Version type but have different version records. Where products differ is in their data, not their types. This approach enables cross-product reporting without translation and means teams moving between products find a familiar structure. Shared lookup types like Environment Type and Document State enforce consistent vocabulary across all products, so "Production" means the same thing everywhere in the CMDB.
+CMDB-Kit's Core schema and domains follow the shared-types approach: all types are generic and product-agnostic. Two products share the same Product type but have different Product records. They share the same Product Version type but have different version records. Where products differ is in their data, not their types. This approach enables cross-product reporting without translation and means teams moving between products find a familiar structure. Shared lookup types like Environment Type and Document State enforce consistent vocabulary across all products, so "Production" means the same thing everywhere in the CMDB.

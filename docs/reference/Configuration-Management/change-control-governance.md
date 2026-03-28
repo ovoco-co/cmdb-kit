@@ -2,7 +2,7 @@
 
 Change control is the discipline that prevents uncoordinated modifications from destabilizing a product. Without it, developers patch production systems without telling the release team, infrastructure changes break upstream dependencies, and nobody can answer "what changed and why?" when something goes wrong. A CMDB supports change control by providing the configuration item context that change processes consume, and by recording the baselines that changes modify.
 
-This section covers governance bodies, change classification, impact analysis, baseline management, and emergency procedures. All of these map to types and attributes in CMDB-Kit's enterprise schema, with OvocoCRM as the running example.
+This section covers governance bodies, change classification, impact analysis, baseline management, and emergency procedures. All of these map to types and attributes in CMDB-Kit's portfolio mode schema, with OvocoCRM as the running example.
 
 
 # Governance Bodies
@@ -168,7 +168,7 @@ A baseline is a formally approved snapshot of a product's configuration at a spe
 
 ## Baseline Types
 
-CMDB-Kit's enterprise schema defines three baseline types that correspond to progressive stages of product maturity:
+CMDB-Kit's portfolio mode schema defines three baseline types that correspond to progressive stages of product maturity:
 
 ```json
 [
@@ -230,7 +230,7 @@ PCA verifies that the product documentation, media, and configuration match the 
 
 ## The CR Baseline Type
 
-The enterprise schema's CR Baseline type captures all of this:
+The portfolio mode schema's CR Baseline type captures all of this:
 
 ```json
 "CR Baseline": {

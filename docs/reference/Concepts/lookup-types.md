@@ -149,16 +149,16 @@ The test: would someone browsing the lookup type be confused by the new value? I
 
 Start with fewer values than you think you need. Every value you add is a value that appears in every dropdown, every dashboard filter, and every AQL query. If Product Status had twelve values, most of them would never be used and would clutter every interaction.
 
-The extended schema ships with three to seven values per lookup type. This is intentional. You can always add values later. Removing values that are already referenced by CI records is harder, because you need to update or reassign those references first.
+The Core schema and domains ship with three to seven values per lookup type. This is intentional. You can always add values later. Removing values that are already referenced by CI records is harder, because you need to update or reassign those references first.
 
 Every value must have a description that answers: "When should I pick this value?" Descriptions like "Active status" are useless. Descriptions like "Product is live and serving traffic" tell the user exactly what the value means. If you cannot write a clear description, the value might not be distinct enough to exist.
 
 
 # The Complete Lookup Type Catalog
 
-The extended schema includes 22 lookup types organized into three groups: status lookups that track lifecycle position, classification lookups that categorize what something is, and other lookups that capture priority and role.
+The Core schema plus all domains includes 22 lookup types organized into three groups: status lookups that track lifecycle position, classification lookups that categorize what something is, and other lookups that capture priority and role.
 
-The enterprise schema expands this to 44 lookup types, adding types for enterprise architecture, financial tracking, requirements, and configuration library management. Enterprise-only lookups include Baseline Milestone, Build Status, Implementation Status, Media Type, Transfer Status, Capability Status, Contract Status, Contract Type, Cost Type, Process Status, Requirement Status, Requirement Type, Service Status, Service Type, Verification Method, and others. The same design principles apply: each lookup has a Name and a description, and each is imported before the CI types that reference it.
+Portfolio mode expands this to 44 lookup types, adding types for enterprise architecture, financial tracking, requirements, and configuration library management. Portfolio-mode-only lookups include Baseline Milestone, Build Status, Implementation Status, Media Type, Transfer Status, Capability Status, Contract Status, Contract Type, Cost Type, Process Status, Requirement Status, Requirement Type, Service Status, Service Type, Verification Method, and others. The same design principles apply: each lookup has a Name and a description, and each is imported before the CI types that reference it.
 
 ## Status Lookups
 
@@ -450,7 +450,7 @@ Classifies the roles people play in deployment and operations.
 
 ## Which Lookup Types Pair With Which CI Types
 
-The following table shows every CI type in the extended schema and the lookup types it references. This is the definitive cross-reference for understanding how lookup types connect to the rest of the CMDB.
+The following table shows every CI type in the Core schema plus all domains and the lookup types it references. This is the definitive cross-reference for understanding how lookup types connect to the rest of the CMDB.
 
 | CI Type | Lookup Type References |
 |---------|----------------------|
@@ -475,11 +475,11 @@ The following table shows every CI type in the extended schema and the lookup ty
 | Organization | Organization Type |
 | Vendor | Vendor Status |
 
-Types not listed (Team, Person, Location, Facility, Hardware Model, Product Media, Product Suite) do not reference any lookup types directly. The enterprise schema adds further CI-to-lookup pairings for types like Service, Capability, Business Process, Contract, Requirement, and Feature Implementation.
+Types not listed (Team, Person, Location, Facility, Hardware Model, Product Media, Product Suite) do not reference any lookup types directly. Portfolio mode adds further CI-to-lookup pairings for types like Service, Capability, Business Process, Contract, Requirement, and Feature Implementation.
 
 ## Default Values Provided in the Example Data
 
-The extended schema ships with lookup values across the lookup types. These values are designed to be practical starting points, not exhaustive lists. Most organizations will use them as-is for initial setup and then add values as their processes mature.
+The Core schema and domains ship with lookup values across the lookup types. These values are designed to be practical starting points, not exhaustive lists. Most organizations will use them as-is for initial setup and then add values as their processes mature.
 
 A few guidelines for working with the defaults:
 

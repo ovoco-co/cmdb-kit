@@ -9,7 +9,7 @@ Deployment sites are where your product meets the real world. Every customer loc
 
 A Site is the simplest possible record: just a Name and an optional description. It represents a customer location as a shared identity that all products recognize. When Acme Corporation deploys both OvocoCRM and OvocoAnalytics, there is one Site record called "Acme Corp" that both products reference.
 
-The Site type in the enterprise schema carries only a description attribute beyond the implicit Name:
+The Site type in portfolio mode carries only a description attribute beyond the implicit Name:
 
 ```json
 "Site": {
@@ -17,13 +17,13 @@ The Site type in the enterprise schema carries only a description attribute beyo
 }
 ```
 
-The enterprise schema places Site under the Ovoco Library branch, making it visible to all product libraries without duplication.
+Portfolio mode places Site under the Ovoco Library branch, making it visible to all product libraries without duplication.
 
 ## CR Deployment Site: The Product-specific Record
 
 A CR Deployment Site is the product-specific record that tracks everything about a particular OvocoCRM deployment at a customer location. It carries the site code, product and version references, location, customer organization, team assignments, status fields, and operational metrics.
 
-The CR Deployment Site attributes in the enterprise schema:
+The CR Deployment Site attributes in portfolio mode:
 
 ```json
 "CR Deployment Site": {
@@ -137,7 +137,7 @@ The Site type is intentionally minimal. It carries only a Name and a description
 
 This minimalism is the point. A Site record says: "This customer location exists." Nothing more. Every product-specific fact lives on that product's Deployment Site record.
 
-The enterprise schema has six Site records:
+Portfolio mode has six Site records:
 
 ```json
 [
@@ -154,7 +154,7 @@ Five sites represent external customers (Acme Corporation, GlobalTech Industries
 
 ## Sites Live in the Shared Library
 
-In the enterprise schema, Site records live under the Ovoco Library branch, outside any product-specific branch. This makes them visible to all product libraries without duplication.
+In portfolio mode, Site records live under the Ovoco Library branch, outside any product-specific branch. This makes them visible to all product libraries without duplication.
 
 ## All Product Libraries Reference the Same Site Records
 
@@ -175,7 +175,7 @@ The decision tree:
 
 ## Each Product Library Has Its Own Deployment Sites
 
-In the enterprise schema with product prefixes, each product library has its own Deployment Site type:
+In portfolio mode with product prefixes, each product library has its own Deployment Site type:
 
 - CR Deployment Site (under OvocoCRM Library, for OvocoCRM)
 - AN Deployment Site (under OvocoAnalytics Library, for OvocoAnalytics)
@@ -184,7 +184,7 @@ These are separate types in schema-structure.json, each with their own attribute
 
 ## CR Deployment Site References a Site
 
-Each CR Deployment Site record carries a reference to its parent Site record. In schema-attributes.json for the enterprise schema:
+Each CR Deployment Site record carries a reference to its parent Site record. In schema-attributes.json for portfolio mode:
 
 ```json
 "CR Deployment Site": {
@@ -201,7 +201,7 @@ The site attribute is the link back to the shared identity. The product attribut
 
 ## Product-specific Attributes: Version Tracking, Classification, Capacity
 
-Beyond the base attributes, the enterprise CR Deployment Site carries a rich set of fields. The version tracking attributes form a trio:
+Beyond the common attributes, the portfolio mode CR Deployment Site carries a rich set of fields. The version tracking attributes form a trio:
 
 - productVersion: reference to the currently installed CR Product Version
 - targetVersion: reference to the version being deployed next (used during upgrades)
@@ -220,7 +220,7 @@ Additional capacity and classification attributes:
 
 ## Deployment Site Status and Workflow Progress
 
-The enterprise schema uses two separate status fields to track site state at different levels of granularity.
+Portfolio mode uses two separate status fields to track site state at different levels of granularity.
 
 The siteStatus attribute references the Site Status lookup, which tracks high-level operational availability:
 
@@ -293,7 +293,7 @@ The goLiveDate field tracks when the site became operational. In the OvocoCRM da
 
 # Related Record Types
 
-The CR Deployment Site attributes cover the essentials, but production deployments need to track relationships between sites and locations, organizations, and people. The enterprise schema includes three dedicated assignment types for these connections, all prefixed with "CR" to indicate they belong to the OvocoCRM product library.
+The CR Deployment Site attributes cover the essentials, but production deployments need to track relationships between sites and locations, organizations, and people. Portfolio mode includes three dedicated assignment types for these connections, all prefixed with "CR" to indicate they belong to the OvocoCRM product library.
 
 ## CR Site Location Assignment
 
@@ -316,7 +316,7 @@ A CR Site Location Assignment links a CR Deployment Site to a Location record, w
 }
 ```
 
-The enterprise schema extends the basic concept with date tracking (startDate, endDate), a serverCount per location, and a localPOC field for the on-site point of contact.
+Portfolio mode extends the basic concept with date tracking (startDate, endDate), a serverCount per location, and a localPOC field for the on-site point of contact.
 
 The OvocoCRM data has one example:
 
@@ -363,7 +363,7 @@ A CR Site Org Relationship links a CR Deployment Site to an Organization record,
 }
 ```
 
-The enterprise schema extends the basic concept with relationshipStatus, an isPrimary boolean, date tracking, and an organizationPOC reference to the Person who is the point of contact for that organization.
+Portfolio mode extends the basic concept with relationshipStatus, an isPrimary boolean, date tracking, and an organizationPOC reference to the Person who is the point of contact for that organization.
 
 The enterprise data has organizations structured as Ovoco Inc (parent) with Ovoco Engineering and Ovoco Operations as internal divisions. External customers include Acme Corporation, GlobalTech Industries, Meridian Healthcare, Pacific Financial Group, and Summit Education Network.
 
@@ -408,7 +408,7 @@ A CR Site Personnel Assignment links a Person to a CR Deployment Site with a rol
 }
 ```
 
-The enterprise schema uses a deploymentRole reference (not a free-text role field) and includes a team reference, date tracking, and notes.
+Portfolio mode uses a deploymentRole reference (not a free-text role field) and includes a team reference, date tracking, and notes.
 
 The OvocoCRM data has one example:
 
@@ -426,7 +426,7 @@ The OvocoCRM data has one example:
 
 ### Deployment Roles
 
-The Deployment Role lookup in the enterprise schema provides eight values:
+The Deployment Role lookup in portfolio mode provides eight values:
 
 | Role | Description |
 |------|-------------|
@@ -773,4 +773,4 @@ CR Meridian EU-West is the newest deployment, live since June 2025. Unlike the o
 
 Three additional Sites exist in the enterprise data (Pacific Financial, Summit Education, Ovoco Internal) that do not yet have CR Deployment Site records, representing future deployment candidates or sites that only use other products in the Ovoco portfolio.
 
-This three-site model demonstrates the enterprise schema's ability to track distinct deployment characteristics (on-premise vs cloud, different seat counts, staggered upgrade status) while maintaining the unified view through the shared Site records, Site Status and Site Workflow Status lookups, and the version tracking trio of productVersion, targetVersion, and previousVersion.
+This three-site model demonstrates portfolio mode's ability to track distinct deployment characteristics (on-premise vs cloud, different seat counts, staggered upgrade status) while maintaining the unified view through the shared Site records, Site Status and Site Workflow Status lookups, and the version tracking trio of productVersion, targetVersion, and previousVersion.

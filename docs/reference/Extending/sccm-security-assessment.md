@@ -19,7 +19,7 @@ Tracking SCCM in the CMDB means:
 
 ## SCCM CI Types
 
-The SCCM domain extension adds seven CI types under the SCCM Infrastructure container. This is an opt-in domain in `schema/domains/sccm/`, not part of the core extended schema, because SCCM is a specialized domain that not every organization needs.
+The SCCM domain extension adds seven CI types under the SCCM Infrastructure container. This is an opt-in domain in `schema/domains/sccm/`, not part of the Core schema, because SCCM is a specialized domain that not every organization needs.
 
 **SCCM Site** represents a site server in the hierarchy. Attributes include site code, version, and the site type (CAS, Primary, or Secondary). Primary sites can reference a parent site for hierarchies with a central administration site.
 

@@ -77,7 +77,7 @@ The Product CMDB branch answers the resources viewpoint's questions: what applic
 
 ## Services Viewpoint and Service Modeling
 
-The UAF Services viewpoint describes what the organization delivers: business services and the technical services that support them. The enterprise schema includes a Service type under the Enterprise Architecture branch, with attributes for `serviceType` (referencing Service Type), `owner` (referencing Team), `status` (referencing Product Status), and `capability` (referencing Capability). This enables explicit modeling of business services, technical services, and shared services.
+The UAF Services viewpoint describes what the organization delivers: business services and the technical services that support them. The portfolio mode schema includes a Service type under the Enterprise Architecture branch, with attributes for `serviceType` (referencing Service Type), `owner` (referencing Team), `status` (referencing Product Status), and `capability` (referencing Capability). This enables explicit modeling of business services, technical services, and shared services.
 
 In the OvocoCRM example data, four Service records exist: "Customer Relationship Management" (a business service owned by CRM Platform Team, linked to the Customer Management capability), "CRM Platform Hosting" (a technical service owned by Infrastructure Team), "Analytics and Reporting" (a business service owned by Analytics Platform Team), and "Notification Delivery" (a shared service owned by Infrastructure Team).
 
@@ -105,7 +105,7 @@ Lookup types are the enterprise's controlled vocabulary. When the Application St
 
 ## Strategic Domain: Capabilities and Services
 
-The strategic domain describes what the organization can do (capabilities) and what it offers (services). The enterprise schema includes both Capability and Service types under the Enterprise Architecture branch.
+The strategic domain describes what the organization can do (capabilities) and what it offers (services). The portfolio mode schema includes both Capability and Service types under the Enterprise Architecture branch.
 
 A capability like "Customer Management" is a Capability CI owned by Ovoco Inc. The "Customer Relationship Management" Service references that capability, and it is owned by CRM Platform Team under Ovoco Engineering. Sub-capabilities like "Lead Tracking" and "Account Management" use the `parentCapability` self-reference to build a capability hierarchy. The Capability Status lookup tracks each capability's lifecycle.
 
@@ -155,7 +155,7 @@ The resources domain maps to the infrastructure types in the Product CMDB branch
 
 A business service is something the organization delivers to customers or internal users: "Customer Relationship Management," "Analytics and Reporting," "Notification Delivery." A technical service is the technology that implements it: "CRM Platform Hosting," a hosting service providing compute, storage, and networking for CRM workloads.
 
-The enterprise schema includes a Service type under the Enterprise Architecture branch. Each Service record has a `serviceType` reference (to the Service Type lookup, with values like "Business Service," "Technical Service," and "Shared Service"), an `owner` reference to Team, a `status` reference to Product Status, and a `capability` reference to Capability.
+The portfolio mode schema includes a Service type under the Enterprise Architecture branch. Each Service record has a `serviceType` reference (to the Service Type lookup, with values like "Business Service," "Technical Service," and "Shared Service"), an `owner` reference to Team, a `status` reference to Product Status, and a `capability` reference to Capability.
 
 In the OvocoCRM example data, four services model both layers: "Customer Relationship Management" is a business service owned by CRM Platform Team, "CRM Platform Hosting" is a technical service owned by Infrastructure Team, "Analytics and Reporting" is a business service owned by Analytics Platform Team, and "Notification Delivery" is a shared service owned by Infrastructure Team.
 
@@ -184,11 +184,11 @@ When a server goes down, which services are affected? Impact chains answer this 
 
 If a CR Server fails, the impact chain runs: the server is at a CR Deployment Site, which references CR Product Version and CR Product, which is part of the "Customer Relationship Management" service linked to the "Customer Management" capability. The business impact: CRM is down.
 
-These chains are built from the reference fields already in the enterprise schema. The Service type's `capability` attribute links to a Capability. The CR Product type's `parentProduct` attribute builds the product hierarchy. CR Server's `siteLocation` attribute links to a CR Deployment Site, which references the product version.
+These chains are built from the reference fields already in the portfolio mode schema. The Service type's `capability` attribute links to a Capability. The CR Product type's `parentProduct` attribute builds the product hierarchy. CR Server's `siteLocation` attribute links to a CR Deployment Site, which references the product version.
 
 ## Using References to Build the Service Model
 
-CMDB-Kit's reference system (type 1 attributes in schema-attributes.json) is the mechanism for building service models. Each reference creates a link in the dependency chain. The enterprise schema already defines the Service type with references that build the service model:
+CMDB-Kit's reference system (type 1 attributes in schema-attributes.json) is the mechanism for building service models. Each reference creates a link in the dependency chain. The portfolio mode schema already defines the Service type with references that build the service model:
 
 ```json
 "Service": {
@@ -218,7 +218,7 @@ Each reference is navigable in both directions through AQL HAVING queries, enabl
 
 A business capability is something the organization can do, independent of how it does it. "Customer Relationship Management" is a capability. "OvocoCRM running on AWS" is an implementation of that capability. Capabilities are stable over time (you always need to manage customer relationships), even as the implementations change (you might switch from OvocoCRM to a different product).
 
-In UAF terms, capabilities decompose hierarchically. The enterprise schema supports this through the Capability type's `parentCapability` self-reference. In the OvocoCRM example data:
+In UAF terms, capabilities decompose hierarchically. The portfolio mode schema supports this through the Capability type's `parentCapability` self-reference. In the OvocoCRM example data:
 
 ```
 Enterprise Capabilities
@@ -239,7 +239,7 @@ In the CMDB, Capability records reference Organizations as owners. Service recor
 
 ## When to Use the Capability Type
 
-The enterprise schema already includes a Capability type with attributes for `status` (referencing Capability Status), `parentCapability` (self-reference for hierarchy), and `owner` (referencing Organization). Use the Capability type when your organization needs to:
+The portfolio mode schema already includes a Capability type with attributes for `status` (referencing Capability Status), `parentCapability` (self-reference for hierarchy), and `owner` (referencing Organization). Use the Capability type when your organization needs to:
 
 - Maintain a formal capability map for strategic planning
 - Identify capability gaps (capabilities with no service referencing them)
@@ -286,7 +286,7 @@ Applications use technologies: programming languages, frameworks, databases, clo
 - Which are being trialed (emerging)
 - Which are being phased out (sunset)
 
-CMDB-Kit does not have a Technology type in the base schema, but you can track technology choices through Product Component types (each component has a Component Type) and through text attributes on Application or Server records (e.g., "operatingSystem," "databaseEngine").
+CMDB-Kit does not have a Technology type in the Core schema, but you can track technology choices through Product Component types (each component has a Component Type) and through text attributes on Application or Server records (e.g., "operatingSystem," "databaseEngine").
 
 For formal technology radar management, add a Technology type with attributes for name, category, status (Adopt, Trial, Assess, Hold), and references to the applications that use it.
 

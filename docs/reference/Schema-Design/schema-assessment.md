@@ -17,7 +17,7 @@ This is validated by every framework reviewed. Enterprise capability maps place 
 
 In the OvocoCRM example data, the Product type sits at the top of the Product CMDB branch. Every Server, Database, and Product Component traces back to a Product through ownership or deployment references. This means you can answer "what infrastructure supports OvocoCRM?" by following references downward from a single Product record, rather than scanning every server and filtering by tags.
 
-The base schema defines Product with a compact set of attributes that capture this orientation:
+The Core schema defines Product with a compact set of attributes that capture this orientation:
 
 ```json
 "Product": {
@@ -32,31 +32,31 @@ The base schema defines Product with a compact set of attributes that capture th
 
 The `owner` reference to Team, the `status` reference to a lookup type, and the `companionProducts` self-reference all reinforce the idea that products are the primary unit of organization. Infrastructure types like Server and Database exist as supporting actors, not as the schema's center of gravity.
 
-## Three-layer progressive disclosure
+## Core + Domains architecture
 
-CMDB-Kit ships three schema tiers: base, extended, and enterprise. These are not arbitrary size tiers or pricing gates. Each layer answers a different organizational question.
+CMDB-Kit uses a Core + Domains architecture. The Core schema provides the essential types every CMDB needs, and opt-in domain modules add specialized capabilities. Portfolio mode introduces product-prefixed types for multi-product isolation.
 
-The base schema (defined in `schema/base/schema-attributes.json`) answers "what do we have?" It covers Products, Servers, Databases, Product Components, Product Versions, Documents, Deployments, and directory types like Organization, Team, and Person. An organization that just needs to track what exists and who owns it can stop at the base layer and have a working CMDB with the essentials.
+The Core schema (defined in `schema/core/schema-attributes.json`) answers "what do we have?" It covers Products, Servers, Databases, Product Components, Product Versions, Documents, Deployments, and directory types like Organization, Team, and Person. An organization that just needs to track what exists and who owns it can stop at the Core schema and have a working CMDB with the essentials.
 
-The extended schema (in `schema/extended/schema-attributes.json`) answers "how do we control changes?" It adds Hardware Model, Network Segment, Virtual Machine, License, Assessment, Feature, Baseline, Documentation Suite, Product Media, Product Suite, Certification, Deployment Site, Distribution Log, SLA, Facility, and Vendor. These types support release management, compliance tracking, and formal change control. An organization that ships software to customer sites and needs to track baselines, certifications, and distribution records uses the extended layer.
+Domain modules (in `schema/domains/*/schema-attributes.json`) answer "how do we control changes?" They add types like Hardware Model and Network Segment (infrastructure domain), License (licensing domain), Assessment (compliance domain), Feature (features domain), Baseline and Documentation Suite (release management domain), Product Media and Product Suite (media domain), Certification (compliance domain), Deployment Site and Distribution Log (distribution domain), SLA, Facility, and Vendor. These types support release management, compliance tracking, and formal change control. An organization that ships software to customer sites and needs to track baselines, certifications, and distribution records adds the relevant domains.
 
-The enterprise schema (in `schema/enterprise/schema-attributes.json`) answers "how do we manage a portfolio?" It introduces product-prefixed types (CR Server, AN Server, SS Server) for multi-product isolation, plus enterprise architecture types (Service, Capability, Business Process, Information Object), a Configuration Library branch, financial types (Contract, Cost Category), and requirements management (Requirement). The enterprise layer is designed for organizations that manage multiple software product lines with formal configuration management processes.
+Portfolio mode (in `schema/enterprise/schema-attributes.json`) answers "how do we manage a portfolio?" It introduces product-prefixed types (CR Server, AN Server, SS Server) for multi-product isolation, plus enterprise architecture types (Service, Capability, Business Process, Information Object), a Configuration Library branch, financial types (Contract, Cost Category), and requirements management (Requirement). Portfolio mode is designed for organizations that manage multiple software product lines with formal configuration management processes.
 
-This layering maps cleanly to organizational maturity. A startup tracks products and servers. A growing company adds change control and compliance. An enterprise with multiple product lines adds portfolio management and formal CM discipline. Each layer builds on the previous one without replacing it.
+This layering maps cleanly to organizational maturity. A startup tracks products and servers with the Core schema. A growing company adds domain modules for change control and compliance. An enterprise with multiple product lines adds portfolio mode for multi-product isolation and formal CM discipline. Each level builds on the previous one without replacing it.
 
 ## Multi-product prefixing
 
-The enterprise schema uses a prefix convention to isolate product-specific configuration items. OvocoCRM types use the "CR" prefix, OvocoAnalytics types use "AN", and shared infrastructure uses "SS". This means the enterprise schema has CR Server, AN Server, and SS Server as separate types, each scoped to a single product line.
+Portfolio mode uses a prefix convention to isolate product-specific configuration items. OvocoCRM types use the "CR" prefix, OvocoAnalytics types use "AN", and shared infrastructure uses "SS". This means portfolio mode has CR Server, AN Server, and SS Server as separate types, each scoped to a single product line.
 
 This solves a real problem. When a single CMDB contains servers for multiple products, queries become noisy. "Show me all servers" returns everything. Filtering by tags or labels is fragile and depends on data entry discipline. With prefixed types, product-scoped queries are structural. "Show me all CR Servers" returns only OvocoCRM servers by definition. Cross-product noise disappears because the type system enforces the boundary.
 
-The enterprise schema structure file (`schema/enterprise/schema-structure.json`) shows this clearly. The root is "Ovoco Portfolio CMDB", which contains three product-level branches: "OvocoCRM CMDB", "OvocoAnalytics CMDB", and "Shared Services CMDB". Each branch contains its own prefixed copies of the relevant CI types. A fourth branch, "Ovoco Library", contains the release management types (Product Version, Baseline, Document, Distribution Log) similarly prefixed per product.
+The portfolio mode structure file (`schema/enterprise/schema-structure.json`) shows this clearly. The root is "Ovoco Portfolio CMDB", which contains three product-level branches: "OvocoCRM CMDB", "OvocoAnalytics CMDB", and "Shared Services CMDB". Each branch contains its own prefixed copies of the relevant CI types. A fourth branch, "Ovoco Library", contains the release management types (Product Version, Baseline, Document, Distribution Log) similarly prefixed per product.
 
 ## Site versus Deployment Site
 
-The enterprise schema distinguishes between a Site (a shared customer identity) and a Deployment Site (a product-specific deployment record at that customer). This two-record pattern solves the problem of different products at different versions at the same physical location.
+Portfolio mode distinguishes between a Site (a shared customer identity) and a Deployment Site (a product-specific deployment record at that customer). This two-record pattern solves the problem of different products at different versions at the same physical location.
 
-Consider a customer like Acme Corp that runs both OvocoCRM and OvocoAnalytics. In the enterprise schema, there is one Site record for Acme Corp (shared across products), one CR Deployment Site record tracking which OvocoCRM version Acme runs, and one AN Deployment Site record tracking which OvocoAnalytics version Acme runs. The Site record carries the shared customer identity. Each Deployment Site carries product-specific state: current version, previous version, target version, upgrade status, go-live date, and support team assignment.
+Consider a customer like Acme Corp that runs both OvocoCRM and OvocoAnalytics. In portfolio mode, there is one Site record for Acme Corp (shared across products), one CR Deployment Site record tracking which OvocoCRM version Acme runs, and one AN Deployment Site record tracking which OvocoAnalytics version Acme runs. The Site record carries the shared customer identity. Each Deployment Site carries product-specific state: current version, previous version, target version, upgrade status, go-live date, and support team assignment.
 
 The CR Deployment Site definition in `schema/enterprise/schema-attributes.json` shows the depth of this pattern:
 
@@ -81,7 +81,7 @@ With three version references (current, previous, target), an upgrade status, an
 
 ## Feature Implementation as immutable audit record
 
-The enterprise schema includes a Feature Implementation type that links a Feature to a Product Version with a frozen status and date. Once a Feature Implementation record is created, it captures the state of a feature's inclusion in a specific release at a specific point in time.
+Portfolio mode includes a Feature Implementation type that links a Feature to a Product Version with a frozen status and date. Once a Feature Implementation record is created, it captures the state of a feature's inclusion in a specific release at a specific point in time.
 
 ```json
 "CR Feature Implementation": {
@@ -100,9 +100,9 @@ No framework reviewed has an equivalent construct, but every governance framewor
 
 ## Baseline model
 
-The extended schema introduces Baseline with a `baselineType` reference to the Baseline Type lookup. The enterprise schema expands this significantly with product-prefixed baselines (CR Baseline, AN Baseline) that carry milestone references, component instance links, document references, and certification cross-references.
+The release management domain introduces Baseline with a `baselineType` reference to the Baseline Type lookup. Portfolio mode expands this significantly with product-prefixed baselines (CR Baseline, AN Baseline) that carry milestone references, component instance links, document references, and certification cross-references.
 
-The Baseline Type lookup in the enterprise schema is designed around the Functional/Allocated/Product baseline progression (FBL, ABL, PBL). This is rooted in formal configuration management discipline. Functional baselines capture what a system must do (requirements). Allocated baselines capture how the system is decomposed into components. Product baselines capture what was actually built and tested.
+The Baseline Type lookup in portfolio mode is designed around the Functional/Allocated/Product baseline progression (FBL, ABL, PBL). This is rooted in formal configuration management discipline. Functional baselines capture what a system must do (requirements). Allocated baselines capture how the system is decomposed into components. Product baselines capture what was actually built and tested.
 
 Most commercial CMDB schemas do not have baselines at all. ServiceNow CSDM does not define them. iTop does not define them. YaSM acknowledges the need for configuration baselines but does not prescribe a type structure. Organizations with formal CM requirements, particularly in government, defense, or regulated industries, will find that the baseline model saves significant design work.
 
@@ -112,7 +112,7 @@ Every status value, category, and classification in the schema is a separate obj
 
 This is more work to set up than simple picklists. Each lookup type needs its own data file with named records. But the payoff is significant: every status value is queryable, documentable, and auditable. You can ask "what does Deployment Status = Staged mean?" and get a description from the record itself. You can add new status values without modifying the schema. You can report on which status values are in use and which are orphaned.
 
-The enterprise schema adds `sortOrder` (integer) attributes to many lookup types, allowing the UI to present values in a meaningful sequence rather than alphabetical order. For example, Baseline Status and Document State both carry `sortOrder` so that lifecycle states appear in their natural progression.
+Portfolio mode adds `sortOrder` (integer) attributes to many lookup types, allowing the UI to present values in a meaningful sequence rather than alphabetical order. For example, Baseline Status and Document State both carry `sortOrder` so that lifecycle states appear in their natural progression.
 
 ## Distribution Log
 
@@ -129,7 +129,7 @@ The schema has structural problems where the intent is clear but the implementat
 
 ## Service modeling is disconnected
 
-The enterprise schema includes Service, Capability, Business Process, and Information Object types under the Enterprise Architecture branch. Service references Capability, and Capability references a parent Capability, creating a capability hierarchy. But Service has no relationship to infrastructure CIs. There is no reference from Service to Product, Server, Database, or any other CI type that might implement the service.
+Portfolio mode includes Service, Capability, Business Process, and Information Object types under the Enterprise Architecture branch. Service references Capability, and Capability references a parent Capability, creating a capability hierarchy. But Service has no relationship to infrastructure CIs. There is no reference from Service to Product, Server, Database, or any other CI type that might implement the service.
 
 Here is the complete Service definition from `schema/enterprise/schema-attributes.json`:
 
@@ -149,7 +149,7 @@ The fix is straightforward. Service needs a `supportedBy` multi-reference to Pro
 
 ## SLA links to Product, not Service
 
-The SLA type in the extended schema references Product:
+The SLA type in the licensing domain references Product:
 
 ```json
 "SLA": {
@@ -164,13 +164,13 @@ The SLA type in the extended schema references Product:
 
 But SLAs govern services, not products. A single product might implement multiple services with different SLA targets. The OvocoCRM platform might deliver both a "CRM Application Service" with 99.9% uptime and a "CRM Reporting Service" with 99.5% uptime. With the current schema, both SLAs would reference the same Product record, losing the distinction.
 
-The enterprise schema version of SLA drops the Product reference entirely but does not replace it with a Service reference. It carries only status, targetUptime, responseTime, and reviewDate. The SLA floats without a clear owner.
+The portfolio mode version of SLA drops the Product reference entirely but does not replace it with a Service reference. It carries only status, targetUptime, responseTime, and reviewDate. The SLA floats without a clear owner.
 
 SLA also lacks the attributes that YaSM requires for continuity planning: Recovery Time Objective (RTO), Recovery Point Objective (RPO), and service criticality rating. These are not exotic requirements. Any organization that must plan for disaster recovery needs these values, and the SLA type is the natural place for them.
 
 ## Cost Category is orphaned
 
-The enterprise schema includes a Cost Category type under the Financial branch, designed for TBM (Technology Business Management) cost attribution:
+Portfolio mode includes a Cost Category type under the Financial branch, designed for TBM (Technology Business Management) cost attribution:
 
 ```json
 "Cost Category": {
@@ -227,11 +227,11 @@ This is a deliberate design choice. The schema tracks what you manage, not what 
 
 Whether this is a gap or a feature depends on the organization. For product-focused software teams that deploy to cloud infrastructure, the existing types are sufficient. Application instances, databases, and virtual machines capture what matters. For infrastructure-heavy operations teams that manage physical data centers with racks of network equipment and storage arrays, the schema is a blocker until extended.
 
-The extended schema does include Hardware Model and Network Segment, acknowledging that some infrastructure modeling is necessary. But Network Segment represents a logical zone (with CIDR, VLAN, and gateway attributes), not a physical device. There is no type for the switch or firewall that connects segments.
+The infrastructure domain does include Hardware Model and Network Segment, acknowledging that some infrastructure modeling is necessary. But Network Segment represents a logical zone (with CIDR, VLAN, and gateway attributes), not a physical device. There is no type for the switch or firewall that connects segments.
 
 ## Security and compliance attributes are sparse
 
-Assessment and Certification types exist in the extended and enterprise schemas, providing a way to record compliance evaluations and certifications against standards. But individual CIs carry no security metadata. There is no security classification attribute (Public, Internal, Confidential, Restricted) on any CI type. There is no PII indicator on Database or Server. There is no compliance status flag.
+Assessment and Certification types exist in the compliance domain and portfolio mode, providing a way to record compliance evaluations and certifications against standards. But individual CIs carry no security metadata. There is no security classification attribute (Public, Internal, Confidential, Restricted) on any CI type. There is no PII indicator on Database or Server. There is no compliance status flag.
 
 APQC process area 8.3.x (IT resilience and risk management) requires CIs to carry security and compliance attributes. YaSM requires every CI to have a Security Classification derived from an Underpinning Security Policy. The schema has none of this.
 
@@ -239,9 +239,9 @@ For organizations in regulated industries (government, healthcare, finance), thi
 
 ## Financial tracking is skeletal
 
-The enterprise schema's financial model consists of two types: Contract and Cost Category. Contract carries vendor, dates, value, and a contract manager. Cost Category carries a description and a parent hierarchy for building cost trees. That is the entire financial model.
+Portfolio mode's financial model consists of two types: Contract and Cost Category. Contract carries vendor, dates, value, and a contract manager. Cost Category carries a description and a parent hierarchy for building cost trees. That is the entire financial model.
 
-Missing from the schema are: cost attributes on CIs (annual operating cost, depreciation value), cost category references on CIs (so that a Server can be attributed to the Compute cost tower), license cost tracking (the License type has no cost field in the extended schema, though SS License in the enterprise schema does include a `cost` attribute), budget allocation per team or product, and chargeback or showback mechanisms.
+Missing from the schema are: cost attributes on CIs (annual operating cost, depreciation value), cost category references on CIs (so that a Server can be attributed to the Compute cost tower), license cost tracking (the License type has no cost field in the licensing domain, though SS License in portfolio mode does include a `cost` attribute), budget allocation per team or product, and chargeback or showback mechanisms.
 
 The schema documentation describes TBM tower mapping in detail, explaining how Server maps to the Compute tower, Database maps to the Database tower, and Network Segment maps to the Network tower. But the schema itself does not implement these mappings. Cost Category exists but nothing references it. This is the most significant documentation-reality gap in the schema.
 
@@ -253,9 +253,9 @@ The SLA type has `targetUptime` and `responseTime` but not recovery objectives. 
 
 The natural home for RTO and RPO is either the SLA type (if recovery objectives are contractual commitments) or the Service type (if they are internal planning targets). Currently neither type carries them.
 
-## Person type is thin at base and extended layers
+## Person type is thin at Core level
 
-The base and extended Person type has five attributes beyond the standard description:
+The Core Person type has five attributes beyond the standard description:
 
 ```json
 "Person": {
@@ -268,13 +268,13 @@ The base and extended Person type has five attributes beyond the standard descri
 }
 ```
 
-There is no phone number, no job title, no manager reference, and no location. The enterprise schema fixes several of these gaps, adding `phone`, `jobTitle`, `organization`, `supervisor`, and `hireDate`. But organizations using the base or extended schema will find the Person type insufficient for escalation paths, RACI matrices, or organizational reporting.
+There is no phone number, no job title, no manager reference, and no location. Portfolio mode fixes several of these gaps, adding `phone`, `jobTitle`, `organization`, `supervisor`, and `hireDate`. But organizations using only the Core schema will find the Person type insufficient for escalation paths, RACI matrices, or organizational reporting.
 
-The `role` attribute in the base and extended schemas is free text, not a lookup reference. This means you cannot reliably report on "all people with role = Engineer" because the values are not constrained. Someone might enter "Engineer", "Software Engineer", "SWE", or "Eng" and the schema has no way to normalize these.
+The `role` attribute in the Core schema is free text, not a lookup reference. This means you cannot reliably report on "all people with role = Engineer" because the values are not constrained. Someone might enter "Engineer", "Software Engineer", "SWE", or "Eng" and the schema has no way to normalize these.
 
-## Feature type is isolated at extended layer
+## Feature type is isolated in the features domain
 
-The extended Feature type links to Product Version, Version Status, and Team:
+The features domain Feature type links to Product Version, Version Status, and Team:
 
 ```json
 "Feature": {
@@ -287,13 +287,13 @@ The extended Feature type links to Product Version, Version Status, and Team:
 
 But there is no connection to Product (which product does this feature belong to?), no connection to Product Component (which component implements it?), and no connection to Requirement (which requirement does it satisfy?).
 
-The enterprise layer fixes this partially. CR Feature adds an `implementedIn` multi-reference to CR Product, and CR Feature Implementation provides the version-level audit trail. But an organization using the extended schema cannot trace features to products or releases. The extended Feature is an island, connected only to Product Version and Team.
+Portfolio mode fixes this partially. CR Feature adds an `implementedIn` multi-reference to CR Product, and CR Feature Implementation provides the version-level audit trail. But an organization using only the features domain cannot trace features to products or releases. The domain-level Feature is an island, connected only to Product Version and Team.
 
 ## Lookup types without data files
 
-The schema defines lookup types that have no corresponding data files in the data directories. Importing the schema creates empty lookup lists for these types. The affected lookups are concentrated in the enterprise schema and include: Service Type, Capability Status, Disposition, Library Item Type, Distribution Status, Delivery Method, Media Urgency, Transfer Status, Build Status, Sunset Reason, Implementation Status, Requirement Type, Requirement Status, Requirement Priority, Verification Method, Contract Status, Disposal Method, and Media Type.
+The schema defines lookup types that have no corresponding data files in the data directories. Importing the schema creates empty lookup lists for these types. The affected lookups are concentrated in portfolio mode and include: Service Type, Capability Status, Disposition, Library Item Type, Distribution Status, Delivery Method, Media Urgency, Transfer Status, Build Status, Sunset Reason, Implementation Status, Requirement Type, Requirement Status, Requirement Priority, Verification Method, Contract Status, Disposal Method, and Media Type.
 
-This is a tooling gap, not a design gap. The types are correctly defined in the schema. The lookup values are described in the documentation. The JSON data files simply have not been populated. An adopter importing the enterprise schema will need to create these data files before the lookup references produce usable dropdown values.
+This is a tooling gap, not a design gap. The types are correctly defined in the schema. The lookup values are described in the documentation. The JSON data files simply have not been populated. An adopter importing portfolio mode will need to create these data files before the lookup references produce usable dropdown values.
 
 
 # Structural Observations
@@ -306,17 +306,17 @@ This boundary is why Change Request and Incident types were removed from the sch
 
 This is a sound boundary for organizations that use separate tools for CMDB and work management (for example, JSM Assets for configuration state and Jira for work items). It is less natural for organizations using integrated platforms like ServiceNow where CMDB and ITSM share a database and process records naturally reference CIs. Adopters on integrated platforms may want to re-add process types that the schema deliberately excludes.
 
-## Enterprise layer is large and coupled
+## Portfolio mode is large and coupled
 
-The enterprise schema contains product-prefixed types that duplicate the extended schema per product line. CR Server and AN Server have identical attribute definitions, differing only in their reference targets (CR Hardware Model versus AN Hardware Model, CR Deployment Site versus AN Deployment Site). This is the cost of the prefixing pattern: schema size scales linearly with the number of products.
+Portfolio mode contains product-prefixed types that duplicate the domain types per product line. CR Server and AN Server have identical attribute definitions, differing only in their reference targets (CR Hardware Model versus AN Hardware Model, CR Deployment Site versus AN Deployment Site). This is the cost of the prefixing pattern: schema size scales linearly with the number of products.
 
-With two product lines (OvocoCRM and OvocoAnalytics) plus shared services, the enterprise schema has the full portfolio model. Adding a third product line would require duplicating every product-prefixed type and adding each one to the LOAD_PRIORITY array in `tools/lib/constants.js`. This is manageable for three or four products but becomes unwieldy at five or more.
+With two product lines (OvocoCRM and OvocoAnalytics) plus shared services, portfolio mode has the full portfolio model. Adding a third product line would require duplicating every product-prefixed type and adding each one to the LOAD_PRIORITY array in `tools/lib/constants.js`. This is manageable for three or four products but becomes unwieldy at five or more.
 
 The prefixing pattern trades schema complexity for query simplicity. A prefixed schema is larger and harder to maintain, but product-scoped queries are trivial and cross-product contamination is impossible. An unprefixed schema is smaller and easier to maintain, but product-scoped queries depend on filter attributes that must be consistently populated.
 
 ## No explicit portfolio type
 
-The enterprise schema uses the schema structure hierarchy to represent the portfolio. The root node is "Ovoco Portfolio CMDB", which contains "OvocoCRM CMDB", "OvocoAnalytics CMDB", and "Shared Services CMDB" as child branches. But there is no Portfolio CI type that you can query, assign an owner to, or attach financial data to.
+Portfolio mode uses the schema structure hierarchy to represent the portfolio. The root node is "Ovoco Portfolio CMDB", which contains "OvocoCRM CMDB", "OvocoAnalytics CMDB", and "Shared Services CMDB" as child branches. But there is no Portfolio CI type that you can query, assign an owner to, or attach financial data to.
 
 The portfolio exists only as a structural convention in `schema/enterprise/schema-structure.json`. You cannot write a query that returns "the Ovoco portfolio and its associated products." You cannot assign a portfolio-level budget, risk rating, or governance board. If you need portfolio-level attributes, you must create a Portfolio type and add it to the schema.
 
@@ -347,11 +347,11 @@ If you are extending the schema to address the gaps described above, the followi
 
 ## Connect Service to infrastructure CIs
 
-Service modeling exists in the enterprise schema but is inert without service-to-CI relationships. Adding a `supportedBy` multi-reference from Service to Product (or Product Component) would connect the Enterprise Architecture branch to the rest of the schema. This is the highest-impact single change because it enables service impact analysis, the most commonly requested CMDB capability.
+Service modeling exists in portfolio mode but is inert without service-to-CI relationships. Adding a `supportedBy` multi-reference from Service to Product (or Product Component) would connect the Enterprise Architecture branch to the rest of the schema. This is the highest-impact single change because it enables service impact analysis, the most commonly requested CMDB capability.
 
 ## Populate missing lookup data files
 
-The enterprise schema defines lookup types whose data files have not been created. The types are correctly designed. The values are described in the documentation. Creating the JSON data files is mechanical work that requires no design decisions, but without it, imports produce empty dropdown lists that degrade the user experience.
+Portfolio mode defines lookup types whose data files have not been created. The types are correctly designed. The values are described in the documentation. Creating the JSON data files is mechanical work that requires no design decisions, but without it, imports produce empty dropdown lists that degrade the user experience.
 
 ## Add security classification to CIs
 
@@ -365,9 +365,9 @@ Changing the SLA type's primary reference from Product to Service (or adding a S
 
 Connecting Cost Category to the CI types that should reference it (Server, Database, License, Product) would implement the TBM mapping that the documentation describes. This turns Cost Category from an orphaned island into a working financial attribution model.
 
-## Add Person attributes at base layer
+## Add Person attributes at Core level
 
-Adding `phone`, `jobTitle`, and a `manager` reference to the base Person type would make it sufficient for escalation paths and organizational reporting. The enterprise schema already has these attributes. Backporting them to the base and extended layers closes the gap for organizations that do not need the full enterprise schema.
+Adding `phone`, `jobTitle`, and a `manager` reference to the Core Person type would make it sufficient for escalation paths and organizational reporting. Portfolio mode already has these attributes. Backporting them to the Core schema closes the gap for organizations that do not need full portfolio mode.
 
 ## Add RTO and RPO to SLA or Service
 

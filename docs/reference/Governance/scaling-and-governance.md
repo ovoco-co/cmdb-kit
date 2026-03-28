@@ -144,7 +144,7 @@ Prevent quality issues before they occur:
 
 Validation before every import catches reference errors, unknown fields, and format violations.
 
-Lookup types constrain vocabulary, preventing free-text inconsistencies. In the enterprise schema, the lookup types enforce controlled vocabularies for statuses, classifications, and enumerations across Products, Versions, Deployments, Sites, Capabilities, Contracts, and other types.
+Lookup types constrain vocabulary, preventing free-text inconsistencies. In the portfolio mode schema, the lookup types enforce controlled vocabularies for statuses, classifications, and enumerations across Products, Versions, Deployments, Sites, Capabilities, Contracts, and other types.
 
 Templates from `generate-templates.js` provide the correct field structure, preventing unknown field names.
 
@@ -233,7 +233,7 @@ Track these discrepancies and either back-port them to the data files (if the ch
 Run validation on a schedule, not just before imports. A weekly validation run catches issues introduced by data file edits that were committed without validation:
 
 ```bash
-node tools/validate.js --schema schema/extended
+node tools/validate.js --schema schema/core
 ```
 
 If the validation runs in a CI pipeline, it catches errors before they reach the main branch.
@@ -245,7 +245,7 @@ If the validation runs in a CI pipeline, it catches errors before they reach the
 
 Import time is roughly linear with the number of records, but reference resolution adds overhead. Each reference field on each record requires a query to the target database to resolve the referenced object's ID.
 
-For the extended schema with hundreds of records, import completes in minutes. For the enterprise schema with thousands of records and complex reference chains, import may take an hour or more.
+For Core + domains with hundreds of records, import completes in minutes. For portfolio mode with thousands of records and complex reference chains, import may take an hour or more.
 
 Optimization strategies:
 
@@ -263,7 +263,7 @@ A record with five reference fields requires five queries. A type with 100 recor
 
 Caching helps: the import script caches resolved IDs so that the same reference value is not queried twice. The first record that references "Active" as a Site Status value triggers a query. Subsequent records reuse the cached result.
 
-Consider the OvocoCRM enterprise schema: the CR Product Version type has references to Version Status, CR Product Component (multi-value), and CR Product Version (self-reference for `previousVersion`). A type with six records and three reference fields each generates up to 18 queries, but caching reduces this significantly because many records share the same Version Status and Component values.
+Consider the OvocoCRM portfolio mode schema: the CR Product Version type has references to Version Status, CR Product Component (multi-value), and CR Product Version (self-reference for `previousVersion`). A type with six records and three reference fields each generates up to 18 queries, but caching reduces this significantly because many records share the same Version Status and Component values.
 
 ## When to Split Schemas
 
@@ -302,7 +302,7 @@ Identify the commit that introduced the problem: `git log --oneline`
 
 Revert the commit: `git revert <hash>`
 
-Validate the reverted state: `node tools/validate.js --schema schema/extended`
+Validate the reverted state: `node tools/validate.js --schema schema/core`
 
 Re-import: `node adapters/jsm/import.js sync`
 
@@ -356,7 +356,7 @@ Rationale: Prefixing makes every query product-scoped by default. "Show me all C
 
 Alternatives considered: (1) Separate schemas per product, rejected because cross-product queries become impossible and shared lookups must be duplicated. (2) Single "product" attribute on all types, rejected because it relies on user discipline for query accuracy.
 
-Consequences: Added CR, AN, and SS prefixed types to enterprise schema. Restructured enterprise schema-structure.json with product-specific branches. Updated LOAD_PRIORITY to handle prefixed types. Schema became larger but more navigable.
+Consequences: Added CR, AN, and SS prefixed types to portfolio mode schema. Restructured portfolio mode schema-structure.json with product-specific branches. Updated LOAD_PRIORITY to handle prefixed types. Schema became larger but more navigable.
 
 ### Separate Site from Deployment Site
 

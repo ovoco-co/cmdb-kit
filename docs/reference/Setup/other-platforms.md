@@ -40,7 +40,7 @@ For reporting, auditing, or one-off analysis, CMDB-Kit's JSON data files can be 
 ```python
 import json, pandas as pd
 
-with open("schema/base/data/product.json") as f:
+with open("schema/core/data/product.json") as f:
     products = pd.DataFrame(json.load(f))
 ```
 

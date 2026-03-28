@@ -21,7 +21,7 @@ The practical difference: when an incident takes down a server, the CMDB tells y
 
 Building a CMDB from scratch means deciding what types to create, what attributes each type needs, how types relate to each other, what lookup values to define, and in what order to import everything. For a medium-complexity CMDB (50 or more types), this design work takes weeks or months. Teams debate naming conventions, rediscover the need for lookup types, and build the same patterns that every other CMDB implementation has already solved.
 
-CMDB-Kit provides a ready-made schema at three tiers (base, extended, and enterprise), complete with attributes, reference types, lookup values, and example data. You start from a working schema and customize it rather than starting from a blank canvas. The schema encodes patterns learned from production CMDB operations: the four-branch taxonomy (Product CMDB, Product Library, Directory, Lookup Types), the version chain pattern (previousVersion linking each release to its predecessor), and the product decomposition model (Product to Product Component to Product Version).
+CMDB-Kit provides a ready-made schema using a Core + Domains architecture, complete with attributes, reference types, lookup values, and example data. You start from a working schema and customize it rather than starting from a blank canvas. The schema encodes patterns learned from production CMDB operations: the four-branch taxonomy (Product CMDB, Product Library, Directory, Lookup Types), the version chain pattern (previousVersion linking each release to its predecessor), and the product decomposition model (Product to Product Component to Product Version).
 
 ## The Guidance Gap
 
@@ -41,7 +41,7 @@ How do you scale from one product to many? A single-product schema is straightfo
 
 JSM Assets ships three schema templates (ITAM, People, Facilities) that cover hardware inventory, employee directories, and physical locations. These are useful starting points for IT asset management, but they contain no types for software products, release management, baselines, change control, deployments, documentation, or any CM-discipline concept. ServiceNow's CSDM is more complete for service modeling and infrastructure, but it does not cover product engineering, release baselines, feature traceability, or controlled document management. iTop's default classes handle traditional IT operations but not product development lifecycle.
 
-CMDB-Kit fills this gap. Instead of principles, it provides a working schema at three tiers (base with 20 types, extended with 49, enterprise with 72), complete with attributes, reference types, lookup values, example data, and tooling that validates everything before it touches the target database. The schema encodes patterns learned from production operations: the four-branch taxonomy, the version chain, product decomposition, the baseline model, and the deployment site pattern. You start from a working system and customize it, rather than discovering these patterns through months of trial and error.
+CMDB-Kit fills this gap. Instead of principles, it provides a working schema with a Core of 20 types and opt-in domains that expand to 49 or more, complete with attributes, reference types, lookup values, example data, and tooling that validates everything before it touches the target database. The schema encodes patterns learned from production operations: the four-branch taxonomy, the version chain, product decomposition, the baseline model, and the deployment site pattern. You start from a working system and customize it, rather than discovering these patterns through months of trial and error.
 
 The vendor guidance and CMDB-Kit are complementary. The vendor tells you the principles ("start with critical services, keep it lean, grow incrementally"). CMDB-Kit gives you the implementation: the types, the attributes, the relationships, and the import order that make those principles concrete.
 
@@ -60,7 +60,7 @@ An asset is a broader term: anything of value to the organization. A desk, a bui
 
 CMDB-Kit focuses on CIs: the components that matter for configuration management, service delivery, and operational decisions. The distinction matters when scoping your CMDB. Tracking office furniture in the same schema as production servers adds noise without adding operational value. Every CI you add is a record you must maintain, so the scope should be deliberate.
 
-In the base schema, the Product type tracks software products with their type, technology stack, owning team, and lifecycle status:
+In the Core schema, the Product type tracks software products with their type, technology stack, owning team, and lifecycle status:
 
 ```json
 "Product": {
@@ -102,7 +102,7 @@ Product: CRM Core
 
 From a Deployment Site, you can find the Location. From the Distribution Log, you can find which Product Version was delivered to which site. From a Product Version, you can find every component it contains. These cross-type references let you answer questions that span the entire CMDB.
 
-In the extended schema, an SLA record has a `product` reference that points to a Product CI. A Baseline references a Product Version and lists the Component Instances it contains. These references let you trace from an SLA to the product it covers, then to every deployment site running that product, then to every customer at those sites. When an incident is reported in Jira, the Assets custom fields reference the affected Product and Deployment Site, connecting the work management tool back to the CMDB's relationship graph. Without relationships, you have a database of isolated records. With them, you have the navigable graph that makes impact analysis, change management, and incident response practical.
+With the service management domain added, an SLA record has a `product` reference that points to a Product CI. A Baseline references a Product Version and lists the Component Instances it contains. These references let you trace from an SLA to the product it covers, then to every deployment site running that product, then to every customer at those sites. When an incident is reported in Jira, the Assets custom fields reference the affected Product and Deployment Site, connecting the work management tool back to the CMDB's relationship graph. Without relationships, you have a database of isolated records. With them, you have the navigable graph that makes impact analysis, change management, and incident response practical.
 
 
 # ITIL 4 Service Configuration Management

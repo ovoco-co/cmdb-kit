@@ -1,6 +1,6 @@
 # CM Operations
 
-Configuration management is not a single activity. It is four interlocking disciplines, each with distinct roles, artifacts, and CMDB types. This section explains how those disciplines map to the enterprise schema, who performs each function, and how the pieces fit together at Ovoco.
+Configuration management is not a single activity. It is four interlocking disciplines, each with distinct roles, artifacts, and CMDB types. This section explains how those disciplines map to the portfolio mode schema, who performs each function, and how the pieces fit together at Ovoco.
 
 
 ## CM Department Structure
@@ -28,13 +28,13 @@ For a larger organization, the CM function might be its own division with sub-te
 
 ## The Four CM Pillars
 
-ITIL and ISO 10007 both define configuration management through four activities. The enterprise schema has types that support each one.
+ITIL and ISO 10007 both define configuration management through four activities. The portfolio mode schema has types that support each one.
 
 ### Configuration Identification
 
 Configuration identification answers: what are we managing, and how do we name it? This is the act of selecting CIs, assigning identifiers, and recording their attributes.
 
-In the enterprise schema, identification is the act of creating records. Every CI type in the Product CMDB branch (CR Product, CR Product Version, CR Server, CR Component Instance) represents something that has been identified as worth tracking. The naming convention matters: `OvocoCRM 2.4.0` is a Product Version, not a Product. `CR PBL 2.4.0` is a Baseline, not a Version.
+In the portfolio mode schema, identification is the act of creating records. Every CI type in the Product CMDB branch (CR Product, CR Product Version, CR Server, CR Component Instance) represents something that has been identified as worth tracking. The naming convention matters: `OvocoCRM 2.4.0` is a Product Version, not a Product. `CR PBL 2.4.0` is a Baseline, not a Version.
 
 Key schema types for identification:
 
@@ -51,7 +51,7 @@ The naming convention for baselines follows the pattern `[Product Prefix]-[Basel
 
 Configuration control answers: who can change what, and how do changes get approved? This is the discipline of evaluating, approving, and tracking changes to baselined CIs.
 
-The enterprise schema supports configuration control through the Change Request type and the CR Baseline type. A Change Request records who asked for the change, what type it is, what impact it has, and what the CCB decided. A Baseline records the approved configuration at a point in time.
+The portfolio mode schema supports configuration control through the Change Request type and the CR Baseline type. A Change Request records who asked for the change, what type it is, what impact it has, and what the CCB decided. A Baseline records the approved configuration at a point in time.
 
 The Change Request type:
 
@@ -165,7 +165,7 @@ The CMDB types that carry this cycle:
 
 ## Baseline Types
 
-The enterprise schema defines three baseline types, each representing a different level of maturity. These follow the standard systems engineering progression.
+The portfolio mode schema defines three baseline types, each representing a different level of maturity. These follow the standard systems engineering progression.
 
 **Functional Baseline (FBL)** captures the approved requirements. An FBL is established at System Requirements Review (SRR) and says: "These are the requirements this version must satisfy." In the CMDB, an FBL record links to a Product Version and references Requirement records through the `documents` field (which points to CR Document records containing the requirements specification).
 
@@ -228,7 +228,7 @@ Responsibilities:
 - Maintains the `supersedes` chain between Library Item versions
 - Controls physical or logical access to the library location
 
-In the enterprise schema, the Library Item type carries the Librarian's work:
+In the portfolio mode schema, the Library Item type carries the Librarian's work:
 
 ```json
 {
@@ -277,7 +277,7 @@ At Ovoco, the PMO function is distributed. David Park (CRM Operations lead) hand
 
 ## CMDB Types That Support CM
 
-The enterprise schema has six types specifically designed for CM operations. These all live under the OvocoCRM Library and Configuration Library branches of the schema hierarchy.
+The portfolio mode schema has six types specifically designed for CM operations. These all live under the OvocoCRM Library and Configuration Library branches of the schema hierarchy.
 
 | Type | Schema Branch | CM Pillar | Records in Example Data |
 |------|--------------|-----------|------------------------|

@@ -168,4 +168,4 @@ Each relationship has five fields:
 
 The ServiceNow adapter imports relationships after all CI records are loaded. The JSM adapter expresses the same relationships as reference attribute values on the object types. The relationship data is platform-agnostic in intent but uses ServiceNow relationship type names. JSM adapters translate these to reference attributes.
 
-The base schema ships with relationships covering three types: Runs on (applications to servers), Depends on (applications to databases and app-to-app), and Contains (servers containing databases).
+The Core schema ships with relationships covering three types: Runs on (applications to servers), Depends on (applications to databases and app-to-app), and Contains (servers containing databases).

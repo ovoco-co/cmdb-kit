@@ -17,7 +17,7 @@ The request includes: what is needed, why, for which product or service, which l
 
 Once approved, the request is refined into specific requirements. A "need for server capacity" becomes "two rack servers with 512 GB RAM and 12 TB storage, Dell PowerEdge R750 or equivalent, for the US-East datacenter."
 
-At this phase, the CMDB's Hardware Model types (CR Hardware Model, AN Hardware Model, SS Hardware Model) provide the specifications for approved hardware. The Location and Facility types identify where the asset will be deployed. The Vendor type identifies approved suppliers (PostgreSQL Global Development Group, Redis Ltd, Twilio, Elastic NV in the enterprise data).
+At this phase, the CMDB's Hardware Model types (CR Hardware Model, AN Hardware Model, SS Hardware Model) provide the specifications for approved hardware. The Location and Facility types identify where the asset will be deployed. The Vendor type identifies approved suppliers (PostgreSQL Global Development Group, Redis Ltd, Twilio, Elastic NV in the portfolio mode example data).
 
 CR Hardware Model attributes that matter during requirements:
 
@@ -58,11 +58,11 @@ In OvocoCRM's example data, the CR Hardware Model type includes both physical an
 }
 ```
 
-The output of this phase is a procurement specification that references existing CMDB types: the hardware model to be purchased, the facility where it will be installed, the vendor to supply it, and the team that will own it. In the enterprise schema, the Financial branch tracks procurement through Contract CIs like "Ovoco Cloud Infrastructure Agreement" and "Ovoco Support Contract."
+The output of this phase is a procurement specification that references existing CMDB types: the hardware model to be purchased, the facility where it will be installed, the vendor to supply it, and the team that will own it. In the portfolio mode schema, the Financial branch tracks procurement through Contract CIs like "Ovoco Cloud Infrastructure Agreement" and "Ovoco Support Contract."
 
 ## Acquisition and Build
 
-The asset is procured, received, and configured. A License CI record may be created when software licenses are purchased (CR License, AN License, or SS License depending on scope). A Vendor CI is referenced (or created if this is a new supplier). The actual hardware arrives, is inventoried, and receives its initial configuration. In the enterprise schema, Contract CIs in the Financial branch link the procurement to the vendor relationship and track the financial terms.
+The asset is procured, received, and configured. A License CI record may be created when software licenses are purchased (CR License, AN License, or SS License depending on scope). A Vendor CI is referenced (or created if this is a new supplier). The actual hardware arrives, is inventoried, and receives its initial configuration. In the portfolio mode schema, Contract CIs in the Financial branch link the procurement to the vendor relationship and track the financial terms.
 
 At this phase, create the CI record in the CMDB. A new CR Server record captures the hostname, IP address, operating system, environment, and hardware specifications:
 
@@ -79,7 +79,7 @@ At this phase, create the CI record in the CMDB. A new CR Server record captures
 }
 ```
 
-The CR Server type in the enterprise schema does not include a status attribute. If your organization needs to track provisioning state, extend the Server type with a status reference or use the issue tracker to manage the provisioning workflow. The product that runs on the server tracks its own lifecycle through Product Status.
+The CR Server type in the portfolio mode schema does not include a status attribute. If your organization needs to track provisioning state, extend the Server type with a status reference or use the issue tracker to manage the provisioning workflow. The product that runs on the server tracks its own lifecycle through Product Status.
 
 ## Fielding and Fulfillment
 
@@ -161,7 +161,7 @@ Different phases require different information:
 | Monitor | All attributes maintained; incident and change history accumulates |
 | Sunset | Product Status (Retired or Deprecated), description updated with decommission notes |
 
-Not all lifecycle-tracking attributes exist in the base schema. The enterprise schema adds the Financial branch with Contract and Cost Category types for financial tracking. Attributes like `purchaseDate`, `warrantyExpiry`, and `decommissionDate` are schema extensions. Add them to the types that need them using the process described in the Developer Manual's Schema Changes section.
+Not all lifecycle-tracking attributes exist in the Core schema. The portfolio mode schema adds the Financial branch with Contract and Cost Category types for financial tracking. Attributes like `purchaseDate`, `warrantyExpiry`, and `decommissionDate` are schema extensions. Add them to the types that need them using the process described in the Developer Manual's Schema Changes section.
 
 ## Directory Data Across Phases
 
@@ -184,16 +184,16 @@ Product Status values map to lifecycle phases:
 | Deprecated | Late Monitor (approaching end-of-life) |
 | Retired | Sunset |
 
-The enterprise schema's Product Status lookup provides four values: Planned, Active, Legacy, and Retired. These cover the full lifecycle. If your organization needs finer granularity (Provisioning, Testing, Staging as sub-states), extend the lookup type with additional values.
+The portfolio mode schema's Product Status lookup provides four values: Planned, Active, Legacy, and Retired. These cover the full lifecycle. If your organization needs finer granularity (Provisioning, Testing, Staging as sub-states), extend the lookup type with additional values.
 
-Server CIs in the enterprise schema (CR Server, AN Server, SS Server) do not have their own status attribute. The Server's lifecycle position is inferred from the Product Status of the product it supports and from the environment reference (Production, Staging, etc.). If you need per-server status tracking, add a status reference attribute to the Server type.
+Server CIs in the portfolio mode schema (CR Server, AN Server, SS Server) do not have their own status attribute. The Server's lifecycle position is inferred from the Product Status of the product it supports and from the environment reference (Production, Staging, etc.). If you need per-server status tracking, add a status reference attribute to the Server type.
 
 
 # Financial and Compliance Integration
 
 ## License Tracking Across the Lifecycle
 
-The License types (CR License, AN License, SS License) track software licenses from acquisition through expiration. The attributes in the enterprise schema are:
+The License types (CR License, AN License, SS License) track software licenses from acquisition through expiration. The attributes in the portfolio mode schema are:
 
 | Attribute | Type | Purpose |
 |-----------|------|---------|
@@ -226,7 +226,7 @@ During Sunset, determine whether the license can be transferred to a replacement
 
 ## Contract Linkage
 
-The enterprise schema adds a dedicated Financial branch with Contract and Cost Category types for tracking commercial relationships. Each Contract CI references a Vendor, has start and end dates, and tracks the contract value and manager:
+The portfolio mode schema adds a dedicated Financial branch with Contract and Cost Category types for tracking commercial relationships. Each Contract CI references a Vendor, has start and end dates, and tracks the contract value and manager:
 
 ```json
 {
@@ -256,11 +256,11 @@ Vendor records include contract details and a `status` reference to Vendor Statu
 }
 ```
 
-When a vendor contract approaches expiration, query all License CIs referencing that vendor and all Contract CIs referencing that vendor to understand the impact of non-renewal. The enterprise schema's three contracts (Ovoco Cloud Infrastructure Agreement, Ovoco Support Contract, Ovoco Email Delivery Agreement) connect vendors like Elastic NV, Redis Ltd, and Twilio to the infrastructure they support.
+When a vendor contract approaches expiration, query all License CIs referencing that vendor and all Contract CIs referencing that vendor to understand the impact of non-renewal. The portfolio mode schema's three contracts (Ovoco Cloud Infrastructure Agreement, Ovoco Support Contract, Ovoco Email Delivery Agreement) connect vendors like Elastic NV, Redis Ltd, and Twilio to the infrastructure they support.
 
 ## Cost Attribution to CIs
 
-The enterprise schema includes a Cost Category type in the Financial branch for TBM (Technology Business Management) taxonomy-based cost attribution. TBM organizes IT costs into towers and sub-towers. The following mapping shows how TBM towers relate to CMDB-Kit CI types so you can attribute costs to the right records:
+The portfolio mode schema includes a Cost Category type in the Financial branch for TBM (Technology Business Management) taxonomy-based cost attribution. TBM organizes IT costs into towers and sub-towers. The following mapping shows how TBM towers relate to CMDB-Kit CI types so you can attribute costs to the right records:
 
 | TBM Tower | Sub-Towers | CMDB CI Types |
 |-----------|-----------|---------------|
@@ -302,7 +302,7 @@ These are text fields rather than numeric because cost formats vary (currency sy
 
 ### When to Add a Storage Type
 
-CMDB-Kit does not include a dedicated Storage CI type in any schema layer. Most organizations track storage as an attribute on Server. If your organization manages centralized storage arrays (SAN, NAS) as distinct infrastructure, consider adding a Storage type with attributes for capacity, RAID level, protocol, and location. This is worth doing when storage is managed by a separate team from compute, has its own procurement and lifecycle, needs independent cost reporting, or when multiple servers share the same storage array and you need to track the relationship.
+CMDB-Kit does not include a dedicated Storage CI type in the Core schema or any domain. Most organizations track storage as an attribute on Server. If your organization manages centralized storage arrays (SAN, NAS) as distinct infrastructure, consider adding a Storage type with attributes for capacity, RAID level, protocol, and location. This is worth doing when storage is managed by a separate team from compute, has its own procurement and lifecycle, needs independent cost reporting, or when multiple servers share the same storage array and you need to track the relationship.
 
 
 # Discovery and Reconciliation
@@ -352,13 +352,13 @@ A complete inventory of assets with their current status and ownership.
 
 Lifecycle history showing when each asset was acquired, deployed, and (if applicable) decommissioned.
 
-Financial records linking assets to licenses, vendors, contracts, and cost categories. The enterprise schema's Financial branch (Contract, Cost Category) and License types create a navigable chain from infrastructure to commercial agreements.
+Financial records linking assets to licenses, vendors, contracts, and cost categories. The portfolio mode schema's Financial branch (Contract, Cost Category) and License types create a navigable chain from infrastructure to commercial agreements.
 
 Compliance evidence showing that assets meet organizational standards (approved hardware models, current software versions, valid licenses).
 
 ## Category Management
 
-Assets can be categorized by Component Type (the lookup type in CMDB-Kit) for reporting and management purposes. The CR Product Component and AN Product Component types reference Component Type, enabling portfolio questions like "how many database components do we have?" and "what is the total license cost for all messaging services?" The enterprise schema's Disposition lookup (Tolerate, Invest, Migrate, Eliminate) from the TIME model enables application portfolio rationalization decisions.
+Assets can be categorized by Component Type (the lookup type in CMDB-Kit) for reporting and management purposes. The CR Product Component and AN Product Component types reference Component Type, enabling portfolio questions like "how many database components do we have?" and "what is the total license cost for all messaging services?" The portfolio mode schema's Disposition lookup (Tolerate, Invest, Migrate, Eliminate) from the TIME model enables application portfolio rationalization decisions.
 
 ## Regulatory Requirements for Asset Tracking
 

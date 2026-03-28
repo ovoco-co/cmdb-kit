@@ -81,7 +81,7 @@ This is the recommended method because the commands are identical to the connect
 mkdir -p cmdb-kit-portable
 cp -r adapters/jsm cmdb-kit-portable/adapters/jsm
 cp -r tools cmdb-kit-portable/tools
-cp -r schema/base cmdb-kit-portable/schema/base
+cp -r schema/core cmdb-kit-portable/schema/core
 # Copy the Node.js binary into the package
 cp node cmdb-kit-portable/node
 
@@ -100,10 +100,10 @@ export JSM_URL=https://jira.isolated.local:8080
 export JSM_USER=admin
 export JSM_PASSWORD=<password>
 export SCHEMA_KEY=CMDB
-export SCHEMA_DIR=schema/base
-export DATA_DIR=schema/base/data
+export SCHEMA_DIR=schema/core
+export DATA_DIR=schema/core/data
 
-./node tools/validate.js --schema schema/base
+./node tools/validate.js --schema schema/core
 ./node adapters/jsm/import.js schema
 ./node adapters/jsm/import.js sync
 ./node adapters/jsm/validate-import.js
@@ -215,7 +215,7 @@ The same approach as JSM: bundle the Node.js runtime, the ServiceNow adapter, an
 mkdir -p cmdb-kit-portable
 cp -r adapters/servicenow cmdb-kit-portable/adapters/servicenow
 cp -r tools cmdb-kit-portable/tools
-cp -r schema/base cmdb-kit-portable/schema/base
+cp -r schema/core cmdb-kit-portable/schema/core
 cp node cmdb-kit-portable/node
 
 tar czf cmdb-kit-portable.tar.gz cmdb-kit-portable/
@@ -230,11 +230,11 @@ cd cmdb-kit-portable
 export SN_INSTANCE=https://servicenow.isolated.local
 export SN_USER=admin
 export SN_PASSWORD=<password>
-export SCHEMA_DIR=schema/base
-export DATA_DIR=schema/base/data
+export SCHEMA_DIR=schema/core
+export DATA_DIR=schema/core/data
 
 ./node adapters/servicenow/import.js --test-connection
-./node tools/validate.js --schema schema/base
+./node tools/validate.js --schema schema/core
 ./node adapters/servicenow/import.js schema
 ./node adapters/servicenow/import.js sync
 ./node adapters/servicenow/validate-import.js

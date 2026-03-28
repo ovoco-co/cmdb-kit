@@ -80,7 +80,7 @@ CMDB-Kit relevance: significant for organizations where development teams need r
 
 Cloud has a first-class Services section for registering services, assigning owner teams, and linking change approvers. DC has no built-in service registry. On DC, services are typically modeled as an object type in Assets.
 
-CMDB-Kit relevance: CMDB-Kit's extended and enterprise schemas include their own Service type. On Cloud, you can choose between the built-in service registry and CMDB-Kit's Service type, or use both with cross-references. The built-in registry is read-only from an Assets perspective, as it is auto-populated from the service space configuration.
+CMDB-Kit relevance: CMDB-Kit includes a Service type available through domain extensions. On Cloud, you can choose between the built-in service registry and CMDB-Kit's Service type, or use both with cross-references. The built-in registry is read-only from an Assets perspective, as it is auto-populated from the service space configuration.
 
 ## Other Cloud-Only Features
 

@@ -97,7 +97,7 @@ A counterintuitive but important principle: fewer mandatory fields produce highe
 
 The distinction between free text and lookup is critical. If you want to report on a field or filter by it, it must be a lookup reference, not free text. Free text works for descriptions, URLs, and unique identifiers. It fails for anything you need to aggregate because "Production," "Prod," "PROD," and "production" are four different values in a free-text field but one value in a lookup.
 
-In CMDB-Kit's base schema, the Server type illustrates this balance. The hostname and ipAddress fields are free text because every value is unique. The environment field is a reference to the Environment Type lookup because you need to filter and report by environment:
+In CMDB-Kit's Core schema, the Server type illustrates this balance. The hostname and ipAddress fields are free text because every value is unique. The environment field is a reference to the Environment Type lookup because you need to filter and report by environment:
 
 ```json
 "Server": {
@@ -182,7 +182,7 @@ The platform defaults and CMDB-Kit solve different problems. Platform defaults e
 | Deployment tracking | No | Limited | No | Yes (Deployment Site, Distribution Log) |
 | Discovery integration | Data Manager | Native | Partial | No (adapters import, not discover) |
 
-The practical approach depends on your platform. If you are on ServiceNow, start with CSDM and use CMDB-Kit patterns to fill product engineering gaps. If you are on JSM Assets, start with CMDB-Kit's base or extended schema as your primary model. If you are on iTop, start with the default classes and add CMDB-Kit patterns for product library and deployment types. If you are platform-shopping, CMDB-Kit's schema files are platform-neutral JSON that you can evaluate against any target.
+The practical approach depends on your platform. If you are on ServiceNow, start with CSDM and use CMDB-Kit patterns to fill product engineering gaps. If you are on JSM Assets, start with CMDB-Kit's Core schema (with relevant domains) as your primary model. If you are on iTop, start with the default classes and add CMDB-Kit patterns for product library and deployment types. If you are platform-shopping, CMDB-Kit's schema files are platform-neutral JSON that you can evaluate against any target.
 
 
 # Implementation Sequence
@@ -317,7 +317,7 @@ Three practices keep EA data current. First, change triggers: when a significant
 
 # Case Study: CMDB-Kit's Taxonomy
 
-For a detailed walkthrough of how CMDB-Kit's three-layer schema was designed, including the theoretical foundations, the product-centric design rationale, the three-layer strategy, key design decisions, and lessons from production use, see [Case Study: How CMDB-Kit's Taxonomy Was Designed](case-study-ovococrm.md).
+For a detailed walkthrough of how CMDB-Kit's Core + Domains architecture was designed, including the theoretical foundations, the product-centric design rationale, key design decisions, and lessons from production use, see [Case Study: How CMDB-Kit's Taxonomy Was Designed](case-study-ovococrm.md).
 
 
 # Starter Taxonomies
@@ -326,27 +326,27 @@ Three ready-to-use starting points at different scales. Each is self-contained. 
 
 ## Small Organization
 
-The small org taxonomy is for teams with a single product, no formal change control, and no compliance requirements. It covers the basics: what do you have, what versions exist, and who owns it. This corresponds directly to CMDB-Kit's base schema.
+The small org taxonomy is for teams with a single product, no formal change control, and no compliance requirements. It covers the basics: what do you have, what versions exist, and who owns it. This corresponds directly to CMDB-Kit's Core schema.
 
 The CI types span four branches. Under Product CMDB: Product, Server, Database, and Product Component. Under Product Library: Product Version, Document, and Deployment. Under Directory: Organization, Team, and Person.
 
 Ten lookup types constrain these records: Product Status (Active, Planned, Deprecated, Retired), Version Status, Deployment Status, Environment Type (Production, Staging, Development, Test, DR), Document Type (Design Document, User Guide, API Reference, Release Notes, Test Plan), Document State (Draft, In Review, Approved, Superseded, Archived), Component Type (Application, Service, Library, Module, Plugin, Database Schema), Priority (Critical, High, Medium, Low), Organization Type (Engineering, Operations, Customer, Vendor, Partner), and Deployment Role (Site Lead, Technical Contact, Support Contact).
 
-You can import this taxonomy directly using `SCHEMA_DIR=schema/base`. A small team can populate all the data in a single day.
+You can import this taxonomy directly using `SCHEMA_DIR=schema/core`. A small team can populate all the data in a single day.
 
 ## Mid-Size Organization
 
-The mid-size org taxonomy adds operational CM capability to the small org foundation. It is for teams running change advisory boards, tracking compliance, managing licenses, and operating across multiple environments and locations. This corresponds to CMDB-Kit's extended schema.
+The mid-size org taxonomy adds operational CM capability to the small org foundation. It is for teams running change advisory boards, tracking compliance, managing licenses, and operating across multiple environments and locations. This corresponds to CMDB-Kit's Core + domains schema.
 
 Beyond the small org types, the mid-size taxonomy adds Hardware Model, Network Segment, Virtual Machine, License, Assessment, and Feature under Product CMDB. It adds Baseline, Documentation Suite, Product Media, Product Suite, Certification, Deployment Site, Distribution Log, Change Request, Incident, and SLA under Product Library. It adds Location, Facility, and Vendor under Directory.
 
 Sixteen additional lookup types support these new CI types: Change Type, Change Impact, Incident Severity, Incident Status, Certification Type, Certification Status, Assessment Type, Assessment Status, Network Type, Baseline Type, Baseline Status, License Type, License Status, Site Status, Vendor Status, and SLA Status.
 
-You can import this taxonomy directly using `SCHEMA_DIR=schema/extended`.
+You can import this taxonomy directly using `SCHEMA_DIR=schema/core` with the relevant domain flags.
 
 ## Enterprise
 
-The enterprise taxonomy is for organizations managing multiple products, tracking financial obligations, modeling services and capabilities, and operating formal configuration management. This corresponds to CMDB-Kit's enterprise schema.
+The enterprise taxonomy is for organizations managing multiple products, tracking financial obligations, modeling services and capabilities, and operating formal configuration management. This corresponds to CMDB-Kit's portfolio mode.
 
 Three key structural differences set the enterprise taxonomy apart. CI types are product-prefixed (CR Server, AN Server, SS Server) to isolate product-specific data. A shared Site type represents customer locations across products while each product gets its own Deployment Site record. New branches appear that do not exist in the smaller taxonomies: Enterprise Architecture (Service, Capability, Business Process, Information Object), Configuration Library (Library Item for controlled software artifacts), and Financial (Contract, Cost Category).
 
@@ -358,7 +358,7 @@ You can import this taxonomy directly using `SCHEMA_DIR=schema/enterprise`.
 
 The deciding factors are operational maturity and staffing. If you do not run a change advisory board, do not track compliance certifications, and have one person maintaining the CMDB, start with the small org taxonomy. If you run a CAB, track certifications, and have one to three people maintaining data, use the mid-size taxonomy. If you manage more than one product, need service or capability modeling, track contracts and costs in the CMDB, and have three or more maintainers, use the enterprise taxonomy.
 
-Start small. Every type you add is a type someone has to maintain. Unused types with empty records are worse than missing types because they create the illusion of coverage. You can always promote from base to extended to enterprise by adding types incrementally.
+Start small. Every type you add is a type someone has to maintain. Unused types with empty records are worse than missing types because they create the illusion of coverage. You can always promote from Core to Core + domains to portfolio mode by adding types incrementally.
 
 
 # CI Types by Domain

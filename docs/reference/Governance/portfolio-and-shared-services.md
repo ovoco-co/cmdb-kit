@@ -17,9 +17,9 @@ For most organizations, one shared schema with product prefixes is the better ch
 
 ## Modeling Programs as Organizational Units
 
-In a multi-product portfolio, each product is typically managed by a distinct program or team. In the CMDB, model each program as an Organization or Team record in the Directory branch. The enterprise schema defines Organization with an `orgType` attribute that references Organization Type, so you can classify each program using values like "Engineering" or "Operations."
+In a multi-product portfolio, each product is typically managed by a distinct program or team. In the CMDB, model each program as an Organization or Team record in the Directory branch. The portfolio mode schema defines Organization with an `orgType` attribute that references Organization Type, so you can classify each program using values like "Engineering" or "Operations."
 
-In the OvocoCRM example data, Ovoco Inc has two child organizations: Ovoco Engineering and Ovoco Operations. Each organization contains teams that own specific products. The enterprise schema's team structure looks like this:
+In the OvocoCRM example data, Ovoco Inc has two child organizations: Ovoco Engineering and Ovoco Operations. Each organization contains teams that own specific products. The portfolio mode schema's team structure looks like this:
 
 ```json
 {
@@ -55,9 +55,9 @@ Ownership is tracked through reference attributes. The Product type's `owner` at
 
 Some CIs exist at the portfolio level rather than within any single product:
 
-Shared infrastructure. Servers, databases, and networks that multiple products use. The enterprise schema tracks these as SS-prefixed types: SS Product (Jira, Confluence, Jenkins, Grafana), SS Server, SS Virtual Machine, and SS Network Segment. These shared tools serve the entire portfolio, not just one product.
+Shared infrastructure. Servers, databases, and networks that multiple products use. The portfolio mode schema tracks these as SS-prefixed types: SS Product (Jira, Confluence, Jenkins, Grafana), SS Server, SS Virtual Machine, and SS Network Segment. These shared tools serve the entire portfolio, not just one product.
 
-Shared services. The enterprise schema defines Service CIs that span products. The "Notification Delivery" service is owned by the Infrastructure Team but used by both OvocoCRM and OvocoAnalytics. The "CRM Platform Hosting" service is a technical service supporting the CRM product line.
+Shared services. The portfolio mode schema defines Service CIs that span products. The "Notification Delivery" service is owned by the Infrastructure Team but used by both OvocoCRM and OvocoAnalytics. The "CRM Platform Hosting" service is a technical service supporting the CRM product line.
 
 Shared personnel. People who work across multiple products. A CM analyst who manages configuration for both OvocoCRM and OvocoAnalytics appears in both products' context. The Person type has a `team` attribute referencing Team, but a person may serve multiple programs. The Release Engineering team works across both product lines.
 
@@ -72,7 +72,7 @@ A portfolio manager needs views that span all products:
 - All SLAs with cross-product scope
 - All certifications approaching expiration, regardless of product
 
-These queries work naturally in the enterprise schema because all products live in the same namespace under the "Ovoco Portfolio CMDB" root. In a prefixed schema, a query like `objectType IN ("CR Deployment Site", "AN Deployment Site") AND status = "Active"` returns a portfolio-wide site inventory using the Site Status lookup values.
+These queries work naturally in the portfolio mode schema because all products live in the same namespace under the "Ovoco Portfolio CMDB" root. In a prefixed schema, a query like `objectType IN ("CR Deployment Site", "AN Deployment Site") AND status = "Active"` returns a portfolio-wide site inventory using the Site Status lookup values.
 
 
 # Shared Services as CMDB Custodian
@@ -87,7 +87,7 @@ In the OvocoCRM example, the Infrastructure Team (under Ovoco Operations) fills 
 
 ## Separating Shared Infrastructure From Program-specific CIs
 
-The product prefix pattern creates clear boundaries. In the enterprise schema with its nine branches:
+The product prefix pattern creates clear boundaries. In the portfolio mode schema with its nine branches:
 
 ```
 Ovoco Portfolio CMDB
@@ -122,7 +122,7 @@ Product-prefixed types (CR, AN) hold CIs specific to that product. A CR Server i
 
 ## Modeling Shared Services in the Directory Branch
 
-The Directory branch remains unprefixed because organizations, teams, people, locations, and facilities are inherently shared. In the enterprise schema, Directory contains Organization, Team, Person, Location, Facility, and Vendor, all without product prefixes.
+The Directory branch remains unprefixed because organizations, teams, people, locations, and facilities are inherently shared. In the portfolio mode schema, Directory contains Organization, Team, Person, Location, Facility, and Vendor, all without product prefixes.
 
 The shared services function is modeled through the organizational hierarchy. Ovoco Operations is the parent organization for operational teams:
 
@@ -139,14 +139,14 @@ The Infrastructure Team, which manages shared services infrastructure, belongs t
 
 ## Service Catalog Alignment
 
-A shared services department typically offers defined services to its product teams. In the enterprise schema, these services are tracked as Service CIs under the Enterprise Architecture branch:
+A shared services department typically offers defined services to its product teams. In the portfolio mode schema, these services are tracked as Service CIs under the Enterprise Architecture branch:
 
 - "CRM Platform Hosting" (Technical Service, owned by Infrastructure Team, supporting Platform Operations capability)
 - "Notification Delivery" (Shared Service, owned by Infrastructure Team, supporting Customer Communication capability)
 - CMDB schema management (adding types, modifying attributes, managing lookups)
 - Platform administration (managing SS Jira, SS Confluence, SS Jenkins, SS Grafana)
 
-The enterprise schema includes a Service type, Capability type, and Business Process type for formalizing the service catalog and linking it to organizational capabilities.
+The portfolio mode schema includes a Service type, Capability type, and Business Process type for formalizing the service catalog and linking it to organizational capabilities.
 
 ## Intake Process for New Types
 
@@ -181,7 +181,7 @@ A program-specific lookup has values that only one product needs. If OvocoCRM tr
 
 ## Global Lookups in the Schema
 
-The enterprise schema defines its lookup types under Lookup Types, and all of them should be global. The status lookups include:
+The portfolio mode schema defines its lookup types under Lookup Types, and all of them should be global. The status lookups include:
 
 - Product Status (Active, Legacy, Planned, Retired)
 - Version Status (Current, Beta, Previous, Deprecated, Retired)
@@ -256,7 +256,7 @@ Establish a simple governance process:
 
 ## One Schema for Multiple Programs
 
-The most common pattern: one shared services team manages one schema for all products. The schema uses product prefixes. The tree below shows how this maps to the enterprise schema's nine branches:
+The most common pattern: one shared services team manages one schema for all products. The schema uses product prefixes. The tree below shows how this maps to the portfolio mode schema's nine branches:
 
 ```
 Ovoco Portfolio CMDB
@@ -327,7 +327,7 @@ The product team owns the data. The shared services team owns the schema structu
 
 ## Keeping Lookups in Sync Across Schema Directories
 
-If your organization maintains multiple schema directories (base, extended, and enterprise, or separate directories for different deployment targets), shared lookups must stay in sync. A value added to Site Status in the enterprise schema should also appear in the base schema if the base schema uses it.
+If your organization maintains multiple schema directories (core, domains, and portfolio mode, or separate directories for different deployment targets), shared lookups must stay in sync. A value added to Site Status in a domain schema should also appear in the Core schema if the Core schema uses it.
 
 Two approaches work here.
 

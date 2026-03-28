@@ -82,7 +82,7 @@ The `${FieldName}` placeholder is the mechanism for cascading selects. When a us
 
 ### Setting up the cascade
 
-The cascade requires a reference attribute linking child types back to the Product type. The enterprise schema already includes a `product` attribute on all relevant types (CR Product Version, CR Deployment Site, CR Document, CR Baseline, etc.). The base and extended schemas do not include this attribute because they model a single product. If you are using the base or extended schema and want portal cascading, add a `product` attribute to each type that should filter by product:
+The cascade requires a reference attribute linking child types back to the Product type. Portfolio mode already includes a `product` attribute on all relevant types (CR Product Version, CR Deployment Site, CR Document, CR Baseline, etc.). The Core schema does not include this attribute because it models a single product. If you are using the Core schema and want portal cascading, add a `product` attribute to each type that should filter by product:
 
 In `schema-attributes.json`, add to Product Version, Deployment Site, Product Component, Document, Baseline, and any other types that should cascade:
 
@@ -94,7 +94,7 @@ After adding the attribute, populate it in your data files. Every Product Versio
 
 Once imported, the attribute displays as "Product" in Assets. The Tier 1 custom field on the Jira work item is also named "Product" and scoped to `objectType = "Product"`. When a customer selects a product on the portal, dependent fields use `${Product}` to filter their dropdowns to only show objects belonging to that product.
 
-If you are using the enterprise schema, type names include product prefixes (CR Product Version, AN Product Version). Your AQL filters should use the prefixed names: `objectType = "CR Product Version" AND "Product" = ${Product}`. See the [Data Center guide](../../Setup/atlassian-data-center.md) for enterprise schema AQL examples with prefixed type names.
+If you are using portfolio mode, type names include product prefixes (CR Product Version, AN Product Version). Your AQL filters should use the prefixed names: `objectType = "CR Product Version" AND "Product" = ${Product}`. See the [Data Center guide](../../Setup/atlassian-data-center.md) for portfolio mode AQL examples with prefixed type names.
 
 ### Attribute naming for clarity
 

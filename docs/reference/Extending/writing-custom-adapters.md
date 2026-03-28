@@ -108,8 +108,8 @@ function loadConfig(options = {}) {
     password: process.env.PLATFORM_PASSWORD || '',
 
     // Schema location
-    dataDir: process.env.DATA_DIR || 'schema/base/data',
-    schemaDir: process.env.SCHEMA_DIR || 'schema/base',
+    dataDir: process.env.DATA_DIR || 'schema/core/data',
+    schemaDir: process.env.SCHEMA_DIR || 'schema/core',
     schemaKey: process.env.SCHEMA_KEY || 'CMDB',
 
     // Schema files
@@ -190,8 +190,8 @@ Here is a skeleton for a new adapter:
 const { loadJsonFile, loadDataFile, mapAttrName, LOAD_PRIORITY, C } = require('../../../tools/lib');
 
 async function main() {
-  const schemaDir = process.env.SCHEMA_DIR || 'schema/base';
-  const dataDir = process.env.DATA_DIR || 'schema/base/data';
+  const schemaDir = process.env.SCHEMA_DIR || 'schema/core';
+  const dataDir = process.env.DATA_DIR || 'schema/core/data';
 
   // Load schema
   const structure = loadJsonFile(`${schemaDir}/schema-structure.json`);

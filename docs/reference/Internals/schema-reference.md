@@ -4,9 +4,9 @@ Complete reference for object types, attributes, and relationships in CMDB-Kit.
 
 # Schema Hierarchy
 
-CMDB-Kit provides three schema tiers. Extended includes everything in base plus more types, and enterprise includes everything in extended plus more.
+CMDB-Kit uses a Core + Domains architecture. Core provides the minimal schema. Domains add opt-in types for specific areas. The legacy extended directory combines all domains, and portfolio mode adds product-prefixed types for multi-product management.
 
-## Base Layer
+## Core
 
 ```
 Product CMDB
@@ -38,7 +38,7 @@ Lookup Types
 └── Deployment Role
 ```
 
-## Extended Layer
+## Core + All Domains (Extended)
 
 ```
 Product CMDB
@@ -99,9 +99,9 @@ Lookup Types
 └── SLA Status
 ```
 
-## Enterprise Layer
+## Portfolio Mode
 
-The enterprise tier restructures the hierarchy for multi-product management. The root is "Ovoco Portfolio CMDB" with nine top-level branches. Product-specific types use prefixes: CR for OvocoCRM, AN for OvocoAnalytics, SS for Shared Services.
+Portfolio mode restructures the hierarchy for multi-product management. The root is "Ovoco Portfolio CMDB" with nine top-level branches. Product-specific types use prefixes: CR for OvocoCRM, AN for OvocoAnalytics, SS for Shared Services.
 
 ```
 Ovoco Portfolio CMDB
@@ -243,7 +243,7 @@ Ovoco Portfolio CMDB
 
 ## Multi-Product Prefixing Pattern
 
-The enterprise tier uses two-letter prefixes to isolate product-specific types while sharing common infrastructure:
+Portfolio mode uses two-letter prefixes to isolate product-specific types while sharing common infrastructure:
 
 | Prefix | Product | Example Types |
 |--------|---------|---------------|
@@ -384,7 +384,7 @@ External contacts, site POCs, and deployment stakeholders. Person records are CI
 | isUser | Boolean | |
 | userAccount | Text | |
 
-# Extended CI Types
+# Domain CI Types
 
 ## Hardware Model
 
@@ -490,7 +490,7 @@ Service level agreements.
 
 # Lookup Types
 
-## Base Lookups
+## Core Lookups
 
 | Type | Values |
 |------|--------|
@@ -505,7 +505,7 @@ Service level agreements.
 | Organization Type | Company, Department, Division, Vendor |
 | Deployment Role | Developer, Operator, Manager, Architect, SRE |
 
-## Extended Lookups
+## Domain Lookups
 
 | Type | Values |
 |------|--------|
@@ -522,9 +522,9 @@ Service level agreements.
 | Vendor Status | Active, Under Review, Inactive, Terminated |
 | SLA Status | Active, Draft, Breached, Expired |
 
-## Enterprise-Only Lookups
+## Portfolio Mode Lookups
 
-The enterprise tier adds lookup types not present in the extended tier:
+Portfolio mode adds lookup types not present in Core + domains:
 
 | Type | Purpose |
 |------|---------|

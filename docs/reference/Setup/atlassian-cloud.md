@@ -94,7 +94,7 @@ The Services panel uses service type labels (Software Service, Business Service,
 
 Services function as connectors between JSM features and Assets objects. They can demonstrate impact relationships, showing what a change request could affect and what major incidents could impact. However, services in this schema are not the same as full Assets objects. Organizations must choose whether to manage services through the Services panel (read-only in Assets) or create them as full Assets objects in a custom schema (fully editable but requires manual linking).
 
-If you need editable service objects with full CMDB capabilities (custom attributes, references, imports), create them as types in your CMDB-Kit schema rather than relying on the built-in Services schema. The enterprise schema layer includes Service and related types for this purpose.
+If you need editable service objects with full CMDB capabilities (custom attributes, references, imports), create them as types in your CMDB-Kit schema rather than relying on the built-in Services schema. Portfolio mode includes Service and related types for this purpose.
 
 ## Why CMDB-Kit Does Things Differently
 
@@ -131,7 +131,7 @@ Product
   Status  -->  references Product Status
 ```
 
-The lookup type data file (`schema/base/data/product-status.json`):
+The lookup type data file (`schema/core/data/product-status.json`):
 
 ```json
 [
@@ -142,7 +142,7 @@ The lookup type data file (`schema/base/data/product-status.json`):
 ]
 ```
 
-And the Product record that references it (`schema/base/data/product.json`):
+And the Product record that references it (`schema/core/data/product.json`):
 
 ```json
 {
@@ -193,7 +193,7 @@ Root
     (and more)
 ```
 
-This is the base schema. The extended schema adds SLAs, licenses, certifications, baselines, and more. The enterprise schema adds enterprise architecture, contracts, requirements, and configuration library management.
+This is the Core schema. Opt-in domains add SLAs, licenses, certifications, baselines, and more. Portfolio mode adds enterprise architecture, contracts, requirements, and configuration library management.
 
 Parent types in Assets define a namespace. When you browse the schema in the Cloud UI, you see a collapsible tree. Grouping lookup types under "Lookup Types" keeps them visually separate from CI types.
 
@@ -221,8 +221,8 @@ JSM_URL=https://yoursite.atlassian.net
 JSM_USER=you@example.com
 JSM_PASSWORD=your-api-token
 SCHEMA_KEY=CMDB
-SCHEMA_DIR=schema/base
-DATA_DIR=schema/base/data
+SCHEMA_DIR=schema/core
+DATA_DIR=schema/core/data
 ```
 
 The `.env` file is gitignored and will not be committed. Shell environment variables override `.env` values, so you can use the file for defaults and override specific values per run.
@@ -247,15 +247,15 @@ If auto-detection fails (rare, usually due to permission issues), you can find t
 2. Look at the URL, it contains the workspace ID
 3. Set `JSM_WORKSPACE_ID` in your `.env` file
 
-## Choosing a Schema Layer
+## Choosing a Schema
 
 | Schema | Best for |
 |--------|----------|
-| Base (schema/base) | Getting started, small teams, proof of concept |
-| Extended (schema/extended) | Full CMDB with baselines, compliance, licensing, and SLA management |
-| Enterprise (schema/enterprise) | Financial tracking, EA modeling, requirements, configuration library |
+| Core (schema/core) | Getting started, small teams, proof of concept |
+| Core + domains | Full CMDB with baselines, compliance, licensing, and SLA management |
+| Portfolio mode (schema/enterprise) | Financial tracking, EA modeling, requirements, configuration library |
 
-Start with base. You can switch to extended or enterprise later by changing `SCHEMA_DIR` and `DATA_DIR` and re-running the import. Extended includes everything in base plus more types, and enterprise includes everything in extended plus more.
+Start with Core. You can add domains later by passing `--domain` flags and re-running the import. Each domain is opt-in and adds types for a specific area.
 
 ## All Variables Reference
 
@@ -266,7 +266,7 @@ Start with base. You can switch to extended or enterprise later by changing `SCH
 | JSM_PASSWORD | Yes | | API token from id.atlassian.com |
 | SCHEMA_KEY | No | CMDB | Object schema key (case-sensitive, must match exactly) |
 | SCHEMA_DIR | No | Parent of DATA_DIR | Path to schema-structure.json and schema-attributes.json |
-| DATA_DIR | No | schema/base/data | Path to data JSON files |
+| DATA_DIR | No | schema/core/data | Path to data JSON files |
 | JSM_WORKSPACE_ID | No | auto-detected | Assets workspace ID (UUID), fetched automatically from Cloud |
 | CREATE_SCHEMA | No | false | Set to 'true' to auto-create the schema if it does not exist |
 | DEBUG | No | false | Set to 'true' for HTTP request and response logging |
@@ -279,7 +279,7 @@ Start with base. You can switch to extended or enterprise later by changing `SCH
 Before touching your Cloud instance, confirm that the schema and data files are internally consistent:
 
 ```bash
-node tools/validate.js --schema schema/base
+node tools/validate.js --schema schema/core
 ```
 
 This checks schema structure integrity, attribute definitions, LOAD_PRIORITY completeness, data file existence, and reference value consistency. Fix any errors before proceeding.
@@ -398,15 +398,15 @@ node adapters/jsm/check-schema.js --type "Product"
 
 # Replacing Example Data
 
-The base schema ships with example data for OvocoCRM. To use CMDB-Kit for your own infrastructure, replace the data files.
+The Core schema ships with example data for OvocoCRM. To use CMDB-Kit for your own infrastructure, replace the data files.
 
 ## Edit JSON Directly
 
-1. Open the data files in `schema/base/data/`
+1. Open the data files in `schema/core/data/`
 2. Replace the example records with your own
 3. Keep the same JSON structure (array of objects with camelCase keys)
 4. Make sure reference values (like status names, team names) match exactly across files
-5. Run `node tools/validate.js --schema schema/base` to catch errors
+5. Run `node tools/validate.js --schema schema/core` to catch errors
 6. Re-run the import
 
 ## CSV and Excel Workflow
@@ -415,11 +415,11 @@ For teams that prefer spreadsheets:
 
 ```bash
 # Generate CSV templates with example rows
-node tools/generate-templates.js --schema schema/base --examples --outdir csv-templates
+node tools/generate-templates.js --schema schema/core --examples --outdir csv-templates
 
 # Fill in the templates in Excel or Google Sheets
 # Then convert back to JSON
-node tools/csv-to-json.js --schema schema/base --outdir schema/base/data csv-templates/*.csv
+node tools/csv-to-json.js --schema schema/core --outdir schema/core/data csv-templates/*.csv
 ```
 
 ## Tips for Replacing Data

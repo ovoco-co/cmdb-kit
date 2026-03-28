@@ -7,38 +7,33 @@ CMDB-Kit organizes its files around a simple principle: every file name is deriv
 
 ## schema/
 
-The `schema/` directory contains one or more schema layers. Each layer is a self-contained directory with three things: a structure file, an attributes file, and a data directory.
+The `schema/` directory uses a Core + Domains architecture. The core directory is self-contained with a structure file, an attributes file, and a data directory. Each domain directory follows the same pattern and adds opt-in types to the Core.
 
 ```
 schema/
-├── base/
+├── core/
 │   ├── schema-structure.json
 │   ├── schema-attributes.json
 │   └── data/
 │       ├── application.json
 │       ├── product-version.json
 │       └── ...
+├── domains/
+│   ├── infrastructure/
+│   │   ├── schema-structure.json
+│   │   ├── schema-attributes.json
+│   │   └── data/
+│   ├── compliance/
+│   ├── distribution/
+│   ├── licensing/
+│   └── ...
 ├── extended/
-│   ├── schema-structure.json
-│   ├── schema-attributes.json
-│   └── data/
-│       ├── application.json
-│       ├── product-version.json
-│       ├── change-request.json
-│       └── ...
+│   └── (legacy: all domains combined)
 └── enterprise/
-    ├── schema-structure.json
-    ├── schema-attributes.json
-    ├── README.md
-    └── data/
-        ├── application.json
-        ├── service.json
-        ├── contract.json
-        ├── requirement.json
-        └── ...
+    └── (legacy: portfolio mode with product-prefixed types)
 ```
 
-The `base/` layer contains the minimal schema. The `extended/` layer contains the full schema. The `enterprise/` layer adds enterprise architecture, financial tracking, requirements, and configuration library management. All three layers are independently valid and can be imported separately. Extended includes everything in base, and enterprise includes everything in extended.
+The `core/` directory contains the minimal schema. Each domain under `domains/` adds opt-in types for a specific area (infrastructure, compliance, licensing, distribution, and others). The legacy `extended/` directory combines all domains into one schema. The legacy `enterprise/` directory adds portfolio mode with product-prefixed types for multi-product management. Core is independently valid and can be imported on its own. Domains extend Core with additional types.
 
 ## adapters/
 
@@ -353,26 +348,26 @@ Or for nested types:
 This satisfies the validation check for data file existence and prevents import errors.
 
 
-# Keeping Base and Extended Schemas in Sync
+# Keeping Core and Domains in Sync
 
-## Schema Layers Build on Each Other
+## Domains Build on Core
 
-Extended includes every type and attribute from base, and enterprise includes every type and attribute from extended. Higher layers add types and attributes but never modify or remove anything from lower layers.
+Each domain includes types and attributes that extend Core. Domains add types and attributes but never modify or remove anything from Core.
 
-This means you can start with the base schema and migrate to extended or enterprise later without breaking existing data.
+This means you can start with the Core schema and add domains later without breaking existing data.
 
 ## When to Backport Changes
 
-If you modify a higher-tier schema in a way that affects types shared with lower tiers (adding an attribute to Application, changing a lookup value), consider whether the change should also apply to lower schemas. If the change is universal (a new status value that every deployment needs), backport it. If the change is specific to that tier's types, do not backport.
+If you modify a domain schema in a way that affects types shared with Core (adding an attribute to Application, changing a lookup value), consider whether the change should also apply to Core. If the change is universal (a new status value that every deployment needs), backport it. If the change is specific to that domain's types, do not backport.
 
 ## Validation Checks That Catch Drift
 
-Run validation against all three schemas after any change:
+Run validation against Core and any domains after any change:
 
 ```bash
-node tools/validate.js --schema schema/base
-node tools/validate.js --schema schema/extended
+node tools/validate.js --schema schema/core
+node tools/validate.js --schema schema/core --domain schema/domains/infrastructure
 node tools/validate.js --schema schema/enterprise
 ```
 
-If a reference in a lower schema points to a type that only exists in a higher schema, validation will catch it. These checks prevent schema drift between the layers.
+If a reference in Core points to a type that only exists in a domain, validation will catch it. These checks prevent schema drift between Core and domains.

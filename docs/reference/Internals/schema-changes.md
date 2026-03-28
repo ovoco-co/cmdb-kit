@@ -19,11 +19,11 @@ In practice:
 
 ```bash
 # Commit 1: schema change
-git add schema/extended/schema-structure.json schema/extended/schema-attributes.json tools/lib/constants.js
-git commit -m "Add Personnel Certification type to extended schema"
+git add schema/core/schema-structure.json schema/core/schema-attributes.json tools/lib/constants.js
+git commit -m "Add Personnel Certification type to Core schema"
 
 # Commit 2: data for the new type
-git add schema/extended/data/personnel-certification-type.json schema/extended/data/personnel-certification-status.json schema/extended/data/personnel-certification.json
+git add schema/core/data/personnel-certification-type.json schema/core/data/personnel-certification-status.json schema/core/data/personnel-certification.json
 git commit -m "Add initial personnel certification data"
 ```
 
@@ -31,7 +31,7 @@ git commit -m "Add initial personnel certification data"
 
 Commit messages should describe what changed and why. For schema changes:
 
-"Add Assessment type to extended schema" - new type.
+"Add Assessment type to compliance domain" - new type.
 
 "Add expirationDate attribute to License type" - new attribute.
 
@@ -130,10 +130,10 @@ Also create data files for any new lookup types:
 ## Step 5: Run Validation
 
 ```bash
-node tools/validate.js --schema schema/extended
+node tools/validate.js --schema schema/core
 ```
 
-If you are working with the enterprise schema, validate against that tier instead:
+If you are working with the portfolio mode schema, validate against that instead:
 
 ```bash
 node tools/validate.js --schema schema/enterprise
@@ -149,7 +149,7 @@ Missing data file: the kebab-case data file does not exist yet.
 
 ## Worked Example: Adding a Problem Type
 
-The extended schema does not include a Problem type (problems are tracked as issues, not CIs). If your organization wants to track problems as persistent CI records:
+The Core schema does not include a Problem type (problems are tracked as issues, not CIs). If your organization wants to track problems as persistent CI records:
 
 Step 1: Add to schema-structure.json:
 
@@ -179,7 +179,7 @@ Step 3: Add to LOAD_PRIORITY after Application and Person (both are dependencies
 'Problem',  // after Application, Person, and Assessment Status
 ```
 
-Step 4: Create `schema/extended/data/problem.json`:
+Step 4: Create `schema/core/data/problem.json`:
 
 ```json
 []
@@ -208,7 +208,7 @@ The new `repository` attribute is a text field. Existing records do not need to 
 After adding the attribute, re-run validation and re-import the schema to the target database:
 
 ```bash
-node tools/validate.js --schema schema/extended
+node tools/validate.js --schema schema/core
 node adapters/jsm/import.js schema
 ```
 
@@ -310,7 +310,7 @@ The safest workflow for schema changes:
 
 1. Export current state: `node adapters/jsm/export.js`
 2. Make schema changes in the repository
-3. Validate: `node tools/validate.js --schema schema/extended`
+3. Validate: `node tools/validate.js --schema schema/core`
 4. Import schema: `node adapters/jsm/import.js schema`
 5. Import data: `node adapters/jsm/import.js sync`
 6. Post-import validation: `node adapters/jsm/validate-import.js`

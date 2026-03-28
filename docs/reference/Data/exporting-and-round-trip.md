@@ -76,7 +76,7 @@ node adapters/jsm/export.js --overwrite
 Create spreadsheet templates pre-populated with exported data:
 
 ```bash
-node tools/generate-templates.js --schema schema/base --examples --format xlsx
+node tools/generate-templates.js --schema schema/core --examples --format xlsx
 ```
 
 The `--examples` flag pulls sample rows from the JSON files you just exported, so the templates contain your live data. Templates go to `csv-templates/` by default.
@@ -84,7 +84,7 @@ The `--examples` flag pulls sample rows from the JSON files you just exported, s
 For specific types only:
 
 ```bash
-node tools/generate-templates.js --schema schema/base --examples "Server" "Database"
+node tools/generate-templates.js --schema schema/core --examples "Server" "Database"
 ```
 
 ## Edit in a Spreadsheet
@@ -99,10 +99,10 @@ Convert edited spreadsheets to JSON data files:
 
 ```bash
 # Dry run first to check for problems
-node tools/csv-to-json.js --schema schema/base --dry-run csv-templates/*.csv
+node tools/csv-to-json.js --schema schema/core --dry-run csv-templates/*.csv
 
 # If clean, convert for real
-node tools/csv-to-json.js --schema schema/base --outdir schema/base/data csv-templates/*.csv
+node tools/csv-to-json.js --schema schema/core --outdir schema/core/data csv-templates/*.csv
 ```
 
 ## Validate
@@ -110,7 +110,7 @@ node tools/csv-to-json.js --schema schema/base --outdir schema/base/data csv-tem
 Check data integrity before pushing back:
 
 ```bash
-node tools/validate.js --schema schema/base
+node tools/validate.js --schema schema/core
 ```
 
 Fix all errors before proceeding. Common issues: reference to a Name that does not exist, trailing spaces in reference values, date format errors, duplicate Names.
@@ -144,10 +144,10 @@ The full round-trip in six commands:
 
 ```bash
 node adapters/jsm/export.js --overwrite
-node tools/generate-templates.js --schema schema/base --examples --format xlsx
+node tools/generate-templates.js --schema schema/core --examples --format xlsx
 # ... edit spreadsheets ...
-node tools/csv-to-json.js --schema schema/base --outdir schema/base/data csv-templates/*.csv
-node tools/validate.js --schema schema/base
+node tools/csv-to-json.js --schema schema/core --outdir schema/core/data csv-templates/*.csv
+node tools/validate.js --schema schema/core
 node adapters/jsm/import.js sync
 node adapters/jsm/validate-import.js
 ```

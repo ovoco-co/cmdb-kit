@@ -17,7 +17,7 @@ In many organizations, the feature record is sufficient. It answers "what capabi
 
 ## Attributes: Description, Version, Status, Owner
 
-The Feature type in CMDB-Kit's extended schema has four attributes:
+The Feature type in CMDB-Kit's Core schema has four attributes:
 
 ```json
 "Feature": {
@@ -107,7 +107,7 @@ CMDB-Kit's Feature type maps naturally to program requirements. Each Feature rec
 
 Program requirements decompose into derived requirements: more specific, implementable specifications. "The system shall support bulk import of contacts" decomposes into "the import shall accept CSV format," "the import shall detect duplicate contacts," "the import shall report errors in a downloadable log."
 
-The base Feature type does not model this decomposition. If you need it, the Extending for Detailed Requirements section below describes how to add parent-child relationships to Feature records or create a separate Requirement type. The enterprise schema includes a dedicated Requirement type with attributes for requirementType (reference to Requirement Type lookup), status (reference to Requirement Status), priority (reference to Priority), source, verificationMethod (reference to Verification Method), verifiedDate, and parentRequirement (self-referential for decomposition).
+The Core Feature type does not model this decomposition. If you need it, the Extending for Detailed Requirements section below describes how to add parent-child relationships to Feature records or create a separate Requirement type. The portfolio mode schema includes a dedicated Requirement type with attributes for requirementType (reference to Requirement Type lookup), status (reference to Requirement Status), priority (reference to Priority), source, verificationMethod (reference to Verification Method), verifiedDate, and parentRequirement (self-referential for decomposition).
 
 ## Interface Requirements
 
@@ -144,7 +144,7 @@ CMDB-Kit's Feature type uses Version Status (Current, Beta, Deprecated, Retired)
 
 A critical pattern from production CMDB operations: when a feature ships in a release, freeze a snapshot of the feature's state at that moment. The Feature record in the CMDB can change over time (its description might be updated, its owner might change). But the frozen snapshot records exactly what was specified and verified at the time of release.
 
-This pattern uses a Feature Implementation type. In the enterprise schema, Feature Implementation is a built-in type with these attributes:
+This pattern uses a Feature Implementation type. In the portfolio mode schema, Feature Implementation is a built-in type with these attributes:
 
 ```json
 "Feature Implementation": {
@@ -157,7 +157,7 @@ This pattern uses a Feature Implementation type. In the enterprise schema, Featu
 }
 ```
 
-The Implementation Status lookup provides five values: Draft, In Progress, Complete, Verified, and Frozen. Once a Feature Implementation record reaches Frozen status, it becomes an immutable audit record. In the base and extended schemas, Feature Implementation is not included and can be added as a schema extension.
+The Implementation Status lookup provides five values: Draft, In Progress, Complete, Verified, and Frozen. Once a Feature Implementation record reaches Frozen status, it becomes an immutable audit record. In the Core schema and individual domains, Feature Implementation is not included and can be added as a schema extension.
 
 Each release creates a new Feature Implementation record for every feature included in that release. Once created and frozen, these records are immutable. They provide a per-feature audit trail across releases: "Contact Import was implemented in version 2.0.0 with this specification, and again in version 2.3.0 with an updated specification."
 
@@ -174,7 +174,7 @@ This three-layer approach provides the audit trail:
 
 The `version` attribute on Feature is the primary traceability link. It answers "when did this feature first become available?" The answer is a Product Version record with its own attributes: version number, release date, status, and component list.
 
-This link is one-directional in the base schema (Feature points to Product Version, but Product Version does not have a multi-reference back to Feature). To query "what features shipped in version 2.3.0?", use a filter on the Feature type:
+This link is one-directional in the Core schema (Feature points to Product Version, but Product Version does not have a multi-reference back to Feature). To query "what features shipped in version 2.3.0?", use a filter on the Feature type:
 
 ```
 objectType = "Feature" AND "Version" = "OvocoCRM 2.3.0"
@@ -229,7 +229,7 @@ Derives: a detailed requirement derives from a program requirement. Decompositio
 
 Documents: a Document describes a Feature. The specification, user guide, or API reference that explains the capability.
 
-In the base CMDB-Kit schema, these links are not explicitly modeled as separate relationship types. They exist implicitly through the reference attributes (Feature.version links to Product Version, Product Version.components links to Product Components). For organizations that need explicit typed traceability, extend the schema or use a dedicated requirements tool that integrates with the CMDB.
+In the Core CMDB-Kit schema, these links are not explicitly modeled as separate relationship types. They exist implicitly through the reference attributes (Feature.version links to Product Version, Product Version.components links to Product Components). For organizations that need explicit typed traceability, extend the schema or use a dedicated requirements tool that integrates with the CMDB.
 
 ## Tracing Requirements Back to External Sources and Standards
 
@@ -319,7 +319,7 @@ The Baseline CI records that a requirements snapshot was taken. The snapshot con
 
 Features can be both containers and leaves. A container feature groups related capabilities: "Reporting" might contain "Custom Reports," "Scheduled Reports," and "Export to PDF." A leaf feature is an individual capability.
 
-The base Feature type does not model this hierarchy (no `parentFeature` attribute). If you need it, add a self-referential reference:
+The Core Feature type does not model this hierarchy (no `parentFeature` attribute). If you need it, add a self-referential reference:
 
 ```json
 "parentFeature": { "type": 1, "referenceType": "Feature" }
@@ -387,9 +387,9 @@ A release readiness dashboard combines all three: "45 of 47 requirements have pa
 
 # Extending for Detailed Requirements
 
-## When the Base Feature Type Is Enough
+## When the Core Feature Type Is Enough
 
-The base Feature type is enough when:
+The Core Feature type is enough when:
 
 Your organization does not run a formal requirements management process. Features provide lightweight capability tracking without the overhead of decomposition, baselines, or formal traceability.
 
@@ -399,7 +399,7 @@ Your product has fewer than 50 features and the development process is agile eno
 
 ## Adding Custom Attributes
 
-Extend Feature with additional attributes when the base four are not sufficient:
+Extend Feature with additional attributes when the Core four are not sufficient:
 
 `priority`: reference to a Priority lookup (High, Medium, Low). Useful for backlog prioritization.
 
@@ -425,4 +425,4 @@ Test Coverage: tracks the number of tests and pass rate per feature per version.
 
 The guiding principle: add complexity only when a process demands it. A startup tracking 20 features does not need Feature Implementation freeze records, decomposition hierarchies, or Requirement Source types. A defense contractor with 500 requirements across three products, regulatory compliance obligations, and formal audit cycles does need them.
 
-Start with the base Feature type. Add attributes when you find yourself wanting to query on data you do not have. Add new types when a single type becomes overloaded with conflicting concerns. The schema should grow with your process, not ahead of it.
+Start with the Core Feature type. Add attributes when you find yourself wanting to query on data you do not have. Add new types when a single type becomes overloaded with conflicting concerns. The schema should grow with your process, not ahead of it.
