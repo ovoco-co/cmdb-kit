@@ -491,7 +491,7 @@ async function importDataRows(data, typeId, schemaId, typeName, mode) {
             if (refId) finalVal = refId;
             else continue;
           } else { continue; }
-        } else if (def.type === 4) {
+        } else if (def.type === 0 && (def.defaultType?.id === 2 || def.defaultTypeId === 2)) {
           finalVal = (String(v).toLowerCase() === 'true').toString();
         }
         attrValues.push({ value: String(finalVal) });
