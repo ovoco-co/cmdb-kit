@@ -22,16 +22,16 @@ Most types use flat format: a top-level JSON array of objects.
 ```json
 [
   {
-    "Name": "OvocoCRM 2.4.0",
-    "versionNumber": "2.4.0",
-    "versionStatus": "Current",
-    "releaseDate": "2025-07-01"
-  },
-  {
     "Name": "OvocoCRM 2.3.1",
     "versionNumber": "2.3.1",
-    "versionStatus": "Previous",
-    "releaseDate": "2025-03-15"
+    "status": "Current",
+    "releaseDate": "2026-02-10"
+  },
+  {
+    "Name": "OvocoCRM 2.3.0",
+    "versionNumber": "2.3.0",
+    "status": "Previous",
+    "releaseDate": "2025-11-15"
   }
 ]
 ```
@@ -45,8 +45,7 @@ Directory types (Organization, Team, Person, Location, Facility, Vendor) use nes
   "Organization": [
     {
       "Name": "Acme Corp",
-      "organizationType": "Customer",
-      "industry": "Financial Services"
+      "orgType": "Customer"
     }
   ]
 }
@@ -59,9 +58,9 @@ The `NESTED_TYPES` set in `tools/lib/constants.js` defines which types use neste
 
 Every record must have a `Name` field. This is the unique identifier for the record within its type. The import script uses Name to match local records against existing records in the target database: if a record with that Name already exists, the import updates it rather than creating a duplicate.
 
-Names must be unique within a type. Two Product Version records both named "OvocoCRM 2.4.0" will cause unpredictable behavior during import. The validator catches duplicates.
+Names must be unique within a type. Two Product Version records both named "OvocoCRM 2.3.1" will cause unpredictable behavior during import. The validator catches duplicates.
 
-Name matching is case-sensitive. "OvocoCRM 2.4.0" and "ovococrm 2.4.0" are treated as different records.
+Name matching is case-sensitive. "OvocoCRM 2.3.1" and "ovococrm 2.4.0" are treated as different records.
 
 
 # Never Include Key or id Fields
@@ -72,7 +71,7 @@ Correct:
 
 ```json
 {
-  "Name": "OvocoCRM 2.4.0",
+  "Name": "OvocoCRM 2.3.1",
   "versionNumber": "2.4.0"
 }
 ```
@@ -83,7 +82,7 @@ Incorrect:
 {
   "Key": "CMDB-42",
   "id": 12345,
-  "Name": "OvocoCRM 2.4.0",
+  "Name": "OvocoCRM 2.3.1",
   "versionNumber": "2.4.0"
 }
 ```
@@ -93,7 +92,7 @@ If you export data from a live database using the export tool, it strips Key and
 
 # Reference Values
 
-Reference fields link one record to another. A Product Version's `versionStatus` field references a record in the Version Status lookup type. The value in the data file must be the exact Name of the referenced record.
+Reference fields link one record to another. A Product Version's `status` field references a record in the Version Status lookup type. The value in the data file must be the exact Name of the referenced record.
 
 ## Exact Name Matching
 
@@ -108,14 +107,14 @@ Name matching is case-sensitive everywhere: in the data files, during validation
 Multi-reference fields hold multiple values separated by semicolons. A Product Version's `components` field might contain:
 
 ```json
-"components": "CR Core Platform;CR Authentication Module;CR Export Module;CR API Gateway"
+"components": "Contact Manager;Deal Pipeline;Email Integration;REST API"
 ```
 
 Each value between semicolons must be an exact Name match in the referenced type (Product Component in this case). Using commas or spaces as separators instead of semicolons will treat the entire string as a single reference value, which will not match any record.
 
 ## Common Reference Mistakes
 
-Referencing a value that does not exist. The data file says `"versionStatus": "Released"` but the Version Status lookup only has "Current", "Beta", "Previous", "Deprecated", and "Retired". Validation catches this.
+Referencing a value that does not exist. The data file says `"status": "Released"` but the Version Status lookup only has "Current", "Beta", "Previous", "Deprecated", and "Retired". Validation catches this.
 
 Referencing a record from the wrong type. The data file says `"owner": "Ovoco Engineering"` for a field that references Team, but "Ovoco Engineering" is an Organization, not a Team. Validation catches this because it checks the referenced type.
 

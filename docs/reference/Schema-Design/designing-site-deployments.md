@@ -1,5 +1,7 @@
 # Designing Site Deployments
 
+> This document describes patterns from portfolio mode. The example data references OvocoCRM 2.4.0 and portfolio-mode attributes that differ from the Core schema. See the Core Schema documentation for current Core types and example data.
+
 Deployment sites are where your product meets the real world. Every customer location, every regional instance, every tenant running your software is a deployment site in the CMDB. This section covers how CMDB-Kit models deployment sites, the two-record pattern that enables multi-product tracking at a single customer, the related record types that connect sites to locations, organizations, and personnel, and the operational patterns for tracking what version is deployed where.
 
 

@@ -253,9 +253,9 @@ The SLA type has `targetUptime` and `responseTime` but not recovery objectives. 
 
 The natural home for RTO and RPO is either the SLA type (if recovery objectives are contractual commitments) or the Service type (if they are internal planning targets). Currently neither type carries them.
 
-## Person type is thin at Core level
+## Person type at Core level
 
-The Core Person type has five attributes beyond the standard description:
+The Core Person type has eight attributes beyond the standard description:
 
 ```json
 "Person": {
@@ -263,31 +263,35 @@ The Core Person type has five attributes beyond the standard description:
   "firstName": { "type": 0 },
   "lastName": { "type": 0 },
   "email": { "type": 0 },
+  "phone": { "type": 0 },
+  "jobTitle": { "type": 0 },
   "role": { "type": 0 },
-  "team": { "type": 1, "referenceType": "Team" }
+  "team": { "type": 1, "referenceType": "Team" },
+  "manager": { "type": 1, "referenceType": "Person" }
 }
 ```
 
-There is no phone number, no job title, no manager reference, and no location. Portfolio mode fixes several of these gaps, adding `phone`, `jobTitle`, `organization`, `supervisor`, and `hireDate`. But organizations using only the Core schema will find the Person type insufficient for escalation paths, RACI matrices, or organizational reporting.
+Core Person includes phone, jobTitle, and a manager reference, which covers basic escalation paths. There is no location attribute. Portfolio mode adds `organization`, `supervisor`, and `hireDate` for organizations that need deeper organizational reporting.
 
 The `role` attribute in the Core schema is free text, not a lookup reference. This means you cannot reliably report on "all people with role = Engineer" because the values are not constrained. Someone might enter "Engineer", "Software Engineer", "SWE", or "Eng" and the schema has no way to normalize these.
 
-## Feature type is isolated in the features domain
+## Feature type has limited connections
 
-The features domain Feature type links to Product Version, Version Status, and Team:
+The Core Feature type links to Product, Product Version, Version Status, and Team:
 
 ```json
 "Feature": {
   "description": { "type": 0 },
+  "product": { "type": 1, "referenceType": "Product" },
   "version": { "type": 1, "referenceType": "Product Version" },
   "status": { "type": 1, "referenceType": "Version Status" },
   "owner": { "type": 1, "referenceType": "Team" }
 }
 ```
 
-But there is no connection to Product (which product does this feature belong to?), no connection to Product Component (which component implements it?), and no connection to Requirement (which requirement does it satisfy?).
+The `product` reference connects features to their owning product. However, there is no connection to Product Component (which component implements it?) and no connection to Requirement (which requirement does it satisfy?).
 
-Portfolio mode fixes this partially. CR Feature adds an `implementedIn` multi-reference to CR Product, and CR Feature Implementation provides the version-level audit trail. But an organization using only the features domain cannot trace features to products or releases. The domain-level Feature is an island, connected only to Product Version and Team.
+Portfolio mode extends this further. CR Feature adds an `implementedIn` multi-reference to CR Product, and CR Feature Implementation provides the version-level audit trail with immutable frozen dates. But an organization using only the Core schema cannot trace features to components or requirements.
 
 ## Lookup types without data files
 
@@ -365,9 +369,9 @@ Changing the SLA type's primary reference from Product to Service (or adding a S
 
 Connecting Cost Category to the CI types that should reference it (Server, Database, License, Product) would implement the TBM mapping that the documentation describes. This turns Cost Category from an orphaned island into a working financial attribution model.
 
-## Add Person attributes at Core level
+## Add location to Core Person
 
-Adding `phone`, `jobTitle`, and a `manager` reference to the Core Person type would make it sufficient for escalation paths and organizational reporting. Portfolio mode already has these attributes. Backporting them to the Core schema closes the gap for organizations that do not need full portfolio mode.
+Core Person already includes `phone`, `jobTitle`, and `manager`. Adding a `location` attribute would make it sufficient for geographically distributed team reporting. Portfolio mode includes additional attributes like `organization`, `supervisor`, and `hireDate` for organizations that need deeper organizational modeling.
 
 ## Add RTO and RPO to SLA or Service
 

@@ -328,9 +328,9 @@ Three ready-to-use starting points at different scales. Each is self-contained. 
 
 The small org taxonomy is for teams with a single product, no formal change control, and no compliance requirements. It covers the basics: what do you have, what versions exist, and who owns it. This corresponds directly to CMDB-Kit's Core schema.
 
-The CI types span four branches. Under Product CMDB: Product, Server, Database, and Product Component. Under Product Library: Product Version, Document, and Deployment. Under Directory: Organization, Team, and Person.
+The CI types span four branches. Under Product CMDB: Product, Server, Database, Product Component, and Feature. Under Product Library: Product Version, Document, Deployment, Deployment Site, and Baseline. Under Directory: Organization, Team, and Person.
 
-Ten lookup types constrain these records: Product Status (Active, Planned, Deprecated, Retired), Version Status, Deployment Status, Environment Type (Production, Staging, Development, Test, DR), Document Type (Design Document, User Guide, API Reference, Release Notes, Test Plan), Document State (Draft, In Review, Approved, Superseded, Archived), Component Type (Application, Service, Library, Module, Plugin, Database Schema), Priority (Critical, High, Medium, Low), Organization Type (Engineering, Operations, Customer, Vendor, Partner), and Deployment Role (Site Lead, Technical Contact, Support Contact).
+Thirteen lookup types constrain these records: Product Status (Active, Planned, Deprecated, Retired), Version Status, Deployment Status, Environment Type (Production, Staging, Development, QA, DR), Document Type (Runbook, Architecture, SOP, API Reference, Post-Mortem, Release Notes), Document State (Draft, Review, Published, Archived), Component Type (Service, Library, Database, Queue, Cache, Gateway, Frontend), Priority (Critical, High, Medium, Low), Organization Type (Company, Department, Division, Vendor, Customer), Deployment Role (Developer, Operator, Manager, Architect, SRE), Site Status, Baseline Type, and Baseline Status.
 
 You can import this taxonomy directly using `SCHEMA_DIR=schema/core`. A small team can populate all the data in a single day.
 
@@ -338,7 +338,7 @@ You can import this taxonomy directly using `SCHEMA_DIR=schema/core`. A small te
 
 The mid-size org taxonomy adds operational CM capability to the small org foundation. It is for teams running change advisory boards, tracking compliance, managing licenses, and operating across multiple environments and locations. This corresponds to CMDB-Kit's Core + domains schema.
 
-Beyond the small org types, the mid-size taxonomy adds Hardware Model, Network Segment, Virtual Machine, License, Assessment, and Feature under Product CMDB. It adds Baseline, Documentation Suite, Product Media, Product Suite, Certification, Deployment Site, Distribution Log, Change Request, Incident, and SLA under Product Library. It adds Location, Facility, and Vendor under Directory.
+Beyond the small org types, the mid-size taxonomy adds Hardware Model, Network Segment, Virtual Machine, License, and Assessment under Product CMDB. It adds Documentation Suite, Product Media, Product Suite, Certification, Distribution Log, Change Request, Incident, and SLA under Product Library. It adds Location, Facility, and Vendor under Directory.
 
 Sixteen additional lookup types support these new CI types: Change Type, Change Impact, Incident Severity, Incident Status, Certification Type, Certification Status, Assessment Type, Assessment Status, Network Type, Baseline Type, Baseline Status, License Type, License Status, Site Status, Vendor Status, and SLA Status.
 

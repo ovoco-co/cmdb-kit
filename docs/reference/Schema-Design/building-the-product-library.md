@@ -1,5 +1,7 @@
 # Building the Product Library
 
+> This document describes patterns from portfolio mode. The example data references OvocoCRM 2.4.0 and portfolio-mode attributes that differ from the Core schema. See the Core Schema documentation for current Core types and example data.
+
 The Product Library branch is where release management lives in the CMDB. While the Product CMDB branch tracks what exists (applications, servers, databases, components), the Product Library tracks what was built, what was approved, what was shipped, and where it went. Every software release passes through the types in this branch: a Product Version record anchors the release, Documents capture the knowledge, a Baseline freezes the approved configuration, Certifications confirm compliance, and a Documentation Suite bundles it all together. This section walks through each type, its attributes, its relationships to other types, and how they combine into a complete release record.
 
 

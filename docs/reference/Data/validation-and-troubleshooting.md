@@ -10,16 +10,22 @@ Validation is the quality gate between data files and the target database. CMDB-
 Run validation against a schema directory:
 
 ```bash
-node tools/validate.js --schema schema/extended
+node tools/validate.js --schema schema/core
 ```
 
-The tool loads `schema-structure.json`, `schema-attributes.json`, and all data files from the specified directory. It performs nine sequential checks, reporting errors and warnings. Exit code 0 means no errors (warnings are allowed). Exit code 1 means one or more errors were found.
+To validate Core with a domain overlay, use the `--domain` flag. This merges the domain's types and attributes into the Core schema before running checks:
+
+```bash
+node tools/validate.js --schema schema/core --domain schema/domains/infrastructure
+```
+
+The tool loads `schema-structure.json`, `schema-attributes.json`, and all data files from the specified directory (and domain directory, if provided). It performs nine sequential checks, reporting errors and warnings. Exit code 0 means no errors (warnings are allowed). Exit code 1 means one or more errors were found.
 
 Always run validation before every import:
 
 ```bash
 # Step 1: Validate
-node tools/validate.js --schema schema/extended
+node tools/validate.js --schema schema/core
 
 # Step 2: If clean, import schema
 node adapters/jsm/import.js schema
@@ -113,7 +119,7 @@ The fix is always the same: bring the repository in sync with the desired state,
 ## Reference Not Found
 
 ```
-Reference "Curent" in field "versionStatus" of "OvocoCRM 2.4.0"
+Reference "Curent" in field "status" of "OvocoCRM 2.3.1"
 not found in type "Version Status"
 ```
 
@@ -124,7 +130,7 @@ Fix: correct the spelling to match the exact Name in the referenced type's data.
 ## Unknown Attribute
 
 ```
-Unknown field "versionnumber" in record "OvocoCRM 2.4.0"
+Unknown field "versionnumber" in record "OvocoCRM 2.3.1"
 of type "Product Version"
 ```
 
@@ -156,7 +162,7 @@ Fix: move the dependent type after its dependency in LOAD_PRIORITY.
 ## Duplicate Name
 
 ```
-Duplicate Name "OvocoCRM 2.4.0" in product-version.json
+Duplicate Name "OvocoCRM 2.3.1" in product-version.json
 ```
 
 Cause: two records in the same data file have the same Name value.
@@ -174,7 +180,7 @@ When something goes wrong during import or validation, work through this checkli
 
 **Are all referenced objects imported first?** Check LOAD_PRIORITY order. Every type referenced by the type you are importing must appear earlier in the array.
 
-**Do field names match schema-attributes.json?** Field names must be camelCase and match exactly. Check for case mismatches (`versionstatus` vs `versionStatus`) and naming mismatches (`status` vs `versionStatus`).
+**Do field names match schema-attributes.json?** Field names must be camelCase and match exactly. Check for case mismatches (`versionstatus` vs `versionStatus`) and naming mismatches (`statusField` vs `status`).
 
 **Are reference values exact matches?** Same capitalization, same spacing, no trailing whitespace. "Active" is not "active" is not "Active " (trailing space).
 

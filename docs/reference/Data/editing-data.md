@@ -11,12 +11,12 @@ To add a new record, open the data file and append a JSON object to the array. F
 
 ```json
 {
-  "Name": "OvocoCRM 2.4.0",
-  "versionNumber": "2.4.0",
-  "versionStatus": "Current",
-  "releaseDate": "2025-07-01",
-  "previousVersion": "OvocoCRM 2.3.1",
-  "components": "CR Core Platform;CR Authentication Module;CR Export Module;CR API Gateway"
+  "Name": "OvocoCRM 2.3.1",
+  "versionNumber": "2.3.1",
+  "status": "Current",
+  "releaseDate": "2026-02-10",
+  "previousVersion": "OvocoCRM 2.3.0",
+  "components": "Contact Manager;Deal Pipeline;Email Integration;REST API"
 }
 ```
 
@@ -56,7 +56,7 @@ Encoding. Data files must be UTF-8. Files saved with other encodings may import 
 After every edit, run validation:
 
 ```bash
-node tools/validate.js --schema schema/extended
+node tools/validate.js --schema schema/core
 ```
 
 
@@ -67,7 +67,7 @@ node tools/validate.js --schema schema/extended
 The `generate-templates.js` tool creates blank templates that match the schema:
 
 ```bash
-node tools/generate-templates.js --schema schema/extended
+node tools/generate-templates.js --schema schema/core
 ```
 
 This generates one CSV file per importable type in the `csv-templates/` directory. Each template has three header rows:
@@ -89,7 +89,7 @@ Do not rename columns or add custom columns. The `csv-to-json` tool relies on th
 The `--examples` flag pulls the first record from existing data files as a sample row:
 
 ```bash
-node tools/generate-templates.js --schema schema/extended --examples
+node tools/generate-templates.js --schema schema/core --examples
 ```
 
 ## XLSX Output
@@ -97,7 +97,7 @@ node tools/generate-templates.js --schema schema/extended --examples
 For Excel workbooks with formatting (requires the exceljs package):
 
 ```bash
-node tools/generate-templates.js --schema schema/extended --format xlsx
+node tools/generate-templates.js --schema schema/core --format xlsx
 ```
 
 XLSX output creates one worksheet per type with frozen header rows, color-coded headers (dark blue for camelCase keys, light blue for display names, gray for type hints), auto-sized column widths, and dropdown validation for reference fields.
@@ -108,13 +108,13 @@ Generate templates for a subset of types:
 
 ```bash
 # Only lookup types
-node tools/generate-templates.js --schema schema/extended --family lookups
+node tools/generate-templates.js --schema schema/core --family lookups
 
 # Only types relevant to a CM analyst
-node tools/generate-templates.js --schema schema/extended --role cm-analyst
+node tools/generate-templates.js --schema schema/core --role cm-analyst
 
 # Specific types
-node tools/generate-templates.js --schema schema/extended "Product Version" "Deployment Site"
+node tools/generate-templates.js --schema schema/core "Product Version" "Deployment Site"
 ```
 
 ## Filling Data in a Spreadsheet
@@ -131,7 +131,7 @@ Integer fields: enter whole numbers.
 
 Reference fields: enter the exact Name of the referenced record. "Current" must match a value in Version Status. Case matters.
 
-Multi-reference fields: enter multiple values separated by semicolons. "CR Core Platform;CR Authentication Module" references two Product Component records.
+Multi-reference fields: enter multiple values separated by semicolons. "Contact Manager;Deal Pipeline" references two Product Component records.
 
 When saving from Excel as CSV, choose "CSV UTF-8" format. Files saved with other encodings may contain invisible characters that cause validation failures.
 
@@ -140,7 +140,7 @@ When saving from Excel as CSV, choose "CSV UTF-8" format. Files saved with other
 When the templates are filled, convert to JSON:
 
 ```bash
-node tools/csv-to-json.js --schema schema/extended --outdir schema/extended/data filled-templates/*.csv
+node tools/csv-to-json.js --schema schema/core --outdir schema/core/data filled-templates/*.csv
 ```
 
 The converter:
@@ -154,13 +154,13 @@ The converter:
 Use `--dry-run` to validate the conversion without writing files:
 
 ```bash
-node tools/csv-to-json.js --schema schema/extended --dry-run filled-templates/server.csv
+node tools/csv-to-json.js --schema schema/core --dry-run filled-templates/server.csv
 ```
 
 Use `--strict` to treat unknown columns as errors instead of warnings:
 
 ```bash
-node tools/csv-to-json.js --schema schema/extended --strict filled-templates/server.csv
+node tools/csv-to-json.js --schema schema/core --strict filled-templates/server.csv
 ```
 
 ## When to Use Each Workflow
