@@ -219,12 +219,9 @@ if (missingFromPriority.length > 0) {
   ok('All leaf types covered by LOAD_PRIORITY');
 }
 
-if (extraInPriority.length > 0) {
-  for (const t of extraInPriority) {
-    // Only warn if this type is actually expected in this schema layer
-    // Extended types won't exist in base schema
-  }
-}
+// extraInPriority types are silently ignored. LOAD_PRIORITY includes
+// all types across all tiers; types not in the current schema are
+// expected and do not warrant warnings.
 
 // Step 4: Data file existence
 console.log('\n--- Data Files ---');
