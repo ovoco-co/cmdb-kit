@@ -1,7 +1,7 @@
 # ServiceNow Adapter and Scoped App
 
 **Status**: In Progress
-**Updated**: 2026-03-26
+**Updated**: 2026-03-28
 **Priority**: High
 
 ### What's done
@@ -14,14 +14,72 @@
 - Background script installer for ServiceNow instance setup
 - Zurich compatibility fixes (9 bugs, commit 66a19e3)
 - Testing: 105/105 records imported on Zurich PDI, 12/20 types fully pass validation
+- Core + Domains restructure complete (PR #2 merged 2026-03-28)
+- Overlay updated for new Core types (Feature, Deployment Site, Baseline)
+- Scoped prefix fix for new tables (x_cmdbk_ prefix on PDI)
+
+### What was found during Core testing (2026-03-28)
+- Schema mode creates 3 new tables (Feature, Deployment Site, Baseline) and 31 columns
+- Feature table created as x_cmdbk_u_cmdbk_feature (scoped prefix added by PDI)
+- Identification rule created with wrong table name (u_cmdbk_feature instead of x_cmdbk_u_cmdbk_feature)
+- Fixed manually by updating cmdb_identifier and cmdb_identifier_entry records
+- Deployment Site and Baseline import as tier 3 (Table API) without issues
+- Feature imports as tier 2 (CMDB Instance API) after identification rule fix
+- Reference field population on CI types has a pre-existing issue: CMDB API creates records with names and descriptions but reference fields are empty
 
 ### What's pending
+
+Full audit completed 2026-03-28. 45 issues found (15 high, 17 medium, 13 low). See audit-findings.md for details.
+
+#### Phase 1: Critical fixes - DONE (PRs #4, #5 merged 2026-03-28)
+
+All 15 high-severity items fixed:
+- SN-H1: Identification rules use sys_id lookup from sys_db_object (PR #5)
+- SN-H2: Two-pass import, IRE + Table API for custom fields (PR #5)
+- SN-H3: Double-prefixed table names in overlay.json (PR #4)
+- SN-H4: Default data path to schema/core (PR #4)
+- JSM-H1: refMismatch comparison checks referenceObjectTypeId (PR #4)
+- JSM-H2: validate-import strips key prefix from reference values (PR #4)
+- JSM-H3: 30+ attribute name mappings added (PR #4)
+- JSM-M1: Boolean handling fixed (type 0, defaultTypeId 2) (PR #4)
+- JSM-M3: Overlay integer type code fixed (PR #4)
+- TOOLS-H1: Default schema paths in 4 tools (PR #4)
+- TOOLS-H2: Boolean coercion in csv-to-json (PR #4)
+- TOOLS-H3: Duplicate SLA removed from LOAD_PRIORITY (PR #4)
+- SN overlay: VM scoped column, Deployment Site person refs (PR #4)
+- JSM overlay: Stale Product attributes removed (PR #4)
+- JSM export: 2-digit year date normalization (PR #4)
+
+#### Phase 2: Medium fixes - PARTIAL (PR #6 merged 2026-03-28)
+
+Done:
+- SN-M4: cmdbInstance uses retry logic (PR #6)
+- SN-M7: Query injection prevention in resolveSysId (PR #6)
+- JSM-M2: AQL injection prevention in resolveReference (PR #6)
+- TOOLS-M1: --domain flag on csv-to-json (PR #6)
+
+Remaining:
+- SN-M1: class-map.js Feature missing product reference
+- SN-M2: install-scoped-app.js hardcodes u_cmdbk_ prefix
+- SN-M3: check-schema.js only validates u_ columns
+- SN-M6: validate-import cannot handle transform fields
+- TOOLS-M1: --domain flag still needed on generate-templates and generate-site-content
+- TOOLS-M2: generate-site-content countRecords misses file patterns
+- TOOLS-M3: deployment-readiness.js assumes distribution domain types
+- TOOLS-M4: Domain attribute merge silently overwrites Core definitions
+- TOOLS-M5: Dead code in validate.js extraInPriority loop
+
+#### Phase 3: Low priority (cleanup, edge cases)
+
+All LOW severity items from audit-findings.md
+
+#### Phase 4: Remaining roadmap
+
 - Validate relationship deduplication on clean Zurich instance
-- Test export tool with custom CI classes and u_name handling
-- Export scoped app as update set from PDI (x_cmdbk namespace)
-- UI components: import wizard, schema browser, validation dashboard
-- ServiceNow Store certification submission
-- Propagate to extended and enterprise schemas (blocked by Core restructure)
+- Test export tool with custom CI classes
+- Export scoped app as update set from PDI
+- UI components
+- ServiceNow Store certification
 
 ## Overview
 
@@ -33,19 +91,21 @@ The original adapter used the Table API, which bypasses ServiceNow's deduplicati
 
 ## Architecture
 
-- **Adapter** (`src/servicenow/`): Node.js scripts that read cmdb-kit JSON schema files and import into ServiceNow via REST API
-- **Platform overlay** (`overlay.json`): Maps cmdb-kit types and attributes to ServiceNow OOTB classes and fields where equivalents exist
+- **Adapter** (`adapters/servicenow/`): Node.js scripts that read cmdb-kit JSON schema files and import into ServiceNow via REST API
+- **Platform overlay** (`adapters/servicenow/overlay.json`): Maps cmdb-kit types and attributes to ServiceNow tables and columns
 - **Scoped app** (`x_cmdbk`): ServiceNow application containing custom CI classes, relationships, and UI components
-- **Background scripts**: Install scripts that run in ServiceNow to create CI classes, attributes, and relationships from cmdb-kit definitions
+- **Background scripts**: Install scripts that run in ServiceNow to create CI classes, attributes, and relationships
 
 ## Dependencies
 
-- Blocked by: Core + Domains restructure (for schema propagation)
+- Core + Domains restructure: DONE (PR #2 merged)
 - Blocks: ServiceNow Store submission, enterprise customer adoption
 
 ## Success Criteria
 
 - Clean import on fresh Zurich PDI with zero duplicate records
 - All 20 relationship types created without manual intervention
+- Identification rules correctly reference scoped table names
+- Reference fields populated on all CI types
 - Scoped app exportable as update set for customer installation
 - Store certification requirements met (IRE usage, design docs, automated tests)
