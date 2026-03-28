@@ -21,7 +21,7 @@ ServiceNow ships with a large out-of-the-box (OOTB) CMDB built around the `cmdb_
 
 CMDB-Kit uses OOTB tables for infrastructure types that ServiceNow already models well, and creates custom CI classes for product-delivery types that ServiceNow does not model. Non-CI types (organizations, locations, lookup data) use standalone tables. Person uses a custom standalone table (`u_cmdbk_person`) because Person records represent external contacts and site POCs, not platform users.
 
-## The three-tier type mapping
+## The three-category type mapping
 
 **Tier 1: OOTB tables.** Infrastructure and directory types that map directly to built-in ServiceNow tables. No table creation needed.
 
@@ -121,8 +121,8 @@ export SN_USER=admin                                  # Admin username
 export SN_PASSWORD=your-password                      # Password
 
 # Required: Schema source
-export SCHEMA_DIR=schema/base                         # Directory containing schema JSON files
-export DATA_DIR=schema/base/data                      # Directory containing data JSON files
+export SCHEMA_DIR=schema/core                         # Directory containing schema JSON files
+export DATA_DIR=schema/core/data                      # Directory containing data JSON files
 
 # Optional: Configuration
 export SN_TABLE_PREFIX=u_cmdbk                        # Custom table prefix (default: u_cmdbk)
@@ -137,8 +137,8 @@ export DEBUG=true                                     # HTTP debug logging
 | SN_INSTANCE | Yes | none | ServiceNow instance URL |
 | SN_USER | Yes | | Admin username |
 | SN_PASSWORD | Yes | | Password |
-| SCHEMA_DIR | No | schema/base | Path to schema-structure.json and schema-attributes.json |
-| DATA_DIR | No | schema/base/data | Path to data JSON files |
+| SCHEMA_DIR | No | schema/core | Path to schema-structure.json and schema-attributes.json |
+| DATA_DIR | No | schema/core/data | Path to data JSON files |
 | SN_TABLE_PREFIX | No | u_cmdbk | Prefix for custom tables |
 | SN_LOOKUP_STRATEGY | No | table | Lookup mapping strategy (table or hybrid) |
 | SN_BATCH_SIZE | No | 200 | Records per pagination batch |
@@ -155,15 +155,15 @@ export SN_TABLE_PREFIX=x_cmdbk
 
 Scoped app tables require the app to be installed on the instance before the adapter can create tables under its namespace.
 
-## Choosing a schema layer
+## Choosing a schema
 
 | Schema | Best for |
 |--------|----------|
-| Base (schema/base) | Getting started, small teams, proof of concept |
-| Extended (schema/extended) | Full CMDB with baselines, compliance, licensing, and SLA management |
-| Enterprise (schema/enterprise) | Financial tracking, EA modeling, requirements, configuration library |
+| Core (schema/core) | Getting started, small teams, proof of concept |
+| Core + domains | Full CMDB with baselines, compliance, licensing, and SLA management |
+| Portfolio mode (schema/enterprise) | Financial tracking, EA modeling, requirements, configuration library |
 
-Start with base. You can switch to extended or enterprise later by changing `SCHEMA_DIR` and `DATA_DIR` and re-running the import. Extended includes everything in base plus more types, and enterprise includes everything in extended plus more.
+Start with Core. You can add domains later by passing `--domain` flags and re-running the import. Each domain is opt-in and adds types for a specific area.
 
 
 # Running the Import
@@ -183,7 +183,7 @@ This makes a single API call to confirm credentials and connectivity. If it fail
 Before touching ServiceNow, confirm that your schema and data files are internally consistent.
 
 ```bash
-node tools/validate.js --schema schema/base
+node tools/validate.js --schema schema/core
 ```
 
 Fix any errors before proceeding. The validator output tells you exactly what is wrong.
@@ -329,7 +329,7 @@ The schema sync does not configure these automatically. A future ServiceNow scop
 
 # Replacing Example Data with Your Own
 
-The process for replacing example data is the same as described in the [JSM Setup Guide](03-01-JSM-Assets-Setup.md#replacing-example-data-with-your-own). Edit the JSON data files or use the CSV workflow, then re-run the import.
+The process for replacing example data is the same as described in the [JSM Setup Guide](atlassian-cloud.md#replacing-example-data-with-your-own). Edit the JSON data files or use the CSV workflow, then re-run the import.
 
 ServiceNow-specific notes:
 

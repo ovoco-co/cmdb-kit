@@ -26,7 +26,7 @@ PRE-DEPLOYMENT                           DEPLOYMENT
                                            Decommissioned
 ```
 
-The boundary between the pipeline tracker and the production CMDB is not fixed. Some organizations run all phases in a single system. Others split at the planning-to-deployment boundary because the two sides have different access controls, different audiences, and different schema needs. The migration step in the middle is covered in [Deployment Handoff](06-03-Deployment-Handoff.md).
+The boundary between the pipeline tracker and the production CMDB is not fixed. Some organizations run all phases in a single system. Others split at the planning-to-deployment boundary because the two sides have different access controls, different audiences, and different schema needs. The migration step in the middle is covered in [Deployment Handoff](deployment-handoff.md).
 
 ## Pre-deployment Phases
 
@@ -136,7 +136,7 @@ The three attributes are independent dimensions. Any valid combination is possib
 
 The combination table reveals patterns that a single status field would hide. A site with Site Status "Active" and Upgrade Status "Scheduled" tells you that users are still working while an upgrade is being planned. A site with Site Status "Suspended" and Site Workflow Status "Operational" tells you this is a temporary outage during normal operations, not a planned maintenance window during an upgrade.
 
-For the schema design decisions behind these attributes (which types to use, how to model them in schema-attributes.json), see [Designing Site Deployments](../Schema-Design/designing-site-deployments.md).
+For the schema design decisions behind these attributes (which types to use, how to model them in schema-attributes.json), see [Designing Site Deployments](../../Schema-Design/designing-site-deployments.md).
 
 
 # Phase Ownership Across the Enterprise
@@ -257,4 +257,4 @@ The pipeline Deployment Site type is portfolio-level, covering all products in a
 
 Notice what is missing compared to the production schema: no productVersion, no targetVersion, no previousVersion, no upgradeStatus. These fields exist only in the production CMDB because they track operational state that does not apply to sites still in the pipeline.
 
-For the full data mapping between pipeline and production schemas, see [Deployment Handoff](06-03-Deployment-Handoff.md).
+For the full data mapping between pipeline and production schemas, see [Deployment Handoff](deployment-handoff.md).

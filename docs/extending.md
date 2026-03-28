@@ -23,7 +23,7 @@ Attribute types use a numeric encoding:
 
 JSON files containing example records. One file per type, kebab-case filename, camelCase field keys. A file named `product-version.json` contains records for the Product Version type.
 
-References use exact Name matching. If a Product Version record has `"status": "Released"`, the import script looks up a Version Status record whose Name is "Released". This means reference data (lookup types) must be imported before the types that reference them.
+References use exact Name matching. If a Product Version record has `"status": "Current"`, the import script looks up a Version Status record whose Name is "Current". This means reference data (lookup types) must be imported before the types that reference them.
 
 Data files can be replaced without touching the schema. You can swap in your own organization's data, keeping the same schema structure, and the adapters will import it without modification.
 

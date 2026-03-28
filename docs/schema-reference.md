@@ -390,8 +390,10 @@ Product Library
 ### Type Hierarchy
 
 ```
-Product Library
+Product CMDB
   License
+
+Product Library
   SLA
 
 Directory

@@ -284,7 +284,7 @@ Sites may have multiple contacts in different roles:
 
 Only the Primary Site Lead or Customer Project Lead is set as the sitePOC on the CR Deployment Site record. The sitePOC is the person the CM team contacts first for upgrade notifications, media distribution, and operational coordination.
 
-Other contacts are tracked as Person records with appropriate role assignments through the Site Personnel Assignment type described in [Designing Site Deployments](../Schema-Design/designing-site-deployments.md). This allows the team to look up specialized contacts when needed (the Network Admin for a connectivity issue, the Security Officer for a compliance question) without overloading the CR Deployment Site record with multiple contact fields.
+Other contacts are tracked as Person records with appropriate role assignments through the Site Personnel Assignment type described in [Designing Site Deployments](../../Schema-Design/designing-site-deployments.md). This allows the team to look up specialized contacts when needed (the Network Admin for a connectivity issue, the Security Officer for a compliance question) without overloading the CR Deployment Site record with multiple contact fields.
 
 ## sitePOC Attribute vs Full Personnel Assignments
 

@@ -111,7 +111,7 @@ This four-record pattern (Organization, Person, CR Deployment Site, Site Registr
 
 As the site progresses, the business development representative updates the CR Deployment Site workflowStatus to reflect the current phase. Each status change should be accompanied by a comment on the Site Registration issue explaining the transition (for example, "Requirements confirmed, moving to Funding" or "Security package submitted, waiting on customer security office").
 
-The workflow status values for the pipeline are: Prospecting, Requirements, Funding, On Hold, Procurement, Site Survey, Engineering, and Security Review. Each value corresponds to a pre-planning or planning phase described in [Site Lifecycle and Pipeline](site-lifecycle-and-pipeline.md).
+The workflow status values for the pipeline are: Prospecting, Requirements, Funding, On Hold, Procurement, Site Survey, Engineering, and Security Review. Each value corresponds to a pre-planning or planning phase described in [Site Lifecycle and Pipeline](site-lifecycle.md).
 
 ## Linking Issues to Asset Records
 

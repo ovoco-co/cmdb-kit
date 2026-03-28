@@ -31,7 +31,7 @@ The Distribution domain is for CM librarians and media custodians tracking what 
 
 ### Licensing
 
-The Licensing domain is for procurement and finance teams tracking software licenses, vendor relationships, and service level agreements. It adds License (with license type, vendor, expiration, quantity, and status), Vendor (third-party suppliers with website, contact email, contract expiry, and status), and SLA (service level agreements with target uptime, response time, and review date). License and SLA land under Product Library. Vendor lands under Directory. The domain adds four lookup types: License Type, License Status, Vendor Status, and SLA Status. Licensing references Core's Product type (SLA tracks service levels for a product) and Organization type is available through the Vendor's directory placement.
+The Licensing domain is for procurement and finance teams tracking software licenses, vendor relationships, and service level agreements. It adds License (with license type, vendor, expiration, quantity, and status), Vendor (third-party suppliers with website, contact email, contract expiry, and status), and SLA (service level agreements with target uptime, response time, and review date). License lands under Product CMDB. SLA lands under Product Library. Vendor lands under Directory. The domain adds four lookup types: License Type, License Status, Vendor Status, and SLA Status. Licensing references Core's Product type (SLA tracks service levels for a product) and Organization type is available through the Vendor's directory placement.
 
 ## Which Domains Do I Need?
 

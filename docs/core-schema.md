@@ -70,9 +70,10 @@ A specific, identifiable release of a product. Product Version is one of the mos
 | Attribute | Type | Description |
 |-----------|------|-------------|
 | name | Text | Display name (often the version string itself) |
+| description | Text | What is in this release |
 | versionNumber | Text | Semantic version or release identifier |
 | releaseDate | Date | When this version was released |
-| status | Ref to Version Status | Current lifecycle status (draft, released, deprecated, etc.) |
+| status | Ref to Version Status | Current lifecycle status (Current, Beta, Previous, Deprecated, Retired) |
 | components | Multi-ref to Product Component | Which components are included in this version |
 | previousVersion | Ref to Product Version | The version this one succeeds (self-reference) |
 | approvedBy | Ref to Person | Who approved the release |
@@ -124,7 +125,7 @@ A Deployment Site represents a persistent, ongoing installation of a product at 
 | version | Ref to Product Version | What version is currently running |
 | organization | Ref to Organization | The customer or entity at this site |
 | environment | Ref to Environment Type | Production, staging, development, etc. |
-| status | Ref to Site Status | Current site status (active, inactive, decommissioned) |
+| status | Ref to Site Status | Current site status (Active, Provisioning, Maintenance, Decommissioned) |
 | sitePOC | Ref to Person | Point of contact at this site |
 | supportTeam | Ref to Team | The team responsible for supporting this site |
 | lastDeploymentDate | Date | When the site was last updated |
@@ -170,7 +171,7 @@ A baseline is a snapshot of approved configuration at a specific moment. In conf
 | baselineType | Ref to Baseline Type | Classification (functional, allocated, product, etc.) |
 | product | Ref to Product | Which product this baseline covers |
 | version | Ref to Product Version | The version at the time of the baseline |
-| status | Ref to Baseline Status | Current status (proposed, approved, superseded) |
+| status | Ref to Baseline Status | Current status (Draft, Approved, Superseded) |
 | approvedBy | Ref to Person | Who approved the baseline |
 | approvalDate | Date | When approval was granted |
 | establishedDate | Date | When the baseline was formally established |

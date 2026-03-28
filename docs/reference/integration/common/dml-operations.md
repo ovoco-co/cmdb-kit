@@ -77,7 +77,7 @@ When a DRR approves a document:
 
 When a release is built, the release process copies current documents into an immutable release snapshot. The Documentation Suite CI references these snapshot copies, preserving an exact record of what shipped with that version.
 
-For the full 7-stage document lifecycle model (Author through Archive) with file formats and DML locations at each stage, see [Definitive Media Library, Document Lifecycle](../Schema-Design/definitive-media-library.md#document-lifecycle).
+For the full 7-stage document lifecycle model (Author through Archive) with file formats and DML locations at each stage, see [Definitive Media Library, Document Lifecycle](../../Schema-Design/definitive-media-library.md#document-lifecycle).
 
 
 # Intake Processing
@@ -377,7 +377,7 @@ Run this check periodically (quarterly or after major releases):
 - Controlled artifacts are not stored as wiki attachments
 - Wiki pages link to DML artifacts via the `dmlPath` from CMDB CIs
 
-For additional wiki-DML integration patterns and the full boundary table, see [Definitive Media Library, What Goes Where](../Schema-Design/definitive-media-library.md#what-goes-where).
+For additional wiki-DML integration patterns and the full boundary table, see [Definitive Media Library, What Goes Where](../../Schema-Design/definitive-media-library.md#what-goes-where).
 
 ## Naming and Organization
 

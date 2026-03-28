@@ -21,7 +21,7 @@ CMDB-Kit does not model the storage location itself. It models what is stored th
 
 The actual files live wherever your organization stores them: a shared drive, an S3 bucket, a Nexus repository, a classified file server. The CMDB records point to those files (via file names and checksums) and track their lifecycle.
 
-The enterprise schema also introduces four lookup types that support these DML records:
+Portfolio mode also introduces four lookup types that support these DML records:
 
 - Media Type: classifies the format of each artifact (Container Image, Installation ISO, Helm Chart, Documentation Archive, Patch Bundle, Database Migration)
 - Transfer Status: tracks each delivery through its lifecycle (Requested, Approved, Preparing, Shipped, In Transit, Received, Installed, Verified)
@@ -61,7 +61,7 @@ Wiki page                          CMDB CI                          DML file
 - CMDB CIs **catalog** what is in the DML and what is in the wiki
 - The DML **stores** the controlled artifact itself
 
-> **Note:** In the enterprise schema, the `dmlPath` attribute is defined on CR Document, CR Product Media, and CR Product Suite. The `url` attribute on CR Document can point to a wiki page or artifact location.
+> **Note:** In portfolio mode, the `dmlPath` attribute is defined on CR Document, CR Product Media, and CR Product Suite. The `url` attribute on CR Document can point to a wiki page or artifact location.
 
 ### What Goes Where
 
@@ -216,7 +216,7 @@ This pattern works alongside the version-based layout described above. Choose th
 
 ## Recording Downloadable Artifacts and Binaries
 
-CR Product Media is the CI type that represents a single deliverable artifact. One file, one record. The enterprise schema adds a mediaType reference and a relatedProduct reference that the base schema does not have, enabling richer classification and traceability. The dmlPath attribute records where the artifact lives on the DML file server.
+CR Product Media is the CI type that represents a single deliverable artifact. One file, one record. Portfolio mode adds a mediaType reference and a relatedProduct reference that the Core schema does not have, enabling richer classification and traceability. The dmlPath attribute records where the artifact lives on the DML file server.
 
 ```json
 {
@@ -235,7 +235,7 @@ CR Product Media is the CI type that represents a single deliverable artifact. O
 
 ## Attributes
 
-The CR Product Media attributes in the enterprise schema:
+The CR Product Media attributes in portfolio mode:
 
 ```json
 "CR Product Media": {
@@ -277,7 +277,7 @@ Distribution logs track the delivery at the site level while media records track
 
 ## Media Type Lookup
 
-The Media Type lookup classifies the format of each artifact. The enterprise schema includes these values:
+The Media Type lookup classifies the format of each artifact. Portfolio mode includes these values:
 
 | Name | Description |
 |---|---|
@@ -387,7 +387,7 @@ The numbering convention (TR1 through TR9) assumes a maximum of nine temporary r
 
 ## Bundling Multiple Media Items Into a Distribution Package
 
-A CR Product Suite groups multiple CR Product Media records into a single distribution package. It represents "everything you need to install this version." The enterprise schema adds attributes for product ownership, release metadata, and suite lifecycle state.
+A CR Product Suite groups multiple CR Product Media records into a single distribution package. It represents "everything you need to install this version." Portfolio mode adds attributes for product ownership, release metadata, and suite lifecycle state.
 
 The CR Product Suite attributes:
 
@@ -489,7 +489,7 @@ Each CR Document CI has a `url` attribute (for linking to the wiki page or artif
 
 ## CR Document Attributes
 
-The CR Document type in the enterprise schema has these attributes defined in `schema-attributes.json`:
+The CR Document type in portfolio mode has these attributes defined in `schema-attributes.json`:
 
 | Attribute | Type | Description |
 |---|---|---|
@@ -579,7 +579,7 @@ Without this metadata, the CM team cannot determine where to file the artifact, 
 
 Different artifact types (software packages, documentation, configuration files, test artifacts) have specific additional requirements beyond the base metadata. Submission methods include direct DML drop folders, physical media for air-gapped environments, and secure file transfer across network boundaries. Every binary submission must include SHA-256 checksums for integrity verification. In environments with classification requirements, appropriate markings must be applied to all files and media.
 
-For the complete intake SOP, including the artifact type taxonomy, per-type requirements, intake form template, processing steps, and email templates, see [DML Operations](../Deployment-Operations/dml-operations.md#intake-processing).
+For the complete intake SOP, including the artifact type taxonomy, per-type requirements, intake form template, processing steps, and email templates, see [DML Operations](../integration/common/dml-operations.md#intake-processing).
 
 
 # File Verification Workflow
@@ -639,7 +639,7 @@ The CR Distribution Log is the audit trail. It answers: who requested what versi
 
 ## The Audit Trail
 
-The CR Distribution Log is the most operationally important type in the DML section. It connects the Product Library (what was released) to the deployment landscape (where it went). The enterprise schema significantly expands this type beyond the base schema, adding a full lifecycle workflow with request tracking, delivery method classification, media details, and installation verification.
+The CR Distribution Log is the most operationally important type in the DML section. It connects the Product Library (what was released) to the deployment landscape (where it went). Portfolio mode significantly expands this type beyond the Core schema, adding a full lifecycle workflow with request tracking, delivery method classification, media details, and installation verification.
 
 The CR Distribution Log attributes:
 
@@ -725,7 +725,7 @@ The Transfer Status lookup defines the lifecycle stages for each distribution:
 | Installed | Media has been installed at the site |
 | Verified | Installation has been verified and confirmed working |
 
-This lifecycle replaces the simple distributionDate and distributedBy pattern from the base schema with a full audit trail. Each date attribute (requestDate, preparedDate, shippedDate, receivedDate, installedDate, verifiedDate) captures a specific transition in the lifecycle.
+This lifecycle replaces the simple distributionDate and distributedBy pattern from the Core schema with a full audit trail. Each date attribute (requestDate, preparedDate, shippedDate, receivedDate, installedDate, verifiedDate) captures a specific transition in the lifecycle.
 
 ## Delivery Method and Media Urgency
 
@@ -746,7 +746,7 @@ The Media Urgency lookup captures the priority of a distribution request:
 | Expedited | Faster than standard, prioritized handling |
 | Emergency | Critical, requires immediate processing |
 
-These lookups provide structured classification where the base schema relied on free-text fields.
+These lookups provide structured classification where the Core schema relied on free-text fields.
 
 ## Why This Record Matters for Compliance and Rollback
 
@@ -831,7 +831,7 @@ Do not migrate stale content into a new environment. The migration is an opportu
 
 ## OvocoCRM v2.4.0: Build, Package, Distribute, Verify
 
-Here is the complete lifecycle of the OvocoCRM 2.4.0 release in the enterprise schema, from build artifact through verified distribution:
+Here is the complete lifecycle of the OvocoCRM 2.4.0 release in portfolio mode, from build artifact through verified distribution:
 
 Development builds the container image for OvocoCRM Core Platform 2.4.0. SHA-256 checksums are generated.
 
