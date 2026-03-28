@@ -385,7 +385,8 @@ async function syncAttributes(schemaId) {
 // ---------------------------------------------------------------------------
 async function resolveReference(schemaId, targetTypeId, targetName) {
   if (!targetTypeId || !targetName) return null;
-  const aql = `objectTypeId = ${targetTypeId} AND Name = "${targetName}"`;
+  const safeName = String(targetName).replace(/"/g, '\\"');
+  const aql = `objectTypeId = ${targetTypeId} AND Name = "${safeName}"`;
   try {
     let res;
     if (config.isCloud) {

@@ -32,6 +32,7 @@ let schemaDir = null;
 let outdir = null;
 let dryRun = false;
 let strict = false;
+const domainDirs = [];
 const csvFiles = [];
 
 for (let i = 0; i < args.length; i++) {
@@ -40,6 +41,8 @@ for (let i = 0; i < args.length; i++) {
     process.exit(0);
   } else if (args[i] === '--schema' && i + 1 < args.length) {
     schemaDir = args[++i];
+  } else if (args[i] === '--domain' && i + 1 < args.length) {
+    domainDirs.push(args[++i]);
   } else if (args[i] === '--outdir' && i + 1 < args.length) {
     outdir = args[++i];
   } else if (args[i] === '--dry-run') {
@@ -65,7 +68,8 @@ Usage:
   node tools/csv-to-json.js [options] <file.csv> [file2.csv ...]
 
 Options:
-  --schema <dir>   Schema directory (default: schema/base)
+  --schema <dir>   Schema directory (default: schema/core)
+  --domain <dir>   Domain directory to merge (repeatable)
   --outdir <dir>   Output directory (default: same directory as input CSV)
   --dry-run        Validate and show summary without writing files
   --strict         Fail on columns not found in schema-attributes.json
@@ -90,6 +94,19 @@ const DATA_DIR = path.join(schemaDir, 'data');
 // ── Load schema ──────────────────────────────────────────────────────
 const structure = JSON.parse(fs.readFileSync(STRUCTURE_PATH, 'utf8'));
 const attributes = JSON.parse(fs.readFileSync(ATTRIBUTES_PATH, 'utf8'));
+
+// Merge domain schemas
+for (const domDir of domainDirs) {
+  const resolved = path.resolve(domDir);
+  const domAttrs = path.join(resolved, 'schema-attributes.json');
+  if (fs.existsSync(domAttrs)) {
+    const da = JSON.parse(fs.readFileSync(domAttrs, 'utf8'));
+    for (const [typeName, attrs] of Object.entries(da)) {
+      if (!attributes[typeName]) attributes[typeName] = attrs;
+      else Object.assign(attributes[typeName], attrs);
+    }
+  }
+}
 
 const validTypes = new Set(structure.map(t => t.name));
 const fileToType = {};

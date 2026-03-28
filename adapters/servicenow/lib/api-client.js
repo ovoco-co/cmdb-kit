@@ -179,7 +179,7 @@ function createApiClient(config, clientOptions = {}) {
   async function cmdbInstance(className, attributes, source) {
     const payload = { source, attributes };
     await throttle();
-    const result = await request('POST', `/api/now/cmdb/instance/${className}`, payload);
+    const result = await requestWithRetry('POST', `/api/now/cmdb/instance/${className}`, payload);
     // CMDB Instance API returns { attributes: {...} } not { result: [...] }
     // The auto-unwrap in request() handles the outer wrapper
     return result;
