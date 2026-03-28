@@ -1,6 +1,6 @@
 # ServiceNow Adapter and Scoped App
 
-**Status**: In Progress
+**Status**: Done (all phases complete, remaining low bugs documented in audit-findings.md)
 **Updated**: 2026-03-28
 **Priority**: High
 

@@ -1,7 +1,7 @@
 # Documentation Rewrite for Core + Domains
 
-**Status**: Blocked
-**Updated**: 2026-03-26
+**Status**: Done (PR #3 merged 2026-03-28)
+**Updated**: 2026-03-28
 **Priority**: High
 **Blocked by**: Core + Domains restructure
 

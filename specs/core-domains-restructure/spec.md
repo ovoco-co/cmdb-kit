@@ -1,7 +1,7 @@
 # Core + Domains Schema Restructure
 
-**Status**: In Progress
-**Updated**: 2026-03-26
+**Status**: Done (PR #2 merged 2026-03-28)
+**Updated**: 2026-03-28
 **Priority**: Critical (blocks all other work)
 
 ### What's done

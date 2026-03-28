@@ -1,6 +1,6 @@
 # Drift Detection Tool
 
-**Status**: Not Started
+**Status**: Done (PR #16 merged 2026-03-28)
 **Updated**: 2026-03-26
 **Priority**: High
 
@@ -30,7 +30,7 @@ This is a natural extension of the existing validate pattern (count-compare, fie
 
 ## Dependencies
 
-- Blocked by: Core + Domains restructure (Deployment Site type moves to Core)
+- Core + Domains restructure: DONE
 - Blocks: Nothing (additive tool)
 
 ## Success Criteria
