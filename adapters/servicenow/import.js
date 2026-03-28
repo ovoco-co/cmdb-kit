@@ -262,10 +262,23 @@ async function createColumn(tableName, columnName, label, internalType, refTable
  * and deduplicate automatically.
  */
 async function ensureIdentificationRule(tableName, label, attributes) {
-  // Check if a rule already exists for this table
+  // Look up the actual table record from sys_db_object.
+  // On scoped app instances, the actual table name may differ from the
+  // configured name (e.g., x_<scope>_cmdbk_feature vs u_cmdbk_feature).
+  // The applies_to field on cmdb_identifier is a reference to sys_db_object
+  // and requires the sys_id, not the table name string.
+  const tableRecord = await tableExists(tableName);
+  if (!tableRecord) {
+    console.log(`  ${C.yellow}Table ${tableName} not found in sys_db_object, skipping identification rule${C.reset}`);
+    return;
+  }
+  const tableSysId = tableRecord.sys_id;
+  const actualTableName = tableRecord.name;
+
+  // Check if a rule already exists for this table (query by sys_id)
   try {
     const existing = await api.get('/api/now/table/cmdb_identifier', {
-      sysparm_query: `applies_to=${tableName}^active=true`,
+      sysparm_query: `applies_to=${tableSysId}^active=true`,
       sysparm_fields: 'sys_id,name',
       sysparm_limit: 1,
     });
@@ -283,19 +296,19 @@ async function ensureIdentificationRule(tableName, label, attributes) {
   }
 
   try {
-    // Create the identifier
+    // Create the identifier using the table's sys_id for applies_to
     const rule = await api.post('/api/now/table/cmdb_identifier', {
       name: `${label} Rule`,
-      applies_to: tableName,
+      applies_to: tableSysId,
       independent: 'true',
       active: 'true',
     });
     console.log(`  ${C.green}+ Identification rule:${C.reset} ${label} Rule`);
 
-    // Create the identifier entry with matching attributes
+    // Create the identifier entry using the actual table name from sys_db_object
     await api.post('/api/now/table/cmdb_identifier_entry', {
       identifier: rule.sys_id,
-      table: tableName,
+      table: actualTableName,
       attributes: attributes.join(','),
       active: 'true',
       order: '100',
@@ -684,7 +697,8 @@ async function processType(typeName, mode) {
       const payload = await buildPayload(item, mapping, typeName);
 
       if (mapping.cmdbApi) {
-        // CMDB Instance API: IRE handles create vs update automatically
+        // Two-pass import for CI types:
+        // Pass 1: CMDB Instance API for dedup and record creation via IRE
         payload.discovery_source = config.discoverySource;
         const result = await api.cmdbInstance(table, payload, config.discoverySource);
         const sysId = result.attributes?.sys_id || result.sys_id;
@@ -692,6 +706,23 @@ async function processType(typeName, mode) {
           if (!sysIdCache[table]) sysIdCache[table] = {};
           const isNew = !sysIdCache[table][name];
           sysIdCache[table][name] = sysId;
+
+          // Pass 2: Table API PUT for custom reference fields that the
+          // IRE does not reliably populate on extended CI classes
+          const customFields = {};
+          for (const [k, v] of Object.entries(payload)) {
+            if (k === 'name' || k === 'short_description' || k === 'discovery_source') continue;
+            if (k === 'install_status' || k === 'environment') continue;
+            customFields[k] = v;
+          }
+          if (Object.keys(customFields).length > 0) {
+            try {
+              await api.put(`/api/now/table/${table}/${sysId}`, customFields);
+            } catch (_e) {
+              // Non-fatal: IRE already created the record
+            }
+          }
+
           if (isNew) added++;
           else updated++;
         } else {
