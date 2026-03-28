@@ -478,7 +478,7 @@
     },
     "Feature": {
       "tier": 2,
-      "table": "x_cmdbk_{prefix}_feature",
+      "table": "{prefix}_feature",
       "superClass": "cmdb_ci",
       "isCi": true,
       "cmdbApi": true,
@@ -618,7 +618,7 @@
     },
     "Baseline": {
       "tier": 3,
-      "table": "x_cmdbk_{prefix}_baseline",
+      "table": "{prefix}_baseline",
       "attributes": {
         "description": "u_description",
         "baselineType": "u_baseline_type",
@@ -710,7 +710,7 @@
     },
     "Deployment Site": {
       "tier": 3,
-      "table": "x_cmdbk_{prefix}_deployment_site",
+      "table": "{prefix}_deployment_site",
       "attributes": {
         "description": "u_description",
         "product": {

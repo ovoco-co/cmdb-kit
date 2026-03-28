@@ -80,7 +80,7 @@ if (csvFiles.length === 0) {
 
 // ── Resolve paths ────────────────────────────────────────────────────
 const projectRoot = path.resolve(__dirname, '..');
-if (!schemaDir) schemaDir = path.join(projectRoot, 'schema', 'base');
+if (!schemaDir) schemaDir = path.join(projectRoot, 'schema', 'core');
 else schemaDir = path.resolve(schemaDir);
 
 const STRUCTURE_PATH = path.join(schemaDir, 'schema-structure.json');

@@ -21,7 +21,7 @@ function loadConfig(options = {}) {
   const schemaDir = process.env.SCHEMA_DIR || defaults.schemaDir || null;
   const defaultDataDir = schemaDir
     ? path.resolve(schemaDir, 'data')
-    : path.join(__dirname, '../../../schema/base/data');
+    : path.join(__dirname, '../../../schema/core/data');
 
   const config = {
     instanceUrl: process.env.SN_INSTANCE || defaults.instanceUrl || '',

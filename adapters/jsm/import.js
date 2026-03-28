@@ -333,9 +333,15 @@ async function syncAttributes(schemaId) {
         if (existing) {
           const expectedDefaultTypeId = attrDef.defaultTypeId || 0;
           const currentDefaultTypeId = existing.defaultType?.id;
-          const currentRefTypeId = String(existing.typeValue || existing.defaultType?.typeValue || '');
+          const currentRefTypeId = String(
+            existing.typeValue
+            || existing.referenceObjectTypeId
+            || existing.referenceObjectType?.id
+            || existing.defaultType?.typeValue
+            || ''
+          );
 
-          const refMismatch = payload.type === 1 && payload.typeValue && currentRefTypeId !== payload.typeValue;
+          const refMismatch = payload.type === 1 && payload.typeValue && currentRefTypeId !== String(payload.typeValue);
           const cardMismatch = attrDef.max === -1 && existing.maximumCardinality !== -1;
 
           if (refMismatch || cardMismatch) {
