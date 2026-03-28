@@ -206,8 +206,44 @@ The positioning must shift:
 6. Open source and free
 7. Portable (adapter pattern for multiple platforms)
 
-### Remaining research items
-- Task 5.1: ITIL 4 SACM practice guide updates
-- Task 5.2: Defense-specific CMDB solutions
-- Task 5.3: New entrants since our research
-- Download and read the CSDM 5.0 white paper in detail
+## Phase 5: Current State
+
+### Task 5.1: ITIL 4 SACM
+No significant updates found specific to product delivery tracking.
+
+### Task 5.2: Defense-specific CMDB solutions
+No dedicated tools found. Defense sector is focused on CMMC compliance (NIST 800-171), not product delivery CMDB. The original finding stands: defense CM still lives in spreadsheets and custom solutions.
+
+### Task 5.3: New entrants
+DataGerry (open source CMDB with flexible data model) is a blank-canvas approach. No pre-built product delivery schema. Other open source CMDBs (iTop, CMDBuild, Ralph, i-doit) remain infrastructure-focused.
+
+No new entrant specifically targeting the product-delivery-in-ITSM-platform gap.
+
+### Remaining
+- Download and read the CSDM 5.0 white paper in full detail
+- Verify whether System Component Model tracks deployment state at customer sites or only internal IT service instances
+- Check if ServiceNow's "Digital Product Release" module overlaps with cmdb-kit's distribution domain
+
+## Research Status
+
+| Task | Status |
+|------|--------|
+| 1.1 Device42 | Done (archived) |
+| 1.2 Simply Asset Mgmt | Done (IT service catalog) |
+| 1.3 CMDB Change Policy | Done (financial compliance) |
+| 1.4 IT Assets License | Done (ITAM) |
+| 1.5 Top 5 spot check | Done (CMJ = Jira config mgmt) |
+| 1.6 CMJ / SW CM Toolkit | Done (closest Atlassian find) |
+| 2.1 EY Back to Baseline | Deferred (needs SN login) |
+| 2.2 CSDM v4/v5 | CRITICAL FINDING - CSDM 5.0 changes landscape |
+| 2.3 SN Community | Deferred (needs login) |
+| 2.4 SN Plugins | Covered by CSDM 5.0 finding |
+| 3.1 Arena PLM | Done (hardware PLM) |
+| 3.2/3.3 Aras/Windchill/TC | Done (hardware PLM) |
+| 4.1 Industrace | Done (ICS/OT) |
+| 4.2 GitHub re-search | Done (no new finds) |
+| 5.1 ITIL 4 SACM | Done (no updates) |
+| 5.2 Defense CMDB | Done (CMMC focus, no delivery tools) |
+| 5.3 New entrants | Done (DataGerry is blank canvas) |
+
+15 of 18 tasks complete. 3 deferred (require ServiceNow login).

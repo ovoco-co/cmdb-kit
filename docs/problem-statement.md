@@ -8,7 +8,7 @@ Three disciplines manage different parts of the same product lifecycle. They use
 
 Tools include Git, Jenkins, ArgoCD, and GitHub Actions. The community is developers and DevOps engineers. Their definition of "configuration management" is version control and infrastructure-as-code.
 
-**ITIL CMDB** uses ServiceNow, JSM Assets, BMC, and iTop. It manages discovered infrastructure: servers, networks, applications, services. It knows what infrastructure exists and what services run on it. It has no concept of a software product version deployed to a customer site, an approved configuration baseline, or a media distribution chain of custody.
+**ITIL CMDB** uses ServiceNow, JSM Assets, BMC, and iTop. It manages discovered infrastructure: servers, networks, applications, services. It knows what infrastructure exists and what services run on it. ServiceNow's CSDM 5.0 (released May 2025) added the System Component Model and Software Component Model, which provide building blocks for tracking software versions. But these are building blocks, not a ready-to-use product delivery schema. They require significant configuration to answer questions like "what version is at Acme Corp's site," and they don't cover baselines, deployment site POCs, or media distribution. JSM Assets has no equivalent model at all.
 
 Tools include ServiceNow Discovery, Tanium, and SCCM. The community is IT service managers, CMDB admins, and ServiceNow consultants. Their definition of "configuration management" is service mapping and change management tied to infrastructure CIs.
 
@@ -25,11 +25,11 @@ A development team finishes a release and publishes an artifact. What happens ne
 
 A survey of existing tools, platforms, and communities confirms the gap. The evidence comes from marketplace searches, open-source repositories, published literature, and observation of where practitioners actually gather.
 
-Atlassian Marketplace: 19 CMDB apps searched. All are infrastructure discovery connectors or IT asset managers. None track software product versions deployed to customer sites.
+Atlassian Marketplace: 19 CMDB apps searched. All are infrastructure discovery connectors or IT asset managers. The closest find is the Software Configuration Management Toolkit by The Starware (363 installs), which handles release composition (subcomponents, component-specific versions, bundles) in Jira, but does not track where releases are deployed or maintain baselines.
 
-ServiceNow Store: 12 results for "deployment tracking baseline configuration management." Zero results for "product version release tracking."
+ServiceNow Store: 12 results for "deployment tracking baseline configuration management." Zero results for "product version release tracking." However, CSDM 5.0 (May 2025) added the System Component Model and Software Component Model, which provide building blocks for version tracking within ServiceNow. These require custom configuration to assemble into a product delivery tracking system.
 
-GitHub: 23 open-source CMDB projects. All infrastructure-focused.
+GitHub: 23 open-source CMDB projects. All infrastructure-focused. DataGerry offers a blank-canvas data model but no pre-built product delivery schema.
 
 Every CMDB book reviewed defines CMDB around infrastructure and IT services. CI categories in the literature are Server, Application, Database, and Network. No Product, Version, Baseline, or Deployment Site.
 
@@ -37,12 +37,12 @@ Every CMDB book reviewed defines CMDB around infrastructure and IT services. CI 
 
 These communities don't overlap. CMDB forums (r/servicenow, itSMF, HDI) are one tradition. Defense CM forums (NDIA CM Division, CMPIC, INCOSE, SAE) are another. A ServiceNow CMDB person doesn't attend NDIA CM Division meetings. A defense configuration manager doesn't post on r/servicenow. The terminology collision means they rarely even discover each other's tools and practices.
 
-The result is that each tradition has mature tooling for its own concerns, but the space between them, where a built product gets deployed to customer sites and tracked against approved baselines, has no standard tooling at all. The gap persists because no single community owns it. Software CM stops at the release. ITIL CMDB starts at infrastructure discovery. Defense CM defines the requirements but doesn't provide the digital tooling.
+The result is that each tradition has mature tooling for its own concerns, but the space between them, where a built product gets deployed to customer sites and tracked against approved baselines, has limited ready-to-use tooling. CSDM 5.0 moves ServiceNow closer to covering this space, but it provides a reference model with building blocks, not a ready-to-import schema. Deployment automation tools like Octopus Deploy handle the act of deploying but don't maintain the persistent CMDB state record of what's installed where. The gap has narrowed but the assembly work still falls to each organization.
 
 
 ## Who This Is For
 
-CMDB-Kit is for a configuration manager or technical lead on a program that ships software to customer sites. Defense contractor, government agency, or commercial company with on-premises deployments. They use ServiceNow or JSM Assets because that's what their organization runs. They track product versions, baselines, and deployment status in spreadsheets because the CMDB doesn't have these concepts.
+CMDB-Kit is for anyone who ships software to customer sites and needs to track what version is where. A SaaS company deploying dedicated instances for enterprise customers. A healthcare software vendor deploying to hospitals. An industrial controls company deploying to manufacturing plants. A defense contractor deploying to government sites. A managed services provider deploying to client environments. They use ServiceNow or JSM Assets because that's what their organization runs. They track product versions, baselines, and deployment status in spreadsheets because the CMDB doesn't provide these concepts out of the box.
 
 They know the CMDB has value for infrastructure tracking. They want to connect their product and deployment data to that infrastructure data. But the CMDB schema doesn't have types for what they need to track, and they don't have time to design a schema from scratch.
 
