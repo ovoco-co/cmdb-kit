@@ -28,7 +28,7 @@
 const fs = require('fs');
 const path = require('path');
 const {
-  loadConfig, createApiClient, getClassMap,
+  loadConfig, createApiClient, getClassMap, resolveTableNames,
   loadDataFile, mapAttrName, LOAD_PRIORITY, PERSONNEL_TYPES, C,
 } = require('./lib');
 
@@ -303,6 +303,12 @@ async function main() {
   const config = loadConfig({ requireAuth: true, requireSchema: false });
   const api = createApiClient(config, { timeout: 30000, maxRetries: 2 });
   const classMap = getClassMap(config.tablePrefix);
+
+  // Resolve scoped table names
+  const resolved = await resolveTableNames(classMap, api);
+  if (resolved > 0) {
+    console.log(`  Resolved ${resolved} scoped table name(s)`);
+  }
 
   console.log('');
   console.log('='.repeat(50));
