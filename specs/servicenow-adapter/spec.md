@@ -94,13 +94,12 @@ Remaining:
 
 - Validate relationship deduplication: DONE (20 relationships skipped correctly, no duplicates created)
 - Test export tool: DONE (PR #16 - resolveTableNames fixes scoped table names, Feature exported 6 records)
-- Export scoped app as update set from PDI - NEXT
-- UI components - deferred
-- ServiceNow Store certification - deferred
+
+No-CLI distribution (update set, Store certification, UI components) moved to separate spec at specs/no-cli-installation/spec.md.
 
 ## Overview
 
-Full-featured ServiceNow CMDB adapter that imports cmdb-kit schemas as custom CI classes using the CMDB Instance API and Identification Reconciliation Engine (IRE). Packaged as a certified scoped app for ServiceNow Store distribution.
+Full-featured ServiceNow CMDB adapter that imports cmdb-kit schemas as custom CI classes using the CMDB Instance API and Identification Reconciliation Engine (IRE).
 
 ## Why
 
@@ -110,13 +109,12 @@ The original adapter used the Table API, which bypasses ServiceNow's deduplicati
 
 - **Adapter** (`adapters/servicenow/`): Node.js scripts that read cmdb-kit JSON schema files and import into ServiceNow via REST API
 - **Platform overlay** (`adapters/servicenow/overlay.json`): Maps cmdb-kit types and attributes to ServiceNow tables and columns
-- **Scoped app** (`x_cmdbk`): ServiceNow application containing custom CI classes, relationships, and UI components
-- **Background scripts**: Install scripts that run in ServiceNow to create CI classes, attributes, and relationships
+- **Scoped app** (`x_cmdbk`): ServiceNow application scope containing custom CI classes and relationships
 
 ## Dependencies
 
 - Core + Domains restructure: DONE (PR #2 merged)
-- Blocks: ServiceNow Store submission, enterprise customer adoption
+- Blocks: nothing (adapter is functional)
 
 ## Success Criteria
 
@@ -124,5 +122,3 @@ The original adapter used the Table API, which bypasses ServiceNow's deduplicati
 - All 20 relationship types created without manual intervention
 - Identification rules correctly reference scoped table names
 - Reference fields populated on all CI types
-- Scoped app exportable as update set for customer installation
-- Store certification requirements met (IRE usage, design docs, automated tests)
