@@ -188,7 +188,17 @@ function extractRemoteValue(attr) {
   return v.displayValue != null ? String(v.displayValue) : String(v.value);
 }
 
-function buildRemoteIndex(entries) {
+function buildRemoteIndex(entries, attrDefs) {
+  // Build ID-to-name lookup from attribute definitions.
+  // The Cloud AQL endpoint returns objectTypeAttributeId but not the
+  // nested objectTypeAttribute object, so we need to resolve names ourselves.
+  const attrIdToName = {};
+  if (attrDefs) {
+    for (const a of attrDefs) {
+      if (a.id) attrIdToName[String(a.id)] = a.name;
+    }
+  }
+
   const index = new Map();
   for (const entry of entries) {
     // Extract Name from attributes
@@ -200,9 +210,10 @@ function buildRemoteIndex(entries) {
 
     const record = {};
     for (const attr of (entry.attributes || [])) {
+      // Try nested object first (DC), then fall back to ID lookup (Cloud)
       const attrName = attr.objectTypeAttribute
         ? (attr.objectTypeAttribute.name || '')
-        : '';
+        : (attrIdToName[String(attr.objectTypeAttributeId)] || '');
       if (!attrName || attrName === 'Name' || attrName === 'Key') continue;
       record[attrName] = extractRemoteValue(attr);
     }
@@ -224,10 +235,12 @@ function normalizeDate(s) {
   // ISO: 2025-09-15 or 2025-09-15T00:00:00.000Z
   const iso = s.match(/^(\d{4}-\d{2}-\d{2})/);
   if (iso) return iso[1];
-  // DD/Mon/YYYY (JSM format)
-  const dmy = s.match(/^(\d{1,2})\/(\w{3})\/(\d{4})/);
+  // DD/Mon/YYYY (JSM format, 2 or 4 digit year)
+  const dmy = s.match(/^(\d{1,2})\/(\w{3})\/(\d{2,4})/);
   if (dmy && MONTHS[dmy[2]]) {
-    return `${dmy[3]}-${MONTHS[dmy[2]]}-${dmy[1].padStart(2, '0')}`;
+    let year = dmy[3];
+    if (year.length === 2) year = (parseInt(year) >= 70 ? '19' : '20') + year;
+    return `${year}-${MONTHS[dmy[2]]}-${dmy[1].padStart(2, '0')}`;
   }
   return s;
 }
@@ -251,6 +264,11 @@ function valuesEqual(local, remote, attrDef) {
   // Determine if this is a date field (defaultTypeId 4 in JSM attr defs)
   const isDate = attrDef && (attrDef.defaultType && attrDef.defaultType.id === 4);
   const isBool = attrDef && (attrDef.defaultType && attrDef.defaultType.id === 2);
+
+  // Normalize semicolon-separated strings to arrays for multi-value comparison
+  if (typeof local === 'string' && local.includes(';') && Array.isArray(remote)) {
+    local = local.split(';').map(s => s.trim());
+  }
 
   // Multi-value comparison
   if (Array.isArray(local) && Array.isArray(remote)) {
@@ -342,7 +360,7 @@ async function validateType(typeName, typeId, schemaId, api, config, options) {
     if (name) localIndex.set(name, rec);
   }
 
-  const remoteIndex = buildRemoteIndex(remoteEntries);
+  const remoteIndex = buildRemoteIndex(remoteEntries, attrDefs);
 
   // Compare presence
   const missing = [];

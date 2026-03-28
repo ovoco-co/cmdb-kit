@@ -1,0 +1,11 @@
+[
+  { "name": "License", "parent": "Product CMDB", "description": "Software license tracking" },
+  { "name": "SLA", "parent": "Product Library", "description": "Service level agreements" },
+
+  { "name": "Vendor", "parent": "Directory", "description": "Third-party suppliers" },
+
+  { "name": "License Type", "parent": "Lookup Types", "description": "Types of software licenses" },
+  { "name": "License Status", "parent": "Lookup Types", "description": "Status of licenses" },
+  { "name": "Vendor Status", "parent": "Lookup Types", "description": "Status of vendor relationships" },
+  { "name": "SLA Status", "parent": "Lookup Types", "description": "Status of service level agreements" }
+]

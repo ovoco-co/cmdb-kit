@@ -1,0 +1,30 @@
+[
+  {
+    "Name": "c5.2xlarge",
+    "description": "AWS compute-optimized instance",
+    "manufacturer": "AWS",
+    "modelNumber": "c5.2xlarge",
+    "cpu": "8 vCPU",
+    "ram": "16 GB",
+    "formFactor": "Cloud Instance"
+  },
+  {
+    "Name": "r5.4xlarge",
+    "description": "AWS memory-optimized instance",
+    "manufacturer": "AWS",
+    "modelNumber": "r5.4xlarge",
+    "cpu": "16 vCPU",
+    "ram": "128 GB",
+    "formFactor": "Cloud Instance"
+  },
+  {
+    "Name": "Dell PowerEdge R750",
+    "description": "Enterprise rack server",
+    "manufacturer": "Dell",
+    "modelNumber": "R750",
+    "cpu": "2x Xeon Gold",
+    "ram": "512 GB",
+    "storage": "12 TB",
+    "formFactor": "2U Rack"
+  }
+]

@@ -18,12 +18,12 @@ Target DB UI  <->  Schema Layer (structure + attributes JSON)  <->  Data Layer (
 
 | File | Purpose |
 |------|---------|
-| `schema/base/schema-structure.json` | Base object type hierarchy (20 types) |
-| `schema/base/schema-attributes.json` | Base field definitions per type |
-| `schema/extended/schema-structure.json` | Extended hierarchy (55 types) |
-| `schema/extended/schema-attributes.json` | Extended field definitions |
-| `schema/enterprise/schema-structure.json` | Enterprise hierarchy (78 types) |
-| `schema/enterprise/schema-attributes.json` | Enterprise field definitions |
+| `schema/core/schema-structure.json` | Core object type hierarchy |
+| `schema/core/schema-attributes.json` | Core field definitions per type |
+| `schema/domains/*/schema-structure.json` | Domain type definitions (opt-in) |
+| `schema/domains/*/schema-attributes.json` | Domain field definitions |
+| `schema/extended/` | Legacy: all domains combined |
+| `schema/enterprise/` | Legacy: portfolio mode with product-prefixed types |
 | `tools/lib/constants.js` | LOAD_PRIORITY (import order) |
 | `adapters/jsm/import.js` | JSM Assets import orchestrator |
 
@@ -32,19 +32,20 @@ Target DB UI  <->  Schema Layer (structure + attributes JSON)  <->  Data Layer (
 ### Validation
 
 ```bash
-node tools/validate.js --schema schema/base         # Validate base schema
-node tools/validate.js --schema schema/extended      # Validate extended schema
-node tools/validate.js --schema schema/enterprise    # Validate enterprise schema
+node tools/validate.js --schema schema/core                    # Validate core schema
+node tools/validate.js --schema schema/core --domain schema/domains/infrastructure  # Core + domain
+node tools/validate.js --schema schema/extended                # Validate extended (legacy)
+node tools/validate.js --schema schema/enterprise              # Validate enterprise (legacy)
 ```
 
 ### CSV Workflow
 
 ```bash
 # Generate templates
-node tools/generate-templates.js --schema schema/base --examples
+node tools/generate-templates.js --schema schema/core --examples
 
 # Convert filled CSVs to JSON
-node tools/csv-to-json.js --schema schema/base --outdir schema/base/data csv-templates/*.csv
+node tools/csv-to-json.js --schema schema/core --outdir schema/core/data csv-templates/*.csv
 ```
 
 ### JSM Adapter

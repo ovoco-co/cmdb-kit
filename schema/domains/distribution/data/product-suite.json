@@ -1,0 +1,14 @@
+[
+  {
+    "Name": "OvocoCRM 2.3.1 Release Package",
+    "description": "Complete distribution bundle for OvocoCRM 2.3.1",
+    "version": "OvocoCRM 2.3.1",
+    "media": "ovococrm-2.3.1-server.tar.gz;ovococrm-2.3.1-frontend.tar.gz;ovococrm-2.3.1-db-migrations.tar.gz"
+  },
+  {
+    "Name": "OvocoCRM 2.3.0 Release Package",
+    "description": "Complete distribution bundle for OvocoCRM 2.3.0",
+    "version": "OvocoCRM 2.3.0",
+    "media": "ovococrm-2.3.0-server.tar.gz"
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "name": "Assessment", "parent": "Product CMDB", "description": "Security and compliance assessments" },
+  { "name": "Certification", "parent": "Product Library", "description": "Compliance certifications" },
+
+  { "name": "Assessment Type", "parent": "Lookup Types", "description": "Types of assessments" },
+  { "name": "Assessment Status", "parent": "Lookup Types", "description": "Status of assessments" },
+  { "name": "Certification Type", "parent": "Lookup Types", "description": "Types of compliance certifications" },
+  { "name": "Certification Status", "parent": "Lookup Types", "description": "Status of certifications" }
+]

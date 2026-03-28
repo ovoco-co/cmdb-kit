@@ -4,11 +4,14 @@
   { "name": "Server", "parent": "Product CMDB", "description": "Compute instances and hosts" },
   { "name": "Database", "parent": "Product CMDB", "description": "Database instances" },
   { "name": "Product Component", "parent": "Product CMDB", "description": "Modular parts of a product" },
+  { "name": "Feature", "parent": "Product CMDB", "description": "Product features and capabilities" },
 
   { "name": "Product Library", "description": "Releases, documents, and deployments" },
   { "name": "Product Version", "parent": "Product Library", "description": "Released software versions" },
   { "name": "Document", "parent": "Product Library", "description": "Controlled documentation" },
   { "name": "Deployment", "parent": "Product Library", "description": "Version deployed to an environment" },
+  { "name": "Deployment Site", "parent": "Product Library", "description": "Customer location where a product is installed" },
+  { "name": "Baseline", "parent": "Product Library", "description": "Approved configuration at a point in time" },
 
   { "name": "Directory", "description": "People, teams, and organizations" },
   { "name": "Organization", "parent": "Directory", "description": "Companies and departments" },
@@ -25,5 +28,8 @@
   { "name": "Component Type", "parent": "Lookup Types", "description": "Classification of product components" },
   { "name": "Priority", "parent": "Lookup Types", "description": "Priority levels" },
   { "name": "Organization Type", "parent": "Lookup Types", "description": "Classification of organizations" },
-  { "name": "Deployment Role", "parent": "Lookup Types", "description": "Roles involved in deployments" }
+  { "name": "Deployment Role", "parent": "Lookup Types", "description": "Roles involved in deployments" },
+  { "name": "Site Status", "parent": "Lookup Types", "description": "Status of deployment sites" },
+  { "name": "Baseline Type", "parent": "Lookup Types", "description": "Types of configuration baselines" },
+  { "name": "Baseline Status", "parent": "Lookup Types", "description": "Status of baselines" }
 ]

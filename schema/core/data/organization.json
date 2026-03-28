@@ -17,6 +17,21 @@
       "description": "Platform and infrastructure organization",
       "orgType": "Department",
       "parentOrganization": "Ovoco Inc"
+    },
+    {
+      "Name": "Acme Corp",
+      "description": "Enterprise CRM customer with dedicated instance",
+      "orgType": "Customer"
+    },
+    {
+      "Name": "Globex Corp",
+      "description": "Enterprise CRM customer with dedicated instance",
+      "orgType": "Customer"
+    },
+    {
+      "Name": "Initech",
+      "description": "New enterprise CRM customer in provisioning",
+      "orgType": "Customer"
     }
   ]
 }

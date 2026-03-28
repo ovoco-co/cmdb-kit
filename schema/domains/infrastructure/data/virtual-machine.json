@@ -1,0 +1,22 @@
+[
+  {
+    "Name": "crm-worker-01",
+    "description": "Background job processor",
+    "hostname": "crm-worker-01.ovoco.internal",
+    "server": "crm-app-01",
+    "operatingSystem": "Ubuntu 22.04 LTS",
+    "cpu": "2 vCPU",
+    "ram": "4 GB",
+    "environment": "Production"
+  },
+  {
+    "Name": "crm-worker-02",
+    "description": "Background job processor (replica)",
+    "hostname": "crm-worker-02.ovoco.internal",
+    "server": "crm-app-02",
+    "operatingSystem": "Ubuntu 22.04 LTS",
+    "cpu": "2 vCPU",
+    "ram": "4 GB",
+    "environment": "Production"
+  }
+]

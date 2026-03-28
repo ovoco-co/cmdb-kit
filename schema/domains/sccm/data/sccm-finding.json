@@ -1,0 +1,35 @@
+[
+  {
+    "Name": "CRED-1: NAA credentials recoverable from policy",
+    "description": "The Network Access Account credentials can be recovered from SCCM client policy by any authenticated domain user. The NAA has domain user privileges which enables lateral movement.",
+    "techniqueId": "CRED-1",
+    "category": "CRED",
+    "priority": "High",
+    "assessment": "Q1 2026 Security Audit",
+    "site": "OVC",
+    "status": "Remediation",
+    "remediation": "Replace NAA with Enhanced HTTP or configure a CMG for internet-based content access"
+  },
+  {
+    "Name": "EXEC-1: Client push to domain controllers",
+    "description": "Client push installation is configured with an account that has local admin rights on domain controllers. An attacker who compromises the SCCM site can execute code on DCs via client push.",
+    "techniqueId": "EXEC-1",
+    "category": "EXEC",
+    "priority": "Critical",
+    "assessment": "Q1 2026 Security Audit",
+    "site": "OVC",
+    "status": "Remediation",
+    "remediation": "Exclude domain controllers from client push scope and use manual or GP-based client installation for DCs"
+  },
+  {
+    "Name": "RECON-1: Anonymous access to SMS Provider",
+    "description": "The SMS Provider WMI namespace allows anonymous read access, enabling unauthenticated enumeration of SCCM site configuration, collections, and deployment targets.",
+    "techniqueId": "RECON-1",
+    "category": "RECON",
+    "priority": "Medium",
+    "assessment": "Q1 2026 Security Audit",
+    "site": "OVC",
+    "status": "Planned",
+    "remediation": "Restrict SMS Provider WMI namespace permissions and enable HTTPS-only administration service"
+  }
+]

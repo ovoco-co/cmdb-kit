@@ -1,0 +1,18 @@
+[
+  {
+    "Name": "Full Administrator",
+    "description": "Built-in role with unrestricted access to all SCCM operations",
+    "roleName": "Full Administrator",
+    "isBuiltIn": "true",
+    "scope": "All",
+    "site": "OVC"
+  },
+  {
+    "Name": "Application Deployment Manager",
+    "description": "Custom role scoped to application deployment operations",
+    "roleName": "Application Deployment Manager",
+    "isBuiltIn": "false",
+    "scope": "Production Collections",
+    "site": "OVC"
+  }
+]

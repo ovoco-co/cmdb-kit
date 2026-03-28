@@ -1,0 +1,37 @@
+{
+  "License": {
+    "description": { "type": 0 },
+    "licenseType": { "type": 1, "referenceType": "License Type" },
+    "vendor": { "type": 1, "referenceType": "Vendor" },
+    "expirationDate": { "type": 0, "defaultTypeId": 4 },
+    "quantity": { "type": 0, "defaultTypeId": 1 },
+    "status": { "type": 1, "referenceType": "License Status" }
+  },
+  "SLA": {
+    "description": { "type": 0 },
+    "product": { "type": 1, "referenceType": "Product" },
+    "status": { "type": 1, "referenceType": "SLA Status" },
+    "targetUptime": { "type": 0 },
+    "responseTime": { "type": 0 },
+    "reviewDate": { "type": 0, "defaultTypeId": 4 }
+  },
+  "Vendor": {
+    "description": { "type": 0 },
+    "website": { "type": 0 },
+    "contactEmail": { "type": 0 },
+    "status": { "type": 1, "referenceType": "Vendor Status" },
+    "contractExpiry": { "type": 0, "defaultTypeId": 4 }
+  },
+  "License Type": {
+    "description": { "type": 0 }
+  },
+  "License Status": {
+    "description": { "type": 0 }
+  },
+  "Vendor Status": {
+    "description": { "type": 0 }
+  },
+  "SLA Status": {
+    "description": { "type": 0 }
+  }
+}

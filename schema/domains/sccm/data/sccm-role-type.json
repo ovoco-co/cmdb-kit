@@ -1,0 +1,9 @@
+[
+  { "Name": "Distribution Point", "description": "Hosts and distributes content to clients" },
+  { "Name": "Management Point", "description": "Primary client communication endpoint" },
+  { "Name": "Software Update Point", "description": "Integrates with WSUS for patch management" },
+  { "Name": "SMS Provider", "description": "WMI and administration service interface" },
+  { "Name": "Reporting Services Point", "description": "SSRS integration for SCCM reporting" },
+  { "Name": "State Migration Point", "description": "Stores user state data during OS deployment" },
+  { "Name": "Enrollment Point", "description": "Handles mobile device enrollment" }
+]

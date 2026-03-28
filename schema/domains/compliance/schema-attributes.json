@@ -1,0 +1,30 @@
+{
+  "Assessment": {
+    "description": { "type": 0 },
+    "assessmentType": { "type": 1, "referenceType": "Assessment Type" },
+    "assessmentDate": { "type": 0, "defaultTypeId": 4 },
+    "status": { "type": 1, "referenceType": "Assessment Status" },
+    "assessor": { "type": 1, "referenceType": "Person" },
+    "findings": { "type": 0 }
+  },
+  "Certification": {
+    "description": { "type": 0 },
+    "certificationType": { "type": 1, "referenceType": "Certification Type" },
+    "status": { "type": 1, "referenceType": "Certification Status" },
+    "issueDate": { "type": 0, "defaultTypeId": 4 },
+    "expirationDate": { "type": 0, "defaultTypeId": 4 },
+    "issuingBody": { "type": 0 }
+  },
+  "Assessment Type": {
+    "description": { "type": 0 }
+  },
+  "Assessment Status": {
+    "description": { "type": 0 }
+  },
+  "Certification Type": {
+    "description": { "type": 0 }
+  },
+  "Certification Status": {
+    "description": { "type": 0 }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "Hardware Model": {
+    "description": { "type": 0 },
+    "manufacturer": { "type": 0 },
+    "modelNumber": { "type": 0 },
+    "cpu": { "type": 0 },
+    "ram": { "type": 0 },
+    "storage": { "type": 0 },
+    "formFactor": { "type": 0 }
+  },
+  "Network Segment": {
+    "description": { "type": 0 },
+    "networkType": { "type": 1, "referenceType": "Network Type" },
+    "cidr": { "type": 0 },
+    "vlan": { "type": 0 },
+    "gateway": { "type": 0 }
+  },
+  "Virtual Machine": {
+    "description": { "type": 0 },
+    "hostname": { "type": 0 },
+    "server": { "type": 1, "referenceType": "Server" },
+    "operatingSystem": { "type": 0 },
+    "cpu": { "type": 0 },
+    "ram": { "type": 0 },
+    "environment": { "type": 1, "referenceType": "Environment Type" }
+  },
+  "Location": {
+    "description": { "type": 0 },
+    "address": { "type": 0 },
+    "city": { "type": 0 },
+    "country": { "type": 0 },
+    "locationType": { "type": 0 }
+  },
+  "Facility": {
+    "description": { "type": 0 },
+    "location": { "type": 1, "referenceType": "Location" },
+    "facilityType": { "type": 0 },
+    "capacity": { "type": 0 }
+  },
+  "Network Type": {
+    "description": { "type": 0 }
+  }
+}

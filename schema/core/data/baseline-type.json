@@ -1,0 +1,5 @@
+[
+  { "Name": "Design", "description": "Approved design configuration" },
+  { "Name": "Build", "description": "Verified build configuration" },
+  { "Name": "Release", "description": "Approved release configuration" }
+]

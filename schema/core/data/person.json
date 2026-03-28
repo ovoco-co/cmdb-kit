@@ -5,6 +5,8 @@
       "firstName": "Alex",
       "lastName": "Chen",
       "email": "alex.chen@ovoco.dev",
+      "phone": "555-0101",
+      "jobTitle": "Principal Engineer",
       "role": "Principal Engineer",
       "team": "Platform Engineering"
     },
@@ -13,6 +15,8 @@
       "firstName": "Casey",
       "lastName": "Morgan",
       "email": "casey.morgan@ovoco.dev",
+      "phone": "555-0102",
+      "jobTitle": "SRE Lead",
       "role": "SRE Lead",
       "team": "SRE"
     },
@@ -21,14 +25,19 @@
       "firstName": "Jordan",
       "lastName": "Lee",
       "email": "jordan.lee@ovoco.dev",
+      "phone": "555-0103",
+      "jobTitle": "Senior SRE",
       "role": "Senior SRE",
-      "team": "SRE"
+      "team": "SRE",
+      "manager": "Casey Morgan"
     },
     {
       "Name": "Taylor Kim",
       "firstName": "Taylor",
       "lastName": "Kim",
       "email": "taylor.kim@ovoco.dev",
+      "phone": "555-0104",
+      "jobTitle": "Frontend Lead",
       "role": "Frontend Lead",
       "team": "Frontend"
     },
@@ -37,6 +46,8 @@
       "firstName": "Sam",
       "lastName": "Rivera",
       "email": "sam.rivera@ovoco.dev",
+      "phone": "555-0105",
+      "jobTitle": "Data Engineer Lead",
       "role": "Data Engineer Lead",
       "team": "Data Engineering"
     },
@@ -45,6 +56,8 @@
       "firstName": "Riley",
       "lastName": "Patel",
       "email": "riley.patel@ovoco.dev",
+      "phone": "555-0106",
+      "jobTitle": "Mobile Lead",
       "role": "Mobile Lead",
       "team": "Mobile"
     },
@@ -53,32 +66,44 @@
       "firstName": "Morgan",
       "lastName": "Blake",
       "email": "morgan.blake@ovoco.dev",
+      "phone": "555-0107",
+      "jobTitle": "Product Manager",
       "role": "Product Manager",
-      "team": "Platform Engineering"
+      "team": "Platform Engineering",
+      "manager": "Alex Chen"
     },
     {
       "Name": "Jamie Wu",
       "firstName": "Jamie",
       "lastName": "Wu",
       "email": "jamie.wu@ovoco.dev",
+      "phone": "555-0108",
+      "jobTitle": "Backend Engineer",
       "role": "Backend Engineer",
-      "team": "Platform Engineering"
+      "team": "Platform Engineering",
+      "manager": "Alex Chen"
     },
     {
       "Name": "Drew Santos",
       "firstName": "Drew",
       "lastName": "Santos",
       "email": "drew.santos@ovoco.dev",
+      "phone": "555-0109",
+      "jobTitle": "DevOps Engineer",
       "role": "DevOps Engineer",
-      "team": "SRE"
+      "team": "SRE",
+      "manager": "Casey Morgan"
     },
     {
       "Name": "Avery Nguyen",
       "firstName": "Avery",
       "lastName": "Nguyen",
       "email": "avery.nguyen@ovoco.dev",
+      "phone": "555-0110",
+      "jobTitle": "Frontend Engineer",
       "role": "Frontend Engineer",
-      "team": "Frontend"
+      "team": "Frontend",
+      "manager": "Taylor Kim"
     }
   ]
 }

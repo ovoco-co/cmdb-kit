@@ -18,8 +18,9 @@
  *
  * Usage:
  *   node tools/validate.js                          # Validate default schema
- *   node tools/validate.js --schema schema/base     # Validate base schema
- *   node tools/validate.js --schema schema/extended  # Validate extended schema
+ *   node tools/validate.js --schema schema/core               # Validate core schema
+ *   node tools/validate.js --schema schema/core --domain schema/domains/infrastructure
+ *   node tools/validate.js --schema schema/extended           # Validate extended (legacy)
  */
 
 const fs = require('fs');
@@ -31,11 +32,13 @@ const { loadJsonFile, loadDataFile, mapAttrName, LOAD_PRIORITY, PERSONNEL_TYPES,
 // ---------------------------------------------------------------------------
 const args = process.argv.slice(2);
 let schemaDir = null;
+const domainDirs = [];
 let help = false;
 
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--help' || args[i] === '-h') { help = true; }
   else if (args[i] === '--schema' && i + 1 < args.length) { schemaDir = args[++i]; }
+  else if (args[i] === '--domain' && i + 1 < args.length) { domainDirs.push(args[++i]); }
 }
 
 if (help) {
@@ -48,11 +51,13 @@ Usage:
   node tools/validate.js [options]
 
 Options:
-  --schema <dir>   Schema directory (default: schema/base)
+  --schema <dir>   Schema directory (default: schema/core)
+  --domain <dir>   Domain directory to merge (repeatable)
   --help, -h       Show this help message
 
 Examples:
-  node tools/validate.js --schema schema/base
+  node tools/validate.js --schema schema/core
+  node tools/validate.js --schema schema/core --domain schema/domains/infrastructure
   node tools/validate.js --schema schema/extended
 `);
   process.exit(0);
@@ -60,12 +65,15 @@ Examples:
 
 // Resolve paths
 const projectRoot = path.resolve(__dirname, '..');
-if (!schemaDir) schemaDir = path.join(projectRoot, 'schema', 'base');
+if (!schemaDir) schemaDir = path.join(projectRoot, 'schema', 'core');
 else schemaDir = path.resolve(schemaDir);
 
 const structurePath = path.join(schemaDir, 'schema-structure.json');
 const attributesPath = path.join(schemaDir, 'schema-attributes.json');
 const dataDir = path.join(schemaDir, 'data');
+
+// Resolve domain directories (merged on top of base schema)
+const resolvedDomains = domainDirs.map(d => path.resolve(d));
 
 // ---------------------------------------------------------------------------
 // Validation
@@ -82,6 +90,9 @@ console.log('==================================================');
 console.log('  CMDB Kit Validation');
 console.log('==================================================');
 console.log(`  Schema: ${schemaDir}`);
+if (resolvedDomains.length > 0) {
+  for (const d of resolvedDomains) console.log(`  Domain: ${d}`);
+}
 console.log('');
 
 // Step 1: Load and validate schema structure
@@ -91,6 +102,20 @@ const structure = loadJsonFile(structurePath);
 if (!structure) {
   error(`Cannot load ${structurePath}`);
   process.exit(1);
+}
+
+// Merge domain structures
+const domainDataDirs = [];
+for (const domDir of resolvedDomains) {
+  const domStructure = loadJsonFile(path.join(domDir, 'schema-structure.json'));
+  if (domStructure) {
+    for (const t of domStructure) {
+      if (!structure.find(s => s.name === t.name)) structure.push(t);
+    }
+  }
+  const domAttrsPath = path.join(domDir, 'schema-attributes.json');
+  domainDataDirs.push(path.join(domDir, 'data'));
+  // Domain attributes merged in step 2 below
 }
 
 const typeNames = new Set();
@@ -139,6 +164,17 @@ const attributes = loadJsonFile(attributesPath);
 if (!attributes) {
   error(`Cannot load ${attributesPath}`);
   process.exit(1);
+}
+
+// Merge domain attributes
+for (const domDir of resolvedDomains) {
+  const domAttrs = loadJsonFile(path.join(domDir, 'schema-attributes.json'));
+  if (domAttrs) {
+    for (const [typeName, attrs] of Object.entries(domAttrs)) {
+      if (!attributes[typeName]) attributes[typeName] = attrs;
+      else Object.assign(attributes[typeName], attrs);
+    }
+  }
 }
 
 // Check that all attribute types reference valid types
@@ -207,14 +243,22 @@ for (const typeName of typesInSchema) {
     possibleFiles.push('person.json');
   }
 
-  const found = possibleFiles.find(f => fs.existsSync(path.join(dataDir, f)));
+  let foundDir = null;
+  let found = possibleFiles.find(f => fs.existsSync(path.join(dataDir, f)));
+  if (found) { foundDir = dataDir; }
+  else {
+    for (const dd of domainDataDirs) {
+      found = possibleFiles.find(f => fs.existsSync(path.join(dd, f)));
+      if (found) { foundDir = dd; break; }
+    }
+  }
   if (!found) {
     warn(`No data file for: ${typeName}`);
     missingFiles++;
     continue;
   }
 
-  const data = loadDataFile(dataDir, found, typeName);
+  const data = loadDataFile(foundDir, found, typeName);
   if (data.length === 0) {
     // Empty files are OK for types not yet populated
   }
@@ -236,9 +280,17 @@ for (const typeName of typesInSchema) {
   const possibleFiles = [`${safeName}.json`, `${safeName}s.json`];
   if (PERSONNEL_TYPES.includes(typeName)) possibleFiles.push('person.json');
 
-  const found = possibleFiles.find(f => fs.existsSync(path.join(dataDir, f)));
-  if (found) {
-    recordCache[typeName] = loadDataFile(dataDir, found, typeName);
+  let cacheDir = null;
+  let cacheFile = possibleFiles.find(f => fs.existsSync(path.join(dataDir, f)));
+  if (cacheFile) { cacheDir = dataDir; }
+  else {
+    for (const dd of domainDataDirs) {
+      cacheFile = possibleFiles.find(f => fs.existsSync(path.join(dd, f)));
+      if (cacheFile) { cacheDir = dd; break; }
+    }
+  }
+  if (cacheFile && cacheDir) {
+    recordCache[typeName] = loadDataFile(cacheDir, cacheFile, typeName);
   }
 }
 

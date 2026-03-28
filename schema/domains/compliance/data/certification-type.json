@@ -1,0 +1,7 @@
+[
+  { "Name": "SOC 2 Type II", "description": "Service organization control audit" },
+  { "Name": "ISO 27001", "description": "Information security management" },
+  { "Name": "GDPR", "description": "General Data Protection Regulation" },
+  { "Name": "HIPAA", "description": "Health Insurance Portability compliance" },
+  { "Name": "PCI DSS", "description": "Payment Card Industry Data Security" }
+]

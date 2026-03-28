@@ -1,0 +1,6 @@
+[
+  { "Name": "Active", "description": "SLA is in effect" },
+  { "Name": "Draft", "description": "SLA being negotiated" },
+  { "Name": "Breached", "description": "SLA targets not met" },
+  { "Name": "Expired", "description": "SLA term has ended" }
+]

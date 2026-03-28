@@ -4,12 +4,19 @@
   "teamLead": "Owned by",
   "author": "Owned by",
   "deployedBy": "Performed by",
+  "approvedBy": "Approved by",
+  "sitePOC": "Point of contact",
+  "supportTeam": "Supported by",
+  "manager": "Managed by",
   "server": "Runs on",
   "environment": "Deployed to",
   "components": "Contains",
+  "documents": "Documents",
   "previousVersion": "Supersedes",
   "companionProducts": "Related to",
   "parentOrganization": "Member of",
   "organization": "Member of",
-  "team": "Member of"
+  "team": "Member of",
+  "product": "Belongs to",
+  "version": "Version of"
 }
