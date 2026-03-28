@@ -172,19 +172,24 @@ function resolveDataFile(dataDir, typeName) {
 // Remote object parsing
 // ---------------------------------------------------------------------------
 
+function stripKeyPrefix(name) {
+  if (name && name.includes(' - ')) return name.substring(name.indexOf(' - ') + 3);
+  return name;
+}
+
 function extractRemoteValue(attr) {
   const values = attr.objectAttributeValues || [];
   if (!values.length) return null;
 
   if (values.length > 1) {
     return values.map(v => {
-      if (v.referencedObject) return v.referencedObject.label || v.referencedObject.name || String(v.value);
+      if (v.referencedObject) return stripKeyPrefix(v.referencedObject.label || v.referencedObject.name || String(v.value));
       return v.displayValue != null ? String(v.displayValue) : String(v.value);
     }).sort();
   }
 
   const v = values[0];
-  if (v.referencedObject) return v.referencedObject.label || v.referencedObject.name || String(v.value);
+  if (v.referencedObject) return stripKeyPrefix(v.referencedObject.label || v.referencedObject.name || String(v.value));
   return v.displayValue != null ? String(v.displayValue) : String(v.value);
 }
 
