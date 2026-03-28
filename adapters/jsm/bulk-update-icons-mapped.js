@@ -1,6 +1,6 @@
 /**
  * adapters/jsm/bulk-update-icons-mapped.js
- * Reads from schema/base/icon-map.json and updates JSM Assets.
+ * Reads from schema/core/icon-map.json and updates JSM Assets.
  */
 const { client, config } = require('./lib');
 const fs = require('fs');

@@ -21,7 +21,7 @@
  *   SN_USER             Admin username (required)
  *   SN_PASSWORD         Admin password (required)
  *   SN_TABLE_PREFIX     Custom table prefix (default: u_cmdbk)
- *   DATA_DIR            Data directory (default: schema/base/data)
+ *   DATA_DIR            Data directory (default: schema/core/data)
  *   DEBUG               Set to 'true' for HTTP debug logging
  */
 
@@ -81,7 +81,7 @@ Environment:
   SN_USER              Admin username
   SN_PASSWORD          Admin password
   SN_TABLE_PREFIX      Custom table prefix (default: u_cmdbk)
-  DATA_DIR             Data directory (default: schema/base/data)
+  DATA_DIR             Data directory (default: schema/core/data)
   DEBUG                Set to 'true' for HTTP debug logging
 `);
 }

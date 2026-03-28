@@ -21,7 +21,7 @@
  *   JSM_USER            Admin username (required)
  *   JSM_PASSWORD        Admin password (required)
  *   SCHEMA_KEY          Schema key (default: CMDB)
- *   DATA_DIR            Data directory (default: schema/base/data)
+ *   DATA_DIR            Data directory (default: schema/core/data)
  *   DEBUG               Set to 'true' for HTTP debug logging
  */
 
@@ -99,7 +99,7 @@ Environment:
   JSM_USER            Admin username (required)
   JSM_PASSWORD        Admin password (required)
   SCHEMA_KEY          Schema key (default: CMDB)
-  DATA_DIR            Data directory (default: schema/base/data)
+  DATA_DIR            Data directory (default: schema/core/data)
   DEBUG               Set to 'true' for HTTP debug logging
 
 Examples:

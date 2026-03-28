@@ -29,7 +29,7 @@
  *   SN_LOOKUP_STRATEGY     Lookup handling: table or hybrid (default: table)
  *   SN_BATCH_SIZE          Records per pagination batch (default: 200)
  *   SN_REQUEST_DELAY       Delay between API calls in ms (default: 0)
- *   DATA_DIR               Data directory (default: schema/base/data)
+ *   DATA_DIR               Data directory (default: schema/core/data)
  *   SCHEMA_DIR             Schema directory
  *   DEBUG                  Set to 'true' for HTTP debug logging
  */
@@ -107,7 +107,7 @@ Environment:
   SN_LOOKUP_STRATEGY    table or hybrid (default: table)
   SN_BATCH_SIZE         Records per pagination batch (default: 200)
   SN_REQUEST_DELAY      Delay between API calls in ms (default: 0)
-  DATA_DIR              Data directory (default: schema/base/data)
+  DATA_DIR              Data directory (default: schema/core/data)
   SCHEMA_DIR            Schema directory
   DEBUG                 Set to 'true' for HTTP debug logging
 `);

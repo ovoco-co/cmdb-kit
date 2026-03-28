@@ -8,12 +8,12 @@
  *
  * Usage:
  *   node tools/csv-to-json.js <file.csv> [file2.csv ...]
- *   node tools/csv-to-json.js --outdir schema/base/data schema/csv/*.csv
+ *   node tools/csv-to-json.js --outdir schema/core/data schema/csv/*.csv
  *   node tools/csv-to-json.js --dry-run schema/csv/server.csv
  *   node tools/csv-to-json.js --strict schema/csv/server.csv
  *
  * Options:
- *   --schema <dir>   Schema directory (default: schema/base)
+ *   --schema <dir>   Schema directory (default: schema/core)
  *   --outdir <dir>   Output directory (default: same directory as input CSV)
  *   --dry-run        Validate and show summary without writing files
  *   --strict         Fail on columns not found in schema-attributes.json

@@ -70,6 +70,12 @@ const ATTR_NAME_MAP = {
   'collectionId': 'Collection ID',
   'techniqueId': 'Technique ID',
   'companionProducts': 'Companion Products',
+  'cpu': 'CPU',
+  'ram': 'RAM',
+  'url': 'URL',
+  'cidr': 'CIDR',
+  'vlan': 'VLAN',
+  'ipAddress': 'IP Address',
 };
 
 /**
