@@ -48,13 +48,14 @@ The branching model is a deliberate simplification. A flat list of a hundred unr
 
 The Product CMDB branch holds the technical infrastructure that makes your product work. These are the configuration items that operations teams monitor, developers deploy to, and architects design around.
 
-In the Core schema, this branch contains four types:
+In the Core schema, this branch contains:
 
 ```json
 { "name": "Product", "parent": "Product CMDB", "description": "Software products and applications" }
 { "name": "Server", "parent": "Product CMDB", "description": "Compute instances and hosts" }
 { "name": "Database", "parent": "Product CMDB", "description": "Database instances" }
 { "name": "Product Component", "parent": "Product CMDB", "description": "Modular parts of a product" }
+{ "name": "Feature", "parent": "Product CMDB", "description": "Product features and capabilities" }
 ```
 
 The Product type is the highest-level technical CI most teams care about. It represents a distinct software product or service. In the OvocoCRM example data, there are six products: CRM Core, API Gateway, Analytics Engine, Mobile API, Notification Service, and Search Service. Each one has its own deployment lifecycle, its own team ownership, and its own monitoring.
@@ -78,25 +79,27 @@ Server represents a compute instance, whether physical hardware, a cloud VM, or 
 
 The distinction between Product and Product Component is scope. A Product is the whole service as seen by operations. A Product Component is one piece of it as seen by developers. The CRM Core product might contain the Contact Manager, Deal Pipeline, and Email Integration components.
 
-Opt-in domains add more types to this branch: Hardware Model, Network Segment, and Virtual Machine from the infrastructure domain, License from the licensing domain, Assessment from the compliance domain, and Feature. These cover infrastructure catalog items, network topology, IT asset management, compliance evaluation, and product capability tracking.
+Opt-in domains add more types to this branch: Hardware Model, Network Segment, and Virtual Machine from the infrastructure domain, License from the licensing domain, and Assessment from the compliance domain. These cover infrastructure catalog items, network topology, IT asset management, and compliance evaluation.
 
 ## Product Library
 
 The Product Library branch is the release management side of the CMDB. Where Product CMDB tracks what things are, Product Library tracks what was released, what documents describe it, where it was deployed, and what changed.
 
-In the Core schema, this branch contains three types:
+In the Core schema, this branch contains:
 
 ```json
 { "name": "Product Version", "parent": "Product Library", "description": "Released software versions" }
 { "name": "Document", "parent": "Product Library", "description": "Controlled documentation" }
 { "name": "Deployment", "parent": "Product Library", "description": "Version deployed to an environment" }
+{ "name": "Deployment Site", "parent": "Product Library", "description": "Customer location where a product is installed" }
+{ "name": "Baseline", "parent": "Product Library", "description": "Approved configuration at a point in time" }
 ```
 
 Product Version is the anchor record for every release. Every other record in the Product Library ultimately traces back to a version. Its `previousVersion` attribute creates a self-referencing chain, so you can trace backward from the current release to the first. The `components` attribute is a multi-reference to Product Component, listing every component included in the version. In the data file, multi-references use semicolons: `"components": "Contact Manager;Deal Pipeline;Email Integration"`.
 
 Document represents a controlled document tied to the product, covering architecture documents, runbooks, SOPs, release notes, and any other documentation that needs lifecycle management. Deployment records a specific instance of deploying a version to an environment; the combination of version, environment, and date makes each deployment record unique.
 
-Opt-in domains add more types: Baseline, Documentation Suite, Product Media, Product Suite, Deployment Site, and Distribution Log from the distribution domain, Certification from the compliance domain, and SLA from the service management domain. These cover formal release management (baselines and media), compliance (certifications), multi-site distribution (deployment sites and distribution logs), and service level agreements.
+Opt-in domains add more types: Documentation Suite, Product Media, Product Suite, and Distribution Log from the distribution domain, Certification from the compliance domain, and SLA from the licensing domain. These cover media packaging and distribution tracking, compliance certifications, and service level agreements.
 
 The SLA type uses a `product` attribute rather than referencing infrastructure directly:
 
@@ -139,20 +142,20 @@ Lookup types are the reference data that gives CI fields their allowed values. E
 { "Name": "Active", "description": "Currently in production use" }
 ```
 
-The Core schema includes ten lookup types:
+The Core schema includes lookup types for each of its CI types:
 
 ```
 Product Status, Version Status, Deployment Status, Environment Type,
 Document Type, Document State, Component Type, Priority,
-Organization Type, Deployment Role
+Organization Type, Deployment Role, Site Status, Baseline Type,
+Baseline Status
 ```
 
 Domains add their own lookup types as needed:
 
 ```
 Certification Type, Certification Status, Assessment Type, Assessment Status,
-Network Type, Baseline Type, Baseline Status, License Type, License Status,
-Site Status, Vendor Status, SLA Status
+Network Type, License Type, License Status, Vendor Status, SLA Status
 ```
 
 Lookup types are always imported first because every other type depends on them for reference values. The pattern is consistent: every CI type that has a status or classification field also has a corresponding lookup type. This pairing is deliberate and should be followed when you add your own types.
@@ -265,49 +268,51 @@ CMDB-Kit uses a Core + Domains architecture. The Core provides the essential typ
 
 The Core schema defines CI types and lookup types. The four branch containers (Product CMDB, Product Library, Directory, Lookup Types) are structural parents only and are not counted. This is the starting point for organizations that are new to CMDB or want a focused, minimal scope.
 
-The Core schema covers the fundamentals:
+The Core schema covers product delivery:
 
 ```
-Product CMDB (4 CI types)
-  Product, Server, Database, Product Component
+Product CMDB
+  Product, Server, Database, Product Component, Feature
 
-Product Library (3 CI types)
-  Product Version, Document, Deployment
+Product Library
+  Product Version, Document, Deployment, Deployment Site, Baseline
 
-Directory (3 CI types)
+Directory
   Organization, Team, Person
 
 Lookup Types
   Product Status, Version Status, Deployment Status,
   Environment Type, Document Type, Document State,
-  Component Type, Priority, Organization Type, Deployment Role
+  Component Type, Priority, Organization Type, Deployment Role,
+  Site Status, Baseline Type, Baseline Status
 ```
 
-Start with the Core when you want to prove the value of the CMDB quickly. It covers what you build (Product CMDB), what you release (Product Library), who is involved (Directory), and the reference data that ties it together (Lookup Types). You can always add domains later by opting in incrementally.
+Start with the Core when you want to prove the value of the CMDB quickly. It covers what you build (Product CMDB), what you release and where you deploy it (Product Library), who is involved (Directory), and the reference data that ties it together (Lookup Types). You can always add domains later by opting in incrementally.
 
 ## Domains
 
-Domains add types on top of the Core. Each domain covers a specific area: infrastructure, licensing, compliance, distribution, and service management.
+Domains add types on top of the Core. Each domain covers a specific team's needs: infrastructure, compliance, distribution, and licensing.
 
 The types added by domains to each branch:
 
 ```
-Product CMDB (+6 CI types)
+Product CMDB
   Hardware Model, Network Segment, Virtual Machine (infrastructure domain),
-  License (licensing domain), Assessment (compliance domain), Feature
+  License (licensing domain), Assessment (compliance domain)
 
-Product Library (+8 CI types)
-  Baseline, Documentation Suite, Product Media, Product Suite,
-  Deployment Site, Distribution Log (distribution domain),
-  Certification (compliance domain), SLA (service management domain)
+Product Library
+  Documentation Suite, Product Media, Product Suite,
+  Distribution Log (distribution domain),
+  Certification (compliance domain), SLA (licensing domain)
 
-Directory (+3 CI types)
-  Location, Facility, Vendor
+Directory
+  Location, Facility (infrastructure domain),
+  Vendor (licensing domain)
 
 Lookup Types
   Certification Type, Certification Status, Assessment Type,
-  Assessment Status, Network Type, Baseline Type, Baseline Status,
-  License Type, License Status, Site Status, Vendor Status, SLA Status
+  Assessment Status, Network Type (from compliance and infrastructure),
+  License Type, License Status, Vendor Status, SLA Status (from licensing)
 ```
 
 Notice the pattern: every new CI type that has a status or classification field also introduces the corresponding lookup type. When a domain adds License, it also adds License Type and License Status. This pairing keeps reference data organized and prevents free-text status fields from creeping in.
@@ -398,7 +403,7 @@ Create a JSON file in the data directory using kebab-case: `data/service-request
 Run the validation tool to confirm everything connects correctly:
 
 ```bash
-node tools/validate.js --schema schema/extended
+node tools/validate.js --schema schema/core
 ```
 
 If your new type references a lookup type that does not exist yet (like "Request Type" in the example above), you need to add that lookup type first, following the same five steps. Always add dependencies before dependents.
@@ -494,7 +499,7 @@ Create `data/integration.json`:
 Validate:
 
 ```bash
-node tools/validate.js --schema schema/extended
+node tools/validate.js --schema schema/core
 ```
 
 # Naming Conventions

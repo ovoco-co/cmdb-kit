@@ -116,45 +116,41 @@ CMDB-Kit's schema provides a menu of types organized into branches. Not every or
 
 ### Core Schema as a Minimum Viable CMDB
 
-The Core schema includes the types needed for a basic CMDB:
+The Core schema includes the types needed for product delivery tracking:
 
-Infrastructure: Product, Server, Database, Product Component.
+Product CMDB: Product, Server, Database, Product Component, Feature.
 
-Release management: Product Version, Document, Deployment.
+Product Library: Product Version, Document, Deployment, Deployment Site, Baseline.
 
 Directory: Organization, Team, Person.
 
-Lookups: Product Status, Version Status, Deployment Status, Environment Type, Document Type, Document State, Component Type, Priority, Organization Type, Deployment Role.
+Lookups: Product Status, Version Status, Deployment Status, Environment Type, Document Type, Document State, Component Type, Priority, Organization Type, Deployment Role, Site Status, Baseline Type, Baseline Status.
 
-This covers the core use cases: what products exist, what versions are released, where they are deployed, and who is responsible. It is enough for a small organization with one product and straightforward operations.
+This covers the questions a configuration manager asks every day: what products exist, what versions are released, where they are deployed, what the approved baseline looks like, and who is responsible. It is enough for a program shipping to multiple customer sites.
 
-### Adding Domains for Mature Organizations
+### Adding Domains for Specialized Teams
 
-Opt-in domains add types on top of the Core. Each domain covers a specific area:
+Opt-in domains add types on top of the Core. Each domain covers a specific team's needs:
 
-Licensing domain: License, License Type, License Status, Vendor, Vendor Status.
-
-Infrastructure domain: Hardware Model, Network Segment, Virtual Machine, Network Type.
+Infrastructure domain: Hardware Model, Network Segment, Virtual Machine, Network Type, Location, Facility.
 
 Compliance domain: Assessment, Assessment Type, Assessment Status, Certification, Certification Type, Certification Status.
 
-Distribution domain: Distribution Log, Deployment Site, Site Status, Product Media, Product Suite, Baseline, Baseline Type, Baseline Status, Documentation Suite.
+Distribution domain: Documentation Suite, Product Media, Product Suite, Distribution Log.
 
-Service management domain: SLA, SLA Status.
+Licensing domain: License, License Type, License Status, Vendor, Vendor Status, SLA, SLA Status.
 
-Additional types: Feature, Location, Facility.
-
-Add domains when your organization runs formal change control, manages multiple deployment sites, tracks compliance certifications, or needs to model the full release distribution chain.
+Add domains when your SRE team needs infrastructure detail, your security team tracks assessments and certifications, your CM librarians manage media distribution, or your procurement team tracks licenses and vendor contracts.
 
 ### Walking Through the Branches
 
-Product CMDB branch (infrastructure): Product, Server, Database, and Product Component in the Core, plus Hardware Model, Network Segment, and Virtual Machine from the infrastructure domain, License from the licensing domain, Assessment from the compliance domain, and Feature. These are the things your service is made of. Most organizations start with Product, Server, and Database, then add the rest as needed.
+Product CMDB branch: Product, Server, Database, Product Component, and Feature in Core. Domains add Hardware Model, Network Segment, and Virtual Machine (infrastructure), License (licensing), and Assessment (compliance). These are the things your product is made of and runs on. Most organizations start with Product, Server, and Database, then add domain types as needed.
 
-Product Library branch (release management): Product Version, Document, and Deployment in the Core, plus Baseline, Documentation Suite, Product Media, Product Suite, Deployment Site, and Distribution Log from the distribution domain, Certification from the compliance domain, and SLA from the service management domain. These track the lifecycle of your releases. Product Version and Deployment are almost always needed. The distribution types (Product Media, Distribution Log) matter when you ship software to external customers or air-gapped sites.
+Product Library branch: Product Version, Document, Deployment, Deployment Site, and Baseline in Core. Domains add Documentation Suite, Product Media, Product Suite, and Distribution Log (distribution), Certification (compliance), and SLA (licensing). These track the lifecycle of your releases. Product Version, Deployment Site, and Baseline are almost always needed. The distribution types matter when you ship software to external customers or air-gapped sites.
 
-Directory branch (people and organizations): Organization, Team, Person, Location, Facility, Vendor. These model who is responsible for what. Organization, Team, and Person are needed for ownership tracking. Location and Vendor come in when you manage physical sites or third-party suppliers.
+Directory branch: Organization, Team, and Person in Core. Domains add Location and Facility (infrastructure) and Vendor (licensing). These model who is responsible for what. Organization, Team, and Person are needed for ownership tracking. Location and Vendor come in when you manage physical sites or third-party suppliers.
 
-Lookup Types branch (reference data): the Core includes 10 lookup types, and domains add more as needed. These are not CIs themselves but provide controlled vocabularies for CI attributes. Product Status, Version Status, and Environment Type are needed in any deployment. The others depend on which CI types you adopt.
+Lookup Types branch: Core includes lookup types for each Core CI type. Domains add their own lookups as needed. These are not CIs themselves but provide controlled vocabularies for CI attributes. Product Status, Version Status, Site Status, and Baseline Status are needed in any deployment. The others depend on which CI types you adopt.
 
 ### Library vs Engineering CMDB
 
