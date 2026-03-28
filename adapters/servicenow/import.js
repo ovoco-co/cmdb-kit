@@ -809,8 +809,9 @@ async function importRelationships() {
   for (const rel of relationships) {
     const { parent, child, type } = rel;
     // Translate class names to current table prefix (relationships.json may use u_cmdbk_*)
-    const parentClass = rel.parentClass.replace(/^u_cmdbk_/, `${config.tablePrefix}_`);
-    const childClass = rel.childClass.replace(/^u_cmdbk_/, `${config.tablePrefix}_`);
+    // Also handle x_cmdbk_ scoped prefix
+    const parentClass = rel.parentClass.replace(/^(?:u_cmdbk|x_cmdbk[^_]*?)_/, `${config.tablePrefix}_`);
+    const childClass = rel.childClass.replace(/^(?:u_cmdbk|x_cmdbk[^_]*?)_/, `${config.tablePrefix}_`);
 
     // Resolve parent sys_id from cache, then fall back to API lookup
     const parentSysId = await resolveSysId(parent, parentClass, sysIdCache, api);
