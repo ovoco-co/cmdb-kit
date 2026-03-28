@@ -109,6 +109,7 @@ CMDB-Kit organizes types into a tree with four root branches (Core schema and do
 Root
   Product CMDB          Infrastructure CIs
     Product               Software products and applications
+    Feature               Trackable capability of a product
     Server                Compute instances and hosts
     Database              Database instances
     Product Component     Modular parts of a product
@@ -117,6 +118,8 @@ Root
     Product Version       Released software versions
     Document              Controlled documentation
     Deployment            Version deployed to an environment
+    Deployment Site       Location where a version is deployed
+    Baseline              Approved configuration snapshot
 
   Directory               People, teams, and organizations
     Organization          Companies and departments
@@ -124,7 +127,7 @@ Root
     Person                Team members and contacts
 
   Lookup Types            Reference data and enumerations
-    Product Status    Lifecycle status for applications
+    Product Status        Lifecycle status for products
     Version Status        Lifecycle status for product versions
     Deployment Status     Status of a deployment
     Environment Type      Deployment environment classification
@@ -134,6 +137,9 @@ Root
     Priority              Priority levels
     Organization Type     Classification of organizations
     Deployment Role       Roles involved in deployments
+    Site Status           Lifecycle status for deployment sites
+    Baseline Type         Classification of baselines
+    Baseline Status       Lifecycle status for baselines
 ```
 
 This is the Core schema. Opt-in domains add SLAs, licenses, certifications, baselines, and more. Portfolio mode adds enterprise architecture, contracts, requirements, and configuration library management.

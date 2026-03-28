@@ -172,6 +172,7 @@ CMDB-Kit organizes types into a tree with four root branches. This is different 
 Root
   Product CMDB          Infrastructure CIs
     Product               Software products and applications
+    Feature               Trackable capability of a product
     Server                Compute instances and hosts
     Database              Database instances
     Product Component     Modular parts of a product
@@ -180,6 +181,8 @@ Root
     Product Version       Released software versions
     Document              Controlled documentation
     Deployment            Version deployed to an environment
+    Deployment Site       Location where a version is deployed
+    Baseline              Approved configuration snapshot
 
   Directory               People, teams, and organizations
     Organization          Companies and departments
@@ -187,9 +190,12 @@ Root
     Person                Team members and contacts
 
   Lookup Types            Reference data and enumerations
-    Product Status    Lifecycle status for applications
+    Product Status        Lifecycle status for products
     Version Status        Lifecycle status for product versions
     Environment Type      Deployment environment classification
+    Site Status           Lifecycle status for deployment sites
+    Baseline Type         Classification of baselines
+    Baseline Status       Lifecycle status for baselines
     (and more)
 ```
 

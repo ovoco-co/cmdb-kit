@@ -27,8 +27,8 @@ The overlap is substantial:
 
 | EA Concern | CM Concern | Shared Data |
 |-----------|-----------|-------------|
-| What capabilities do we have? | What applications and services are deployed? | Application records with status |
-| What services do we provide? | What CIs support those services? | Application-to-component relationships |
+| What capabilities do we have? | What applications and services are deployed? | Product records with status |
+| What services do we provide? | What CIs support those services? | Product-to-component relationships |
 | Who does the work? | Who owns which CIs? | Person, Team, Organization records |
 | What infrastructure supports us? | What servers, databases, networks exist? | Server, Database, Network Segment records |
 | What are we building? | What versions are in development? | Product Version records with Beta status |
@@ -38,7 +38,7 @@ The overlap is substantial:
 
 Many organizations maintain EA artifacts in dedicated tools (Sparx EA, Cameo Systems Modeler, ArchiMate tools) that are disconnected from operational reality. The architecture diagram says the system has three microservices, but the CMDB shows five. The capability map says the organization can process 10,000 transactions per second, but the actual infrastructure supports half that.
 
-Using the CMDB as the source for EA views eliminates this drift. The architecture is not a diagram someone drew last year. It is the live state of the CI records, queried and presented through an EA lens. When someone adds a new Application record, the architecture view updates automatically.
+Using the CMDB as the source for EA views eliminates this drift. The architecture is not a diagram someone drew last year. It is the live state of the CI records, queried and presented through an EA lens. When someone adds a new Product record, the architecture view updates automatically.
 
 This does not mean the CMDB replaces all EA tools. Complex architectural modeling (behavioral simulations, what-if scenarios, strategic roadmapping) may still need specialized tools. But those tools should consume CMDB data as input rather than maintaining a separate inventory.
 
@@ -66,7 +66,7 @@ The UAF Resources viewpoint describes physical and logical resources that suppor
 
 | UAF Resources Concept | CMDB-Kit Type |
 |----------------------|---------------|
-| Software Resource | Application |
+| Software Resource | Product |
 | Computing Resource | Server, Virtual Machine |
 | Data Store | Database |
 | Network Resource | Network Segment |
@@ -98,7 +98,7 @@ The Product Library answers the projects viewpoint's questions: what versions ar
 
 The UAF Standards viewpoint describes the rules, constraints, and reference data that govern the enterprise. CMDB-Kit's Lookup Types branch maps directly: every status value, every type classification, every severity level is a standard that constrains how CI records are categorized.
 
-Lookup types are the enterprise's controlled vocabulary. When the Application Status lookup contains "Active, Planned, Deprecated, Retired," those four values are the standard lifecycle states that every application must use. This is exactly what the standards viewpoint documents.
+Lookup types are the enterprise's controlled vocabulary. When the Product Status lookup contains "Active, Planned, Deprecated, Retired," those four values are the standard lifecycle states that every product must use. This is exactly what the standards viewpoint documents.
 
 
 # Mapping UAF Domains to CMDB-Kit Types
@@ -117,7 +117,7 @@ The operational domain also encompasses the CM processes themselves: identificat
 
 ## Services Domain: Applications, Components, and Infrastructure
 
-The services domain is where CMDB-Kit has the deepest coverage. The Application, Product Component, Server, Database, Virtual Machine, and Network Segment types directly model the technical services domain.
+The services domain is where CMDB-Kit has the deepest coverage. The Product, Product Component, Server, Database, Virtual Machine, and Network Segment types directly model the technical services domain.
 
 A complete services view for OvocoCRM traces from the service through the product to its components and infrastructure:
 
@@ -251,19 +251,19 @@ The portfolio mode schema already includes a Capability type with attributes for
 
 Capability maps drift when they are maintained separately from operational data. A capability map drawn in a presentation might show ten capabilities, but the CMDB shows that two of the implementing applications have been retired.
 
-When capabilities live as CI records in the CMDB, alignment is automatic. The capability record's application references point to live Application records. If an application is retired, the capability's implementation list visibly shrinks.
+When capabilities live as CI records in the CMDB, alignment is automatic. The capability record's product references point to live Product records. If a product is retired, the capability's implementation list visibly shrinks.
 
 
-# Application Portfolio Management
+# Product Portfolio Management
 
-## Using Application Status for Lifecycle Planning
+## Using Product Status for Lifecycle Planning
 
-The Application Status lookup (Active, Planned, Deprecated, Retired) is the foundation of portfolio management. A query showing all applications by status gives you the portfolio at a glance:
+The Product Status lookup (Active, Planned, Deprecated, Retired) is the foundation of portfolio management. A query showing all products by status gives you the portfolio at a glance:
 
-- Active: applications currently in production
-- Planned: applications approved but not yet built
-- Deprecated: applications being phased out
-- Retired: applications that have been decommissioned
+- Active: products currently in production
+- Planned: products approved but not yet built
+- Deprecated: products being phased out
+- Retired: products that have been decommissioned
 
 This four-state lifecycle is a simplified portfolio view. For more detailed lifecycle planning, you can add attributes or custom lookup values.
 
@@ -276,7 +276,7 @@ The Gartner TIME model classifies applications by their strategic disposition:
 - Migrate: the application needs to be replaced, migration is planned
 - Eliminate: the application should be retired as soon as possible
 
-Adding a "Disposition" attribute to the Application type (referencing a custom "Application Disposition" lookup with these four values) enables TIME-based portfolio reporting. Combined with Application Status, you get a two-dimensional view: an "Active" application with disposition "Eliminate" needs retirement planning. A "Planned" application with disposition "Invest" is a strategic new build.
+Adding a "Disposition" attribute to the Product type (referencing a custom "Product Disposition" lookup with these four values) enables TIME-based portfolio reporting. Combined with Product Status, you get a two-dimensional view: an "Active" product with disposition "Eliminate" needs retirement planning. A "Planned" product with disposition "Invest" is a strategic new build.
 
 ## Technology Radar: Tracking Technology Choices Across Applications
 
@@ -286,7 +286,7 @@ Applications use technologies: programming languages, frameworks, databases, clo
 - Which are being trialed (emerging)
 - Which are being phased out (sunset)
 
-CMDB-Kit does not have a Technology type in the Core schema, but you can track technology choices through Product Component types (each component has a Component Type) and through text attributes on Application or Server records (e.g., "operatingSystem," "databaseEngine").
+CMDB-Kit does not have a Technology type in the Core schema, but you can track technology choices through Product Component types (each component has a Component Type) and through text attributes on Product or Server records (e.g., "operatingSystem," "databaseEngine").
 
 For formal technology radar management, add a Technology type with attributes for name, category, status (Adopt, Trial, Assess, Hold), and references to the applications that use it.
 
@@ -297,7 +297,7 @@ The Vendor and License types provide financial and contractual context for portf
 - Vendor records show supplier relationships and their status (Active, Under Review, Inactive, Terminated)
 - License records show licensing models (Per Seat, Per Core, Enterprise, Open Source, SaaS Subscription) with expiration dates
 
-An application portfolio review combines Application records (what exists), License records (what it costs), and Vendor records (who supplies it). An application with an expiring license from a terminated vendor is a high-priority migration candidate.
+A product portfolio review combines Product records (what exists), License records (what it costs), and Vendor records (who supplies it). A product with an expiring license from a terminated vendor is a high-priority migration candidate.
 
 
 # Integration Patterns
@@ -348,9 +348,8 @@ A Capability type:
 "Capability": {
   "description": { "type": 0 },
   "parentCapability": { "type": 1, "referenceType": "Capability" },
-  "applications": { "type": 1, "referenceType": "Application", "max": -1 },
-  "owner": { "type": 1, "referenceType": "Team" },
-  "status": { "type": 1, "referenceType": "Application Status" }
+  "owner": { "type": 1, "referenceType": "Organization" },
+  "status": { "type": 1, "referenceType": "Capability Status" }
 }
 ```
 
@@ -361,7 +360,7 @@ A Business Process type:
   "description": { "type": 0 },
   "capabilities": { "type": 1, "referenceType": "Capability", "max": -1 },
   "owner": { "type": 1, "referenceType": "Team" },
-  "applications": { "type": 1, "referenceType": "Application", "max": -1 }
+  "products": { "type": 1, "referenceType": "Product", "max": -1 }
 }
 ```
 
@@ -370,8 +369,8 @@ An Information Object type:
 ```json
 "Information Object": {
   "description": { "type": 0 },
-  "producer": { "type": 1, "referenceType": "Application" },
-  "consumers": { "type": 1, "referenceType": "Application", "max": -1 },
+  "producer": { "type": 1, "referenceType": "Product" },
+  "consumers": { "type": 1, "referenceType": "Product", "max": -1 },
   "dataClassification": { "type": 0 }
 }
 ```
@@ -382,7 +381,7 @@ Each type follows CMDB-Kit's standard patterns: camelCase attributes, reference 
 
 Sometimes a new type is overkill. Adding attributes to existing types can capture EA data without new types:
 
-On Application: add `businessCapability` (text), `disposition` (reference to a custom lookup), `strategicValue` (text: High/Medium/Low).
+On Product: add `businessCapability` (text), `disposition` (reference to a custom lookup), `strategicValue` (text: High/Medium/Low).
 
 On Product Component: add `technologyStack` (text describing the implementation technology).
 
@@ -421,6 +420,6 @@ For organizations without a formal capability map or service portfolio, the same
 
 The temptation with EA is to model everything: capabilities, processes, information flows, technology standards, strategic initiatives, risk assessments. Each additional type adds schema complexity, data maintenance burden, and potential for stale data.
 
-Start with what you can maintain. If your organization has one person managing the CMDB part-time, adding five EA types creates five types worth of data that will go stale. Start with Application portfolio management (no new types needed, just use Application Status and a disposition attribute). Add Capability only when someone is actively maintaining a capability map. Add Business Process only when process data drives real decisions.
+Start with what you can maintain. If your organization has one person managing the CMDB part-time, adding five EA types creates five types worth of data that will go stale. Start with Product portfolio management (no new types needed, just use Product Status and a disposition attribute). Add Capability only when someone is actively maintaining a capability map. Add Business Process only when process data drives real decisions.
 
 The best EA in a CMDB is the one that stays current. A simple model with accurate data beats a comprehensive model with stale data every time.
