@@ -171,8 +171,17 @@ for (const domDir of resolvedDomains) {
   const domAttrs = loadJsonFile(path.join(domDir, 'schema-attributes.json'));
   if (domAttrs) {
     for (const [typeName, attrs] of Object.entries(domAttrs)) {
-      if (!attributes[typeName]) attributes[typeName] = attrs;
-      else Object.assign(attributes[typeName], attrs);
+      if (!attributes[typeName]) {
+        attributes[typeName] = attrs;
+      } else {
+        // Warn if domain overwrites a Core attribute definition
+        for (const key of Object.keys(attrs)) {
+          if (attributes[typeName][key]) {
+            warn(`Domain ${path.basename(domDir)} overrides Core attribute ${typeName}.${key}`);
+          }
+        }
+        Object.assign(attributes[typeName], attrs);
+      }
     }
   }
 }
