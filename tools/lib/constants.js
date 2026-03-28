@@ -92,6 +92,18 @@ const LOAD_PRIORITY = [
   'Distribution Log',      // refs Product Version, Deployment Site, Person
   'SLA',                   // refs Product, SLA Status
 
+  // ===== SCCM DOMAIN (depends on compliance + infrastructure domains) =====
+  'SCCM Site Type',
+  'SCCM Role Type',
+  'SCCM Finding Category',
+  'SCCM Site',             // refs SCCM Site Type, Server, self-ref parentSite
+  'SCCM Site Role',        // refs SCCM Role Type, SCCM Site, Server
+  'SCCM Collection',       // refs SCCM Site, self-ref limitingCollection
+  'SCCM Security Role',    // refs SCCM Site
+  'SCCM Service Account',  // refs SCCM Site
+  'SCCM Boundary Group',   // refs SCCM Site, Network Segment
+  'SCCM Finding',          // refs SCCM Finding Category, SCCM Site, Assessment, Priority
+
   // ===== FINANCIAL (depends on Vendor, Person) =====
   'Contract',
   'Cost Category',
