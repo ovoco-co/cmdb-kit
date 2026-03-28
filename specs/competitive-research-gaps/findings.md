@@ -252,13 +252,3 @@ No new entrant specifically targeting the product-delivery-in-ITSM-platform gap.
 | 5.3 New entrants | Done (DataGerry is blank canvas) |
 
 18 of 18 tasks complete. All gaps closed.
-
-### Additional findings from Gemini research (2026-03-28)
-
-**Backstage (Spotify)**: Open source developer portal with YAML-based software catalog. Defines "Software Templates" for products. Not a CMDB and doesn't track deployment state at customer sites, but provides a developer-facing catalog of services. Complementary, not competing.
-
-**DATAGERRY**: Open source CMDB with fully custom object types. Can define Product, Version, Site types. Closest blank-canvas match but ships no pre-built schema. You'd have to build cmdb-kit's schema inside it.
-
-**ArgoCD**: GitOps deployment operator. Knows which version to deploy where but doesn't maintain persistent state records. Tradition 3 tool.
-
-Gemini's assessment: "Most tools track infrastructure, but cmdb-kit tracks product delivery." Confirmed no other open-source repo does the Product-to-Site mapping with baselines.
