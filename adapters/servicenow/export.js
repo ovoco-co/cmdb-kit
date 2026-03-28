@@ -125,9 +125,11 @@ async function convertRecord(snRecord, mapping, api) {
   const record = {};
   const { nameField } = mapping;
 
-  // Extract name - Tier 3 standalone custom tables use u_name
-  const actualNameField = (mapping.tier === 3 && nameField === 'name') ? 'u_name' : nameField;
-  const nameVal = snRecord[actualNameField] || snRecord[nameField];
+  // Extract name - Tier 3 standalone custom tables use u_name in global scope,
+  // but keep 'name' in scoped apps (x_ prefix tables)
+  const isScoped = mapping.table && mapping.table.startsWith('x_');
+  const actualNameField = (mapping.tier === 3 && nameField === 'name' && !isScoped) ? 'u_name' : nameField;
+  const nameVal = snRecord[actualNameField] || snRecord[nameField] || snRecord['name'];
   if (nameVal) {
     record.Name = typeof nameVal === 'object' ? (nameVal.display_value || nameVal.value) : nameVal;
   }

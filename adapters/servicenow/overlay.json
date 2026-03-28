@@ -592,7 +592,7 @@
         },
         "author": {
           "column": "u_author",
-          "ref": "sys_user"
+          "ref": "{prefix}_person"
         },
         "publishDate": "u_publish_date",
         "url": "u_url"

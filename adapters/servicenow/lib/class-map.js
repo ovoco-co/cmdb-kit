@@ -437,7 +437,7 @@ function getClassMap(tablePrefix = 'u_cmdbk') {
       description: 'u_description',
       documentType: 'u_document_type',
       state: 'u_state',
-      author: { column: 'u_author', ref: 'sys_user' },
+      author: { column: 'u_author', ref: `${tablePrefix}_person` },
       publishDate: 'u_publish_date',
       url: 'u_url',
     },
