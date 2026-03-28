@@ -224,8 +224,9 @@ async function main() {
       const column = typeof attrMapping === 'string' ? attrMapping : attrMapping.column;
       if (!column) continue;
 
-      // Only check custom columns for existence
-      if (!column.startsWith('u_')) {
+      // Check custom columns (u_ or x_ prefix) and OOTB columns
+      const isCustom = column.startsWith('u_') || column.startsWith('x_');
+      if (!isCustom) {
         if (options.verbose) {
           const remoteCol = remoteByName[column];
           if (remoteCol) {
