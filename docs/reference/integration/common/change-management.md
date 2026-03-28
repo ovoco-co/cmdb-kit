@@ -13,10 +13,10 @@ The tool responsibility matrix defines the boundary:
 
 | System | Tracks | Example Records |
 |--------|--------|-----------------|
-| CMDB (Assets) | What is (persistent state) | Deployment Site, Product Version, Baseline, Component Instance |
+| CMDB (Assets) | What is (persistent state) | Deployment Site, Product Version, Baseline, Product Component |
 | Work management (Jira) | What needs to happen (temporary work) | Change Request, Incident, Problem Report, Media Request |
 
-A Change Request opens when someone proposes a modification and closes when the change is implemented and verified. The record disappears from active queues. But the change's effects persist in the CMDB: a new Product Version, updated Component Instances, a new Baseline, modified Deployment Sites.
+A Change Request opens when someone proposes a modification and closes when the change is implemented and verified. The record disappears from active queues. But the change's effects persist in the CMDB: a new Product Version, updated Product Components, a new Baseline, modified Deployment Sites.
 
 An Incident opens when something breaks and closes when it is resolved. The incident disappears. The CMDB still shows the Product, its components, the affected Deployment Sites, and any configuration changes made during resolution.
 
@@ -97,7 +97,7 @@ CCB Review: the appropriate CCB reviews the change. The CCB can approve (advance
 
 Implementation: the change is being executed. Work Plan sub-tasks track individual implementation steps. Each Work Plan carries hour estimates and a suspense date.
 
-Verifying: the change has been implemented and is being verified. For changes that affect baselines, verification includes confirming the CMDB baseline record has been updated with the new component instances and documents.
+Verifying: the change has been implemented and is being verified. For changes that affect baselines, verification includes confirming the CMDB baseline record has been updated with the new components and documents.
 
 Resolved: the change is complete and verified. Automation rules update the CMDB: new Product Version records, updated Deployment Site versions, new or superseded Baselines.
 
@@ -270,7 +270,7 @@ When a change request resolves, automation rules update the CMDB to reflect the 
 
 **Updated Deployment Sites.** After upgrade work completes at each site, automation updates the Deployment Site's productVersion reference to point to the new version.
 
-**New Baseline.** If the change modifies a controlled baseline, a new CR Baseline record is created with the updated component instances and documents. The previous baseline's status changes to Superseded.
+**New Baseline.** If the change modifies a controlled baseline, a new CR Baseline record is created with the updated components and documents. The previous baseline's status changes to Superseded.
 
 **Distribution Log.** When media is shipped to sites, automation creates Distribution Log records capturing what was sent, when, and to whom.
 
@@ -330,7 +330,7 @@ Three Work Plan sub-tasks are created, one per wave. Each Work Plan carries hour
 
 After all waves complete:
 - A new Product Version "OvocoCRM 2.4.1" is created in the CMDB (the version with PostgreSQL 16 support)
-- A new Baseline "CR PBL 2.4.1" is created, referencing the updated Component Instances
+- A new Baseline "CR PBL 2.4.1" is created, referencing the updated Product Components
 - The previous baseline "CR PBL 2.4.0" moves to Superseded
 - All 12 Deployment Sites reference the new Product Version
 - Distribution Logs record the media delivery to each site

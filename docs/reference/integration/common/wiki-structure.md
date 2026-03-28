@@ -187,6 +187,8 @@ The schema defines the following attributes for Document:
 | description | Text | Free-text description of the document |
 | documentType | Reference to Document Type | Classification: specification, design document, admin guide, test report |
 | state | Reference to Document State | Lifecycle state: Draft, In Review, Approved, Superseded, Archived |
+| product | Reference to Product | The product this document belongs to |
+| version | Reference to Product Version | The product version this document applies to |
 | author | Reference to Person | The document's author |
 | publishDate | Date | Date the document was published or approved |
 | url | Text | URL pointing to the wiki page or external location |

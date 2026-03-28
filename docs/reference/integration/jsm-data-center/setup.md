@@ -107,7 +107,7 @@ The `${FieldName}` placeholder is the mechanism for cascading selects. When the 
 
 In a multi-product schema, each product has its own prefixed CMDB branch (CR for OvocoCRM, AN for OvocoAnalytics). Each prefixed branch includes a Product type (CR Product, AN Product) that serves as the cascade root.
 
-The cascade requires a `product` reference attribute on each type that should filter by product. In `schema-attributes.json`, add to CR Product Version, CR Deployment Site, CR Product Component, CR Document, CR Baseline, and any other types that should cascade:
+The cascade requires a `product` reference attribute on each type that should filter by product. The Core schema already includes `product` on Deployment Site, Baseline, Document, and Feature, but not on Product Version or Product Component. For the types that lack it, add the attribute in `schema-attributes.json` (using the appropriate product prefix for your schema). For CR Product Version, CR Product Component, and any other types that should cascade:
 
 ```json
 "product": { "type": 1, "referenceType": "CR Product" }

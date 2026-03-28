@@ -11,7 +11,7 @@ When a new CR Product Version is released, the CM team runs an upgrade campaign 
 
 ## Upgrade Status Lifecycle
 
-The upgradeStatus attribute on the CR Deployment Site references the Upgrade Status lookup type:
+The upgradeStatus attribute on the CR Deployment Site references the Upgrade Status lookup type. Note: upgradeStatus, productVersion, targetVersion, and previousVersion are portfolio-mode extensions. The Core Deployment Site schema uses `version` (a reference to Product Version) and does not include upgradeStatus, targetVersion, or previousVersion. If you are extending the Core schema, add these attributes to your schema-attributes.json. The Core Deployment Site attributes are: description, product, version, organization, environment, status, sitePOC, supportTeam, lastDeploymentDate, deployedBy, goLiveDate.
 
 ```
 Not Started              Site identified for upgrade, no action yet

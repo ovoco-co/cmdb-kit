@@ -80,6 +80,8 @@ These fields have the same name and compatible types in both systems:
 - installerTeam (Team reference)
 - supportTeam (Team reference)
 
+Note: several of these fields are portfolio-mode extensions, not Core schema attributes. The Core Deployment Site attributes are: description, product, version, organization, environment, status, sitePOC, supportTeam, lastDeploymentDate, deployedBy, goLiveDate. Fields like siteCode, seatCount, serverCount, location, customerOrganization, siteType, and installerTeam are additions for pipeline and portfolio use cases. If you are working from the Core schema, add these attributes to your schema-attributes.json before using this handoff pattern.
+
 If the pipeline and production systems share the same lookup values, these fields need no transformation.
 
 ## Fields That Require Translation
@@ -105,6 +107,8 @@ These fields are set during or after migration but do not exist in the pipeline 
 | previousVersion | Version installed before the current one | Empty at initial deployment |
 | upgradeStatus | Per-release campaign progress (reference to Upgrade Status) | Empty at initial deployment |
 | componentPackage | Multi-reference to CR Component Instance records | Set when components are assigned |
+
+Note: the Core schema uses `version` (not `productVersion`) as its reference to Product Version. The fields targetVersion, previousVersion, upgradeStatus, and componentPackage are portfolio-mode extensions beyond Core. If you are extending the Core schema for production use, add these attributes to your schema-attributes.json.
 
 These fields are what distinguish a production CR Deployment Site from a pipeline CR Deployment Site. They track operational state that has no meaning before the site is deployed.
 
