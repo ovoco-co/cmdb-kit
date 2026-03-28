@@ -55,10 +55,14 @@ async function resolveSysId(name, table, sysIdCache, api) {
     return sysIdCache[table][name];
   }
 
+  // Escape special characters in the name for ServiceNow encoded queries.
+  // ^ is the AND separator, so names containing ^ would break the query.
+  const safeName = String(name).replace(/\^/g, '\\^').replace(/\n/g, '');
+
   // Try 'name' first (works for OOTB and CI class extensions)
   try {
     const result = await api.get(`/api/now/table/${table}`, {
-      sysparm_query: `name=${name}`,
+      sysparm_query: `name=${safeName}`,
       sysparm_fields: 'sys_id,name',
       sysparm_limit: 1,
     });
@@ -74,7 +78,7 @@ async function resolveSysId(name, table, sysIdCache, api) {
     // Fall back to 'u_name' for standalone custom tables
     if (table.startsWith('u_') || table.startsWith('x_')) {
       const fallback = await api.get(`/api/now/table/${table}`, {
-        sysparm_query: `u_name=${name}`,
+        sysparm_query: `u_name=${safeName}`,
         sysparm_fields: 'sys_id,u_name',
         sysparm_limit: 1,
       });
