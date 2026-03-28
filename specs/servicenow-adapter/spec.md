@@ -93,16 +93,10 @@ Remaining:
 #### Phase 4: Remaining roadmap
 
 - Validate relationship deduplication: DONE (20 relationships skipped correctly, no duplicates created)
-- Test export tool: PARTIAL. Export works for all types with global-scope tables. Fails for Feature, Deployment Site, Baseline on scoped instances because the actual table name (x_cmdbk_u_cmdbk_feature) differs from the configured name (u_cmdbk_feature). Need table name resolution from sys_db_object in the export, same pattern as the identification rule fix.
-- Export scoped app as update set from PDI
-- UI components
-- ServiceNow Store certification
-
-#### Known issue: scoped table name resolution
-
-The fundamental issue is that ServiceNow adds a scope prefix to table names on scoped instances. The configured prefix `u_cmdbk` produces table names like `u_cmdbk_feature`, but ServiceNow creates them as `x_cmdbk_u_cmdbk_feature`. The import schema mode creates them correctly (whatever name ServiceNow assigns), but the import data mode, export, and validate-import all use the configured name which doesn't match.
-
-The fix: all adapter operations should resolve table names through sys_db_object lookup, caching the mapping at startup. This is a single architectural change that fixes import, export, and validation for scoped instances.
+- Test export tool: DONE (PR #16 - resolveTableNames fixes scoped table names, Feature exported 6 records)
+- Export scoped app as update set from PDI - NEXT
+- UI components - deferred
+- ServiceNow Store certification - deferred
 
 ## Overview
 

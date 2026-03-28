@@ -1,8 +1,8 @@
 # Atlassian Forge App
 
-**Status**: Not Started
-**Updated**: 2026-03-26
-**Priority**: High
+**Status**: Deferred
+**Updated**: 2026-03-28
+**Priority**: Low (deferred per user direction)
 
 ### What's pending
 - Forge app scaffold and project setup
