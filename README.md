@@ -65,7 +65,7 @@ node adapters/servicenow/import.js schema    # create tables and columns
 node adapters/servicenow/import.js sync      # import records
 ```
 
-See the [Getting Started Guide](docs/Setup/getting-started.md) for full setup instructions.
+See the [Getting Started Guide](docs/getting-started.md) for full setup instructions.
 
 ## What Core Answers
 
@@ -92,7 +92,7 @@ The data tells a realistic story: Acme Corp is one version behind (2.3.0 vs curr
 | [jsm](adapters/jsm/) | JSM Assets (Cloud and Data Center) | Available |
 | [servicenow](adapters/servicenow/) | ServiceNow CMDB | Available |
 
-See [Writing Adapters](docs/Extending/writing-custom-adapters.md) to build an adapter for another platform.
+See [Writing Adapters](docs/extending.md) to build an adapter for another platform.
 
 ## CSV Workflow
 
@@ -103,36 +103,19 @@ node tools/csv-to-json.js --schema schema/core --outdir schema/core/data csv-tem
 
 ## Documentation
 
-### Setup
-
 | Document | Description |
 |----------|-------------|
-| [Getting Started](docs/Setup/getting-started.md) | Prerequisites, setup, and first import |
-| [Atlassian Cloud](docs/Setup/atlassian-cloud.md) | JSM Assets Cloud setup |
-| [Atlassian Data Center](docs/Setup/atlassian-data-center.md) | JSM Assets DC setup |
-| [ServiceNow](docs/Setup/servicenow.md) | ServiceNow CMDB setup |
+| [The Problem](docs/problem-statement.md) | Why CMDB-Kit exists, the three traditions gap |
+| [Core Schema](docs/core-schema.md) | What Core tracks and the questions it answers |
+| [Getting Started](docs/getting-started.md) | First import on JSM Assets or ServiceNow |
+| [Verification](docs/verification.md) | Confirm everything imported correctly |
+| [Your Data](docs/your-data.md) | Replace example data with your own |
+| [Using the CMDB](docs/using-the-cmdb.md) | Answer real questions with queries |
+| [Domains](docs/domains.md) | Available domains and selection guide |
+| [Extending](docs/extending.md) | Architecture, new domains, adapters, standards |
+| [Schema Reference](docs/schema-reference.md) | Every type and attribute |
 
-### Schema and Data
-
-| Document | Description |
-|----------|-------------|
-| [Schema Reference](docs/Internals/schema-reference.md) | All types and attributes |
-| [Editing Data](docs/Data/editing-data.md) | JSON editing and CSV workflow |
-| [Validation](docs/Data/validation-and-troubleshooting.md) | Fixing import errors |
-
-### Configuration Management
-
-| Document | Description |
-|----------|-------------|
-| [CM Operations](docs/Configuration-Management/cm-operations.md) | Day-to-day CM tasks |
-| [Change Control](docs/Configuration-Management/change-control-governance.md) | Change governance |
-
-### Extending
-
-| Document | Description |
-|----------|-------------|
-| [Writing Adapters](docs/Extending/writing-custom-adapters.md) | Build a custom adapter |
-| [Domain Extensions](schema/domains/) | Opt-in schema extensions |
+See [docs/README.md](docs/README.md) for the full documentation index including deep-dive reference material.
 
 ## Project Structure
 
