@@ -38,11 +38,14 @@ let role = 'all';
 let format = 'csv';
 let examples = false;
 let outdir = null;
+const domainDirs = [];
 const specificTypes = [];
 
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--schema' && i + 1 < args.length) {
     schemaDir = args[++i];
+  } else if (args[i] === '--domain' && i + 1 < args.length) {
+    domainDirs.push(args[++i]);
   } else if (args[i] === '--family' && i + 1 < args.length) {
     family = args[++i].toLowerCase();
   } else if (args[i] === '--role' && i + 1 < args.length) {
@@ -104,7 +107,7 @@ Examples:
 
 // ── Resolve paths ────────────────────────────────────────────────────
 const projectRoot = path.resolve(__dirname, '..');
-if (!schemaDir) schemaDir = path.join(projectRoot, 'schema', 'base');
+if (!schemaDir) schemaDir = path.join(projectRoot, 'schema', 'core');
 else schemaDir = path.resolve(schemaDir);
 
 const STRUCTURE_PATH = path.join(schemaDir, 'schema-structure.json');
@@ -115,6 +118,26 @@ if (!outdir) outdir = path.join(projectRoot, 'csv-templates');
 // ── Load schema ──────────────────────────────────────────────────────
 const structure = JSON.parse(fs.readFileSync(STRUCTURE_PATH, 'utf8'));
 const attributes = JSON.parse(fs.readFileSync(ATTRIBUTES_PATH, 'utf8'));
+
+// Merge domain schemas
+for (const domDir of domainDirs) {
+  const resolved = path.resolve(domDir);
+  const domStructure = path.join(resolved, 'schema-structure.json');
+  const domAttrs = path.join(resolved, 'schema-attributes.json');
+  if (fs.existsSync(domStructure)) {
+    const ds = JSON.parse(fs.readFileSync(domStructure, 'utf8'));
+    for (const t of ds) {
+      if (!structure.find(s => s.name === t.name)) structure.push(t);
+    }
+  }
+  if (fs.existsSync(domAttrs)) {
+    const da = JSON.parse(fs.readFileSync(domAttrs, 'utf8'));
+    for (const [typeName, attrs] of Object.entries(da)) {
+      if (!attributes[typeName]) attributes[typeName] = attrs;
+      else Object.assign(attributes[typeName], attrs);
+    }
+  }
+}
 
 // Build parent map for hierarchy lookups
 const parentMap = {};

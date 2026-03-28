@@ -69,8 +69,12 @@ for (const t of structure) descMap[t.name] = t.description || '';
 // Load data record count
 function countRecords(typeName) {
   const safeName = typeName.toLowerCase().replace(/ /g, '-');
-  const filePath = path.join(dataDir, `${safeName}.json`);
-  if (!fs.existsSync(filePath)) return 0;
+  // Check multiple file name patterns (same as validate.js and file-loader)
+  const candidates = [`${safeName}.json`, `${safeName}s.json`];
+  if (['Person'].includes(typeName)) candidates.push('person.json');
+  const fileName = candidates.find(f => fs.existsSync(path.join(dataDir, f)));
+  const filePath = fileName ? path.join(dataDir, fileName) : null;
+  if (!filePath) return 0;
   try {
     const raw = JSON.parse(fs.readFileSync(filePath, 'utf8'));
     if (Array.isArray(raw)) return raw.length;

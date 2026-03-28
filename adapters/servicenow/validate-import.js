@@ -184,6 +184,10 @@ async function validateType(typeName, mapping, api, config, options) {
         const column = typeof attrMapping === 'string' ? attrMapping : attrMapping.column;
         if (!column) continue;
 
+        // Skip fields with transforms (e.g., installStatus maps "Active" to "1").
+        // The remote value is the transformed version, not comparable to the local value.
+        if (typeof attrMapping === 'object' && attrMapping.transform) continue;
+
         const remoteVal = remoteRec[column];
         const normLocal = normalizeValue(localVal);
         const normRemote = normalizeValue(remoteVal);
