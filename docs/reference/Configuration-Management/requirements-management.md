@@ -17,11 +17,12 @@ In many organizations, the feature record is sufficient. It answers "what capabi
 
 ## Attributes: Description, Version, Status, Owner
 
-The Feature type in CMDB-Kit's Core schema has four attributes:
+The Feature type in CMDB-Kit's Core schema has these attributes:
 
 ```json
 "Feature": {
   "description": { "type": 0 },
+  "product": { "type": 1, "referenceType": "Product" },
   "version": { "type": 1, "referenceType": "Product Version" },
   "status": { "type": 1, "referenceType": "Version Status" },
   "owner": { "type": 1, "referenceType": "Team" }
@@ -399,7 +400,7 @@ Your product has fewer than 50 features and the development process is agile eno
 
 ## Adding Custom Attributes
 
-Extend Feature with additional attributes when the Core four are not sufficient:
+Extend Feature with additional attributes when the Core attributes are not sufficient:
 
 `priority`: reference to a Priority lookup (High, Medium, Low). Useful for backlog prioritization.
 

@@ -55,12 +55,15 @@ Person represents individual team members:
   "firstName": "Sarah",
   "lastName": "Chen",
   "email": "sarah.chen@ovoco.example.com",
+  "phone": "555-0101",
+  "jobTitle": "Platform Team Lead",
   "role": "Team Lead",
-  "team": "CRM Platform Team"
+  "team": "CRM Platform Team",
+  "manager": "Michael Torres"
 }
 ```
 
-The `Name` attribute (built-in on all types) holds the display name. The `firstName` and `lastName` attributes enable sorting and searching by either name component. The `role` attribute is free text in the Core schema, which provides flexibility but limits queryability. Organizations that need to query by role (show me all Engineering Leads) should consider making role a reference to a lookup type.
+The `Name` attribute (built-in on all types) holds the display name. The `firstName` and `lastName` attributes enable sorting and searching by either name component. The `phone` attribute holds a work contact number for operational purposes. The `jobTitle` attribute records the person's formal title. The `manager` attribute is a self-reference to another Person, enabling reporting-chain queries without duplicating the HR org chart. The `role` attribute is free text in the Core schema, which provides flexibility but limits queryability. Organizations that need to query by role (show me all Engineering Leads) should consider making role a reference to a lookup type.
 
 ## Person as the Link Between People and CIs
 
@@ -71,6 +74,10 @@ Person records are referenced throughout the schema. In Core + domains, Person a
 - `Document.author`: who wrote the document
 - `Deployment.deployedBy`: who executed the deployment
 - `Distribution Log.distributedBy`: who distributed the media (distribution domain)
+- `Product Version.approvedBy`: who approved the version
+- `Deployment Site.sitePOC`: site point of contact
+- `Deployment Site.deployedBy`: who deployed to the site
+- `Baseline.approvedBy`: who approved the baseline
 
 This makes Person the bridge between people and operational data. When you query "what has this person been involved in?", you can find their assessments, documents, deployments, and distributions.
 
@@ -368,8 +375,8 @@ The import order for personnel types follows the dependency chain:
 
 1. All lookup types first (Post Status, Clearance Level, Clearance Status, Personnel Certification Type, Personnel Certification Status)
 2. Organization (no dependencies within Directory)
-3. Team (depends on Organization)
-4. Person (depends on Team)
+3. Person (depends on Organization, self-references manager)
+4. Team (depends on Organization and Person for teamLead)
 5. Post (depends on Team, Organization, and Person for incumbent)
 6. Clearance (depends on Person and Clearance Level and Clearance Status)
 7. Personnel Certification (depends on Person and its lookup types)
