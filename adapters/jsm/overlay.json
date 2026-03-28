@@ -27,10 +27,8 @@
         "description": { "type": "text" },
         "productType": { "type": "text" },
         "technology": { "type": "text" },
-        "version": { "type": "text" },
         "owner": { "type": "reference", "referenceType": "Team" },
         "status": { "type": "reference", "referenceType": "Product Status" },
-        "environment": { "type": "reference", "referenceType": "Environment Type" },
         "companionProducts": { "type": "reference", "referenceType": "Product", "cardinality": "many" }
       }
     },

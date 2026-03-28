@@ -181,9 +181,11 @@ function normalizeDate(s) {
   s = String(s).trim();
   const iso = s.match(/^(\d{4}-\d{2}-\d{2})/);
   if (iso) return iso[1];
-  const dmy = s.match(/^(\d{1,2})\/(\w{3})\/(\d{4})/);
+  const dmy = s.match(/^(\d{1,2})\/(\w{3})\/(\d{2,4})/);
   if (dmy && MONTHS[dmy[2]]) {
-    return `${dmy[3]}-${MONTHS[dmy[2]]}-${dmy[1].padStart(2, '0')}`;
+    let year = dmy[3];
+    if (year.length === 2) year = (parseInt(year) >= 70 ? '19' : '20') + year;
+    return `${year}-${MONTHS[dmy[2]]}-${dmy[1].padStart(2, '0')}`;
   }
   return s;
 }
