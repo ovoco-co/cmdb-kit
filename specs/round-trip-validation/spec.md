@@ -1,24 +1,89 @@
 # Round-Trip Validation
 
-**Status**: Not Started
-**Priority**: High (proves the full workflow works end-to-end)
+**Feature Branch**: round-trip-validation
 **Created**: 2026-03-28
+**Status**: Not Started
+**Input**: Existing tools (validate, csv-to-json, generate-templates, import, export, drift), JSM Cloud instance, ServiceNow PDI
 
-## The Problem
+## User Scenarios and Testing
 
-Individual tools have been tested in isolation (validate, import, export, drift). The full round-trip workflow has never been tested end-to-end:
+### P1: User completes the full CSV-to-platform workflow without data loss
 
-1. Generate CSV templates from schema
-2. Edit CSVs (add/modify data)
-3. Convert CSVs back to JSON
-4. Validate the JSON
-5. Import to a live platform
-6. Export from the live platform
-7. Validate that exported data matches what was imported
-8. Import the exported data to a DIFFERENT schema/instance
-9. Validate the second instance matches
+**Why this priority**: This is how a real user works. Individual tools tested in isolation don't prove the full workflow is reliable. If any step breaks the data, the whole workflow is unreliable.
 
-This is how a real user works. If any step breaks the data, the whole workflow is unreliable.
+**Independent Test**: Generate CSV templates, edit them, convert back to JSON, validate, import to platform, export, and compare.
+
+**Acceptance Scenarios**:
+
+- Given CSV templates are generated from Core schema with example data
+  When CSVs are converted back to JSON and validated
+  Then record Names match, field values match, and no data is lost
+  And boolean fields survive (true/false not "true"/"false" strings)
+  And date fields survive (YYYY-MM-DD format preserved)
+  And multi-reference fields survive (semicolons preserved)
+
+- Given data is imported to JSM Cloud
+  When the same data is exported from JSM Cloud
+  Then exported data matches imported data (record counts, field values, references)
+
+- Given data is imported to ServiceNow PDI
+  When the same data is exported from ServiceNow PDI
+  Then exported data matches imported data
+
+### P2: Cross-platform round-trip preserves data integrity
+
+**Why this priority**: Users may move data between platforms. Cross-platform fidelity is a differentiator.
+
+**Independent Test**: Export from JSM, import to ServiceNow, export from ServiceNow, compare.
+
+**Acceptance Scenarios**:
+
+- Given data is exported from JSM Cloud
+  When that exported data is imported to ServiceNow PDI and then exported again
+  Then the JSM export and ServiceNow export contain the same data
+  And platform-specific field name differences don't corrupt data
+
+### P3: New user gets a working CMDB on first try
+
+**Why this priority**: The clean install experience defines first impressions.
+
+**Independent Test**: Import Core to a fresh JSM Assets schema, run validation, run drift detection.
+
+**Acceptance Scenarios**:
+
+- Given a new JSM Assets schema with no existing data
+  When schema and data are imported following the documented workflow
+  Then all types pass validation on first try
+  And drift detection shows no drift
+
+## Edge Cases
+
+- Boolean fields stored as strings after CSV round-trip
+- Date format transformations (YYYY-MM-DD to DD/Mon/YY and back)
+- Multi-reference field ordering differences between platforms
+- Case sensitivity in Name matching across platforms
+- Nested format types (Person, Organization, Team) during CSV conversion
+- Empty optional fields stored as empty strings instead of being omitted
+- Phantom records created during import
+- Attribute name case mismatches (Cpu vs CPU) during fresh import
+
+## Requirements
+
+### Functional Requirements
+
+- FR-001: CSV round-trip (generate templates, convert back to JSON) preserves all data types without loss
+- FR-002: JSM Cloud import-export round-trip preserves all records and field values
+- FR-003: ServiceNow PDI import-export round-trip preserves all records and field values
+- FR-004: Cross-platform round-trip (JSM to ServiceNow) preserves data integrity
+- FR-005: Fresh instance import creates all types, attributes, and data on first try
+- FR-006: Domain data survives the same round-trip as Core data
+
+### Key Entities
+
+- CSV templates (generated from schema)
+- JSON data files (source of truth)
+- Platform deployment records (JSM Assets, ServiceNow CMDB)
+- Drift report (comparison output)
 
 ## Test Plan
 
@@ -94,8 +159,6 @@ This is how a real user works. If any step breaks the data, the whole workflow i
 5. Run validate-import: all 26 types should pass on first try
 6. Run drift detection: should show NO DRIFT
 
-This tests the "clean install" experience that a new user would have.
-
 **What to check specifically:**
 - No leftover state from previous imports affects the new schema
 - Attribute names are created correctly from attr-names.js (no Cpu/CPU mismatch)
@@ -110,6 +173,14 @@ This tests the "clean install" experience that a new user would have.
 
 ## Success Criteria
 
-- All 6 tests pass
-- Data survives every transformation step without loss or corruption
-- A new user can follow the documented workflow and get a working CMDB on first try
+- SC-001: All 6 tests pass without manual intervention
+- SC-002: Data survives every transformation step without loss or corruption
+- SC-003: A new user can follow the documented workflow and get a working CMDB on first try
+- SC-004: Boolean, date, and multi-reference fields are preserved through every round-trip path
+
+## Assumptions
+
+- JSM Cloud instance (ovoco.atlassian.net) is accessible for testing
+- ServiceNow PDI (dev210250) is accessible for testing
+- All tools (validate, csv-to-json, generate-templates, import, export, drift) are functional
+- 26/26 Core types currently pass JSM validation as a known good baseline

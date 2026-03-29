@@ -1,17 +1,91 @@
 # Competitive Research Gaps
 
-**Feature Branch**: `012-competitive-research`
-**Status**: Complete (2026-03-28). All 18 tasks evaluated. CSDM 5.0 is the main finding.
-**Priority**: High (blocks public claims and LinkedIn posting)
+**Feature Branch**: competitive-research-gaps
 **Created**: 2026-03-28
+**Status**: Complete (2026-03-28). All 18 tasks evaluated. CSDM 5.0 is the main finding.
+**Input**: competitive-research-needed.md, competitive-research-results.md
 
-## The Problem
+## User Scenarios and Testing
 
-We built and shipped CMDB-Kit 2.0 (11 PRs, Core + Domains, documentation rewrite) on top of incomplete competitive research. The research plan (competitive-research-needed.md) was written but not fully executed. Multiple items were flagged as "needs deeper investigation" and never followed up. Our public claims ("nobody bridges product delivery with ITSM CMDBs") may be wrong.
+### P1: Product owner validates public claims before publishing
 
-This must be resolved before any public positioning (blog posts, LinkedIn, README claims).
+**Why this priority**: Public claims ("nobody bridges product delivery with ITSM CMDBs") may be wrong. Incorrect positioning undermines credibility and blocks LinkedIn posting and blog content.
 
-## What Was Checked (and how deeply)
+**Independent Test**: Review all competitive research sources and evaluate each flagged gap against the 8 evaluation criteria.
+
+**Acceptance Scenarios**:
+
+- Given the Atlassian Marketplace has 19 apps previously reviewed at title level only
+  When each flagged app (Device42, SimplyIT, Adaptavist, DevSamurai, CMJ) is evaluated against the 8 evaluation questions
+  Then findings are documented with verified conclusions, not assumptions
+
+- Given ServiceNow Store results include unevaluated items (EY Back to Baseline, CSDM v4/v5)
+  When each gap is researched through documentation, community, and platform plugins
+  Then every "NEEDS" and "ASSUMED" qualifier in competitive-research-results.md is resolved
+
+- Given PLM tools (Arena, Aras, Windchill, Teamcenter) were never evaluated
+  When each is checked for software deployment tracking and CMDB integration
+  Then findings are documented honestly, including any overlap with cmdb-kit
+
+### P2: Product owner updates positioning based on findings
+
+**Why this priority**: Claims must be backed by evidence before any marketing content ships.
+
+**Independent Test**: Compare revised problem-statement.md and README.md against research findings.
+
+**Acceptance Scenarios**:
+
+- Given all research gaps are closed
+  When competitive-research-results.md is updated
+  Then every "NEEDS" item is closed and every "ASSUMED" qualifier is replaced with a verified conclusion
+
+- Given a competitor is found (e.g., CSDM 5.0 product delivery features)
+  When problem-statement.md is revised
+  Then the competitor is documented honestly and claims are adjusted accordingly
+
+## Edge Cases
+
+- A tool may have hidden product tracking features not visible in short descriptions (addressed by Task 1.5 spot-check)
+- CSDM v5 may have added product delivery concepts since 2022, changing the competitive landscape
+- PLM tools may cover software delivery but not connect to ITSM CMDBs, making them partial competitors
+- Defense-specific solutions may exist in closed communities (NDIA, CMPIC) not visible on public search
+- New entrants may have appeared since original research was conducted
+
+## Requirements
+
+### Functional Requirements
+
+- FR-001: Evaluate all flagged Atlassian Marketplace apps (Device42, SimplyIT, Adaptavist, DevSamurai, CMJ) against the 8 evaluation criteria
+- FR-002: Evaluate EY "Back to Baseline" for ITx on ServiceNow Store
+- FR-003: Check CSDM v4/v5 documentation for product delivery concepts
+- FR-004: Search ServiceNow Community and Share for community-built solutions
+- FR-005: Check ServiceNow platform plugins beyond the Store
+- FR-006: Evaluate PLM tools (Arena, Aras, Windchill, Teamcenter) for software deployment tracking
+- FR-007: Evaluate Industrace and re-search GitHub with refined terms
+- FR-008: Check ITIL 4 SACM practice guide for updates
+- FR-009: Search defense-specific CMDB solutions (NDIA, CMPIC)
+- FR-010: Check for new entrants since original research
+- FR-011: Revise problem-statement.md, README.md, and competitive-research-results.md based on findings
+
+### Key Entities
+
+- Evaluation Criteria (8 questions from competitive-research-needed.md)
+- competitive-research-results.md (findings document)
+- problem-statement.md (public positioning)
+
+## Evaluation Criteria (for each tool)
+
+From competitive-research-needed.md:
+1. Does it track what products exist and what versions have been released?
+2. Does it track where products are deployed and what version is at each site?
+3. Does it track baselines (approved configurations at a point in time)?
+4. Does it work on JSM Assets or ServiceNow?
+5. Is it open source?
+6. What does it cost?
+7. What does it do that CMDB-Kit doesn't?
+8. What does CMDB-Kit do that it doesn't?
+
+## Research Coverage
 
 | Source | Items Found | Depth | Gaps |
 |--------|------------|-------|------|
@@ -121,21 +195,16 @@ This must be resolved before any public positioning (blog posts, LinkedIn, READM
 - Close every "NEEDS" item
 - Remove "ASSUMED" qualifiers with verified conclusions
 
-## Evaluation Criteria (for each tool)
-
-From competitive-research-needed.md:
-1. Does it track what products exist and what versions have been released?
-2. Does it track where products are deployed and what version is at each site?
-3. Does it track baselines (approved configurations at a point in time)?
-4. Does it work on JSM Assets or ServiceNow?
-5. Is it open source?
-6. What does it cost?
-7. What does it do that CMDB-Kit doesn't?
-8. What does CMDB-Kit do that it doesn't?
-
 ## Success Criteria
 
-- Every "NEEDS" and "ASSUMED" in competitive-research-results.md is resolved
-- Every item in competitive-research-needed.md is evaluated
-- Problem statement claims are backed by verified evidence, not assumptions
-- If a competitor is found, it's documented honestly
+- SC-001: Every "NEEDS" and "ASSUMED" in competitive-research-results.md is resolved with verified conclusions
+- SC-002: Every item in competitive-research-needed.md is evaluated against the 8 evaluation criteria
+- SC-003: Problem statement claims are backed by verified evidence, not assumptions
+- SC-004: If a competitor is found, it is documented honestly with what it does and does not do
+
+## Assumptions
+
+- Atlassian Marketplace app pages are publicly accessible without purchase
+- ServiceNow CSDM documentation is available through docs.servicenow.com
+- PLM vendor websites have sufficient public information for evaluation
+- Defense-specific resources (NDIA, CMPIC) have publicly accessible materials

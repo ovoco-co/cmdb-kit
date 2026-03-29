@@ -1,115 +1,120 @@
 # ServiceNow Adapter and Scoped App
 
+**Feature Branch**: servicenow-adapter
+**Created**: 2026-03-26
 **Status**: Done (all phases complete, remaining low bugs documented in audit-findings.md)
-**Updated**: 2026-03-28
-**Priority**: High
+**Input**: ServiceNow CMDB Instance API, Identification Reconciliation Engine (IRE), Zurich PDI testing
 
-### What's done
-- Phase 1: CMDB Instance API with custom CI classes (commit 243e7fe)
-- Phase 2: OOTB field mappings for 756 ServiceNow fields (commit 6222302)
-- Phase 3: Data transforms for RAM, disk, OS, CPU normalization (commit 6222302)
-- Phase 4: 20 CI-to-CI relationships (commit 0debe3c)
-- Platform overlay architecture (overlay.json, overlay-loader.js)
-- Migration tool (migrate.js) for upgrading from Table API to CMDB Instance API
-- Background script installer for ServiceNow instance setup
-- Zurich compatibility fixes (9 bugs, commit 66a19e3)
-- Testing: 105/105 records imported on Zurich PDI, 12/20 types fully pass validation
-- Core + Domains restructure complete (PR #2 merged 2026-03-28)
-- Overlay updated for new Core types (Feature, Deployment Site, Baseline)
-- Scoped prefix fix for new tables (x_cmdbk_ prefix on PDI)
+## User Scenarios and Testing
 
-### What was found during Core testing (2026-03-28)
-- Schema mode creates 3 new tables (Feature, Deployment Site, Baseline) and 31 columns
-- Feature table created as x_cmdbk_u_cmdbk_feature (scoped prefix added by PDI)
-- Identification rule created with wrong table name (u_cmdbk_feature instead of x_cmdbk_u_cmdbk_feature)
-- Fixed manually by updating cmdb_identifier and cmdb_identifier_entry records
-- Deployment Site and Baseline import as tier 3 (Table API) without issues
-- Feature imports as tier 2 (CMDB Instance API) after identification rule fix
-- Reference field population on CI types has a pre-existing issue: CMDB API creates records with names and descriptions but reference fields are empty
+### P1: Admin imports cmdb-kit schema into ServiceNow using the CMDB Instance API
 
-### What's pending
+**Why this priority**: The original adapter used the Table API, which bypasses ServiceNow's deduplication, reconciliation, and relationship management. Using the CMDB Instance API means cmdb-kit records participate in native CMDB features.
 
-Full audit completed 2026-03-28. 45 issues found (15 high, 17 medium, 13 low). See audit-findings.md for details.
+**Independent Test**: Run schema and data import on a fresh Zurich PDI. Verify all types, attributes, and records are created.
 
-#### Phase 1: Critical fixes - DONE (PRs #4, #5 merged 2026-03-28)
+**Acceptance Scenarios**:
 
-All 15 high-severity items fixed:
-- SN-H1: Identification rules use sys_id lookup from sys_db_object (PR #5)
-- SN-H2: Two-pass import, IRE + Table API for custom fields (PR #5)
-- SN-H3: Double-prefixed table names in overlay.json (PR #4)
-- SN-H4: Default data path to schema/core (PR #4)
-- JSM-H1: refMismatch comparison checks referenceObjectTypeId (PR #4)
-- JSM-H2: validate-import strips key prefix from reference values (PR #4)
-- JSM-H3: 30+ attribute name mappings added (PR #4)
-- JSM-M1: Boolean handling fixed (type 0, defaultTypeId 2) (PR #4)
-- JSM-M3: Overlay integer type code fixed (PR #4)
-- TOOLS-H1: Default schema paths in 4 tools (PR #4)
-- TOOLS-H2: Boolean coercion in csv-to-json (PR #4)
-- TOOLS-H3: Duplicate SLA removed from LOAD_PRIORITY (PR #4)
-- SN overlay: VM scoped column, Deployment Site person refs (PR #4)
-- JSM overlay: Stale Product attributes removed (PR #4)
-- JSM export: 2-digit year date normalization (PR #4)
+- Given a fresh Zurich PDI with the scoped app installed
+  When the admin runs `node adapters/servicenow/import.js schema && sync`
+  Then all Core custom CI classes are created with correct columns
+  And identification rules correctly reference scoped table names (x_cmdbk_ prefix)
+  And 105/105 records are imported with zero duplicates
 
-#### Phase 2: Medium fixes - MOSTLY DONE (PRs #6, #7, #8, #9 merged 2026-03-28)
+- Given the adapter uses the CMDB Instance API and IRE
+  When records are imported
+  Then they participate in ServiceNow's native impact analysis, service mapping, and discovery reconciliation
 
-Done:
-- SN-M1: class-map.js Feature product reference added (PR #7)
-- SN-M2: install-scoped-app.js uses configurable PREFIX, added new tables (PR #8)
-- SN-M4: cmdbInstance uses retry logic (PR #6)
-- SN-M7: Query injection prevention in resolveSysId (PR #6)
-- JSM-M2: AQL injection prevention in resolveReference (PR #6)
-- TOOLS-M1: --domain flag on csv-to-json (PR #6)
-- TOOLS-M4: Domain attribute merge warns on collision (PR #8)
-- TOOLS-M5: Dead extraInPriority loop removed (PR #7)
-- JSM config default path fixed (PR #9)
-- All stale schema/base refs removed from JS files (PR #9)
-- CPU/RAM/URL/CIDR/VLAN attr name mappings added (PR #9)
+### P2: Admin imports data with correct reference field population
 
-Also done (PR #10):
-- SN-M3: check-schema.js validates x_ columns for scoped apps (PR #10)
-- SN-M6: validate-import skips transform fields (PR #10)
-- TOOLS-M1: --domain flag on generate-templates (PR #10)
-- TOOLS-M2: generate-site-content countRecords fixed (PR #10)
+**Why this priority**: Reference fields on CI types must be populated for the CMDB to be useful. The two-pass import (IRE + Table API) solves this.
 
-All medium items complete.
+**Independent Test**: Import Core data, verify reference fields are populated on all CI types.
 
-#### Phase 3: Low priority - PARTIAL (PR #11 merged 2026-03-28)
+**Acceptance Scenarios**:
 
-Done:
-- SN-L1: VM scoped column (PR #4)
-- SN-L2: Relationship import prefix handling (PR #11)
-- JSM-L1: bulk-update-icons-mapped.js rewritten (PR #11)
-- TOOLS-L1: SCCM types added to LOAD_PRIORITY (PR #11)
-- TOOLS-L3: Domain collision warnings (PR #8)
+- Given a CI type has reference fields (e.g., Product Version references Product)
+  When the two-pass import runs (IRE creates records, Table API populates custom fields)
+  Then reference fields contain the correct values
 
-Remaining:
-- SN-L3: Export name field skip logic
-- SN-L4: Discovery source validation
-- JSM-L2: Export domain type handling
-- JSM-L3: Icon map domain entries
-- TOOLS-L2: LOAD_PRIORITY enterprise bloat
-- TOOLS-L5: Hardcoded status strings in deployment-readiness
+- Given 20 relationship types are defined
+  When relationship import runs
+  Then all 20 relationships are created without duplicates
 
-#### Phase 4: Remaining roadmap
+### P3: Admin migrates from Table API adapter to CMDB Instance API adapter
 
-- Validate relationship deduplication: DONE (20 relationships skipped correctly, no duplicates created)
-- Test export tool: DONE (PR #16 - resolveTableNames fixes scoped table names, Feature exported 6 records)
+**Why this priority**: Existing users on the old Table API adapter need a migration path.
 
-No-CLI distribution (update set, Store certification, UI components) moved to separate spec at specs/no-cli-installation/spec.md.
+**Independent Test**: Run migrate.js on an instance with Table API data, verify records are preserved.
 
-## Overview
+**Acceptance Scenarios**:
 
-Full-featured ServiceNow CMDB adapter that imports cmdb-kit schemas as custom CI classes using the CMDB Instance API and Identification Reconciliation Engine (IRE).
+- Given an instance has cmdb-kit data imported via the old Table API
+  When the admin runs the migration tool (migrate.js)
+  Then all records are preserved and now use CMDB Instance API patterns
 
-## Why
+## Edge Cases
 
-The original adapter used the Table API, which bypasses ServiceNow's deduplication, reconciliation, and relationship management. The CMDB Instance API and IRE are ServiceNow's supported path for programmatic CMDB population. Using them means cmdb-kit records participate in ServiceNow's native CMDB features (impact analysis, service mapping, discovery reconciliation) instead of being isolated custom tables.
+- Scoped prefix (x_cmdbk_) causes double-prefixed table names in overlay.json
+- Identification rules created with wrong table name (u_cmdbk_feature vs x_cmdbk_u_cmdbk_feature)
+- CMDB API creates records with names and descriptions but reference fields are empty (requires two-pass)
+- ServiceNow script size limits for background script installer
+- Zurich-specific bugs (9 found and fixed)
+- Feature table as tier 2 (CMDB Instance API) vs Deployment Site and Baseline as tier 3 (Table API)
+
+## Requirements
+
+### Functional Requirements
+
+- FR-001: Import cmdb-kit schemas as custom CI classes using the CMDB Instance API
+- FR-002: Use Identification Reconciliation Engine (IRE) for deduplication
+- FR-003: Two-pass import: IRE creates records, Table API populates custom fields
+- FR-004: Create 20 CI-to-CI relationships without duplicates
+- FR-005: Platform overlay (overlay.json) maps cmdb-kit types and attributes to ServiceNow tables and columns
+- FR-006: Background script installer for ServiceNow instance setup
+- FR-007: Migration tool (migrate.js) for upgrading from Table API to CMDB Instance API
+- FR-008: OOTB field mappings for 756 ServiceNow fields
+- FR-009: Data transforms for RAM, disk, OS, CPU normalization
+- FR-010: Retry logic and query injection prevention
+
+### Key Entities
+
+- Adapter (`adapters/servicenow/`): Node.js scripts for REST API import
+- Platform overlay (`adapters/servicenow/overlay.json`): Type and attribute mapping
+- Scoped app (`x_cmdbk`): ServiceNow application scope
+- class-map.js: Maps cmdb-kit types to ServiceNow CI classes
+- install-scoped-app.js: Background script for instance setup
 
 ## Architecture
 
 - **Adapter** (`adapters/servicenow/`): Node.js scripts that read cmdb-kit JSON schema files and import into ServiceNow via REST API
 - **Platform overlay** (`adapters/servicenow/overlay.json`): Maps cmdb-kit types and attributes to ServiceNow tables and columns
 - **Scoped app** (`x_cmdbk`): ServiceNow application scope containing custom CI classes and relationships
+
+## Audit Summary
+
+Full audit completed 2026-03-28. 45 issues found (15 high, 17 medium, 13 low).
+
+### Phase 1: Critical fixes - DONE (PRs #4, #5)
+All 15 high-severity items fixed including: identification rules using sys_id lookup, two-pass import, double-prefixed table names, default data paths, reference comparison fixes, attribute name mappings, boolean handling.
+
+### Phase 2: Medium fixes - DONE (PRs #6, #7, #8, #9, #10)
+All 17 medium items fixed including: Feature product reference, configurable PREFIX, retry logic, injection prevention, --domain flag, domain attribute merge warnings, stale schema/base refs removed.
+
+### Phase 3: Low priority - PARTIAL (PR #11)
+5 of 13 low items fixed. Remaining: SN-L3, SN-L4, JSM-L2, JSM-L3, TOOLS-L2, TOOLS-L5.
+
+### Phase 4: Remaining roadmap
+- Validate relationship deduplication: DONE (20 relationships, no duplicates)
+- Test export tool: DONE (PR #16, scoped table name resolution)
+
+## Core + Domains Testing Results (2026-03-28)
+
+- Schema mode creates 3 new tables (Feature, Deployment Site, Baseline) and 31 columns
+- Feature table created as x_cmdbk_u_cmdbk_feature (scoped prefix added by PDI)
+- Identification rule fix: updated cmdb_identifier and cmdb_identifier_entry records for correct scoped table name
+- Deployment Site and Baseline import as tier 3 (Table API) without issues
+- Feature imports as tier 2 (CMDB Instance API) after identification rule fix
 
 ## Dependencies
 
@@ -118,7 +123,16 @@ The original adapter used the Table API, which bypasses ServiceNow's deduplicati
 
 ## Success Criteria
 
-- Clean import on fresh Zurich PDI with zero duplicate records
-- All 20 relationship types created without manual intervention
-- Identification rules correctly reference scoped table names
-- Reference fields populated on all CI types
+- SC-001: Clean import on fresh Zurich PDI with zero duplicate records
+- SC-002: All 20 relationship types created without manual intervention
+- SC-003: Identification rules correctly reference scoped table names
+- SC-004: Reference fields populated on all CI types via two-pass import
+- SC-005: 105/105 records imported successfully
+
+## Assumptions
+
+- ServiceNow Zurich is the target platform version
+- PDI (dev210250) is available for testing
+- The CMDB Instance API and IRE are the supported path for programmatic CMDB population
+- Scoped app prefix (x_cmdbk_) is consistent across ServiceNow instances
+- Two-pass import is necessary because the CMDB API does not populate custom reference fields
