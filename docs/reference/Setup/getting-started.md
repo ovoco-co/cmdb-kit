@@ -17,7 +17,7 @@ CMDB-Kit uses a Core + Domains architecture:
 | Core + domains | Full CMDB with baselines, assessments, certifications, and infrastructure depth |
 | Portfolio mode | Financial tracking, enterprise architecture, requirements, configuration library |
 
-Start with Core. You can add domains later without losing data. Each domain is opt-in and adds types for a specific area (infrastructure, licensing, compliance, distribution, service management). See the [Enterprise Extension README](../../../schema/enterprise/README.md) for details on what portfolio mode adds.
+Start with Core. You can add domains later without losing data. Each domain is opt-in and adds types for a specific area (infrastructure, licensing, compliance, distribution, service management). See the [Domains guide](../../domains.md) for the full list of available domains and what each adds.
 
 # Validate the Schema
 

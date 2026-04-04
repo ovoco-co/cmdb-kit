@@ -1,4 +1,6 @@
-# Enterprise Schema
+# Enterprise Schema (Legacy - Portfolio Mode)
+
+> **Note**: This is the legacy enterprise tier. The current architecture is Core + Domains. See `schema/core/` for the starting schema and `schema/domains/` for opt-in extensions. The enterprise schema remains for users who need the full portfolio mode with product-prefixed types.
 
 The enterprise schema models a multi-product portfolio. It uses product-prefixed CI types so each product's infrastructure, releases, and deployments are tracked independently while sharing directory data, lookup types, and cross-product library records.
 

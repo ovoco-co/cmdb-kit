@@ -1,14 +1,18 @@
 # Domain Extensions
 
-Domain extensions are opt-in schema modules for specialized use cases. They add CI types and lookup types that layer on top of a base schema tier (base, extended, or enterprise) without modifying it.
+Domain extensions are opt-in schema modules for specialized use cases. They add CI types and lookup types that layer on top of the Core schema without modifying it.
 
-Each domain has its own schema-structure.json, schema-attributes.json, and data/ directory following the same conventions as the core schema tiers.
+Each domain has its own schema-structure.json, schema-attributes.json, and data/ directory following the same conventions as Core.
 
 ## Available Domains
 
 | Domain | Extends | Description |
 |--------|---------|-------------|
-| [sccm](sccm/) | extended | SCCM infrastructure modeling and security assessment tracking |
+| [sccm](sccm/) | Core | SCCM infrastructure modeling and security assessment tracking |
+| [compliance](compliance/) | Core | Assessment, Finding, Control, Evidence |
+| [distribution](distribution/) | Core | Distribution Log, Product Media, Product Suite, Documentation Suite |
+| [infrastructure](infrastructure/) | Core | Hardware Model, Network Segment, Virtual Machine, Location, Facility, Vendor |
+| [licensing](licensing/) | Core | License types and tracking |
 
 ## How to Use
 

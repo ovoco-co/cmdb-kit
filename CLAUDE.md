@@ -26,6 +26,10 @@ Target DB UI  <->  Schema Layer (structure + attributes JSON)  <->  Data Layer (
 | `schema/enterprise/` | Legacy: portfolio mode with product-prefixed types |
 | `tools/lib/constants.js` | LOAD_PRIORITY (import order) |
 | `adapters/jsm/import.js` | JSM Assets import orchestrator |
+| `adapters/servicenow/import.js` | ServiceNow import orchestrator (CMDB Instance API + Table API) |
+| `adapters/servicenow/overlay.json` | ServiceNow type and attribute mappings |
+| `adapters/servicenow/lib/class-map.js` | Three-tier type-to-table mapping |
+| `.specify/memory/constitution.md` | Project constitution with ServiceNow rules and file reference map |
 
 ## Commands
 
@@ -72,6 +76,39 @@ node adapters/jsm/export.js
 # Post-import validation
 node adapters/jsm/validate-import.js
 ```
+
+### ServiceNow Adapter
+
+```bash
+# Set environment variables (or use .env file)
+export SN_INSTANCE=https://dev210250.service-now.com
+export SN_USER=admin
+export SN_PASSWORD=yourpassword
+
+# Schema sync (creates custom tables and identification rules)
+node adapters/servicenow/import.js schema
+
+# Data sync (two-pass: CMDB Instance API + Table API for references)
+node adapters/servicenow/import.js sync
+
+# Export from ServiceNow
+node adapters/servicenow/export.js
+
+# Post-import validation
+node adapters/servicenow/validate-import.js
+
+# Schema comparison
+node adapters/servicenow/check-schema.js
+```
+
+**IMPORTANT**: Read `.specify/memory/constitution.md` (ServiceNow Adapter Rules section) before making any ServiceNow changes. It contains 19 integration rules learned from Zurich PDI testing, a reference map to all ServiceNow files, and the step-by-step procedure for adding new types. Key rules:
+
+- CMDB Instance API for CI types (Tier 2), Table API for non-CI types (Tier 3)
+- Two-pass import: IRE creates records, then Table API PUT populates reference fields
+- Every custom CI class needs independent identification rules (applies_to uses sys_id, not table name)
+- Scoped apps prepend prefix to table names (u_cmdbk_feature becomes x_cmdbk_u_cmdbk_feature)
+- Tier 3 standalone tables use u_name (global) or name (scoped) - not interchangeable
+- See `specs/servicenow-adapter/spec.md` for all 19 rules
 
 ## Critical Rules
 

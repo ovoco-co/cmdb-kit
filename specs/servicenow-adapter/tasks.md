@@ -76,7 +76,7 @@
 - [ ] Validate relationship dedup on clean instance (re-run import, verify no duplicates)
 - [ ] Test export tool with custom CI classes and u_name handling
 
-### Phase 6: Domain-Aware Imports (blocked by Core restructure)
+### Phase 6: Domain-Aware Imports (Core restructure DONE - PR #2 merged 2026-03-28, blocker resolved)
 - [ ] Update overlay.json for Core + domain type organization
 - [ ] Update class-map.js for domain-specific type-to-table mappings
 - [ ] Add --domains flag to import.js for specifying domain paths
@@ -105,3 +105,29 @@
 - [ ] Fix: repository URL in package.json (Medium, item 6). Update from ovoco/cmdb-kit to ovoco-co/cmdb-kit.
 - [ ] Fix: Playwright listed as production dependency (Medium, item 7). Move to devDependencies.
 - [ ] Fix: silent error swallowing in adapter catch blocks (Low, item 2). Add summary error counts at end of import runs.
+
+## CISDF Data Foundations (from specs/004-cisdf-data-foundations/research.md)
+
+These capabilities are missing from the adapter and required for production-grade CMDB health:
+
+- [ ] Register "CMDB-Kit" as a named data source in ServiceNow (sys_data_source) during schema sync
+- [ ] Set discovery_source on every imported CI record consistently
+- [ ] Support compound identification keys beyond single-attribute name matching
+- [ ] Create reconciliation rule recommendations (which attributes cmdb-kit is authoritative for vs Discovery)
+- [ ] Normalize manufacturer and OS values before import (NDS doesn't apply to REST API imports)
+- [ ] Detect retirement candidates (CIs in ServiceNow with discovery_source="CMDB-Kit" not in local data files)
+- [ ] Map health-tracked attributes for custom CI classes in CI Class Manager
+- [ ] Support dependent CI identification for types that require a hosting parent
+- [ ] Support domain separation: set sys_domain on imported CIs when instance uses domain separation (training-07)
+
+## Bugs Found During Documentation Review (2026-04-04)
+
+- [ ] Fix: validate-import.js assumes u_name for ALL Tier 3 tables but scoped apps (x_ prefix) retain `name`. Export.js handles this correctly with `isScoped` check. Validate should use the same logic.
+- [ ] Fix: servicenow.md Tier 1 table previously listed Database and Virtual Machine as OOTB (corrected 2026-04-04 to Tier 2)
+
+## Housekeeping (from backlog 2026-03-29)
+
+- [ ] Fix .env.example stale comment
+(package.json and adapter README schema/base fixes moved to 003-documentation-rewrite/tasks.md)
+- [ ] Rotate .env Atlassian API token if still active
+- [ ] Respond to GitHub Issue #15 (Software Product Model RFC)

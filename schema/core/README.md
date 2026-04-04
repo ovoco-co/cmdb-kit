@@ -1,10 +1,10 @@
-# Base Schema
+# Core Schema
 
-The base schema is the smallest useful CMDB. It covers products, infrastructure, releases, and people with four branches and ten lookup types.
+The Core schema is the smallest useful CMDB. It covers products, infrastructure, releases, and people with four branches and ten lookup types.
 
 ## When to Use
 
-Use base for proof-of-concept work, small teams, or when you want to learn CMDB-Kit before committing to a larger schema. You can switch to extended or enterprise later without losing data.
+Use Core for proof-of-concept work, small teams, or when you want to learn CMDB-Kit before committing to a larger schema. You can add domains later without losing data.
 
 ## Structure
 
@@ -18,7 +18,10 @@ Product CMDB
 Product Library
 ├── Product Version
 ├── Document
-└── Deployment
+├── Deployment
+├── Feature
+├── Baseline
+└── Deployment Site
 
 Directory
 ├── Organization
@@ -32,18 +35,18 @@ Lookup Types
 └── Organization Type, Deployment Role
 ```
 
-## What Base Does Not Include
+## What Core Does Not Include
 
 - No SLAs
-- No baselines, certifications, or assessments
+- No certifications or assessments
 - No locations, facilities, or vendors
 - No licensing or financial tracking
 - No service modeling or enterprise architecture
 
-These are added by the extended and enterprise layers.
+These are added by installing optional domains.
 
 ## Validation
 
 ```bash
-node tools/validate.js --schema schema/base
+node tools/validate.js --schema schema/core
 ```

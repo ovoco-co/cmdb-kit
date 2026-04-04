@@ -17,7 +17,7 @@ The same pattern applies to other product-delivery types that have no OOTB equiv
 
 ## ServiceNow's native CMDB model
 
-ServiceNow ships with a large out-of-the-box (OOTB) CMDB built around the `cmdb_ci` base table. Types like Server (`cmdb_ci_server`), Database (`cmdb_ci_database`), and Virtual Machine (`cmdb_ci_vm_instance`) are pre-defined CI classes that extend `cmdb_ci`. ServiceNow also has standalone tables for non-CI data: `core_company` for organizations, `cmn_location` for locations, and `change_request` and `incident` for ITSM records.
+ServiceNow ships with a large out-of-the-box (OOTB) CMDB built around the `cmdb_ci` base table. Types like Server (`cmdb_ci_server`) are pre-defined CI classes that extend `cmdb_ci`. ServiceNow also has standalone tables for non-CI data: `core_company` for organizations, `cmn_location` for locations, and `change_request` and `incident` for ITSM records. Note: OOTB types like Database (`cmdb_ci_database`) and Virtual Machine (`cmdb_ci_vm_instance`) have hosting dependency requirements (`independent=false` in the IRE), so cmdb-kit uses custom CI classes for these instead.
 
 CMDB-Kit uses OOTB tables for infrastructure types that ServiceNow already models well, and creates custom CI classes for product-delivery types that ServiceNow does not model. Non-CI types (organizations, locations, lookup data) use standalone tables. Person uses a custom standalone table (`u_cmdbk_person`) because Person records represent external contacts and site POCs, not platform users.
 
@@ -28,10 +28,8 @@ CMDB-Kit uses OOTB tables for infrastructure types that ServiceNow already model
 | CMDB-Kit Type | ServiceNow Table | API |
 |---|---|---|
 | Server | cmdb_ci_server | CMDB Instance API |
-| Database | cmdb_ci_database | CMDB Instance API |
 | Hardware Model | cmdb_hardware_product_model | Table API |
 | Network Segment | cmdb_ci_ip_network | CMDB Instance API |
-| Virtual Machine | cmdb_ci_vm_instance | CMDB Instance API |
 | License | alm_license | Table API |
 | SLA | contract_sla | Table API |
 | Organization | core_company | Table API |
@@ -44,6 +42,8 @@ CMDB-Kit uses OOTB tables for infrastructure types that ServiceNow already model
 | CMDB-Kit Type | ServiceNow Table | Identification |
 |---|---|---|
 | Product | u_cmdbk_product | Independent, match by name |
+| Database | u_cmdbk_database | Independent, match by name |
+| Virtual Machine | u_cmdbk_virtual_machine | Independent, match by name |
 | Product Component | u_cmdbk_product_component | Independent, match by name |
 | Feature | u_cmdbk_feature | Independent, match by name |
 | Assessment | u_cmdbk_assessment | Independent, match by name |

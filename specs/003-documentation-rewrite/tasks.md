@@ -113,6 +113,17 @@
 - [ ] Verify all npm script references are current
 - [ ] Final proofreading pass
 
+## Non-Doc Files with Stale schema/base References (found 2026-04-04)
+
+These files are outside docs/ but still reference `schema/base` instead of `schema/core`:
+
+- [ ] Fix `package.json` validate:base script (schema/base -> schema/core)
+- [ ] Fix `CONTRIBUTING.md` schema/base references
+- [ ] Fix `.claude/skills/validate/SKILL.md` schema/base references
+- [ ] Fix `adapters/jsm/README.md` schema/base references
+- [ ] Fix `adapters/servicenow/README.md` schema/base references
+- [ ] Fix `adapters/servicenow/examples/README.md` schema/base references
+
 ## Code Review Items (from code-review-260324.md)
 
 - [ ] Fix: docs still reference removed Change Request/Incident types (Medium, item 8). Audit all docs for stale process record references.

@@ -1,4 +1,6 @@
-# Extended Schema
+# Extended Schema (Legacy - All Domains Combined)
+
+> **Note**: This is the legacy extended tier, which combined all domain types into a single flat schema. The current architecture is Core + Domains, where each domain is installed independently. See `schema/domains/` for the modular approach. The extended schema remains for backward compatibility.
 
 The extended schema adds operational CM capabilities to the base layer: baselines, certifications, assessments, licensing, SLAs, and deployment site tracking. It also adds infrastructure depth (virtual machines, network segments, hardware models) and organizational depth (locations, facilities, vendors).
 
