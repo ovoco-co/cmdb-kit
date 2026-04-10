@@ -1,0 +1,44 @@
+[
+  {
+    "Name": "Contact Manager",
+    "repository": "ovoco/contact-manager",
+    "componentType": "Service",
+    "owner": "Platform Engineering",
+    "description": "Contact and company record management module"
+  },
+  {
+    "Name": "Deal Pipeline",
+    "repository": "ovoco/deal-pipeline",
+    "componentType": "Service",
+    "owner": "Platform Engineering",
+    "description": "Sales pipeline and opportunity tracking"
+  },
+  {
+    "Name": "Email Integration",
+    "repository": "ovoco/email-integration",
+    "componentType": "Service",
+    "owner": "Platform Engineering",
+    "description": "Two-way email sync and tracking"
+  },
+  {
+    "Name": "Report Generator",
+    "repository": "ovoco/report-generator",
+    "componentType": "Service",
+    "owner": "Data Engineering",
+    "description": "Generates scheduled and ad-hoc reports from CRM data"
+  },
+  {
+    "Name": "REST API",
+    "repository": "ovoco/rest-api",
+    "componentType": "Gateway",
+    "owner": "Platform Engineering",
+    "description": "Public-facing REST API for third-party integrations"
+  },
+  {
+    "Name": "Webhook Service",
+    "repository": "ovoco/webhook-service",
+    "componentType": "Service",
+    "owner": "Platform Engineering",
+    "description": "Outbound webhook delivery and retry management"
+  }
+]

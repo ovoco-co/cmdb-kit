@@ -1,0 +1,128 @@
+[
+  {
+    "Name": "Analytics Engine",
+    "technology": "Python, ClickHouse, Apache Kafka",
+    "status": {
+      "display_value": "Installed",
+      "value": "1"
+    },
+    "description": "Real-time analytics and reporting for CRM data",
+    "owner": "Data Engineering",
+    "productType": "63dbc1eb83a73210645ec7b6feaad3a1"
+  },
+  {
+    "Name": "API Gateway",
+    "technology": "Kong, Nginx",
+    "status": {
+      "display_value": "Installed",
+      "value": "1"
+    },
+    "description": "Central API gateway for all external and internal API traffic",
+    "owner": "Platform Engineering",
+    "productType": "63dbc1eb83a73210645ec7b6feaad3a1"
+  },
+  {
+    "Name": "Contact Manager",
+    "technology": "ovoco/contact-manager",
+    "status": {
+      "display_value": "Installed",
+      "value": "1"
+    },
+    "description": "Contact and company record management module",
+    "productType": "ovoco/contact-manager"
+  },
+  {
+    "Name": "CRM Core",
+    "technology": "Node.js, React, PostgreSQL",
+    "status": {
+      "display_value": "Installed",
+      "value": "1"
+    },
+    "description": "Primary CRM application handling contacts, deals, and workflows",
+    "owner": "Platform Engineering",
+    "productType": "63dbc1eb83a73210645ec7b6feaad3a1"
+  },
+  {
+    "Name": "Deal Pipeline",
+    "technology": "ovoco/deal-pipeline",
+    "status": {
+      "display_value": "Installed",
+      "value": "1"
+    },
+    "description": "Sales pipeline and opportunity tracking",
+    "productType": "ovoco/deal-pipeline"
+  },
+  {
+    "Name": "Email Integration",
+    "technology": "ovoco/email-integration",
+    "status": {
+      "display_value": "Installed",
+      "value": "1"
+    },
+    "description": "Two-way email sync and tracking",
+    "productType": "ovoco/email-integration"
+  },
+  {
+    "Name": "Mobile API",
+    "technology": "Node.js, GraphQL",
+    "status": {
+      "display_value": "Installed",
+      "value": "1"
+    },
+    "description": "Backend-for-frontend serving the OvocoCRM mobile apps",
+    "owner": "Mobile",
+    "productType": "63dbc1eb83a73210645ec7b6feaad3a1"
+  },
+  {
+    "Name": "Notification Service",
+    "technology": "Go, RabbitMQ, SendGrid",
+    "status": {
+      "display_value": "Installed",
+      "value": "1"
+    },
+    "description": "Manages email, SMS, and push notification delivery",
+    "owner": "Platform Engineering",
+    "productType": "63dbc1eb83a73210645ec7b6feaad3a1"
+  },
+  {
+    "Name": "Report Generator",
+    "technology": "ovoco/report-generator",
+    "status": {
+      "display_value": "Installed",
+      "value": "1"
+    },
+    "description": "Generates scheduled and ad-hoc reports from CRM data",
+    "productType": "ovoco/report-generator"
+  },
+  {
+    "Name": "REST API",
+    "technology": "ovoco/rest-api",
+    "status": {
+      "display_value": "Installed",
+      "value": "1"
+    },
+    "description": "Public-facing REST API for third-party integrations",
+    "productType": "ovoco/rest-api"
+  },
+  {
+    "Name": "Search Service",
+    "technology": "Elasticsearch, Node.js",
+    "status": {
+      "display_value": "Installed",
+      "value": "1"
+    },
+    "description": "Full-text search across contacts, deals, and documents",
+    "owner": "Platform Engineering",
+    "productType": "63dbc1eb83a73210645ec7b6feaad3a1"
+  },
+  {
+    "Name": "Webhook Service",
+    "technology": "ovoco/webhook-service",
+    "status": {
+      "display_value": "Installed",
+      "value": "1"
+    },
+    "description": "Outbound webhook delivery and retry management",
+    "productType": "ovoco/webhook-service"
+  }
+]

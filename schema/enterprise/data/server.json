@@ -1,0 +1,1214 @@
+[
+  {
+    "Name": "ApplicationServerHelpdesk",
+    "ram": {
+      "display_value": "-1",
+      "value": "-1"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "storage": {
+      "display_value": "",
+      "value": ""
+    },
+    "description": "HelpDesk App Server",
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows XP",
+      "value": "Windows XP"
+    },
+    "modelId": "Dell Inc. PowerEdge M710HD Blade Server",
+    "location": "5052 Clairemont Drive, San Diego,CA"
+  },
+  {
+    "Name": "ApplicationServerPeopleSoft",
+    "ram": {
+      "display_value": "-1",
+      "value": "-1"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "storage": {
+      "display_value": "",
+      "value": ""
+    },
+    "description": "PeopleSoft App Server",
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Linux Red Hat",
+      "value": "Linux Red Hat"
+    },
+    "modelId": "Dell Inc. PowerEdge M710HD Blade Server",
+    "location": "5052 Clairemont Drive, San Diego,CA"
+  },
+  {
+    "Name": "AS400",
+    "ram": {
+      "display_value": "10,000",
+      "value": "10000"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "storage": {
+      "display_value": "175",
+      "value": "175"
+    },
+    "description": "System name: PHX400, enterprise server with ABS software, s/n 10-B7CDF",
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "OS/400",
+      "value": "OS/400"
+    },
+    "modelId": "Dell Inc. PowerEdge M710HD Blade Server",
+    "location": "4193 University Avenue, San Diego,CA"
+  },
+  {
+    "Name": "Car-1",
+    "ram": {
+      "display_value": "-1",
+      "value": "-1"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "storage": {
+      "display_value": "101.5",
+      "value": "101.5"
+    },
+    "description": "Domain Controller/Exchange Server/FTP Server",
+    "manufacturer": "Microsoft",
+    "serialNumber": "478933-e78-8823",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows XP",
+      "value": "Windows XP"
+    },
+    "modelId": "Dell Inc. XPS 14z",
+    "location": "4193 University Avenue, San Diego,CA"
+  },
+  {
+    "Name": "Car-2",
+    "ram": {
+      "display_value": "4,096",
+      "value": "4096"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "storage": {
+      "display_value": "1,689",
+      "value": "1689"
+    },
+    "description": "Network Attached Storage",
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "HP/UX",
+      "value": "HP/UX"
+    },
+    "modelId": "Dell Inc. PowerEdge M710HD Blade Server",
+    "location": "4193 University Avenue, San Diego,CA"
+  },
+  {
+    "Name": "Car-3",
+    "ram": {
+      "display_value": "-1",
+      "value": "-1"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "storage": {
+      "display_value": "136",
+      "value": "136"
+    },
+    "description": "Print Server / Mom Server / ADP Server",
+    "manufacturer": "Microsoft",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows XP",
+      "value": "Windows XP"
+    },
+    "modelId": "Dell Inc. PowerEdge C6100 Rack Server",
+    "location": "5052 Clairemont Drive, San Diego,CA"
+  },
+  {
+    "Name": "Car-4",
+    "ram": {
+      "display_value": "-1",
+      "value": "-1"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "storage": {
+      "display_value": "45",
+      "value": "45"
+    },
+    "description": "File / Web (Intranet) / Payroll database",
+    "manufacturer": "Microsoft",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows 2000",
+      "value": "Windows 2000"
+    },
+    "modelId": "Dell Inc. PowerEdge M710HD Blade Server",
+    "location": "4193 University Avenue, San Diego,CA"
+  },
+  {
+    "Name": "crm-app-01",
+    "ram": {
+      "display_value": "32,768",
+      "value": "32768"
+    },
+    "cpu": {
+      "display_value": "vCPU",
+      "value": "vCPU"
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "500",
+      "value": "500"
+    },
+    "description": "Primary application server for CRM Core",
+    "virtual": "false",
+    "operatingSystem": {
+      "display_value": "Ubuntu",
+      "value": "Ubuntu"
+    },
+    "ipAddress": "10.0.1.10",
+    "modelId": "Unknown",
+    "environment": "Production",
+    "hostname": "crm-app-01.ovoco.internal"
+  },
+  {
+    "Name": "crm-app-02",
+    "ram": {
+      "display_value": "32,768",
+      "value": "32768"
+    },
+    "cpu": {
+      "display_value": "vCPU",
+      "value": "vCPU"
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "500",
+      "value": "500"
+    },
+    "description": "Secondary application server for CRM Core",
+    "virtual": "false",
+    "operatingSystem": {
+      "display_value": "Ubuntu",
+      "value": "Ubuntu"
+    },
+    "ipAddress": "10.0.1.11",
+    "modelId": "Unknown",
+    "environment": "Production",
+    "hostname": "crm-app-02.ovoco.internal"
+  },
+  {
+    "Name": "crm-app-03",
+    "ram": {
+      "display_value": "32,768",
+      "value": "32768"
+    },
+    "cpu": {
+      "display_value": "vCPU",
+      "value": "vCPU"
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "500",
+      "value": "500"
+    },
+    "description": "Tertiary application server for CRM Core",
+    "virtual": "false",
+    "operatingSystem": {
+      "display_value": "Ubuntu",
+      "value": "Ubuntu"
+    },
+    "ipAddress": "10.0.1.12",
+    "modelId": "Unknown",
+    "environment": "Production",
+    "hostname": "crm-app-03.ovoco.internal"
+  },
+  {
+    "Name": "crm-cache-01",
+    "ram": {
+      "display_value": "32,768",
+      "value": "32768"
+    },
+    "cpu": {
+      "display_value": "vCPU",
+      "value": "vCPU"
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "100",
+      "value": "100"
+    },
+    "description": "Redis cache and session store",
+    "virtual": "false",
+    "operatingSystem": {
+      "display_value": "Ubuntu",
+      "value": "Ubuntu"
+    },
+    "ipAddress": "10.0.3.10",
+    "modelId": "Unknown",
+    "environment": "Production",
+    "hostname": "crm-cache-01.ovoco.internal"
+  },
+  {
+    "Name": "crm-db-01",
+    "ram": {
+      "display_value": "65,536",
+      "value": "65536"
+    },
+    "cpu": {
+      "display_value": "vCPU",
+      "value": "vCPU"
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "description": "Primary database server",
+    "virtual": "false",
+    "operatingSystem": {
+      "display_value": "Ubuntu",
+      "value": "Ubuntu"
+    },
+    "ipAddress": "10.0.2.10",
+    "modelId": "Unknown",
+    "environment": "Production",
+    "hostname": "crm-db-01.ovoco.internal"
+  },
+  {
+    "Name": "crm-db-02",
+    "ram": {
+      "display_value": "65,536",
+      "value": "65536"
+    },
+    "cpu": {
+      "display_value": "vCPU",
+      "value": "vCPU"
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "description": "Read replica database server",
+    "virtual": "false",
+    "operatingSystem": {
+      "display_value": "Ubuntu",
+      "value": "Ubuntu"
+    },
+    "ipAddress": "10.0.2.11",
+    "modelId": "Unknown",
+    "environment": "Production",
+    "hostname": "crm-db-02.ovoco.internal"
+  },
+  {
+    "Name": "crm-search-01",
+    "ram": {
+      "display_value": "32,768",
+      "value": "32768"
+    },
+    "cpu": {
+      "display_value": "vCPU",
+      "value": "vCPU"
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "1,024",
+      "value": "1024"
+    },
+    "description": "Elasticsearch node for full-text search",
+    "virtual": "false",
+    "operatingSystem": {
+      "display_value": "Ubuntu",
+      "value": "Ubuntu"
+    },
+    "ipAddress": "10.0.3.20",
+    "modelId": "Unknown",
+    "environment": "Production",
+    "hostname": "crm-search-01.ovoco.internal"
+  },
+  {
+    "Name": "crm-staging-01",
+    "ram": {
+      "display_value": "16,384",
+      "value": "16384"
+    },
+    "cpu": {
+      "display_value": "vCPU",
+      "value": "vCPU"
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "250",
+      "value": "250"
+    },
+    "description": "Staging environment application server",
+    "virtual": "false",
+    "operatingSystem": {
+      "display_value": "Ubuntu",
+      "value": "Ubuntu"
+    },
+    "ipAddress": "10.1.1.10",
+    "modelId": "Unknown",
+    "environment": "Staging",
+    "hostname": "crm-staging-01.ovoco.internal"
+  },
+  {
+    "Name": "DatabaseServer1",
+    "ram": {
+      "display_value": "-1",
+      "value": "-1"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "storage": {
+      "display_value": "100",
+      "value": "100"
+    },
+    "description": "DB Server",
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Linux Red Hat",
+      "value": "Linux Red Hat"
+    },
+    "modelId": "Dell Inc. PowerEdge M710HD Blade Server",
+    "location": "4193 University Avenue, San Diego,CA"
+  },
+  {
+    "Name": "DatabaseServer2",
+    "ram": {
+      "display_value": "-1",
+      "value": "-1"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "100",
+      "value": "100"
+    },
+    "description": "DB Server",
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Linux Red Hat",
+      "value": "Linux Red Hat"
+    },
+    "modelId": "Dell Inc. PowerEdge C6100 Rack Server",
+    "location": "4193 University Avenue, San Diego,CA"
+  },
+  {
+    "Name": "dbaix900nyc",
+    "ram": {
+      "display_value": "8,192",
+      "value": "8192"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "40",
+      "value": "40"
+    },
+    "manufacturer": "IBM",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "AIX",
+      "value": "AIX"
+    },
+    "modelId": "IBM BladeCenter Blade HS22",
+    "location": "Bockenheimer Landstraße 123, Frankfurt"
+  },
+  {
+    "Name": "dbaix901nyc",
+    "ram": {
+      "display_value": "8,192",
+      "value": "8192"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "40",
+      "value": "40"
+    },
+    "manufacturer": "IBM",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "AIX",
+      "value": "AIX"
+    },
+    "modelId": "IBM BladeCenter Blade HS22",
+    "location": "Bockenheimer Landstraße 123, Frankfurt"
+  },
+  {
+    "Name": "dbaix902nyc",
+    "ram": {
+      "display_value": "8,192",
+      "value": "8192"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "40",
+      "value": "40"
+    },
+    "manufacturer": "IBM",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "AIX",
+      "value": "AIX"
+    },
+    "modelId": "IBM BladeCenter Blade HS22",
+    "location": "Bockenheimer Landstraße 123, Frankfurt"
+  },
+  {
+    "Name": "FileServerFloor1",
+    "ram": {
+      "display_value": "1,024",
+      "value": "1024"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "storage": {
+      "display_value": "1,000",
+      "value": "1000"
+    },
+    "description": "1st Floor File Server",
+    "manufacturer": "Lenovo",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows XP",
+      "value": "Windows XP"
+    },
+    "modelId": "Lenovo ThinkStation S20",
+    "location": "5052 Clairemont Drive, San Diego,CA"
+  },
+  {
+    "Name": "FileServerFloor2",
+    "ram": {
+      "display_value": "1,024",
+      "value": "1024"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "storage": {
+      "display_value": "1,000",
+      "value": "1000"
+    },
+    "description": "2nd Floor File Server",
+    "manufacturer": "Lenovo",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows XP",
+      "value": "Windows XP"
+    },
+    "modelId": "Lenovo ThinkStation S20",
+    "location": "5052 Clairemont Drive, San Diego,CA"
+  },
+  {
+    "Name": "INSIGHT-NY-03",
+    "ram": {
+      "display_value": "",
+      "value": ""
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "",
+      "value": ""
+    },
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows XP",
+      "value": "Windows XP"
+    },
+    "modelId": "Dell Inc. PowerEdge M710HD Blade Server",
+    "location": "5052 Clairemont Drive, San Diego,CA"
+  },
+  {
+    "Name": "lawson_app_100",
+    "ram": {
+      "display_value": "128",
+      "value": "128"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "40",
+      "value": "40"
+    },
+    "manufacturer": "IBM",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Solaris",
+      "value": "Solaris"
+    },
+    "modelId": "IBM x3690 X5 Rack",
+    "location": "Bockenheimer Landstraße 123, Frankfurt"
+  },
+  {
+    "Name": "lawson_db_100",
+    "ram": {
+      "display_value": "128",
+      "value": "128"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "40",
+      "value": "40"
+    },
+    "manufacturer": "Sun Microsystems",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Solaris",
+      "value": "Solaris"
+    },
+    "modelId": "IBM x3690 X5 Rack",
+    "location": "Bockenheimer Landstraße 123, Frankfurt"
+  },
+  {
+    "Name": "lnux100",
+    "ram": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "40",
+      "value": "40"
+    },
+    "manufacturer": "Iris",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Linux Red Hat",
+      "value": "Linux Red Hat"
+    },
+    "modelId": "Iris 5875",
+    "location": "322 West 52nd Street, New York,NY"
+  },
+  {
+    "Name": "lnux101",
+    "ram": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "40",
+      "value": "40"
+    },
+    "manufacturer": "Iris",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Linux Red Hat",
+      "value": "Linux Red Hat"
+    },
+    "modelId": "Iris 5875",
+    "location": "322 West 52nd Street, New York,NY"
+  },
+  {
+    "Name": "MailServerUS",
+    "ram": {
+      "display_value": "-1",
+      "value": "-1"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "storage": {
+      "display_value": "",
+      "value": ""
+    },
+    "description": "US Main Mail Server",
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Solaris",
+      "value": "Solaris"
+    },
+    "modelId": "Dell Inc. PowerEdge M710HD Blade Server",
+    "location": "4193 University Avenue, San Diego,CA"
+  },
+  {
+    "Name": "OWA-SD-01",
+    "ram": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "80",
+      "value": "80"
+    },
+    "manufacturer": "Lenovo",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows 2003 Standard",
+      "value": "Windows 2003 Standard"
+    },
+    "modelId": "Lenovo ThinkServer TD230",
+    "location": "Via Nomentana 56, Rome"
+  },
+  {
+    "Name": "PS LinuxApp01",
+    "ram": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "40",
+      "value": "40"
+    },
+    "manufacturer": "Iris",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Linux Red Hat",
+      "value": "Linux Red Hat"
+    },
+    "modelId": "Iris 5875",
+    "location": "322 West 52nd Street, New York,NY"
+  },
+  {
+    "Name": "PS LinuxApp02",
+    "ram": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "40",
+      "value": "40"
+    },
+    "manufacturer": "Iris",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Linux Red Hat",
+      "value": "Linux Red Hat"
+    },
+    "modelId": "Iris 5875",
+    "location": "322 West 52nd Street, New York,NY"
+  },
+  {
+    "Name": "PS LoadBal01",
+    "ram": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "80",
+      "value": "80"
+    },
+    "manufacturer": "Lenovo",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows 2003 Standard",
+      "value": "Windows 2003 Standard"
+    },
+    "modelId": "Lenovo ThinkServer TD230",
+    "location": "Via Nomentana 56, Rome"
+  },
+  {
+    "Name": "SAP AppSRV01",
+    "ram": {
+      "display_value": "4,000",
+      "value": "4000"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "",
+      "value": ""
+    },
+    "manufacturer": "IBM",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "AIX",
+      "value": "AIX"
+    },
+    "modelId": "IBM Power 710 Express",
+    "location": "4193 University Avenue, San Diego,CA"
+  },
+  {
+    "Name": "SAP AppSRV02",
+    "ram": {
+      "display_value": "4,000",
+      "value": "4000"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "",
+      "value": ""
+    },
+    "manufacturer": "IBM",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "AIX",
+      "value": "AIX"
+    },
+    "modelId": "IBM Power 710 Express",
+    "location": "4193 University Avenue, San Diego,CA"
+  },
+  {
+    "Name": "SAP LoadBal01",
+    "ram": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "80",
+      "value": "80"
+    },
+    "manufacturer": "Lenovo",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows 2003 Standard",
+      "value": "Windows 2003 Standard"
+    },
+    "modelId": "Lenovo ThinkServer TD230",
+    "location": "Via Nomentana 56, Rome"
+  },
+  {
+    "Name": "SAP LoadBal02",
+    "ram": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "80",
+      "value": "80"
+    },
+    "manufacturer": "Lenovo",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows 2003 Standard",
+      "value": "Windows 2003 Standard"
+    },
+    "modelId": "Lenovo ThinkServer TD230",
+    "location": "Via Nomentana 56, Rome"
+  },
+  {
+    "Name": "SAP-NY-02",
+    "ram": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "80",
+      "value": "80"
+    },
+    "manufacturer": "Lenovo",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows 2003 Standard",
+      "value": "Windows 2003 Standard"
+    },
+    "modelId": "Lenovo ThinkServer TD230",
+    "location": "Via Nomentana 56, Rome"
+  },
+  {
+    "Name": "SAP-SD-01",
+    "ram": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "80",
+      "value": "80"
+    },
+    "manufacturer": "Lenovo",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows 2003 Standard",
+      "value": "Windows 2003 Standard"
+    },
+    "modelId": "Lenovo ThinkServer TD230",
+    "location": "Via Nomentana 56, Rome"
+  },
+  {
+    "Name": "SAP-SD-02",
+    "ram": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "80",
+      "value": "80"
+    },
+    "manufacturer": "Lenovo",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows 2003 Standard",
+      "value": "Windows 2003 Standard"
+    },
+    "modelId": "Lenovo ThinkServer TD230",
+    "location": "Via Nomentana 56, Rome"
+  },
+  {
+    "Name": "SAP-SD-03",
+    "ram": {
+      "display_value": "2,048",
+      "value": "2048"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "80",
+      "value": "80"
+    },
+    "manufacturer": "Lenovo",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows 2003 Standard",
+      "value": "Windows 2003 Standard"
+    },
+    "modelId": "Lenovo ThinkServer TD230",
+    "location": "Via Nomentana 56, Rome"
+  },
+  {
+    "Name": "SD1",
+    "ram": {
+      "display_value": "4,000",
+      "value": "4000"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "200",
+      "value": "200"
+    },
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows XP",
+      "value": "Windows XP"
+    },
+    "modelId": "Dell Inc. PowerEdge C6100 Rack Server",
+    "location": "4193 University Avenue, San Diego,CA"
+  },
+  {
+    "Name": "Service-now Production Sacramento",
+    "ram": {
+      "display_value": "-1",
+      "value": "-1"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "120",
+      "value": "120"
+    },
+    "description": "Glide Production ",
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Linux Red Hat",
+      "value": "Linux Red Hat"
+    },
+    "modelId": "Dell Inc. PowerEdge M710HD Blade Server",
+    "location": "5052 Clairemont Drive, San Diego,CA"
+  },
+  {
+    "Name": "Service-now Production San Diego",
+    "ram": {
+      "display_value": "-1",
+      "value": "-1"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "70",
+      "value": "70"
+    },
+    "description": "Glide Production",
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Linux Red Hat",
+      "value": "Linux Red Hat"
+    },
+    "modelId": "Dell Inc. PowerEdge M710HD Blade Server",
+    "location": "5052 Clairemont Drive, San Diego,CA"
+  },
+  {
+    "Name": "unix200",
+    "ram": {
+      "display_value": "128",
+      "value": "128"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "40",
+      "value": "40"
+    },
+    "manufacturer": "IBM",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Solaris",
+      "value": "Solaris"
+    },
+    "modelId": "IBM x3690 X5 Rack",
+    "location": "Bockenheimer Landstraße 123, Frankfurt"
+  },
+  {
+    "Name": "unix201",
+    "ram": {
+      "display_value": "128",
+      "value": "128"
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "40",
+      "value": "40"
+    },
+    "manufacturer": "Sun Microsystems",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Solaris",
+      "value": "Solaris"
+    },
+    "modelId": "IBM x3690 X5 Rack",
+    "location": "Bockenheimer Landstraße 123, Frankfurt"
+  },
+  {
+    "Name": "VMWARE-SD-04",
+    "ram": {
+      "display_value": "",
+      "value": ""
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "",
+      "value": ""
+    },
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows 2000 Server",
+      "value": "Windows 2000 Server"
+    },
+    "modelId": "Dell Inc. PowerEdge M710HD Blade Server",
+    "location": "5052 Clairemont Drive, San Diego,CA"
+  },
+  {
+    "Name": "VMWARE-SD-07",
+    "ram": {
+      "display_value": "",
+      "value": ""
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "",
+      "value": ""
+    },
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": "Windows 2000 Server",
+      "value": "Windows 2000 Server"
+    },
+    "modelId": "Dell Inc. PowerEdge M710HD Blade Server",
+    "location": "5052 Clairemont Drive, San Diego,CA"
+  },
+  {
+    "Name": "Webserver FLX",
+    "ram": {
+      "display_value": "",
+      "value": ""
+    },
+    "cpu": {
+      "display_value": "",
+      "value": ""
+    },
+    "classification": "Production",
+    "storage": {
+      "display_value": "",
+      "value": ""
+    },
+    "manufacturer": "Dell Inc.",
+    "virtual": "false",
+    "company": "ACME Corporation",
+    "operatingSystem": {
+      "display_value": null,
+      "value": ""
+    },
+    "modelId": "Dell Inc. PowerEdge M710HD Blade Server",
+    "location": "4193 University Avenue, San Diego,CA"
+  }
+]
